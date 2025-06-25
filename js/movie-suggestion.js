@@ -107,7 +107,7 @@ async function handleSubmitPrompt() {
             openMovieDetailsModal(movieData.id); // Mevcut detay modalını kullan
         } else {
             // Film bulunamadıysa veya API'den boş yanıt geldiyse
-            promptError.textContent = 'İsteğinize uygun bir film bulunamadı. Lütfen daha spesifik bir istek deneyin.';
+            promptError.textContent = 'İsteğinize uygun bir film bulunamadı. .Lütfen daha spesifik bir istek deneyin.';
             promptError.classList.remove('hidden');
             openPromptModal(); // Prompt modalını tekrar açıp hata göster
         }
