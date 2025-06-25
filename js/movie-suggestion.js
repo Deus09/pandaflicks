@@ -92,7 +92,7 @@ function hideLoadingSpinner() {
 async function handleSubmitPrompt() {
     const promptText = moviePromptInput.value.trim();
     if (!promptText) {
-        promptError.textContent = 'Lütfen bir film öneri isteği girin.';
+        promptError.textContent = 'Lütfen bir film önerisi isteği girin.';
         promptError.classList.remove('hidden');
         return;
     }
