@@ -176,3 +176,29 @@ export async function fetchMoviesFromList(listObject) {
         return [];
     }
 }
+
+/**
+ * Backend üzerinden Gemini'dan film önerisi alır ve TMDB'den detaylarını çeker.
+ * @param {string} prompt - Kullanıcının doğal dildeki film isteği.
+ * @returns {Promise<object>} Bulunan filmin TMDB detayları.
+ */
+export async function fetchSuggestedMovie(prompt) {
+    try {
+        const response = await fetch('/api/suggest-movie', { // Netlify Function yolu
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt: prompt })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Film önerisi alınırken bir hata oluştu: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('fetchSuggestedMovie hatası:', error);
+        throw error;
+    }
+}

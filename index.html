@@ -47,7 +47,9 @@
       <header>
         <img src="logo.png" alt="sinelog-logo" class="header-logo" />
         <h1>SineLog</h1>
+        <button id="suggestMovieBtn" class="header-suggest-button">Film Öner</button>
       </header>
+
 
       <a href="#" id="add-movie-float-button"> + </a>
 
@@ -341,6 +343,38 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Film Öneri Prompt Modalı -->
+    <div id="promptModalOverlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Film Önerisi Al</h2>
+                <button type="button" id="closePromptModalBtn" class="close-modal-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-gray-300 mb-4">İzlemek istediğiniz film hakkında doğal bir dille yazın:</p>
+                <div class="form-group">
+                    <textarea id="moviePromptInput" rows="5" placeholder="Örn: 'Bilim kurgu ve aksiyon dolu, gelecekte geçen bir film önerir misin?' veya 'Romantik ve komik bir film arıyorum.'"></textarea>
+                </div>
+                <p id="promptError" class="text-red-400 text-sm mt-2 hidden"></p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="submitPromptBtn" class="save-button">Film Bul</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yükleniyor Göstergesi (Ortak modal yapısına uygun) -->
+    <div id="loadingSpinnerOverlay" class="modal-overlay hidden">
+        <div class="modal-content loading-spinner-content">
+            <div class="lottie-loader visible">
+                <dotlottie-player src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
+            </div>
+            <p class="text-lg text-gray-300 mt-4">Film aranıyor...</p>
         </div>
     </div>
 

@@ -19,3 +19,9 @@
   from = "/api/gemini"
   to = "/.netlify/functions/gemini-proxy"
   status = 200
+
+# Film Öneri Proxy için özel yönlendirme kuralı
+[[redirects]]
+  from = "/api/suggest-movie"
+  to = "/.netlify/functions/suggest-movie"
+  status = 200

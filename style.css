@@ -2056,3 +2056,37 @@ input:checked + .toggle-switch-slider:before {
 #chat-send-btn:hover {
     background-color: var(--accent-chat-hover);
 }
+
+/* YENİ: Sohbet Arayüzü Modalı Stilleri */
+.modal-body p { /* Genel modal body p etiketleri için */
+  color: var(--text-secondary);
+}
+#moviePromptInput {
+  resize: vertical; /* Sadece dikeyde boyutlandırmaya izin ver */
+}
+
+.modal-content.loading-spinner-content {
+  background-color: transparent; /* Arka plan şeffaf */
+  box-shadow: none; /* Gölge yok */
+  border: none; /* Kenarlık yok */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-suggest-button {
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-left: auto; /* Sağa yasla */
+}
+.header-suggest-button:hover { background-color: var(--accent-primary-hover); }
+.header-suggest-button:active { transform: scale(0.95); }
+

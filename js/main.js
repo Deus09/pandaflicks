@@ -6,6 +6,7 @@ import { setupEventListeners } from './events.js';
 import { handleMovieFormSubmit } from './modals.js';
 import { initBadgeInfoModal } from './badge-modal.js';
 import { initChat } from './chat.js'; // YENİ
+import { initMovieSuggestion } from './movie-suggestion.js'; // YENİ
 
 
 /**
@@ -36,7 +37,8 @@ function initializeApp() {
     setupEventListeners();
     setupListViewControls();
     initBadgeInfoModal();
-    initChat(); // YENİ
+    initChat();
+    initMovieSuggestion(); // YENİ
 
     let isUiReady = false;
 
