@@ -490,7 +490,7 @@
     </div>
 
     <div id="movie-details-modal-overlay" class="modal-overlay hidden">
-      <div class="modal-content prompt-modal-content">
+      <div class="modal-content">
         <div class="modal-header">
           <div class="flex items-center gap-3">
             <svg
@@ -533,69 +533,74 @@
             </svg>
           </button>
         </div>
-        <div id="detail-lottie-loader" class="lottie-loader">
-          <dotlottie-player
-            src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
-            background="transparent"
-            speed="1"
-            style="width: 300px; height: 300px"
-            loop
-            autoplay
-          ></dotlottie-player>
+        <!-- Film Öneri Grid Görünümü -->
+        <div id="suggestion-grid-view" class="modal-body hidden">
+          <!-- Grid JS tarafından buraya render edilecek -->
         </div>
-        <div
-          id="detail-modal-body"
-          class="modal-body flex flex-col gap-4 overflow-y-auto"
-        >
-          <div class="flex items-start gap-4">
-            <img
-              id="detail-movie-poster"
-              src=""
-              alt="Film Poster"
-              class="w-28 h-40 rounded-lg object-cover bg-gray-700"
-              onerror="this.onerror=null;this.src='https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok';"
-            />
-            <div class="flex-1">
-              <p
-                id="detail-movie-release-date"
-                class="text-sm text-gray-400 mb-1"
-              ></p>
-              <p
-                id="detail-movie-genres"
-                class="text-sm text-gray-400 mb-2"
-              ></p>
-              <p
-                id="detail-movie-director"
-                class="text-sm text-gray-400 mb-2"
-              ></p>
-              <p
-                id="detail-movie-overview"
-                class="text-gray-300 text-sm leading-relaxed"
-              ></p>
-            </div>
+        <!-- Tekil Film Detay Görünümü -->
+        <div id="single-movie-detail-view" class="hidden">
+          <div id="detail-lottie-loader" class="lottie-loader">
+            <dotlottie-player
+              src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
+              background="transparent"
+              speed="1"
+              style="width: 300px; height: 300px"
+              loop
+              autoplay
+            ></dotlottie-player>
           </div>
-          <div id="detail-movie-trailer-section" class="mt-4 hidden">
-            <h3 class="text-lg font-semibold text-gray-200 mb-2">Fragman</h3>
-            <div
-              class="relative pt-[56.25%] bg-black rounded-lg overflow-hidden"
-            >
-              <iframe
-                id="detail-movie-trailer-iframe"
-                class="absolute top-0 left-0 w-full h-full rounded-lg"
-                src=""
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
-          </div>
-          <button
-            type="button"
-            id="detail-add-to-log-button"
-            class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors duration-200"
+          <div
+            id="detail-modal-body"
+            class="modal-body flex flex-col gap-4 overflow-y-auto"
           >
-            İzlediklerime Ekle
-          </button>
+            <div class="flex items-start gap-4">
+              <img
+                id="detail-movie-poster"
+                src=""
+                alt="Film Poster"
+                class="w-28 h-40 rounded-lg object-cover bg-gray-700"
+                onerror="this.onerror=null;this.src='https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok';"
+              />
+              <div class="flex-1">
+                <p
+                  id="detail-movie-release-date"
+                  class="text-sm text-gray-400 mb-1"
+                ></p>
+                <p
+                  id="detail-movie-genres"
+                  class="text-sm text-gray-400 mb-2"
+                ></p>
+                <p
+                  id="detail-movie-director"
+                  class="text-sm text-gray-400 mb-2"
+                ></p>
+                <p
+                  id="detail-movie-overview"
+                  class="text-gray-300 text-sm leading-relaxed"
+                ></p>
+              </div>
+            </div>
+            <div id="detail-movie-trailer-section" class="mt-4 hidden">
+              <h3 class="text-lg font-semibold text-gray-200 mb-2">Fragman</h3>
+              <div
+                class="relative pt-[56.25%] bg-black rounded-lg overflow-hidden"
+              >
+                <iframe
+                  id="detail-movie-trailer-iframe"
+                  class="absolute top-0 left-0 w-full h-full rounded-lg"
+                  src=""
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            <button
+              type="button"
+              id="detail-add-to-log-button"
+              class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors duration-200">
+              İzlediklerime Ekle
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -768,9 +773,25 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-purple-400"
+            >
+              <path
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+              ></path>
+            </svg>
             <h2 class="text-xl font-bold">Sana Özel Film Önerisi</h2>
-          </div>          <button
+          </div>
+          <button
             type="button"
             id="closePromptModalBtn"
             class="close-modal-btn"

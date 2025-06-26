@@ -24,12 +24,16 @@ export function initMovieSuggestion() {
   loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
 
   if (!suggestMovieBtn || !promptModalOverlay) {
-    console.error("Film öneri modalı DOM elementleri bulunamadı.");
+    console.error("initMovieSuggestion: Film öneri modalı DOM elementleri bulunamadı. suggestMovieBtn:", suggestMovieBtn, "promptModalOverlay:", promptModalOverlay);
     return;
   }
+    console.log("initMovieSuggestion: 'Film Öner' butonu bulundu.", suggestMovieBtn);
+
 
   // Olay Dinleyicileri
   suggestMovieBtn.addEventListener("click", openPromptModal);
+    console.log("initMovieSuggestion: 'Film Öner' butonuna click event listener eklendi.");
+
   closePromptModalBtn.addEventListener("click", closePromptModal);
   promptModalOverlay.addEventListener("click", (e) => {
     if (e.target === promptModalOverlay) {
@@ -42,7 +46,9 @@ export function initMovieSuggestion() {
 /**
  * Prompt modalını açar.
  */
-function openPromptModal() {
+function openPromptModal(event) {
+  event.preventDefault(); // Linkin varsayılan davranışını (sayfanın en üste kaymasını) engelle
+  console.log("openPromptModal: Film öneri modalı açılıyor..."); 
   moviePromptInput.value = ""; // Önceki prompt'u temizle
   promptError.textContent = ""; // Hata mesajını temizle
   promptError.classList.add("hidden"); // Hata mesajını gizle
@@ -112,32 +118,29 @@ function hideLoadingSpinner() {
  */
 function displaySuggestedMoviesGrid(movies) {
   const detailModal = document.getElementById("movie-details-modal-overlay");
-  const modalBody = document.getElementById("detail-modal-body");
   const modalTitle = detailModal.querySelector("h2");
-  const lottieLoader = document.getElementById("detail-lottie-loader");
-  const addToLogButton = document.getElementById("detail-add-to-log-button");
-  const trailerSection = document.getElementById(
-    "detail-movie-trailer-section"
+  // Yeni görünüm konteynerlarını al
+  const suggestionGridView = document.getElementById("suggestion-grid-view");
+  const singleMovieDetailView = document.getElementById(
+    "single-movie-detail-view"
   );
+
 
   // Modalı grid görünümü için hazırla
   if (modalTitle) {
     modalTitle.textContent = "Sana Özel Film Önerileri";
   }
-  lottieLoader.classList.add("hidden");
-  lottieLoader.classList.remove("visible");
-  modalBody.innerHTML = ""; // Önceki içeriği temizle
-  modalBody.classList.remove("show-content"); // Animasyon için başlangıç durumu
-  modalBody.classList.remove("hidden", "flex-col", "gap-4"); // Detay görünümü sınıflarını kaldır
-
-  // Olası tekil film detaylarını gizle
-  if (addToLogButton) addToLogButton.classList.add("hidden");
-  if (trailerSection) trailerSection.classList.add("hidden");
+ // Tekil film detay görünümünü gizle, grid görünümünü göster
+  if (singleMovieDetailView) singleMovieDetailView.classList.add("hidden");
+  if (suggestionGridView) {
+    suggestionGridView.innerHTML = ""; // Önceki grid'i temizle
+    suggestionGridView.classList.remove("hidden");
+  }
 
   // Grid konteynerını oluştur
   const gridContainer = document.createElement("div");
-  gridContainer.className = "suggestion-grid"; // Yeni CSS sınıfı
-  modalBody.appendChild(gridContainer);
+  gridContainer.className = "suggestion-grid";
+  suggestionGridView.appendChild(gridContainer);
 
   // Grid'i filmlerle doldur (en fazla 4)
   movies.slice(0, 4).forEach((movie) => {
@@ -200,7 +203,6 @@ function displaySuggestedMoviesGrid(movies) {
   document.body.classList.add("no-scroll");
   setTimeout(() => {
     detailModal.classList.add("visible");
-    modalBody.classList.add("show-content"); // Grid içeriğini de yumuşak geçişle göster
   }, 50);
 }
 

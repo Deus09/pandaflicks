@@ -61,6 +61,12 @@ const detailAddToLogButton = document.getElementById(
   "detail-add-to-log-button"
 );
 
+// Görünüm Konteynerları
+const suggestionGridView = document.getElementById("suggestion-grid-view");
+const singleMovieDetailView = document.getElementById(
+  "single-movie-detail-view"
+);
+
 export function openMovieMode(
   movieId = null,
   prefillData = null,
@@ -180,6 +186,9 @@ export function closeMovieMode(modalOverlay) {
 }
 
 export async function openMovieDetailsModal(tmdbMovieId) {
+  // Görünümleri yönet: Grid'i gizle, tekil detayı göster
+  if (suggestionGridView) suggestionGridView.classList.add("hidden");
+  if (singleMovieDetailView) singleMovieDetailView.classList.remove("hidden");
   detailModalBody.classList.remove("show-content");
   detailLottieLoader.classList.remove("hidden");
   detailLottieLoader.classList.add("visible");
@@ -255,6 +264,10 @@ export async function openMovieDetailsModal(tmdbMovieId) {
 export function closeMovieDetailsModal() {
   document.body.classList.remove("no-scroll");
   movieDetailsModalOverlay.classList.remove("visible");
+
+  // Her iki görünümü de sıfırla
+  if (suggestionGridView) suggestionGridView.classList.add("hidden");
+  if (singleMovieDetailView) singleMovieDetailView.classList.add("hidden");
   detailMovieTrailerIframe.src = "";
 }
 
