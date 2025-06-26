@@ -29,7 +29,9 @@ const watchedDateGroup = document.getElementById("watched-date-group");
 const movieDateInput = document.getElementById("movie-date-input");
 const movieCommentInput = document.getElementById("movie-comment-input");
 const enhanceCommentButton = document.getElementById("enhance-comment-button");
-const chatWithCharacterButton = document.getElementById("chat-with-character-button");
+const chatWithCharacterButton = document.getElementById(
+  "chat-with-character-button"
+);
 const tmdbSearchResultsDiv = document.getElementById("tmdb-search-results");
 const tmdbSearchMessage = document.getElementById("tmdb-search-message");
 const movieRuntimeInput = document.getElementById("movie-runtime-input");
@@ -81,7 +83,7 @@ export function openMovieMode(
   movieDirectorInput.value = "";
   movieTmdbIdInput.value = "";
   movieTitleInput.readOnly = false;
-  chatWithCharacterButton.classList.add('hidden'); // Sohbet butonunu başlangıçta gizle
+  chatWithCharacterButton.classList.add("hidden"); // Sohbet butonunu başlangıçta gizle
 
   const ratingGroup = movieRatingInputDiv.parentElement;
 
@@ -161,11 +163,10 @@ export function openMovieMode(
   const isWatchLaterChecked = watchLaterCheckbox.checked;
 
   if (hasTmdbId && !isWatchLaterChecked) {
-      chatWithCharacterButton.classList.remove('hidden');
+    chatWithCharacterButton.classList.remove("hidden");
   } else {
-      chatWithCharacterButton.classList.add('hidden');
+    chatWithCharacterButton.classList.add("hidden");
   }
-
 
   document.body.classList.add("no-scroll");
   movieModalOverlay.classList.add("visible");
@@ -179,11 +180,12 @@ export function closeMovieMode(modalOverlay) {
 }
 
 export async function openMovieDetailsModal(tmdbMovieId) {
-  detailLottieLoader.style.display = "flex";
-  detailModalBody.style.display = "none";
+  detailModalBody.classList.remove("show-content");
+  detailLottieLoader.classList.remove("hidden");
+  detailLottieLoader.classList.add("visible");
   document.body.classList.add("no-scroll");
-  movieDetailsModalOverlay.classList.add("visible");
-  detailModalTitle.textContent = "Yükleniyor...";
+  movieDetailsModalOverlay.classList.remove("hidden");
+  setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
   detailAddToLogButton.disabled = true;
 
   const timerPromise = new Promise((resolve) => setTimeout(resolve, 1500));
@@ -200,7 +202,10 @@ export async function openMovieDetailsModal(tmdbMovieId) {
       ? TMDB_IMAGE_BASE_URL_W500 + movieData.poster_path
       : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
     detailMovieReleaseDate.textContent = movieData.release_date
-      ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString("tr-TR",{ year: "numeric", month: "long", day: "numeric" })}`
+      ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString(
+          "tr-TR",
+          { year: "numeric", month: "long", day: "numeric" }
+        )}`
       : "Vizyon Tarihi: Bilinmiyor";
     detailMovieGenres.textContent =
       movieData.genres && movieData.genres.length > 0
@@ -216,6 +221,7 @@ export async function openMovieDetailsModal(tmdbMovieId) {
     } else {
       detailMovieTrailerSection.classList.add("hidden");
     }
+    detailAddToLogButton.classList.remove("hidden");
 
     detailAddToLogButton.disabled = false;
     detailAddToLogButton.onclick = () => {
@@ -235,10 +241,14 @@ export async function openMovieDetailsModal(tmdbMovieId) {
   } catch (error) {
     console.error("Film detayları yüklenirken hata oluştu:", error);
     detailModalTitle.textContent = "Hata Oluştu";
-    detailMovieOverview.innerHTML = `<p class="text-red-400">Film detayları yüklenirken bir sorun oluştu.</p>`;
+    detailModalBody.innerHTML = `<p class="text-red-400 text-center p-4">Film detayları yüklenirken bir sorun oluştu.</p>`;
   } finally {
-    detailLottieLoader.style.display = "none";
-    detailModalBody.style.display = "flex";
+    // 3. Yükleyiciyi gizle ve içeriği yumuşak geçişle göster
+    detailLottieLoader.classList.add("hidden");
+    detailLottieLoader.classList.remove("visible");
+    setTimeout(() => {
+      detailModalBody.classList.add("show-content");
+    }, 50); // Tarayıcının ilk durumu işlemesi için kısa bir gecikme
   }
 }
 
@@ -256,10 +266,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 export async function handleMovieFormSubmit(e) {
   e.preventDefault();
-  
+
   const modal = document.getElementById("movie-modal-overlay");
   closeMovieMode(modal);
-  
+
   const movieId = movieIdInput.value;
   const tmdbId = movieTmdbIdInput.value;
   const originalType = movieTypeInput.value;
@@ -276,11 +286,10 @@ export async function handleMovieFormSubmit(e) {
   let genres = [];
   try {
     genres = JSON.parse(movieGenresInput.value || "[]");
-  } catch(e) {
+  } catch (e) {
     console.error("Genres parse error", e);
     genres = [];
   }
-
 
   if (title === "") {
     showNotification("Lütfen film adı alanını doldurunuz.", "error");
@@ -292,9 +301,16 @@ export async function handleMovieFormSubmit(e) {
   let movieData;
 
   if (isWatchLater) {
-    movieData = { 
-      id: newId, title, poster, comment, type: newType, 
-      runtime, director, genres, tmdbId
+    movieData = {
+      id: newId,
+      title,
+      poster,
+      comment,
+      type: newType,
+      runtime,
+      director,
+      genres,
+      tmdbId,
     };
   } else {
     if (currentRating === 0 || !movieDateInput.value) {
@@ -305,9 +321,17 @@ export async function handleMovieFormSubmit(e) {
       return;
     }
     movieData = {
-      id: newId, title, poster, rating: currentRating,
-      watchedDate: movieDateInput.value, comment,
-      type: newType, runtime, director, genres, tmdbId
+      id: newId,
+      title,
+      poster,
+      rating: currentRating,
+      watchedDate: movieDateInput.value,
+      comment,
+      type: newType,
+      runtime,
+      director,
+      genres,
+      tmdbId,
     };
   }
 

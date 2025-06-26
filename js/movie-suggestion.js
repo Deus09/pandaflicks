@@ -102,8 +102,10 @@ function displaySuggestedMoviesGrid(movies) {
     if (modalTitle) {
         modalTitle.textContent = 'Sana Özel Film Önerileri';
     }
-    lottieLoader.classList.remove('visible');
+    lottieLoader.classList.add('hidden');
+    lottieLoader.classList.remove('visible'); 
     modalBody.innerHTML = ''; // Önceki içeriği temizle
+    modalBody.classList.remove('show-content'); // Animasyon için başlangıç durumu
     modalBody.classList.remove('hidden', 'flex-col', 'gap-4'); // Detay görünümü sınıflarını kaldır
 
     // Olası tekil film detaylarını gizle
@@ -144,7 +146,10 @@ function displaySuggestedMoviesGrid(movies) {
     // Modalı göster
     detailModal.classList.remove('hidden');
     document.body.classList.add('no-scroll');
-    setTimeout(() => detailModal.classList.add('visible'), 10);
+    setTimeout(() => {
+        detailModal.classList.add('visible');
+        modalBody.classList.add('show-content'); // Grid içeriğini de yumuşak geçişle göster
+    }, 50);
 }
 
 
