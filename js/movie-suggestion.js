@@ -1,6 +1,8 @@
 // js/movie-suggestion.js
 import { openMovieDetailsModal } from './modals.js';
 import { fetchSuggestedMovie } from './api.js';
+import { startSplashScreenEffects, stopSplashScreenEffects } from './modals.js';
+
 
 // DOM Elementleri
 let suggestMovieBtn;
