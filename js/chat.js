@@ -93,6 +93,7 @@ function openCharacterSelectionModal() {
     characterListContainer.innerHTML = ''; // Önceki listeyi temizle
     characterListLoader.style.display = 'flex';
     characterListContainer.appendChild(characterListLoader);
+    characterSelectionModal.classList.remove('hidden'); // Modalı göstermeden önce 'hidden' sınıfını kaldır
     characterSelectionModal.classList.add('visible');
     document.body.classList.add('no-scroll');
 }
@@ -101,6 +102,7 @@ function openCharacterSelectionModal() {
  * Karakter seçimi modalını gizler.
  */
 function closeCharacterSelectionModal() {
+    characterSelectionModal.classList.add('hidden'); // Modalı gizledikten sonra 'hidden' sınıfını tekrar ekle
     characterSelectionModal.classList.remove('visible');
     if (!chatInterfaceModal.classList.contains('visible')) {
         document.body.classList.remove('no-scroll');
@@ -164,6 +166,7 @@ function openChatInterfaceModal() {
     chatHeaderName.textContent = characterName;
     chatHeaderAvatar.src = currentCharacter.profile_path ? TMDB_IMAGE_BASE_URL_W185 + currentCharacter.profile_path : 'https://placehold.co/60x60/2A2A2A/AAAAAA?text=?';
 
+    chatInterfaceModal.classList.remove('hidden'); // Modalı göstermeden önce 'hidden' sınıfını kaldır
     chatInterfaceModal.classList.add('visible');
     document.body.classList.add('no-scroll');
 
@@ -177,6 +180,7 @@ function openChatInterfaceModal() {
  * Sohbet arayüzü modalını gizler.
  */
 function closeChatInterfaceModal() {
+    chatInterfaceModal.classList.add('hidden'); // Modalı gizledikten sonra 'hidden' sınıfını tekrar ekle
     chatInterfaceModal.classList.remove('visible');
     if (!characterSelectionModal.classList.contains('visible')) {
         document.body.classList.remove('no-scroll');
