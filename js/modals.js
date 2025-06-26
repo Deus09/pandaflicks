@@ -175,12 +175,14 @@ export function openMovieMode(
   }
 
   document.body.classList.add("no-scroll");
+  movieModalOverlay.classList.remove("hidden"); // Modalı göstermeden önce 'hidden' sınıfını kaldır
   movieModalOverlay.classList.add("visible");
 }
 
 export function closeMovieMode(modalOverlay) {
   if (modalOverlay) {
     modalOverlay.classList.remove("visible");
+    modalOverlay.classList.add("hidden"); // Modalı gizledikten sonra 'hidden' sınıfını tekrar ekle
     document.body.classList.remove("no-scroll");
   }
 }
