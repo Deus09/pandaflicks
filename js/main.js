@@ -10,7 +10,6 @@ import { setupEventListeners } from "./events.js";
 import { handleMovieFormSubmit } from "./modals.js";
 import { initBadgeInfoModal } from "./badge-modal.js";
 import { initChat } from "./chat.js"; // YENİ
-import { initMovieSuggestion } from "./movie-suggestion.js"; // YENİ
 
 /**
  * Shows the main application UI and hides the splash screen.
@@ -47,7 +46,6 @@ function initializeApp() {
   setupListViewControls();
   initBadgeInfoModal();
   initChat();
-  initMovieSuggestion(); // YENİ
 
   let isUiReady = false;
 
