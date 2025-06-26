@@ -2094,7 +2094,7 @@ input:checked + .toggle-switch-slider:before {
 /* --- Film Öneri Modalı (Apple Tasarım Felsefesi ile Yeniden Düzenlendi) --- */
 
 /* ID ile seçerek doğru modalı hedefliyoruz ve genel .modal-content stilini eziyoruz */
-#promptModalOverlay .modal-content {
+.prompt-modal-content {
   background: #1d1d1f; /* Apple'ın koyu mod rengine yakın */
   border-top: 1px solid #3a3a3a;
   box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.4);
