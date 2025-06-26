@@ -87,6 +87,69 @@ function hideLoadingSpinner() {
 }
 
 /**
+ * Önerilen filmleri 2x2 bir grid'de gösterir.
+ * @param {Array} movies - Önerilen film nesnelerinin dizisi.
+ */
+function displaySuggestedMoviesGrid(movies) {
+    const detailModal = document.getElementById('movie-details-modal-overlay');
+    const modalBody = document.getElementById('detail-modal-body');
+    const modalTitle = detailModal.querySelector('h2');
+    const lottieLoader = document.getElementById('detail-lottie-loader');
+    const addToLogButton = document.getElementById('detail-add-to-log-button');
+    const trailerSection = document.getElementById('detail-movie-trailer-section');
+
+    // Modalı grid görünümü için hazırla
+    if (modalTitle) {
+        modalTitle.textContent = 'Sana Özel Film Önerileri';
+    }
+    lottieLoader.classList.remove('visible');
+    modalBody.innerHTML = ''; // Önceki içeriği temizle
+    modalBody.classList.remove('hidden', 'flex-col', 'gap-4'); // Detay görünümü sınıflarını kaldır
+
+    // Olası tekil film detaylarını gizle
+    if (addToLogButton) addToLogButton.classList.add('hidden');
+    if (trailerSection) trailerSection.classList.add('hidden');
+
+    // Grid konteynerını oluştur
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'suggestion-grid'; // Yeni CSS sınıfı
+    modalBody.appendChild(gridContainer);
+
+    // Grid'i filmlerle doldur (en fazla 4)
+    movies.slice(0, 4).forEach(movie => {
+        const movieElement = document.createElement('div');
+        movieElement.className = 'suggestion-grid-item';
+        movieElement.addEventListener('click', () => {
+            // Postere tıklandığında, bu modalın içeriğini film detayıyla güncelle
+            openMovieDetailsModal(movie.id);
+        });
+
+        const poster = document.createElement('img');
+        poster.src = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+            : 'https://placehold.co/342x513/2A2A2A/AAAAAA?text=Poster+Yok';
+        poster.alt = movie.title;
+        poster.className = 'suggestion-poster';
+        poster.onerror = function() { this.onerror=null; this.src='https://placehold.co/342x513/2A2A2A/AAAAAA?text=Poster+Yok'; };
+
+        const title = document.createElement('p');
+        title.className = 'suggestion-title';
+        title.textContent = movie.title;
+
+        movieElement.appendChild(poster);
+        movieElement.appendChild(title);
+        gridContainer.appendChild(movieElement);
+    });
+
+    // Modalı göster
+    detailModal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+    setTimeout(() => detailModal.classList.add('visible'), 10);
+}
+
+
+
+/**
  * Kullanıcının prompt'unu gönderir ve film önerisi alır.
  */
 async function handleSubmitPrompt() {
@@ -102,9 +165,10 @@ async function handleSubmitPrompt() {
     showLoadingSpinner(); // Yükleniyor spinner'ını göster
 
     try {
-        const movieData = await fetchSuggestedMovie(promptText);
-        if (movieData && movieData.id) {
-            openMovieDetailsModal(movieData.id); // Mevcut detay modalını kullan
+                const movies = await fetchSuggestedMovie(promptText);
+        if (movies && movies.length > 0) {
+            // Tek film göstermek yerine 4'lü grid'i göster
+            displaySuggestedMoviesGrid(movies); // Mevcut detay modalını kullan
         } else {
             // Film bulunamadıysa veya API'den boş yanıt geldiyse
             promptError.textContent = 'İsteğinize uygun bir film bulunamadı. .Lütfen daha spesifik bir istek deneyin.';

@@ -1,84 +1,4 @@
-/* --- Film Öneri Modalı (promptModalOverlay) İyileştirmeleri --- */
 
-/* Modal içeriğine özel stil ve animasyon */
-.prompt-modal-content {
-  background: linear-gradient(145deg, #2c2c3e, #1e1e2a);
-  border: 1px solid #4a4a6a;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* Modal başlığındaki ikon rengi */
-#promptModalOverlay .modal-header svg {
-  color: #a78bfa; /* Tailwind purple-400 */
-}
-
-/* Textarea için modern görünüm */
-#moviePromptInput {
-  background-color: #2a2a38;
-  border: 1px solid #4a4a6a;
-  border-radius: 8px;
-  padding: 12px;
-  color: #e0e0e0;
-  font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  resize: vertical;
-  min-height: 100px;
-}
-
-#moviePromptInput::placeholder {
-  color: #7a7a8c;
-}
-
-#moviePromptInput:focus {
-  outline: none;
-  border-color: #8b5cf6; /* Tailwind purple-500 */
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
-}
-
-/* Örnek prompt butonları */
-.example-prompt-btn {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid #4a4a6a;
-  color: #c0c0d0;
-  padding: 6px 12px;
-  border-radius: 20px; /* Pill shape */
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, transform 0.1s;
-}
-
-.example-prompt-btn:hover {
-  background-color: rgba(139, 92, 246, 0.2);
-  color: #fff;
-  border-color: rgba(139, 92, 246, 0.5);
-}
-
-.example-prompt-btn:active {
-  transform: scale(0.95);
-}
-
-/* Ana "Film Bul" butonu */
-#submitPromptBtn.prompt-submit-btn {
-  width: 100%;
-  background: linear-gradient(to right, #8b5cf6, #6d28d9);
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#submitPromptBtn.prompt-submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
-}
-
-#submitPromptBtn.prompt-submit-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
-}
 /* Genel Stil Ayarları (Mobil Odaklı, Premium, Sinematik) */
 
 :root {
@@ -2171,115 +2091,172 @@ input:checked + .toggle-switch-slider:before {
 .header-suggest-button:hover { background-color: var(--accent-primary-hover); }
 .header-suggest-button:active { transform: scale(0.95); }
 
-/* --- Film Öneri Modalı (promptModalOverlay) İyileştirmeleri --- */
+/* --- Film Öneri Modalı (Apple Tasarım Felsefesi ile Yeniden Düzenlendi) --- */
 
-/* Ana modal yapısını flexbox ile düzenleyerek taşmaları önle */
-.prompt-modal-content {
+/* ID ile seçerek doğru modalı hedefliyoruz ve genel .modal-content stilini eziyoruz */
+#promptModalOverlay .modal-content {
+  background: #1d1d1f; /* Apple'ın koyu mod rengine yakın */
+  border-top: 1px solid #3a3a3a;
+  box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
-  height: auto; /* İçeriğe göre yükseklik */
-  max-height: 90vh; /* Ekranın %90'ından fazla büyümesin */
-  background: linear-gradient(145deg, #2c2c3e, #1e1e2a);
-  border: 1px solid #4a4a6a;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  overflow: hidden; /* Köşelerin yuvarlaklığını korumak için */
+  height: auto;
+  max-height: 95vh;
 }
 
-/* Header ve Actions alanlarının boyutunu sabit tut ve boşluk ekle */
-.prompt-modal-content .modal-header,
-.prompt-modal-content .modal-actions {
+/* Header ve Actions alanları için daha ferah boşluklar */
+#promptModalOverlay .modal-header,
+#promptModalOverlay .modal-actions {
   flex-shrink: 0;
   padding: 1rem 1.5rem;
 }
 
-.prompt-modal-content .modal-header {
-  border-bottom: 1px solid #3a3a5a;
+#promptModalOverlay .modal-header {
+  padding-top: 1.5rem;
+  border-bottom: 1px solid #3a3a3a;
 }
 
-.prompt-modal-content .modal-actions {
-  border-top: 1px solid #3a3a5a;
-  background-color: rgba(0,0,0,0.1);
+#promptModalOverlay .modal-actions {
+  padding: 1.5rem;
+  border-top: 1px solid #3a3a3a;
+  background-color: rgba(0,0,0,0.15);
 }
 
-/* Body alanının kalan alanı doldurmasını ve gerekirse kaydırılabilir olmasını sağla */
-.prompt-modal-content .modal-body {
+/* "Her şey yan yana duruyor" sorununu çözen ve Apple tarzı boşluk ekleyen bölüm */
+#promptModalOverlay .modal-body {
   flex-grow: 1;
-  overflow-y: auto; /* Dikeyde taşarsa scroll bar çıksın */
-  padding: 1.5rem; /* İç boşlukları ayarla */
+  overflow-y: auto;
+  padding: 2rem 1.5rem; /* Dikeyde daha fazla boşluk */
+  display: flex;
+  flex-direction: column; /* ÖNEMLİ: Öğeleri dikeyde sıralar */
+  gap: 1.5rem; /* Öğeler arasına net bir boşluk koyar */
 }
 
-/* Modal başlığındaki ikon rengi */
-.prompt-modal-content .modal-header .text-purple-400 {
-  color: #a78bfa;
+/* HTML'deki Tailwind class'larını ezerek boşlukları sıfırlıyoruz, kontrolü 'gap'e bırakıyoruz */
+#promptModalOverlay .modal-body > p,
+#promptModalOverlay .modal-body > .form-group,
+#promptModalOverlay .modal-body > #example-prompts {
+    margin: 0;
 }
 
-/* Textarea için modern görünüm */
+/* Textarea için premium bir görünüm */
 #moviePromptInput {
-  background-color: #2a2a38;
-  border: 1px solid #4a4a6a;
-  border-radius: 8px;
-  padding: 12px;
-  color: #e0e0e0;
-  font-size: 1rem;
+  background-color: #2c2c2e; /* Apple'ın input arkaplanı */
+  border: 1px solid #4a4a4a;
+  border-radius: 12px; /* Daha yuvarlak köşeler */
+  padding: 1rem;
+  color: #f5f5f7;
+  font-size: 1.05rem;
   transition: border-color 0.3s, box-shadow 0.3s;
   resize: vertical;
-  min-height: 100px;
+  min-height: 140px; /* Daha geniş yazma alanı */
   width: 100%;
 }
 
 #moviePromptInput::placeholder {
-  color: #7a7a8c;
+  color: #8e8e93;
 }
 
 #moviePromptInput:focus {
   outline: none;
-  border-color: #8b5cf6; /* Tailwind purple-500 */
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
 }
 
-/* Örnek prompt butonları */
+/* Örnek prompt butonları (tag/pill stili) */
 .example-prompt-btn {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid #4a4a6a;
+  background-color: #2c2c2e;
+  border: 1px solid #4a4a4a;
   color: #c0c0d0;
-  padding: 6px 12px;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, transform 0.1s;
+  transition: all 0.2s ease;
 }
 
 .example-prompt-btn:hover {
-  background-color: rgba(139, 92, 246, 0.2);
+  background-color: #3a3a3c;
+  border-color: #6c6c70;
   color: #fff;
-  border-color: rgba(139, 92, 246, 0.5);
 }
 
-.example-prompt-btn:active {
-  transform: scale(0.95);
-}
-
-/* Ana "Film Bul" butonu */
+/* Ana "Film Bul" butonu (Apple'ın ana eylem butonu gibi) */
 #submitPromptBtn.prompt-submit-btn {
   width: 100%;
-  background: linear-gradient(to right, #8b5cf6, #6d28d9);
+  background-color: #8b5cf6;
+  color: white;
   font-size: 1.1rem;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
+  font-weight: 600; /* Semibold */
+  padding: 1rem;
+  border-radius: 12px;
   border: none;
-  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.2);
+  transition: all 0.2s ease-in-out;
 }
 
 #submitPromptBtn.prompt-submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
+  background-color: #996cf9;
+  box-shadow: 0 7px 20px rgba(109, 40, 217, 0.25);
 }
 
 #submitPromptBtn.prompt-submit-btn:active {
   transform: translateY(0);
-  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+  background-color: #7c4ee5;
+  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.2);
 }
 
+/* --- Film Öneri Grid Stilleri --- */
+.suggestion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.suggestion-grid-item {
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+}
+
+.suggestion-grid-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.suggestion-grid-item:hover .suggestion-poster {
+    transform: scale(1.05);
+}
+
+.suggestion-poster {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3; /* Poster en-boy oranı */
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.suggestion-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+  color: var(--text-primary);
+  padding: 1.5rem 0.75rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  transition: opacity 0.3s ease;
+}
 
