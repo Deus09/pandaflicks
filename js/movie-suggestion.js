@@ -224,6 +224,7 @@ async function handleSubmitPrompt() {
       promptText,
     });
     // API çağrısı için bir zaman aşımı (timeout) ekle    const fetchPromise = fetchSuggestedMovie(promptText);
+    const fetchPromise = fetchSuggestedMovie(promptText);
     const timeoutPromise = new Promise(
       (_, reject) =>
         setTimeout(
