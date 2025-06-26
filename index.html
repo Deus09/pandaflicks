@@ -384,25 +384,7 @@
           </svg>
           <span>Daha Sonra</span>
         </a>
-        <a href="#" class="nav-item" id="suggestMovieBtn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-            ></path>
-          </svg>
-          <span>Film Öner</span>
-        </a>
-      </nav>
+       </nav>
     </div>
 
     <div id="movie-modal-overlay" class="modal-overlay hidden">
@@ -765,105 +747,6 @@
             </svg>
           </button>
         </form>
-      </div>
-    </div>
-
-    <!-- Film Öneri Prompt Modalı -->
-    <div id="promptModalOverlay" class="modal-overlay hidden">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-purple-400"
-            >
-              <path
-                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-              ></path>
-            </svg>
-            <h2 class="text-xl font-bold">Sana Özel Film Önerisi</h2>
-          </div>
-          <button
-            type="button"
-            id="closePromptModalBtn"
-            class="close-modal-btn"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-x"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p class="text-gray-300 mb-4">
-            Ne tür bir film izlemek istediğini anlat, yapay zeka sana en uygun
-            filmi bulsun!
-          </p>
-          <div class="form-group">
-            <textarea
-              id="moviePromptInput"
-              rows="4"
-              placeholder="Örn: 'Son zamanlarda çıkan, bol aksiyonlu bir bilim kurgu filmi...'"
-            ></textarea>
-          </div>
-          <div id="example-prompts" class="mt-4">
-            <p class="text-sm text-gray-400 mb-2">
-              Ya da bunlardan birini dene:
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <button class="example-prompt-btn">😂 Komedi</button>
-              <button class="example-prompt-btn">😱 Gerilim</button>
-              <button class="example-prompt-btn">🤖 Bilim Kurgu</button>
-              <button class="example-prompt-btn">❤️ Romantik</button>
-            </div>
-          </div>
-          <p id="promptError" class="text-red-400 text-sm mt-3 hidden"></p>
-        </div>
-        <div class="modal-actions">
-          <button
-            type="button"
-            id="submitPromptBtn"
-            class="save-button prompt-submit-btn"
-          >
-            <span class="button-text">✨ Filmi Bul</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Yükleniyor Göstergesi (Ortak modal yapısına uygun) -->
-    <div id="loadingSpinnerOverlay" class="modal-overlay hidden">
-      <div class="modal-content loading-spinner-content">
-        <div class="lottie-loader visible">
-          <dotlottie-player
-            src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
-            background="transparent"
-            speed="1"
-            style="width: 200px; height: 200px"
-            loop
-            autoplay
-          ></dotlottie-player>
-        </div>
-        <p class="text-lg text-gray-300 mt-4">Film aranıyor...</p>
       </div>
     </div>
   </body>
