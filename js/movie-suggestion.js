@@ -148,6 +148,9 @@ function displaySuggestedMoviesGrid(movies) {
       openMovieDetailsModal(movie.id);
     });
 
+    const posterWrapper = document.createElement("div");
+    posterWrapper.className = "suggestion-poster-wrapper";
+
     const poster = document.createElement("img");
     poster.src = movie.poster_path
       ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
@@ -159,12 +162,36 @@ function displaySuggestedMoviesGrid(movies) {
       this.src = "https://placehold.co/342x513/2A2A2A/AAAAAA?text=Poster+Yok";
     };
 
+    posterWrapper.appendChild(poster);
+
+    const detailsContainer = document.createElement("div");
+    detailsContainer.className = "suggestion-details";
+
     const title = document.createElement("p");
     title.className = "suggestion-title";
     title.textContent = movie.title;
+    detailsContainer.appendChild(title);
 
-    movieElement.appendChild(poster);
-    movieElement.appendChild(title);
+    // Puanı ekle
+    if (movie.vote_average && movie.vote_average > 0) {
+      const ratingElement = document.createElement("span");
+      ratingElement.className = "suggestion-rating";
+      ratingElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> <span>${movie.vote_average.toFixed(
+        1
+      )}</span>`;
+      detailsContainer.appendChild(ratingElement);
+    }
+
+    // Yönetmeni ekle (Not: 'movie' objesinin 'director' alanını içerdiği varsayılmıştır)
+    if (movie.director) {
+      const directorElement = document.createElement("p");
+      directorElement.className = "suggestion-director";
+      directorElement.textContent = `Yön: ${movie.director}`;
+      detailsContainer.appendChild(directorElement);
+    }
+
+    movieElement.appendChild(posterWrapper);
+    movieElement.appendChild(detailsContainer);
     gridContainer.appendChild(movieElement);
   });
 
