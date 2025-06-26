@@ -52,7 +52,7 @@ function initializeApp() {
   let isUiReady = false;
 
   // Set up the persistent listener for auth state changes.
-  initAuth((user) => {
+  initAuth(async(user) => {
     if (user) {
       console.log(
         "Auth state changed. User found:",
@@ -65,7 +65,7 @@ function initializeApp() {
         isUiReady = true;
       }
 
-      loadMoviesFromFirestore(user.uid);
+      await loadMoviesFromFirestore(user.uid); // Verilerin yüklenmesini bekliyoruz
       updateProfileView(user); // Kullanıcı giriş yaptığında profil arayüzünü güncelle
     } else {
       console.log(
