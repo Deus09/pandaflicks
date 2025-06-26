@@ -1,7 +1,7 @@
 // js/movie-suggestion.js
-import { openMovieDetailsModal } from './modals.js';
 import { fetchSuggestedMovie } from './api.js';
-import { startSplashScreenEffects, stopSplashScreenEffects } from './modals.js';
+import { openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner, startSplashScreenEffects, stopSplashScreenEffects } from './modals.js';
+
 
 
 // DOM Elementleri
@@ -66,27 +66,7 @@ function closePromptModal() {
     }, { once: true });
 }
 
-/**
- * Yükleniyor spinner'ını gösterir.
- */
-function showLoadingSpinner() {
-    loadingSpinnerOverlay.classList.remove('hidden');
-    document.body.classList.add('no-scroll');
-    setTimeout(() => loadingSpinnerOverlay.classList.add('visible'), 10);
-}
 
-/**
- * Yükleniyor spinner'ını gizler.
- */
-function hideLoadingSpinner() {
-    loadingSpinnerOverlay.classList.remove('visible');
-    document.body.classList.remove('no-scroll');
-    loadingSpinnerOverlay.addEventListener('transitionend', () => {
-        if (!loadingSpinnerOverlay.classList.contains('visible')) {
-            loadingSpinnerOverlay.classList.add('hidden');
-        }
-    }, { once: true });
-}
 
 /**
  * Kullanıcının prompt'unu gönderir ve film önerisi alır.
@@ -123,13 +103,5 @@ async function handleSubmitPrompt() {
     }
 }
 
-export function showLoadingSpinner(text = 'Film aranıyor...') {
-  loadingSpinnerOverlay.classList.remove('hidden');
-  document.getElementById('splash-text').textContent = text;
-  startSplashScreenEffects(); // Efektleri başlat
-}
 
-export function hideLoadingSpinner() {
-  loadingSpinnerOverlay.classList.add('hidden');
-  stopSplashScreenEffects(); // Efektleri durdur
-}
+

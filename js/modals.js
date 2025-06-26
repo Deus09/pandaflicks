@@ -381,3 +381,20 @@ export function stopSplashScreenEffects() {
     if (particleInterval) clearInterval(particleInterval);
 }
 
+export function showLoadingSpinner(text = 'Film aranıyor...') {
+  const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
+  if (!loadingSpinnerOverlay) return;
+
+  loadingSpinnerOverlay.classList.remove('hidden');
+  document.getElementById('splash-text').textContent = text;
+  startSplashScreenEffects(); // Parçacık efektlerini başlat
+}
+
+export function hideLoadingSpinner() {
+  const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
+  if (!loadingSpinnerOverlay) return;
+
+  loadingSpinnerOverlay.classList.add('hidden');
+  stopSplashScreenEffects(); // Parçacık efektlerini durdur
+}
+
