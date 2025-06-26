@@ -918,10 +918,13 @@ input:checked + .toggle-switch-slider:before {
 }
 .lottie-loader {
   display: none;
-  margin: auto;
+  width: 100%;
+  margin:auto
 }
 .lottie-loader.visible {
   display: flex;
+  justify-content: center; /* İçindeki elemanı (animasyonu) yatayda ortala */
+  align-items: center; /* İçindeki elemanı (animasyonu) dikeyde ortala */
 }
 #detail-modal-body.hidden {
   display: none;

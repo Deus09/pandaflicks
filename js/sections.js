@@ -136,16 +136,14 @@ export async function showSection(sectionId) {
         renderTrendingSkeletons(trendingMoviesGrid);
         fetchTrendingMovies(trendingMoviesGrid, trendingErrorMessage, renderTrendingMovies, openMovieDetailsModal);
     
-    // GÜNCELLENMİŞ BLOK: Lottie animasyonuna minimum 1 saniye bekleme eklendi
     } else if (sectionId === 'special-lists-section') {
         // 1. Animasyonu göster, eski içeriği temizle ve içeriği gizle
         specialListsLoader.classList.remove('hidden');
+        specialListsLoader.classList.add('visible'); // DÜZELTME: Animasyonu göstermek için .visible sınıfı ekleniyor.
         specialListsContentContainer.innerHTML = '';
         specialListsContentContainer.classList.add('hidden');
 
-        // 2. İki asenkron işlemi aynı anda başlat:
-        //    - Minimum 1 saniyelik bir zamanlayıcı
-        //    - API'den verileri çekme işlemi
+        // 2. İki asenkron işlemi aynı anda başlat
         const timerPromise = new Promise(resolve => setTimeout(resolve, 1000));
         
         const dataFetchPromise = (async () => {
@@ -167,6 +165,7 @@ export async function showSection(sectionId) {
         
         // 4. İki işlem de bittiğinde animasyonu gizle, içeriği göster ve listeyi render et
         specialListsLoader.classList.add('hidden');
+        specialListsLoader.classList.remove('visible'); // DÜZELTME: Animasyonu gizlemek için .visible sınıfı kaldırılıyor.
         specialListsContentContainer.classList.remove('hidden');
         renderSpecialLists(specialListsContentContainer, listsWithImages, showListDetail);
 
