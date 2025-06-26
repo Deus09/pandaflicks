@@ -120,7 +120,7 @@ body {
   border-radius: 0;
   overflow: hidden;
   position: relative;
-  padding-bottom: 80px;
+  padding-bottom: 80px; /* Nav bar yüksekliği kadar boşluk */
 }
 .container.hidden {
   display: none;
@@ -128,7 +128,7 @@ body {
 
 /* --- Başlık --- */
 header {
-  background: rgba(13, 17, 23, 0.8);
+  background: rgba(13, 17, 23, 0.8); /* Yarı şeffaf arka plan */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--text-primary);
@@ -136,7 +136,7 @@ header {
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* İçerikleri iki yana yasla */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -147,12 +147,47 @@ header {
   width: 40px;
   height: 40px;
   margin-right: 12px;
+  flex-shrink: 0; /* Küçülmesini engelle */
 }
 
 header h1 {
   font-size: 1.7rem;
   font-weight: 700;
   letter-spacing: -0.2px;
+  margin-right: auto; /* Profil butonunu sağa iter */
+  margin-left: 0; /* Varsayılan margin'i sıfırla */
+}
+
+/* YENİ: Header'daki profil butonu (Instagram stili) */
+.header-profile-button {
+  /* nav-item'dan gelen padding ve flex-direction'ı geçersiz kıl */
+  padding: 0;
+  flex-direction: row; /* İçeriği yan yana hizala (resim için) */
+  width: 40px; /* Yuvarlak buton boyutu */
+  height: 40px;
+  border-radius: 50%; /* Yuvarlak şekil */
+  overflow: hidden; /* Resmin taşmasını engelle */
+  border: 2px solid var(--accent-secondary); /* Instagram benzeri renkli kenarlık */
+  box-shadow: 0 0 10px rgba(227, 179, 65, 0.3); /* Hafif parlama */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0; /* Küçülmesini engelle */
+}
+
+.header-profile-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(227, 179, 65, 0.5);
+}
+
+.header-profile-button .profile-avatar-small {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* Resmin yuvarlak olmasını sağla */
+}
+
+.header-profile-button span, /* Metni gizle */
+.header-profile-button svg { /* Varsayılan SVG'yi gizle */
+  display: none;
 }
 
 /* --- İçerik Bölümleri --- */
@@ -2075,20 +2110,17 @@ input:checked + .toggle-switch-slider:before {
   justify-content: center;
 }
 
-.header-suggest-button {
-  background-color: var(--accent-primary);
-  color: white;
+/* YENİ: Nav bardaki Film Öner butonu */
+.nav-suggest-button {
+  /* header-suggest-button'dan gelen stilleri geçersiz kıl */
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-left: auto; /* Sağa yasla */
+  margin-left: 0;
+  /* nav-item'dan gelen stilleri kullanır:
+     display: flex; flex-direction: column; align-items: center;
+     color: var(--text-secondary); font-size: 0.75rem; padding: 0.5rem;
+  */
 }
-.header-suggest-button:hover { background-color: var(--accent-primary-hover); }
-.header-suggest-button:active { transform: scale(0.95); }
 
 /* =================================================================== */
 /* === FİLM ÖNERİ MODALI GÖRSEL ŞOVU (SİNELOG) === */
@@ -2251,4 +2283,3 @@ input:checked + .toggle-switch-slider:before {
     color: var(--text-primary);
     transform: scale(1.1);
 }
-

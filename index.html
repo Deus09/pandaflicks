@@ -47,7 +47,11 @@
       <header>
         <img src="logo.png" alt="sinelog-logo" class="header-logo" />
         <h1>SineLog</h1>
-        <button id="suggestMovieBtn" class="header-suggest-button">Film Öner</button>
+        <!-- Profilim butonu buraya taşındı ve Instagram stili verildi -->
+        <a href="#" class="nav-item header-profile-button" id="nav-profile">
+          <!-- Geçici olarak logo.png kullanıldı, gerçek profil resmi buraya gelecek -->
+          <img src="logo.png" alt="Profil" class="profile-avatar-small">
+        </a>
       </header>
 
 
@@ -162,10 +166,13 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" /></svg>
           <span>Daha Sonra</span>
         </a>
-        <a href="#" class="nav-item" id="nav-profile">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span>Profilim</span>
-        </a>
+        <!-- Film Öner butonu buraya taşındı ve nav-bar stiline uygun hale getirildi -->
+        <button id="suggestMovieBtn" class="nav-item nav-suggest-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+          <span>AI Önerisi</span>
+        </button>
       </nav>
     </div>
     
@@ -366,15 +373,7 @@
 
           <div class="prompt-input-wrapper">
             <textarea id="moviePromptInput" rows="4" placeholder="Örn: 'Arkadaşlarımla izleyebileceğim, bol kahkahalı ve sürpriz sonlu bir film...'"></textarea>
-          </div>
-          
-          <div id="example-prompts" class="example-prompts-container">
-            <button class="example-prompt-btn">😂 Komedi</button>
-            <button class="example-prompt-btn">😱 Gerilim</button>
-            <button class="example-prompt-btn">🤖 Bilim Kurgu</button>
-            <button class="example-prompt-btn">❤️ Romantik</button>
-          </div>
-          
+          </div>        
           <p id="promptError" class="text-red-400 text-sm mt-3 hidden text-center"></p>
 
           <div class="modal-actions mt-6">
