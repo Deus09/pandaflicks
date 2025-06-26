@@ -193,8 +193,16 @@ export async function fetchSuggestedMovie(prompt) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || `Film önerisi alınırken bir hata oluştu: ${response.status}`);
+            // 404 gibi durumlarda yanıt JSON olmayabilir, bu yüzden önce metin olarak okuyalım.
+            const errorText = await response.text();
+            try {
+                // Yanıtın JSON olup olmadığını kontrol et
+                const errorData = JSON.parse(errorText);
+                throw new Error(errorData.error || `Film önerisi alınırken bir hata oluştu: ${response.status}`);
+            } catch (e) {
+                // Eğer JSON parse edilemezse, bu muhtemelen 404 hatasıdır.
+                throw new Error(`Sunucu fonksiyonu bulunamadı veya bir hata oluştu (HTTP ${response.status}). Lütfen site yöneticisiyle iletişime geçin.`);
+            }
         }
         return await response.json();
     } catch (error) {
