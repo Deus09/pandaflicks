@@ -347,25 +347,44 @@
     </div>
 
     <!-- Film Öneri Prompt Modalı -->
-    <div id="promptModalOverlay" class="modal-overlay hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Film Önerisi Al</h2>
-                <button type="button" id="closePromptModalBtn" class="close-modal-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                </button>
+<div id="promptModalOverlay" class="modal-overlay hidden">
+      <div class="modal-content prompt-modal-content">
+        <div class="modal-grid-background"></div>
+
+        <div class="modal-main-content">
+          <button type="button" id="closePromptModalBtn" class="close-modal-btn absolute top-4 right-4">&times;</button>
+          
+          <div class="prompt-header">
+            <div class="prompt-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
             </div>
-            <div class="modal-body">
-                <p class="text-gray-300 mb-4">İzlemek istediğiniz film hakkında doğal bir dille yazın:</p>
-                <div class="form-group">
-                    <textarea id="moviePromptInput" rows="5" placeholder="Örn: 'Bilim kurgu ve aksiyon dolu, gelecekte geçen bir film önerir misin?' veya 'Romantik ve komik bir film arıyorum.'"></textarea>
-                </div>
-                <p id="promptError" class="text-red-400 text-sm mt-2 hidden"></p>
-            </div>
-            <div class="modal-actions">
-                <button type="button" id="submitPromptBtn" class="save-button">Film Bul</button>
-            </div>
+            <h2 class="text-2xl font-bold">Yapay Zeka Film Asistanı</h2>
+            <p class="text-base text-gray-400 mt-2">Hayalindeki filmi anlat, senin için bulayım.</p>
+          </div>
+
+          <div class="prompt-input-wrapper">
+            <textarea id="moviePromptInput" rows="4" placeholder="Örn: 'Arkadaşlarımla izleyebileceğim, bol kahkahalı ve sürpriz sonlu bir film...'"></textarea>
+          </div>
+          
+          <div id="example-prompts" class="example-prompts-container">
+            <button class="example-prompt-btn">😂 Komedi</button>
+            <button class="example-prompt-btn">😱 Gerilim</button>
+            <button class="example-prompt-btn">🤖 Bilim Kurgu</button>
+            <button class="example-prompt-btn">❤️ Romantik</button>
+          </div>
+          
+          <p id="promptError" class="text-red-400 text-sm mt-3 hidden text-center"></p>
+
+          <div class="modal-actions mt-6">
+            <button type="button" id="submitPromptBtn" class="prompt-submit-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+              <span>Filmi Bul</span>
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Yükleniyor Göstergesi (Ortak modal yapısına uygun) -->

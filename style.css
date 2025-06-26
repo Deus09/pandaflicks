@@ -2090,3 +2090,165 @@ input:checked + .toggle-switch-slider:before {
 .header-suggest-button:hover { background-color: var(--accent-primary-hover); }
 .header-suggest-button:active { transform: scale(0.95); }
 
+/* =================================================================== */
+/* === FİLM ÖNERİ MODALI GÖRSEL ŞOVU (SİNELOG) === */
+/* =================================================================== */
+
+/* Animasyon Keyframes */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes animate-grid {
+  from { background-position: 0 0; }
+  to { background-position: -100px -100px; }
+}
+
+/* --- Genel Modal Yapısı --- */
+#promptModalOverlay .modal-content {
+  background: rgba(22, 27, 34, 0.7); /* %70 şeffaf yüzey */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 520px;
+  height: auto;
+  transform: none; /* Eski transformları sıfırla */
+  opacity: 1; /* Eski opacity'yi sıfırla */
+  overflow: hidden; /* İçerideki animasyonların taşmasını engelle */
+  position: relative;
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+/* --- Hareketli Arkaplan Izgarası --- */
+.modal-grid-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image:
+    linear-gradient(rgba(130, 86, 208, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 86, 208, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: animate-grid 5s linear infinite;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* --- Modalın Ana İçeriği --- */
+.modal-main-content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Başlık Bölümü --- */
+.prompt-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.prompt-icon {
+  display: inline-block;
+  color: var(--accent-magic);
+  margin-bottom: 1rem;
+  animation: pulse-glow 2.5s infinite ease-in-out;
+}
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--accent-magic)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--accent-magic)); }
+}
+
+/* --- Metin Giriş Alanı (Textarea) --- */
+.prompt-input-wrapper {
+  position: relative;
+  background: rgba(13, 17, 23, 0.8);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease-in-out;
+  padding: 1rem;
+}
+.prompt-input-wrapper:focus-within {
+  border-color: var(--accent-magic);
+  box-shadow: 0 0 0 3px rgba(130, 86, 208, 0.25);
+}
+#moviePromptInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  resize: none;
+  height: 100px;
+}
+#moviePromptInput::placeholder {
+  color: var(--text-secondary);
+}
+
+/* --- Örnek Prompt Butonları --- */
+.example-prompts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+.example-prompt-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.example-prompt-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--accent-secondary);
+}
+
+/* --- Ana Eylem Butonu --- */
+.prompt-submit-button {
+  width: 100%;
+  background-image: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 20px rgba(247, 120, 38, 0.3);
+}
+.prompt-submit-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(247, 120, 38, 0.4);
+}
+.prompt-submit-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* --- Kapatma Butonu --- */
+#promptModalOverlay .close-modal-btn {
+    color: var(--text-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
+    z-index: 5;
+}
+#promptModalOverlay .close-modal-btn:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
