@@ -144,7 +144,7 @@
 
           <div id="special-lists-content-container"></div>
         </div>
-        
+
         <div id="list-detail-section" class="content-section hidden">
           <div class="list-detail-header">
             <button id="back-to-lists-btn" class="back-button">
@@ -818,19 +818,27 @@
     </div>
 
     <!-- Yükleniyor Göstergesi (Ortak modal yapısına uygun) -->
-    <div id="loadingSpinnerOverlay" class="modal-overlay hidden">
-      <div class="modal-content loading-spinner-content">
-        <div class="lottie-loader visible">
+<div id="loadingSpinnerOverlay" class="modal-overlay hidden">
+      <div class="splash-background"></div>
+      
+      <div class="particles-container">
+        </div>
+      
+      <div class="splash-content">
+        <div class="splash-lottie-wrapper">
           <dotlottie-player
             src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
             background="transparent"
             speed="1"
-            style="width: 200px; height: 200px"
+            style="width: 200px; height: 200px;"
             loop
             autoplay
           ></dotlottie-player>
         </div>
-        <p class="text-lg text-gray-300 mt-4">Film aranıyor...</p>
+        
+        <div class="splash-text-container">
+          <p id="splash-text" class="splash-text">En iyi öneri bulunuyor...</p>
+        </div>
       </div>
     </div>
   </body>

@@ -321,3 +321,62 @@ export async function handleMovieFormSubmit(e) {
     isWatchLater ? "watch-later-movies-section" : "my-watched-movies-section"
   );
 }
+
+// modals.js dosyasının en altına veya uygun bir yere ekleyin
+
+const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
+const particlesContainer = document.querySelector('.particles-container');
+let particleInterval;
+
+// Film önerisi modalı için kullanılan filmlerden rastgele posterler alır
+// Bu listeyi projenize uygun şekilde daha dinamik hale getirebilirsiniz.
+const particleImages = [
+    'https://image.tmdb.org/t/p/w92/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', // The Shawshank Redemption
+    'https://image.tmdb.org/t/p/w92/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg',  // The Godfather
+    'https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg', // The Dark Knight
+    'https://image.tmdb.org/t/p/w92/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg',  // Pulp Fiction
+    'https://image.tmdb.org/t/p/w92/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg', // Forrest Gump
+    'https://image.tmdb.org/t/p/w92/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg', // The Matrix
+    'https://image.tmdb.org/t/p/w92/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg', // Inception
+    'https://image.tmdb.org/t/p/w92/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg'  // Interstellar
+];
+
+function createParticle() {
+    if (!particlesContainer) return;
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Rastgele boyut, konum, süre ve gecikme
+    const size = Math.random() * 40 + 10; // 10px - 50px arası
+    const xPos = Math.random() * 100; // 0% - 100% arası
+    const duration = Math.random() * 10 + 8; // 8s - 18s arası
+    const delay = Math.random() * 5; // 0s - 5s arası
+    const image = particleImages[Math.floor(Math.random() * particleImages.length)];
+
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${xPos}%`;
+    particle.style.animationDuration = `${duration}s`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.backgroundImage = `url(${image})`;
+    
+    particlesContainer.appendChild(particle);
+
+    // Animasyon bitince parçacığı DOM'dan kaldır
+    setTimeout(() => {
+        particle.remove();
+    }, (duration + delay) * 1000);
+}
+
+// Splash ekranı gösterildiğinde parçacık üretimini başlat
+export function startSplashScreenEffects() {
+    if (particleInterval) clearInterval(particleInterval);
+    if(particlesContainer) particlesContainer.innerHTML = ''; // Eskileri temizle
+    // Her 200ms'de bir yeni parçacık oluştur
+    particleInterval = setInterval(createParticle, 200);
+}
+
+// Splash ekranı gizlendiğinde parçacık üretimini durdur
+export function stopSplashScreenEffects() {
+    if (particleInterval) clearInterval(particleInterval);
+}
