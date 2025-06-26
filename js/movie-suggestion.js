@@ -122,3 +122,14 @@ async function handleSubmitPrompt() {
         hideLoadingSpinner(); // Yükleniyor spinner'ını kapat
     }
 }
+
+export function showLoadingSpinner(text = 'Film aranıyor...') {
+  loadingSpinnerOverlay.classList.remove('hidden');
+  document.getElementById('splash-text').textContent = text;
+  startSplashScreenEffects(); // Efektleri başlat
+}
+
+export function hideLoadingSpinner() {
+  loadingSpinnerOverlay.classList.add('hidden');
+  stopSplashScreenEffects(); // Efektleri durdur
+}
