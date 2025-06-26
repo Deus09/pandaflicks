@@ -120,3 +120,38 @@ async function handleSubmitPrompt() {
         hideLoadingSpinner(); // Yükleniyor spinner'ını kapat
     }
 }
+
+// Örnek konu butonlarını işlevsel hale getiren kod
+// const moviePromptInput = document.getElementById('moviePromptInput'); // Zaten yukarıda tanımlı
+const examplePromptsContainer = document.getElementById('example-prompts');
+
+if (examplePromptsContainer) {
+  examplePromptsContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('example-prompt-btn')) {
+      const promptText = e.target.textContent.trim();
+      let fullPrompt = '';
+      switch (promptText) {
+        case '😂 Komedi':
+          fullPrompt =
+            'Beni çok güldürecek, eğlenceli bir komedi filmi önerir misin?';
+          break;
+        case '😱 Gerilim':
+          fullPrompt =
+            'Nefesimi kesecek, gizem ve gerilim dolu bir film arıyorum.';
+          break;
+        case '🤖 Bilim Kurgu':
+          fullPrompt =
+            'Ufuk açıcı, görsel olarak etkileyici bir bilim kurgu filmi öner.';
+          break;
+        case '❤️ Romantik':
+          fullPrompt =
+            'İçimi ısıtacak, duygusal ve romantik bir film izlemek istiyorum.';
+          break;
+        default:
+          fullPrompt = promptText;
+      }
+      moviePromptInput.value = fullPrompt;
+      moviePromptInput.focus();
+    }
+  });
+}
