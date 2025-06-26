@@ -380,3 +380,14 @@ export function startSplashScreenEffects() {
 export function stopSplashScreenEffects() {
     if (particleInterval) clearInterval(particleInterval);
 }
+
+export function showLoadingSpinner(text = 'Film aranıyor...') {
+  loadingSpinnerOverlay.classList.remove('hidden');
+  document.getElementById('splash-text').textContent = text;
+  startSplashScreenEffects(); // Efektleri başlat
+}
+
+export function hideLoadingSpinner() {
+  loadingSpinnerOverlay.classList.add('hidden');
+  stopSplashScreenEffects(); // Efektleri durdur
+}
