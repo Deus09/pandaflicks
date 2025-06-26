@@ -1,0 +1,2092 @@
+/* Genel Stil Ayarları (Mobil Odaklı, Premium, Sinematik) */
+
+:root {
+  --bg-main: #0d1117; /* Ana arka plan (Çok Koyu Gri) */
+  --bg-surface: #161b22; /* Kartlar ve yüzeyler için arka plan */
+  --border-color: #30363d; /* Kenarlıklar ve ayırıcılar */
+  --text-primary: #e6edf3; /* Ana metin rengi */
+  --text-secondary: #8b949e; /* İkincil, soluk metin rengi */
+  --accent-primary: #f77826; /* Ana Eylem Rengi (Canlı Turuncu) */
+  --accent-primary-hover: #fa8c41;
+  --accent-secondary: #e3b341; /* Vurgu Rengi (Altın Sarısı) */
+  --accent-secondary-hover: #f0c65a;
+  --accent-magic: #8256d0; /* "Yorumu Geliştir" için Büyü Rengi (Mor) */
+  --accent-magic-hover: #9266e0;
+  --accent-chat: #2688f7; /* Sohbet için yeni renk (Mavi) */
+  --accent-chat-hover: #419aff;
+  --accent-chat-glow: rgba(38, 136, 247, 0.4); /* Sohbet butonu parlama rengi */
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+/* Scrollbar Gizleme */
+::-webkit-scrollbar {
+  width: 6px; /* DÜZELTME: Rozetler için scrollbar genişliği */
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: thin; /* Firefox için */
+  scrollbar-color: var(--border-color) var(--bg-surface); /* Firefox için */
+}
+
+/* Özel Scrollbar Stili */
+.badge-collection-grid.expanded::-webkit-scrollbar {
+  width: 6px;
+}
+.badge-collection-grid.expanded::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+  border-radius: 10px;
+}
+.badge-collection-grid.expanded::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 10px;
+}
+.badge-collection-grid.expanded::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-secondary);
+}
+
+/* --- Splash Screen --- */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+#splash-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-logo {
+  text-align: center;
+  animation: pulse-splash 2s infinite ease-in-out;
+}
+
+@keyframes pulse-splash {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.splash-logo img {
+  width: 100px;
+  height: 100px;
+  filter: drop-shadow(0 0 15px rgba(247, 120, 38, 0.3));
+}
+
+.splash-logo h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 1rem;
+}
+
+/* --- Ana Konteyner --- */
+.container {
+  max-width: 100vw;
+  width: 100%;
+  margin: 0;
+  background-color: var(--bg-main);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 80px;
+}
+.container.hidden {
+  display: none;
+}
+
+/* --- Başlık --- */
+header {
+  background: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-primary);
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+}
+
+header h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* --- İçerik Bölümleri --- */
+#profile-section.content-section {
+  padding: 0;
+}
+.content-section {
+  padding: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: var(--bg-main);
+}
+
+/* --- Bölüm Başlığı ve Sıralama --- */
+.section-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sort-container {
+  position: relative;
+}
+
+.sort-button {
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sort-button:hover {
+  background-color: #30363d;
+  color: var(--text-primary);
+}
+
+.sort-button svg {
+  transition: transform 0.2s ease;
+}
+
+.sort-button.open svg {
+  transform: rotate(180deg);
+}
+
+.sort-options-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  background-color: #21262d;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+  width: 200px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.sort-options-menu:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sort-option {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sort-option:hover {
+  background-color: #30363d;
+  color: var(--text-primary);
+}
+
+.sort-option.active {
+  color: var(--accent-secondary);
+  font-weight: 600;
+  background-color: rgba(227, 179, 65, 0.1);
+}
+
+/* --- Film Kartları --- */
+.movie-item,
+.trending-item {
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.movie-item:hover,
+.trending-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.movie-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.movie-poster {
+  width: 75px;
+  height: 120px;
+  min-width: 75px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 1rem;
+  background-color: #21262d;
+  border: 1px solid var(--border-color);
+}
+
+.movie-details {
+  flex-grow: 1;
+}
+
+.movie-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.watched-date {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+}
+
+.short-comment {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  cursor: pointer;
+  transition: color 0.2s ease-out;
+}
+
+.short-comment:hover {
+  color: var(--text-primary);
+}
+
+.short-comment.expanded {
+  -webkit-line-clamp: unset;
+}
+
+/* --- Popüler Filmler Grid --- */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1rem;
+}
+
+.trending-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.trending-poster {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  background-color: #21262d;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.trending-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 0.6rem 0.4rem;
+  line-height: 1.3;
+}
+
+/* --- İskelet Yükleyiciler --- */
+@keyframes pulse-bg {
+  0% {
+    background-color: #21262d;
+  }
+  50% {
+    background-color: #30363d;
+  }
+  100% {
+    background-color: #21262d;
+  }
+}
+
+.skeleton-item {
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.skeleton-poster {
+  width: 100%;
+  height: 165px;
+  animation: pulse-bg 1.8s infinite ease-in-out;
+}
+
+.skeleton-title {
+  width: 80%;
+  height: 1rem;
+  border-radius: 6px;
+  margin: 0.6rem auto;
+  animation: pulse-bg 1.8s infinite ease-in-out;
+}
+
+/* --- Navigasyon Çubuğu --- */
+.nav-bar {
+  background: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-color);
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 15;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item:active {
+  transform: scale(0.95);
+}
+
+.nav-item.active {
+  color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+.nav-item.active svg {
+  stroke: var(--accent-secondary);
+}
+
+.nav-item svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 3px;
+  transition: stroke 0.2s ease;
+}
+
+/* --- Yüzen Buton --- */
+#add-movie-float-button {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: linear-gradient(45deg, var(--accent-primary), #f9a825);
+  color: white;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 56px;
+  box-shadow: 0 6px 20px rgba(247, 120, 38, 0.3);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease;
+  z-index: 12;
+  cursor: pointer;
+  border: none;
+}
+
+#add-movie-float-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(247, 120, 38, 0.4);
+}
+#add-movie-float-button:active {
+  transform: scale(1);
+}
+
+/* --- Modallar --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+}
+
+.modal-content {
+  background-color: var(--bg-surface);
+  border-radius: 0;
+  padding: 1.5rem;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  overflow-y: auto;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-top: 1px solid var(--border-color);
+}
+
+.modal-overlay.visible .modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-header button {
+  color: var(--text-secondary);
+}
+
+/* --- Form Elementleri --- */
+.form-group {
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 0 3px rgba(227, 179, 65, 0.2);
+}
+
+/* --- Yıldız Puanlama --- */
+.rating-input {
+  display: flex;
+  gap: 0.25rem;
+}
+.rating-input .star-container {
+  cursor: pointer;
+}
+
+.star-display-svg {
+  width: 1rem;
+  height: 1rem;
+}
+.rating-input .star-container svg.star-svg {
+  width: 2.2rem;
+  height: 2.2rem;
+  fill: #484f58;
+  transition: all 0.1s ease-in-out;
+}
+.rating-input .star-container:hover svg.star-svg {
+  transform: scale(1.1);
+}
+.rating-input .star-container.selected svg.star-svg {
+  fill: var(--accent-secondary);
+}
+.rating-input .star-container.selected-half svg.star-svg {
+  fill: url(#halfStarGradient);
+}
+
+/* --- Toggle Switch Stilleri --- */
+.toggle-switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-main);
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+.toggle-switch-label {
+  font-weight: 600;
+  pointer-events: none; /* Etiketin kendi olayını engelle */
+}
+.toggle-switch-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+  pointer-events: none; /* Kapsayıcının olayını engelle */
+}
+.toggle-switch-wrapper input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-switch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #30363d;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.toggle-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 27px;
+  width: 27px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .toggle-switch-slider {
+  background-color: var(--accent-primary);
+}
+input:checked + .toggle-switch-slider:before {
+  transform: translateX(20px);
+}
+
+/* --- Modal Butonları --- */
+.modal-actions {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+.modal-actions button {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  border: none;
+}
+.modal-actions button:active {
+  transform: scale(0.97);
+}
+.modal-actions .cancel-button {
+  background-color: #21262d;
+  color: var(--text-primary);
+}
+.modal-actions .cancel-button:hover {
+  background-color: #30363d;
+}
+.modal-actions .save-button {
+  background-color: var(--accent-primary);
+  color: white;
+}
+.modal-actions .save-button:hover {
+  background-color: var(--accent-primary-hover);
+}
+
+/* --- Form İçi Buton Grubu --- */
+.form-buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* YENİ: Animasyonlu gradyan için keyframes */
+@keyframes animated-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* YENİ: Üzerine gelince oluşan ışıltı efekti için keyframes */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) skewX(-20deg);
+    }
+    100% {
+        transform: translateX(200%) skewX(-20deg);
+    }
+}
+
+
+.enhance-comment-button, .chat-character-button {
+  color: white;
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  position: relative;
+  min-height: 40px;
+  overflow: hidden; /* Işıltı efektinin taşmasını engellemek için */
+}
+.enhance-comment-button:active, .chat-character-button:active {
+  transform: scale(0.97);
+}
+
+.enhance-comment-button {
+    background-color: var(--accent-magic);
+}
+.enhance-comment-button:hover {
+    background-color: var(--accent-magic-hover);
+}
+
+/* --- YENİ: "Karakterle Konuş" Butonunun Özel Stili --- */
+.chat-character-button {
+    border: 1px solid rgba(38, 136, 247, 0.5); /* Hafif bir sınır */
+    background-size: 200% 200%; /* Animasyon için gradyan boyutunu artır */
+    background-image: linear-gradient(
+        -45deg, 
+        #1a3d6d, 
+        var(--accent-chat), 
+        #4f9bff,
+        var(--accent-chat)
+    );
+    animation: animated-gradient 4s ease infinite; /* Canlı gradyan animasyonu */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.chat-character-button:hover {
+    transform: scale(1.03); /* Hafifçe büyüt */
+    box-shadow: 0 0 25px var(--accent-chat-glow), inset 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+/* YENİ: Üzerine gelince oluşan ışıltı efekti */
+.chat-character-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.3) 50%, 
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-150%) skewX(-20deg);
+    opacity: 0;
+    transition: none; /* Anlık geçiş için */
+}
+
+.chat-character-button:hover::before {
+    opacity: 1;
+    animation: shimmer 1s ease-in-out;
+    transition: opacity 0.2s ease;
+}
+
+
+.loading-spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.enhance-comment-button.loading .button-text,
+.chat-character-button.loading .button-text {
+  visibility: hidden;
+}
+
+.enhance-comment-button.loading .loading-spinner,
+.chat-character-button.loading .loading-spinner {
+  display: block;
+  position: absolute;
+}
+
+/* Yükleme durumundayken animasyonları ve efektleri durdur */
+.chat-character-button.loading {
+    animation: none;
+    box-shadow: none;
+}
+.chat-character-button.loading::before {
+    display: none;
+}
+
+
+/* --- Arama Sonuçları --- */
+.tmdb-search-results {
+  background-color: #21262d;
+  border: 1px solid var(--border-color);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.tmdb-result-item:hover {
+  background-color: #30363d;
+}
+.tmdb-result-item {
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+}
+.tmdb-result-item:last-child {
+  border-bottom: none;
+}
+.tmdb-result-poster {
+  width: 40px;
+  height: 60px;
+  margin-right: 12px;
+  border-radius: 4px;
+}
+.tmdb-result-title {
+  font-size: 0.95rem;
+}
+.tmdb-result-year {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* --- Film Detay Modalı --- */
+#detail-modal-body {
+  gap: 1.2rem;
+}
+#detail-movie-poster {
+  width: 100px;
+  height: 150px;
+  border-radius: 8px;
+}
+#detail-movie-overview {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.lottie-loader {
+  display: none;
+  margin: auto;
+}
+.lottie-loader.visible {
+  display: flex;
+}
+#detail-modal-body.hidden {
+  display: none;
+}
+.modal-body {
+  display: flex;
+}
+#detail-add-to-log-button {
+  background-color: var(--accent-secondary);
+  color: var(--bg-main);
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+#detail-add-to-log-button:hover {
+  background-color: var(--accent-secondary-hover);
+}
+#detail-add-to-log-button:active {
+  transform: scale(0.97);
+}
+
+/* --- Bildirim Sistemi --- */
+#notification-container {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 90%;
+  max-width: 500px;
+  pointer-events: none;
+}
+
+.notification {
+  width: auto;
+  max-width: 100%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInSlideUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.notification.fade-out {
+  animation: fadeOutSlideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutSlideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.notification.error {
+  background-color: var(--status-error);
+}
+
+.notification.success {
+  background-color: var(--status-success);
+}
+
+/* --- Giriş Yap Ekranı (Profil içi) --- */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+.auth-container.hidden {
+  display: none;
+}
+.auth-form-container {
+  width: 100%;
+  max-width: 380px;
+  background-color: var(--bg-surface);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+.auth-tab {
+  flex: 1;
+  padding: 0.8rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.auth-tab:hover {
+  color: var(--text-primary);
+}
+.auth-tab.active {
+  color: var(--accent-secondary);
+  border-bottom-color: var(--accent-secondary);
+}
+#email-auth-form input {
+  background-color: var(--bg-main);
+}
+#email-auth-form .form-group.invalid input {
+  border-color: var(--status-error);
+  box-shadow: 0 0 0 3px rgba(218, 54, 51, 0.2);
+}
+.email-error-message {
+  color: var(--status-error);
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  text-align: left;
+}
+.email-error-message:not(.hidden) {
+  display: block;
+}
+.password-input-wrapper {
+  position: relative;
+}
+.password-toggle-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 10px;
+  transform: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.password-toggle-btn:hover {
+  color: var(--text-primary);
+}
+#auth-submit-button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.auth-error {
+  color: var(--status-error);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.auth-error:not(.hidden) {
+  display: block;
+}
+
+/* --- Genel Buton Stili --- */
+.auth-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.auth-button:active {
+  transform: scale(0.97);
+}
+.auth-button.primary {
+  background-color: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+.auth-button.primary:hover {
+  background-color: var(--accent-primary-hover);
+}
+
+/* PROFİL SAYFASI YENİ TASARIM */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#profile-hero {
+  position: relative;
+  padding: 2rem 1rem;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid var(--border-color);
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-image 0.5s ease-in-out;
+}
+#profile-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--bg-main) 0%,
+    rgba(13, 17, 23, 0.7) 50%,
+    rgba(13, 17, 23, 0.4) 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+#profile-hero .profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid var(--accent-secondary);
+  box-shadow: 0 0 20px rgba(227, 179, 65, 0.4);
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+#profile-hero .profile-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+#profile-hero .profile-email {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: -5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.cinematic-identity {
+  margin-top: 1rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  background-image: linear-gradient(
+    45deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#profile-stats-panel {
+  padding: 1rem;
+  margin-top: -30px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.stat-group {
+  background: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  animation: slideInUp 0.5s ease-out forwards;
+  animation-delay: var(--animation-delay, 0ms);
+}
+.stat-group-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.25rem;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.overview-card {
+  background-color: var(--bg-surface);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+}
+.overview-card:last-child {
+  grid-column: 1 / -1;
+}
+.overview-icon {
+  color: var(--accent-secondary);
+}
+.overview-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.overview-text {
+  display: flex;
+  flex-direction: column;
+}
+.overview-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.overview-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.time-capsule-card {
+  border-left: 3px solid var(--accent-magic);
+  box-shadow: 0 0 20px rgba(130, 86, 208, 0.1);
+}
+.capsule-subtitle {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+.capsule-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--bg-main);
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+.capsule-icon-wrapper {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.capsule-icon-wrapper.time-travel {
+  background-color: rgba(130, 86, 208, 0.2);
+  color: var(--accent-magic);
+}
+.capsule-text p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.capsule-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.capsule-text em {
+  font-style: italic;
+  color: var(--accent-secondary);
+}
+.capsule-poster-small {
+  width: 40px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-left: auto;
+}
+.milestones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+.milestone-item {
+  background-color: var(--bg-main);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+.milestone-item p {
+  color: var(--text-secondary);
+}
+.milestone-item strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.rating-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+/* DÜZELTME 1: Puan dağılımı yıldız hizalama */
+.rating-bar-label {
+  min-width: 95px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-start;
+}
+.rating-bar {
+  flex-grow: 1;
+  height: 10px;
+  background-color: #2d333b;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.rating-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 10px 2px var(--glow-color, transparent);
+}
+.rating-bar-container[data-rating^="5"] .rating-bar-fill,
+.rating-bar-container[data-rating^="4.5"] .rating-bar-fill {
+  background: linear-gradient(90deg, #238636, #4ade80);
+  --glow-color: rgba(35, 134, 54, 0.5);
+}
+.rating-bar-container[data-rating^="4"] .rating-bar-fill,
+.rating-bar-container[data-rating^="3.5"] .rating-bar-fill {
+  background: linear-gradient(90deg, #e3b341, #fde047);
+  --glow-color: rgba(227, 179, 65, 0.5);
+}
+.rating-bar-container[data-rating^="3"] .rating-bar-fill,
+.rating-bar-container[data-rating^="2.5"] .rating-bar-fill {
+  background: linear-gradient(90deg, #f77826, #fbbf24);
+  --glow-color: rgba(247, 120, 38, 0.5);
+}
+.rating-bar-container[data-rating^="2"] .rating-bar-fill,
+.rating-bar-container[data-rating^="1.5"] .rating-bar-fill {
+  background: linear-gradient(90deg, #da3633, #f87171);
+  --glow-color: rgba(218, 54, 51, 0.5);
+}
+.rating-bar-container[data-rating^="1"] .rating-bar-fill,
+.rating-bar-container[data-rating^="0.5"] .rating-bar-fill {
+  background: linear-gradient(90deg, #b02a2a, #ef4444);
+  --glow-color: rgba(176, 42, 42, 0.5);
+}
+.rating-bar-count {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 25px;
+  text-align: right;
+}
+
+/* Rozet Vitrini Stilleri */
+.badge-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.badge-count {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: var(--bg-main);
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+}
+.badge-showcase {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.featured-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+.featured-badge-icon {
+  font-size: 3.5rem;
+  width: 80px;
+  height: 80px;
+  background-color: var(--bg-surface);
+  border: 2px solid var(--accent-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(227, 179, 65, 0.3);
+}
+.featured-badge-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+.featured-badge-label {
+  font-size: 0.75rem;
+  color: var(--accent-secondary);
+  margin-top: -5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.other-badges {
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.badge-icon-preview {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+.badge-icon-preview:hover {
+  opacity: 1;
+}
+
+/* DÜZELTME 2: Genişletilebilir Rozet Koleksiyonu Stilleri */
+.badge-collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+  padding-right: 8px;
+}
+.badge-collection-grid.expanded {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.badge-card {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.badge-card.locked {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+.badge-card.earned {
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 10px rgba(227, 179, 65, 0.1);
+}
+.badge-card.earned:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(227, 179, 65, 0.2);
+}
+.badge-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.badge-text {
+  display: flex;
+  flex-direction: column;
+}
+.badge-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.badge-locked-text {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.toggle-badges-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.6rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.toggle-badges-btn:hover {
+  background-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+#profile-section .auth-button.danger {
+  background-color: rgba(218, 54, 51, 0.1);
+  border-color: rgba(218, 54, 51, 0.5);
+  color: #f87171;
+  width: calc(100% - 2rem);
+  margin: 1.5rem 1rem 1rem 1rem;
+}
+#profile-section .auth-button.danger:hover {
+  background-color: rgba(218, 54, 51, 0.2);
+  border-color: var(--status-error);
+}
+
+.micro-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.micro-modal-overlay.hidden {
+  display: none;
+}
+.micro-modal-overlay.visible {
+  opacity: 1;
+}
+.micro-modal-content {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.micro-modal-overlay.visible .micro-modal-content {
+  transform: scale(1);
+}
+.micro-modal-icon {
+  font-size: 3rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.micro-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.micro-modal-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.micro-modal-close-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.micro-modal-close-btn:hover {
+  background-color: var(--accent-primary-hover);
+}
+
+/* Filtreleme Butonu ve Modalı Stilleri */
+
+.filter-button,
+.sort-button {
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-button:hover,
+.sort-button:hover {
+  background-color: #30363d;
+  color: var(--text-primary);
+}
+
+.filter-button.active {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 10px rgba(247, 120, 38, 0.3);
+}
+
+.filter-button.active svg {
+  stroke: var(--accent-primary);
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.8rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.filter-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.genre-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.genre-filter-label {
+  display: block;
+  cursor: pointer;
+}
+
+.genre-filter-label input {
+  display: none;
+}
+
+.genre-filter-label span {
+  display: block;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.genre-filter-label input:checked + span {
+  background-color: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  color: var(--bg-main);
+  font-weight: 600;
+}
+
+/* Yeni Çift Başlıklı Slider Stilleri */
+.dual-range-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.range-values span:first-child,
+.range-values span:last-child {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dual-range-slider {
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+.slider-track {
+  position: absolute;
+  height: 5px;
+  width: 100%;
+  background-color: var(--border-color);
+  border-radius: 3px;
+  z-index: 1;
+}
+.slider-progress {
+  position: absolute;
+  height: 5px;
+  background-color: var(--accent-primary);
+  border-radius: 3px;
+  z-index: 2;
+}
+.dual-range-slider input[type="range"] {
+  -webkit-appearance: none;
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  pointer-events: none; /* Kapsayıcıya olayları devret */
+  z-index: 3;
+}
+.dual-range-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto; /* Sadece başlıklar tıklanabilir olsun */
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--bg-surface);
+  background: var(--accent-primary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.dual-range-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--bg-surface);
+  background: var(--accent-primary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.year-range-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.year-range-container span {
+  color: var(--text-secondary);
+}
+.year-range-container input {
+  width: 100%;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+}
+.year-range-container input::-webkit-outer-spin-button,
+.year-range-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.year-range-container input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Özel Listeler Sayfası Tasarımı */
+.special-lists-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+@keyframes fadeInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.list-card-v2 {
+  background: rgba(28, 34, 41, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+  animation: fadeInStagger 0.6s ease-out forwards;
+  animation-delay: var(--animation-delay, 0ms);
+}
+
+.list-card-v2:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.list-card-v2:active {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: 0.1s;
+}
+
+.list-card-image-container {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.list-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.list-card-v2:hover .list-card-image {
+  transform: scale(1.05);
+}
+
+.list-card-text-content {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.list-card-v2 .list-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.list-card-v2 .list-card-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+.list-card-chevron {
+  color: var(--text-secondary);
+  align-self: center;
+  margin-left: 1rem;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.list-card-v2:hover .list-card-chevron {
+  opacity: 1;
+}
+
+/* YENİ: Karakter Seçim Modalı Stilleri */
+.character-list-container {
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.character-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background-color: var(--bg-main);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.character-item:hover {
+    background-color: var(--border-color);
+    transform: scale(1.02);
+}
+.character-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #2d333b;
+}
+.character-info {
+    flex-grow: 1;
+}
+.character-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.character-actor {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* YENİ: Sohbet Arayüzü Modalı Stilleri */
+.modal-content.chat-modal-content {
+    padding: 0;
+}
+.chat-header {
+    padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    background-color: rgba(22, 27, 34, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.chat-header-character-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.chat-header-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.chat-header h2 {
+    font-size: 1.2rem;
+}
+.chat-messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.chat-message {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 85%;
+}
+.chat-message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+.chat-message.ai {
+    align-self: flex-start;
+}
+.message-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.message-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 18px;
+    line-height: 1.5;
+}
+.chat-message.user .message-bubble {
+    background-color: var(--accent-chat);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+.chat-message.ai .message-bubble {
+    background-color: #2d333b;
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+}
+.message-bubble.thinking {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+@keyframes thinking-dot { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+.message-bubble.thinking span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    animation: thinking-dot 1.4s infinite ease-in-out both;
+}
+.message-bubble.thinking span:nth-child(1) { animation-delay: -0.32s; }
+.message-bubble.thinking span:nth-child(2) { animation-delay: -0.16s; }
+
+.chat-form {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+    flex-shrink: 0;
+}
+#chat-message-input {
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+#chat-message-input:focus {
+    outline: none;
+    border-color: var(--accent-chat);
+}
+#chat-send-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--accent-chat);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+#chat-send-btn:hover {
+    background-color: var(--accent-chat-hover);
+}
+
+/* YENİ: Sohbet Arayüzü Modalı Stilleri */
+.modal-body p { /* Genel modal body p etiketleri için */
+  color: var(--text-secondary);
+}
+#moviePromptInput {
+  resize: vertical; /* Sadece dikeyde boyutlandırmaya izin ver */
+}
+
+.modal-content.loading-spinner-content {
+  background-color: transparent; /* Arka plan şeffaf */
+  box-shadow: none; /* Gölge yok */
+  border: none; /* Kenarlık yok */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-suggest-button {
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-left: auto; /* Sağa yasla */
+}
+.header-suggest-button:hover { background-color: var(--accent-primary-hover); }
+.header-suggest-button:active { transform: scale(0.95); }
+
