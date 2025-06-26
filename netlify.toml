@@ -1,0 +1,56 @@
+<<<<<<< HEAD
+# netlify.toml
+[build]
+  command = "npm install"
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+# TMDB Proxy için özel yönlendirme kuralı
+# /api/tmdb/ ile başlayan tüm istekleri tmdb-proxy.js fonksiyonuna yönlendirir.
+[[redirects]]
+  from = "/api/tmdb/*"
+  to = "/.netlify/functions/tmdb-proxy/:splat"
+  status = 200
+
+# Gemini Proxy için özel yönlendirme kuralı
+# /api/gemini adresine gelen istekleri gemini-proxy.js fonksiyonuna yönlendirir.
+[[redirects]]
+  from = "/api/gemini"
+  to = "/.netlify/functions/gemini-proxy"
+  status = 200
+
+# Film Öneri Proxy için özel yönlendirme kuralı
+[[redirects]]
+  from = "/api/suggest-movie"
+  to = "/.netlify/functions/suggest-movie"
+=======
+# netlify.toml
+[build]
+  command = "npm install"
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+# TMDB Proxy için özel yönlendirme kuralı
+# /api/tmdb/ ile başlayan tüm istekleri tmdb-proxy.js fonksiyonuna yönlendirir.
+[[redirects]]
+  from = "/api/tmdb/*"
+  to = "/.netlify/functions/tmdb-proxy/:splat"
+  status = 200
+
+# Gemini Proxy için özel yönlendirme kuralı
+# /api/gemini adresine gelen istekleri gemini-proxy.js fonksiyonuna yönlendirir.
+[[redirects]]
+  from = "/api/gemini"
+  to = "/.netlify/functions/gemini-proxy"
+  status = 200
+
+# Film Öneri Proxy için özel yönlendirme kuralı
+[[redirects]]
+  from = "/api/suggest-movie"
+  to = "/.netlify/functions/suggest-movie"
+>>>>>>> 0774527a2897dff5e06e515d8b1bb027ffd7a00e
+  status = 200
