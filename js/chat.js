@@ -93,17 +93,23 @@ function openCharacterSelectionModal() {
     characterListContainer.innerHTML = ''; // Önceki listeyi temizle
     characterListLoader.style.display = 'flex';
     characterListContainer.appendChild(characterListLoader);
-    characterSelectionModal.classList.remove('hidden'); // Modalı göstermeden önce 'hidden' sınıfını kaldır
-    characterSelectionModal.classList.add('visible');
+    characterSelectionModal.classList.remove('hidden');
+    // Küçük bir gecikme ile 'visible' sınıfını ekle
+    setTimeout(() => characterSelectionModal.classList.add('visible'), 10);
     document.body.classList.add('no-scroll');
 }
 
 /**
  * Karakter seçimi modalını gizler.
  */
-function closeCharacterSelectionModal() {
-    characterSelectionModal.classList.add('hidden'); // Modalı gizledikten sonra 'hidden' sınıfını tekrar ekle
-    characterSelectionModal.classList.remove('visible');
+function closeCharacterSelectionModal() {    
+    characterSelectionModal.classList.remove('visible'); // Animasyonu başlat
+    // Animasyon bittikten sonra 'hidden' sınıfını ekle
+    characterSelectionModal.addEventListener('transitionend', function handler() {
+        characterSelectionModal.removeEventListener('transitionend', handler); // Dinleyiciyi kaldır
+        characterSelectionModal.classList.add('hidden');
+    }, { once: true });
+
     if (!chatInterfaceModal.classList.contains('visible')) {
         document.body.classList.remove('no-scroll');
     }
@@ -166,8 +172,9 @@ function openChatInterfaceModal() {
     chatHeaderName.textContent = characterName;
     chatHeaderAvatar.src = currentCharacter.profile_path ? TMDB_IMAGE_BASE_URL_W185 + currentCharacter.profile_path : 'https://placehold.co/60x60/2A2A2A/AAAAAA?text=?';
 
-    chatInterfaceModal.classList.remove('hidden'); // Modalı göstermeden önce 'hidden' sınıfını kaldır
-    chatInterfaceModal.classList.add('visible');
+    chatInterfaceModal.classList.remove('hidden');
+    // Küçük bir gecikme ile 'visible' sınıfını ekle
+    setTimeout(() => chatInterfaceModal.classList.add('visible'), 10);
     document.body.classList.add('no-scroll');
 
     // İlk AI mesajını ekle
@@ -179,9 +186,13 @@ function openChatInterfaceModal() {
 /**
  * Sohbet arayüzü modalını gizler.
  */
-function closeChatInterfaceModal() {
-    chatInterfaceModal.classList.add('hidden'); // Modalı gizledikten sonra 'hidden' sınıfını tekrar ekle
-    chatInterfaceModal.classList.remove('visible');
+function closeChatInterfaceModal() {    
+    chatInterfaceModal.classList.remove('visible'); // Animasyonu başlat
+    chatInterfaceModal.addEventListener('transitionend', function handler() {
+        chatInterfaceModal.removeEventListener('transitionend', handler); // Dinleyiciyi kaldır
+        chatInterfaceModal.classList.add('hidden');
+    }, { once: true });
+
     if (!characterSelectionModal.classList.contains('visible')) {
         document.body.classList.remove('no-scroll');
     }
