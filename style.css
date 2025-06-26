@@ -2171,3 +2171,115 @@ input:checked + .toggle-switch-slider:before {
 .header-suggest-button:hover { background-color: var(--accent-primary-hover); }
 .header-suggest-button:active { transform: scale(0.95); }
 
+/* --- Film Öneri Modalı (promptModalOverlay) İyileştirmeleri --- */
+
+/* Ana modal yapısını flexbox ile düzenleyerek taşmaları önle */
+.prompt-modal-content {
+  display: flex;
+  flex-direction: column;
+  height: auto; /* İçeriğe göre yükseklik */
+  max-height: 90vh; /* Ekranın %90'ından fazla büyümesin */
+  background: linear-gradient(145deg, #2c2c3e, #1e1e2a);
+  border: 1px solid #4a4a6a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden; /* Köşelerin yuvarlaklığını korumak için */
+}
+
+/* Header ve Actions alanlarının boyutunu sabit tut ve boşluk ekle */
+.prompt-modal-content .modal-header,
+.prompt-modal-content .modal-actions {
+  flex-shrink: 0;
+  padding: 1rem 1.5rem;
+}
+
+.prompt-modal-content .modal-header {
+  border-bottom: 1px solid #3a3a5a;
+}
+
+.prompt-modal-content .modal-actions {
+  border-top: 1px solid #3a3a5a;
+  background-color: rgba(0,0,0,0.1);
+}
+
+/* Body alanının kalan alanı doldurmasını ve gerekirse kaydırılabilir olmasını sağla */
+.prompt-modal-content .modal-body {
+  flex-grow: 1;
+  overflow-y: auto; /* Dikeyde taşarsa scroll bar çıksın */
+  padding: 1.5rem; /* İç boşlukları ayarla */
+}
+
+/* Modal başlığındaki ikon rengi */
+.prompt-modal-content .modal-header .text-purple-400 {
+  color: #a78bfa;
+}
+
+/* Textarea için modern görünüm */
+#moviePromptInput {
+  background-color: #2a2a38;
+  border: 1px solid #4a4a6a;
+  border-radius: 8px;
+  padding: 12px;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  resize: vertical;
+  min-height: 100px;
+  width: 100%;
+}
+
+#moviePromptInput::placeholder {
+  color: #7a7a8c;
+}
+
+#moviePromptInput:focus {
+  outline: none;
+  border-color: #8b5cf6; /* Tailwind purple-500 */
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Örnek prompt butonları */
+.example-prompt-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #4a4a6a;
+  color: #c0c0d0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.1s;
+}
+
+.example-prompt-btn:hover {
+  background-color: rgba(139, 92, 246, 0.2);
+  color: #fff;
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.example-prompt-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ana "Film Bul" butonu */
+#submitPromptBtn.prompt-submit-btn {
+  width: 100%;
+  background: linear-gradient(to right, #8b5cf6, #6d28d9);
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#submitPromptBtn.prompt-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
+}
+
+#submitPromptBtn.prompt-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+}
+
+
