@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>SineLog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -50,132 +50,357 @@
         <!-- Profilim butonu buraya taşındı ve Instagram stili verildi -->
         <a href="#" class="nav-item header-profile-button" id="nav-profile">
           <!-- Geçici olarak logo.png kullanıldı, gerçek profil resmi buraya gelecek -->
-          <img src="logo.png" alt="Profil" class="profile-avatar-small">
+          <img src="logo.png" alt="Profil" class="profile-avatar-small" />
         </a>
       </header>
-
 
       <a href="#" id="add-movie-float-button"> + </a>
 
       <main style="padding-bottom: 80px">
         <div id="my-watched-movies-section" class="content-section hidden">
-            <div class="section-header justify-between">
-              <button id="filter-button" class="filter-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                <span>Filtrele</span>
+          <div class="section-header justify-between">
+            <button id="filter-button" class="filter-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon
+                  points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+                ></polygon>
+              </svg>
+              <span>Filtrele</span>
+            </button>
+            <div class="sort-container">
+              <button id="sort-button" class="sort-button">
+                <span>Sırala: En Yeni</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
               </button>
-              <div class="sort-container">
-                <button id="sort-button" class="sort-button">
-                  <span>Sırala: En Yeni</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                </button>
-                <div id="sort-options-menu" class="sort-options-menu hidden">
-                    <a href="#" class="sort-option active" data-sort="date-desc">İzleme Tarihi (En Yeni)</a>
-                    <a href="#" class="sort-option" data-sort="date-asc">İzleme Tarihi (En Eski)</a>
-                    <a href="#" class="sort-option" data-sort="rating-desc">Puan (Yüksekten Düşüğe)</a>
-                    <a href="#" class="sort-option" data-sort="rating-asc">Puan (Düşükten Yükseğe)</a>
-                    <a href="#" class="sort-option" data-sort="title-asc">Film Adı (A-Z)</a>
-                </div>
+              <div id="sort-options-menu" class="sort-options-menu hidden">
+                <a href="#" class="sort-option active" data-sort="date-desc"
+                  >İzleme Tarihi (En Yeni)</a
+                >
+                <a href="#" class="sort-option" data-sort="date-asc"
+                  >İzleme Tarihi (En Eski)</a
+                >
+                <a href="#" class="sort-option" data-sort="rating-desc"
+                  >Puan (Yüksekten Düşüğe)</a
+                >
+                <a href="#" class="sort-option" data-sort="rating-asc"
+                  >Puan (Düşükten Yükseğe)</a
+                >
+                <a href="#" class="sort-option" data-sort="title-asc"
+                  >Film Adı (A-Z)</a
+                >
               </div>
             </div>
-            <div id="my-movies-list" class=""></div>
-            <p id="my-movies-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden">Henüz hiç film kaydetmediniz.</p>
+          </div>
+          <div id="my-movies-list" class=""></div>
+          <p
+            id="my-movies-empty-message"
+            class="text-center text-gray-500 mt-8 p-4 hidden"
+          >
+            Henüz hiç film kaydetmediniz.
+          </p>
         </div>
 
         <div id="trending-movies-section" class="content-section hidden">
           <div id="trending-movies-grid" class="trending-grid"></div>
-          <p id="trending-error-message" class="text-center text-red-500 mt-4 hidden"></p>
+          <p
+            id="trending-error-message"
+            class="text-center text-red-500 mt-4 hidden"
+          ></p>
         </div>
 
         <div id="special-lists-section" class="content-section hidden">
-            </div>
+          <div id="special-lists-loader" class="lottie-loader hidden">
+            <dotlottie-player
+              src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
+              background="transparent"
+              speed="1"
+              style="width: 250px; height: 250px"
+              loop
+              autoplay
+            ></dotlottie-player>
+          </div>
 
+          <div id="special-lists-content-container"></div>
+        </div>
+        
         <div id="list-detail-section" class="content-section hidden">
-            <div class="list-detail-header">
-                <button id="back-to-lists-btn" class="back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <h2 id="list-detail-title" class="text-xl font-bold"></h2>
-            </div>
-            <div id="list-detail-grid" class="trending-grid">
-                </div>
+          <div class="list-detail-header">
+            <button id="back-to-lists-btn" class="back-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <h2 id="list-detail-title" class="text-xl font-bold"></h2>
+          </div>
+          <div id="list-detail-grid" class="trending-grid"></div>
         </div>
 
         <div id="watch-later-movies-section" class="content-section hidden">
           <div id="watch-later-movies-list" class=""></div>
-          <p id="watch-later-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden">Daha sonra izlenecek filminiz bulunmuyor.</p>
+          <p
+            id="watch-later-empty-message"
+            class="text-center text-gray-500 mt-8 p-4 hidden"
+          >
+            Daha sonra izlenecek filminiz bulunmuyor.
+          </p>
         </div>
 
         <div id="profile-section" class="content-section hidden">
-            <div id="profile-logged-in-view" class="hidden">
-                <div id="profile-hero">
-                    <div class="hero-content">
-                        <img id="profile-avatar" src="logo.png" alt="Profil Simgesi" class="profile-avatar">
-                        <h2 id="profile-name" class="profile-name">Kullanıcı</h2>
-                        <p id="profile-email" class="profile-email">kullanici@eposta.com</p>
-                        <div id="cinematic-identity-badge" class="cinematic-identity"></div>
-                    </div>
-                </div>
-                <div id="profile-stats-panel"></div>
-                <button id="sign-out-button" class="auth-button danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="auth-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    <span>Çıkış Yap</span>
+          <div id="profile-logged-in-view" class="hidden">
+            <div id="profile-hero">
+              <div class="hero-content">
+                <img
+                  id="profile-avatar"
+                  src="logo.png"
+                  alt="Profil Simgesi"
+                  class="profile-avatar"
+                />
+                <h2 id="profile-name" class="profile-name">Kullanıcı</h2>
+                <p id="profile-email" class="profile-email">
+                  kullanici@eposta.com
+                </p>
+                <div
+                  id="cinematic-identity-badge"
+                  class="cinematic-identity"
+                ></div>
+              </div>
+            </div>
+            <div id="profile-stats-panel"></div>
+            <button id="sign-out-button" class="auth-button danger">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="auth-icon"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              <span>Çıkış Yap</span>
+            </button>
+          </div>
+          <div id="profile-logged-out-view" class="auth-container hidden">
+            <div class="auth-form-container">
+              <div class="auth-tabs">
+                <button id="auth-tab-login" class="auth-tab active">
+                  Giriş Yap
                 </button>
-            </div>
-            <div id="profile-logged-out-view" class="auth-container hidden">
-                <div class="auth-form-container">
-                    <div class="auth-tabs">
-                        <button id="auth-tab-login" class="auth-tab active">Giriş Yap</button>
-                        <button id="auth-tab-signup" class="auth-tab">Kayıt Ol</button>
-                    </div>
-                    <form id="email-auth-form">
-                        <div class="form-group">
-                            <label for="auth-email">E-posta</label>
-                            <input type="email" id="auth-email" required autocomplete="email" placeholder="ornek@posta.com">
-                            <p id="auth-email-error" class="email-error-message hidden">Lütfen geçerli bir e-posta adresi girin.</p>
-                        </div>
-                        <div class="form-group password-input-wrapper">
-                            <label for="auth-password">Parola</label>
-                            <input type="password" id="auth-password" required autocomplete="current-password" placeholder="••••••••">
-                            <button type="button" id="auth-password-toggle" class="password-toggle-btn">
-                                <svg id="eye-open-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                <svg id="eye-closed-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
-                            </button>
-                        </div>
-                        <button type="submit" id="auth-submit-button" class="auth-button primary">Giriş Yap</button>
-                    </form>
-                    <p id="auth-error-message" class="auth-error hidden"></p>
+                <button id="auth-tab-signup" class="auth-tab">Kayıt Ol</button>
+              </div>
+              <form id="email-auth-form">
+                <div class="form-group">
+                  <label for="auth-email">E-posta</label>
+                  <input
+                    type="email"
+                    id="auth-email"
+                    required
+                    autocomplete="email"
+                    placeholder="ornek@posta.com"
+                  />
+                  <p id="auth-email-error" class="email-error-message hidden">
+                    Lütfen geçerli bir e-posta adresi girin.
+                  </p>
                 </div>
+                <div class="form-group password-input-wrapper">
+                  <label for="auth-password">Parola</label>
+                  <input
+                    type="password"
+                    id="auth-password"
+                    required
+                    autocomplete="current-password"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    id="auth-password-toggle"
+                    class="password-toggle-btn"
+                  >
+                    <svg
+                      id="eye-open-icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <svg
+                      id="eye-closed-icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="hidden"
+                    >
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                      <path
+                        d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                      />
+                      <path
+                        d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"
+                      />
+                      <line x1="2" x2="22" y1="2" y2="22" />
+                    </svg>
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  id="auth-submit-button"
+                  class="auth-button primary"
+                >
+                  Giriş Yap
+                </button>
+              </form>
+              <p id="auth-error-message" class="auth-error hidden"></p>
             </div>
+          </div>
         </div>
       </main>
       <nav class="nav-bar">
         <a href="#" class="nav-item" id="nav-my-log">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="15" x="2" y="3" rx="2" /><path d="M12 17v4" /><path d="M8 21h8" /></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect width="20" height="15" x="2" y="3" rx="2" />
+            <path d="M12 17v4" />
+            <path d="M8 21h8" />
+          </svg>
           <span>İzlediklerim</span>
         </a>
         <a href="#" class="nav-item" id="nav-trending">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+            <polyline points="16 7 22 7 22 13" />
+          </svg>
           <span>Popüler</span>
         </a>
         <a href="#" class="nav-item" id="nav-lists">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
-            <span>Listeler</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M8 6h13" />
+            <path d="M8 12h13" />
+            <path d="M8 18h13" />
+            <path d="M3 6h.01" />
+            <path d="M3 12h.01" />
+            <path d="M3 18h.01" />
+          </svg>
+          <span>Listeler</span>
         </a>
         <a href="#" class="nav-item" id="nav-watch-later">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" /></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+          </svg>
           <span>Daha Sonra</span>
         </a>
         <!-- Film Öner butonu buraya taşındı ve nav-bar stiline uygun hale getirildi -->
         <button id="suggestMovieBtn" class="nav-item nav-suggest-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+            />
           </svg>
           <span>AI Önerisi</span>
         </button>
       </nav>
     </div>
-    
+
     <div id="movie-modal-overlay" class="modal-overlay hidden">
       <div class="modal-content">
         <div class="modal-header">
@@ -190,9 +415,21 @@
           <input type="hidden" id="movie-director-input" />
           <div class="form-group">
             <label for="movie-title-input">Film Adı:</label>
-            <input type="text" id="movie-title-input" required placeholder="Film adı yazmaya başlayın..."/>
-            <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
-            <p id="tmdb-search-message" class="tmdb-search-message" style="display: none"></p>
+            <input
+              type="text"
+              id="movie-title-input"
+              required
+              placeholder="Film adı yazmaya başlayın..."
+            />
+            <div
+              id="tmdb-search-results"
+              class="tmdb-search-results hidden"
+            ></div>
+            <p
+              id="tmdb-search-message"
+              class="tmdb-search-message"
+              style="display: none"
+            ></p>
           </div>
           <input type="hidden" id="movie-poster-input" />
           <div class="form-group">
@@ -212,21 +449,37 @@
           </div>
           <div class="form-group">
             <label for="movie-comment-input">Yorumunuz:</label>
-            <textarea id="movie-comment-input" rows="3" placeholder="Filme dair düşüncelerinizi buraya yazın..."></textarea>
+            <textarea
+              id="movie-comment-input"
+              rows="3"
+              placeholder="Filme dair düşüncelerinizi buraya yazın..."
+            ></textarea>
             <div class="form-buttons-group">
-                <button type="button" id="enhance-comment-button" class="enhance-comment-button">
-                    <span class="loading-spinner"></span>
-                    <span class="button-text">✨ Yorumumu Geliştir</span>
-                </button>
-                <button type="button" id="chat-with-character-button" class="chat-character-button hidden">
-                    <span class="loading-spinner"></span>
-                    <span class="button-text">🎭 Karakterle Sohbet Et</span>
-                </button>
+              <button
+                type="button"
+                id="enhance-comment-button"
+                class="enhance-comment-button"
+              >
+                <span class="loading-spinner"></span>
+                <span class="button-text">✨ Yorumumu Geliştir</span>
+              </button>
+              <button
+                type="button"
+                id="chat-with-character-button"
+                class="chat-character-button hidden"
+              >
+                <span class="loading-spinner"></span>
+                <span class="button-text">🎭 Karakterle Sohbet Et</span>
+              </button>
             </div>
           </div>
           <div class="modal-actions">
-            <button type="button" id="cancel-button" class="cancel-button">İptal</button>
-            <button type="submit" id="save-button" class="save-button">Kaydet</button>
+            <button type="button" id="cancel-button" class="cancel-button">
+              İptal
+            </button>
+            <button type="submit" id="save-button" class="save-button">
+              Kaydet
+            </button>
           </div>
         </form>
       </div>
@@ -236,34 +489,95 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2 id="detail-modal-title" class="text-xl font-bold"></h2>
-          <button type="button" id="close-detail-modal-button" class="close-modal-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+          <button
+            type="button"
+            id="close-detail-modal-button"
+            class="close-modal-btn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
           </button>
         </div>
         <div id="detail-lottie-loader" class="lottie-loader">
-            <dotlottie-player src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+          <dotlottie-player
+            src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
+            background="transparent"
+            speed="1"
+            style="width: 300px; height: 300px"
+            loop
+            autoplay
+          ></dotlottie-player>
         </div>
-        <div id="detail-modal-body" class="modal-body flex flex-col gap-4 overflow-y-auto">
+        <div
+          id="detail-modal-body"
+          class="modal-body flex flex-col gap-4 overflow-y-auto"
+        >
           <div class="flex items-start gap-4">
-            <img id="detail-movie-poster" src="" alt="Film Poster" class="w-28 h-40 rounded-lg object-cover bg-gray-700" onerror="this.onerror=null;this.src='https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok';"/>
+            <img
+              id="detail-movie-poster"
+              src=""
+              alt="Film Poster"
+              class="w-28 h-40 rounded-lg object-cover bg-gray-700"
+              onerror="this.onerror=null;this.src='https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok';"
+            />
             <div class="flex-1">
-              <p id="detail-movie-release-date" class="text-sm text-gray-400 mb-1"></p>
-              <p id="detail-movie-genres" class="text-sm text-gray-400 mb-2"></p>
-              <p id="detail-movie-director" class="text-sm text-gray-400 mb-2"></p>
-              <p id="detail-movie-overview" class="text-gray-300 text-sm leading-relaxed"></p>
+              <p
+                id="detail-movie-release-date"
+                class="text-sm text-gray-400 mb-1"
+              ></p>
+              <p
+                id="detail-movie-genres"
+                class="text-sm text-gray-400 mb-2"
+              ></p>
+              <p
+                id="detail-movie-director"
+                class="text-sm text-gray-400 mb-2"
+              ></p>
+              <p
+                id="detail-movie-overview"
+                class="text-gray-300 text-sm leading-relaxed"
+              ></p>
             </div>
           </div>
           <div id="detail-movie-trailer-section" class="mt-4 hidden">
             <h3 class="text-lg font-semibold text-gray-200 mb-2">Fragman</h3>
-            <div class="relative pt-[56.25%] bg-black rounded-lg overflow-hidden">
-              <iframe id="detail-movie-trailer-iframe" class="absolute top-0 left-0 w-full h-full rounded-lg" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div
+              class="relative pt-[56.25%] bg-black rounded-lg overflow-hidden"
+            >
+              <iframe
+                id="detail-movie-trailer-iframe"
+                class="absolute top-0 left-0 w-full h-full rounded-lg"
+                src=""
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
-          <button type="button" id="detail-add-to-log-button" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors duration-200">İzlediklerime Ekle</button>
+          <button
+            type="button"
+            id="detail-add-to-log-button"
+            class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors duration-200"
+          >
+            İzlediklerime Ekle
+          </button>
         </div>
       </div>
     </div>
-    
+
     <div id="notification-container"></div>
 
     <div id="badge-info-modal" class="micro-modal-overlay hidden">
@@ -271,7 +585,9 @@
         <span id="badge-info-icon" class="micro-modal-icon"></span>
         <h4 id="badge-info-name" class="micro-modal-title"></h4>
         <p id="badge-info-description" class="micro-modal-description"></p>
-        <button id="badge-info-close-btn" class="micro-modal-close-btn">Anladım</button>
+        <button id="badge-info-close-btn" class="micro-modal-close-btn">
+          Anladım
+        </button>
       </div>
     </div>
 
@@ -279,13 +595,17 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>Filtrele</h2>
-          <button id="close-filter-modal-button" class="close-modal-btn">&times;</button>
+          <button id="close-filter-modal-button" class="close-modal-btn">
+            &times;
+          </button>
         </div>
         <div class="filter-modal-body">
           <div class="filter-group">
             <label class="filter-label">Türe Göre</label>
-            <div id="genre-filter-container" class="genre-filter-container">
-            </div>
+            <div
+              id="genre-filter-container"
+              class="genre-filter-container"
+            ></div>
           </div>
           <div class="filter-group">
             <label class="filter-label">Puan Aralığı</label>
@@ -298,87 +618,198 @@
               <div class="dual-range-slider">
                 <div class="slider-track"></div>
                 <div id="slider-progress" class="slider-progress"></div>
-                <input type="range" min="1" max="5" value="1" step="0.5" id="rating-slider-min">
-                <input type="range" min="1" max="5" value="5" step="0.5" id="rating-slider-max">
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value="1"
+                  step="0.5"
+                  id="rating-slider-min"
+                />
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value="5"
+                  step="0.5"
+                  id="rating-slider-max"
+                />
               </div>
             </div>
           </div>
           <div class="filter-group">
             <label class="filter-label">Yayın Yılı Aralığı</label>
             <div class="year-range-container">
-              <input type="number" id="year-start-input" placeholder="örn: 1990">
+              <input
+                type="number"
+                id="year-start-input"
+                placeholder="örn: 1990"
+              />
               <span>-</span>
-              <input type="number" id="year-end-input" placeholder="örn: 2024">
+              <input
+                type="number"
+                id="year-end-input"
+                placeholder="örn: 2024"
+              />
             </div>
           </div>
         </div>
         <div class="modal-actions">
-          <button type="button" id="clear-filter-btn" class="cancel-button">Temizle</button>
-          <button type="button" id="apply-filter-btn" class="save-button">Uygula</button>
+          <button type="button" id="clear-filter-btn" class="cancel-button">
+            Temizle
+          </button>
+          <button type="button" id="apply-filter-btn" class="save-button">
+            Uygula
+          </button>
         </div>
       </div>
     </div>
 
     <div id="character-selection-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Bir Karakter Seç</h2>
-                <button type="button" id="close-character-selection-modal-btn" class="close-modal-btn">&times;</button>
-            </div>
-            <div id="character-list-container" class="character-list-container">
-                <div id="character-list-loader" class="lottie-loader visible">
-                    <dotlottie-player src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
-                </div>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Bir Karakter Seç</h2>
+          <button
+            type="button"
+            id="close-character-selection-modal-btn"
+            class="close-modal-btn"
+          >
+            &times;
+          </button>
         </div>
+        <div id="character-list-container" class="character-list-container">
+          <div id="character-list-loader" class="lottie-loader visible">
+            <dotlottie-player
+              src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
+              background="transparent"
+              speed="1"
+              style="width: 250px; height: 250px"
+              loop
+              autoplay
+            ></dotlottie-player>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="chat-interface-modal" class="modal-overlay hidden">
-        <div class="modal-content chat-modal-content">
-            <div class="modal-header chat-header">
-                <div class="chat-header-character-info">
-                    <img id="chat-header-character-avatar" src="" alt="Karakter" class="chat-header-avatar">
-                    <h2 id="chat-header-character-name"></h2>
-                </div>
-                <button type="button" id="close-chat-interface-modal-btn" class="close-modal-btn">&times;</button>
-            </div>
-            <div id="chat-messages-container" class="chat-messages-container">
-                </div>
-            <form id="chat-form" class="chat-form">
-                <input type="text" id="chat-message-input" placeholder="Mesajınızı yazın..." autocomplete="off" required>
-                <button type="submit" id="chat-send-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-            </form>
+      <div class="modal-content chat-modal-content">
+        <div class="modal-header chat-header">
+          <div class="chat-header-character-info">
+            <img
+              id="chat-header-character-avatar"
+              src=""
+              alt="Karakter"
+              class="chat-header-avatar"
+            />
+            <h2 id="chat-header-character-name"></h2>
+          </div>
+          <button
+            type="button"
+            id="close-chat-interface-modal-btn"
+            class="close-modal-btn"
+          >
+            &times;
+          </button>
         </div>
+        <div id="chat-messages-container" class="chat-messages-container"></div>
+        <form id="chat-form" class="chat-form">
+          <input
+            type="text"
+            id="chat-message-input"
+            placeholder="Mesajınızı yazın..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit" id="chat-send-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+      </div>
     </div>
 
     <!-- Film Öneri Prompt Modalı -->
-<div id="promptModalOverlay" class="modal-overlay hidden">
+    <div id="promptModalOverlay" class="modal-overlay hidden">
       <div class="modal-content prompt-modal-content">
         <div class="modal-grid-background"></div>
 
         <div class="modal-main-content">
-          <button type="button" id="closePromptModalBtn" class="close-modal-btn absolute top-4 right-4">&times;</button>
-          
+          <button
+            type="button"
+            id="closePromptModalBtn"
+            class="close-modal-btn absolute top-4 right-4"
+          >
+            &times;
+          </button>
+
           <div class="prompt-header">
             <div class="prompt-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                />
               </svg>
             </div>
             <h2 class="text-2xl font-bold">Yapay Zeka Film Asistanı</h2>
-            <p class="text-base text-gray-400 mt-2">Hayalindeki filmi anlat, senin için bulayım.</p>
+            <p class="text-base text-gray-400 mt-2">
+              Hayalindeki filmi anlat, senin için bulayım.
+            </p>
           </div>
 
           <div class="prompt-input-wrapper">
-            <textarea id="moviePromptInput" rows="4" placeholder="Örn: 'Arkadaşlarımla izleyebileceğim, bol kahkahalı ve sürpriz sonlu bir film...'"></textarea>
-          </div>        
-          <p id="promptError" class="text-red-400 text-sm mt-3 hidden text-center"></p>
+            <textarea
+              id="moviePromptInput"
+              rows="4"
+              placeholder="Örn: 'Arkadaşlarımla izleyebileceğim, bol kahkahalı ve sürpriz sonlu bir film...'"
+            ></textarea>
+          </div>
+          <p
+            id="promptError"
+            class="text-red-400 text-sm mt-3 hidden text-center"
+          ></p>
 
           <div class="modal-actions mt-6">
-            <button type="button" id="submitPromptBtn" class="prompt-submit-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+            <button
+              type="button"
+              id="submitPromptBtn"
+              class="prompt-submit-button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
+              </svg>
               <span>Filmi Bul</span>
             </button>
           </div>
@@ -388,13 +819,19 @@
 
     <!-- Yükleniyor Göstergesi (Ortak modal yapısına uygun) -->
     <div id="loadingSpinnerOverlay" class="modal-overlay hidden">
-        <div class="modal-content loading-spinner-content">
-            <div class="lottie-loader visible">
-                <dotlottie-player src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie" background="transparent" speed="1" style="width: 200px; height: 200px" loop autoplay></dotlottie-player>
-            </div>
-            <p class="text-lg text-gray-300 mt-4">Film aranıyor...</p>
+      <div class="modal-content loading-spinner-content">
+        <div class="lottie-loader visible">
+          <dotlottie-player
+            src="https://lottie.host/7309eb5e-6b52-426a-9243-6f38351d1ff2/YdQPls3z42.lottie"
+            background="transparent"
+            speed="1"
+            style="width: 200px; height: 200px"
+            loop
+            autoplay
+          ></dotlottie-player>
         </div>
+        <p class="text-lg text-gray-300 mt-4">Film aranıyor...</p>
+      </div>
     </div>
-
   </body>
 </html>

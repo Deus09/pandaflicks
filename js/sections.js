@@ -8,6 +8,7 @@ import { auth } from './firebase.js';
 import { initFilterModal, openFilterModal, applyFilters } from './filters.js';
 import { getCuratedLists } from './lists.js';
 
+// --- DOM Elementleri ---
 const myWatchedMoviesSection = document.getElementById('my-watched-movies-section');
 const myMoviesList = document.getElementById('my-movies-list');
 const myMoviesEmptyMessage = document.getElementById('my-movies-empty-message');
@@ -30,8 +31,16 @@ const profileLoggedInView = document.getElementById('profile-logged-in-view');
 const profileLoggedOutView = document.getElementById('profile-logged-out-view');
 const addMovieFloatButton = document.getElementById('add-movie-float-button');
 
+// Özel listeler bölümü için Lottie loader ve içerik alanı
+const specialListsLoader = document.getElementById('special-lists-loader');
+const specialListsContentContainer = document.getElementById('special-lists-content-container');
+
+
+// --- Durum Değişkenleri ---
 let currentSortCriteria = 'date-desc';
 let activeFilters = {};
+
+// --- Fonksiyonlar ---
 
 export function refreshWatchedMoviesList(newFilters) {
     if (newFilters !== undefined) activeFilters = newFilters;
@@ -103,7 +112,7 @@ async function showListDetail(list) {
     renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
 }
 
-export async function showSection(sectionId) { // Fonksiyon async yapıldı
+export async function showSection(sectionId) {
     const sections = [trendingMoviesSection, myWatchedMoviesSection, watchLaterMoviesSection, profileSection, specialListsSection, listDetailSection];
     const navItems = document.querySelectorAll('.nav-item');
     sections.forEach(section => {
@@ -126,21 +135,41 @@ export async function showSection(sectionId) { // Fonksiyon async yapıldı
     } else if (sectionId === 'trending-movies-section') {
         renderTrendingSkeletons(trendingMoviesGrid);
         fetchTrendingMovies(trendingMoviesGrid, trendingErrorMessage, renderTrendingMovies, openMovieDetailsModal);
+    
+    // GÜNCELLENMİŞ BLOK: Lottie animasyonuna minimum 1 saniye bekleme eklendi
     } else if (sectionId === 'special-lists-section') {
-        specialListsSection.innerHTML = '<h2 class="text-xl font-bold mb-4 text-gray-200">Özel Listeler Yükleniyor...</h2>';
-        const lists = getCuratedLists();
-        const listPromises = lists.map(list => fetchMoviesFromList(list));
-        const moviesPerList = await Promise.all(listPromises);
+        // 1. Animasyonu göster, eski içeriği temizle ve içeriği gizle
+        specialListsLoader.classList.remove('hidden');
+        specialListsContentContainer.innerHTML = '';
+        specialListsContentContainer.classList.add('hidden');
+
+        // 2. İki asenkron işlemi aynı anda başlat:
+        //    - Minimum 1 saniyelik bir zamanlayıcı
+        //    - API'den verileri çekme işlemi
+        const timerPromise = new Promise(resolve => setTimeout(resolve, 1000));
         
-        const listsWithImages = lists.map((list, index) => {
-            const firstMovieWithPoster = moviesPerList[index].find(m => m.poster_path);
-            return {
-                ...list,
-                heroImage: firstMovieWithPoster ? `https://image.tmdb.org/t/p/w500${firstMovieWithPoster.poster_path}` : null
-            };
-        });
+        const dataFetchPromise = (async () => {
+            const lists = getCuratedLists();
+            const listPromises = lists.map(list => fetchMoviesFromList(list));
+            const moviesPerList = await Promise.all(listPromises);
+            
+            return lists.map((list, index) => {
+                const firstMovieWithPoster = moviesPerList[index].find(m => m.poster_path);
+                return {
+                    ...list,
+                    heroImage: firstMovieWithPoster ? `https://image.tmdb.org/t/p/w500${firstMovieWithPoster.poster_path}` : null
+                };
+            });
+        })();
+
+        // 3. Hem 1 saniyenin dolmasını hem de verilerin gelmesini bekle
+        const [_, listsWithImages] = await Promise.all([timerPromise, dataFetchPromise]);
         
-        renderSpecialLists(specialListsSection, listsWithImages, showListDetail);
+        // 4. İki işlem de bittiğinde animasyonu gizle, içeriği göster ve listeyi render et
+        specialListsLoader.classList.add('hidden');
+        specialListsContentContainer.classList.remove('hidden');
+        renderSpecialLists(specialListsContentContainer, listsWithImages, showListDetail);
+
     } else if (sectionId === 'watch-later-movies-section') {
         renderWatchLaterMovies(watchLaterMoviesList, watchLaterMovies, watchLaterEmptyMessage, openMovieMode);
     } else if (sectionId === 'profile-section') {
