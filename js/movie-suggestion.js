@@ -193,25 +193,72 @@ async function handleSubmitPrompt() {
   showLoadingSpinner();
 
   try {
-    const movies = await fetchSuggestedMovie(promptText);
-    if (movies && movies.length > 0) {
-      // Tek film göstermek yerine 4'lü grid'i göster
+    console.log("handleSubmitPrompt: Film önerisi isteği gönderiliyor...", {
+      promptText,
+    });
+    // API çağrısı için bir zaman aşımı (timeout) ekle    const fetchPromise = fetchSuggestedMovie(promptText);
+    const timeoutPromise = new Promise(
+      (_, reject) =>
+        setTimeout(
+          () => reject(new Error("Film önerisi alma süresi aşıldı.")),
+          20000
+        ) // 20 saniye timeout
+    );
+
+    // fetchPromise veya timeoutPromise'dan hangisi önce biterse onu al
+    let rawMoviesData = await Promise.race([fetchPromise, timeoutPromise]);
+    console.log("handleSubmitPrompt: API'den gelen ham veri:", rawMoviesData);
+    console.log("handleSubmitPrompt: API'den gelen ham veri:", rawMoviesData);
+
+    // Gelen verinin bir dizi olduğundan ve geçerli film nesneleri içerdiğinden emin ol
+    let movies = [];
+    if (rawMoviesData) {
+      if (Array.isArray(rawMoviesData)) {
+        movies = rawMoviesData;
+      } else if (typeof rawMoviesData === "object") {
+        movies = [rawMoviesData]; // Tek objeyi diziye çevir
+      }
+    }
+
+    // Geçersiz veya eksik film verilerini filtrele (örneğin, id'si olmayanları)
+    movies = movies.filter(
+      (movie) => typeof movie === "object" && movie !== null && movie.id
+    );
+    console.log(
+      "handleSubmitPrompt: İşlenmiş ve filtrelenmiş filmler:",
+      movies
+    );
+
+    if (movies.length > 0) {
+      console.log(
+        "handleSubmitPrompt: Filmler bulundu, spinner gizleniyor ve grid gösteriliyor."
+      );
+
       await hideLoadingSpinner(); // Önce spinner'ın kaybolmasını bekle
-      displaySuggestedMoviesGrid(movies); // Sonra grid'i göster        } else {
-      // Film bulunamadıysa veya API'den boş yanıt geldiyse
-      await hideLoadingSpinner();
+      displaySuggestedMoviesGrid(movies); // Sonra grid'i göster
+    } else {
+      console.log(
+        "handleSubmitPrompt: Film bulunamadı veya geçersiz veri, spinner gizleniyor ve prompt modalı açılıyor."
+      );
+
+      await hideLoadingSpinner(); // Spinner'ı gizle
       promptError.textContent =
         "İsteğinize uygun bir film bulunamadı. Lütfen daha spesifik bir istek deneyin.";
       promptError.classList.remove("hidden");
       openPromptModal(); // Prompt modalını tekrar açıp hata göster
     }
   } catch (error) {
-    console.error("Film önerisi alınırken hata:", error);
-    await hideLoadingSpinner();
+    await hideLoadingSpinner(); // Hata durumunda da spinner'ı gizle
+    console.error(
+      "handleSubmitPrompt: Film önerisi alınırken hata oluştu:",
+      error
+    );
 
-    promptError.textContent = `Film önerisi alınırken bir hata oluştu: ${error.message}`;
+    promptError.textContent = `Film önerisi alınırken bir hata oluştu: ${
+      error.message || "Bilinmeyen Hata"
+    }`;
     promptError.classList.remove("hidden");
-    openPromptModal();
+    openPromptModal(); // Prompt modalını tekrar açıp hata göster
   }
 }
 
