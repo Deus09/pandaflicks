@@ -385,16 +385,29 @@ export function showLoadingSpinner(text = 'Film aranıyor...') {
   const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
   if (!loadingSpinnerOverlay) return;
 
+  // 1. Önce 'hidden' sınıfını kaldırarak elemanı DOM'da "var" et
   loadingSpinnerOverlay.classList.remove('hidden');
   document.getElementById('splash-text').textContent = text;
-  startSplashScreenEffects(); // Parçacık efektlerini başlat
+  
+  // 2. Çok küçük bir gecikmeyle 'visible' sınıfını ekleyerek CSS animasyonlarını tetikle
+  setTimeout(() => {
+    loadingSpinnerOverlay.classList.add('visible');
+    startSplashScreenEffects(); // Parçacık efektlerini başlat
+  }, 10); // 10 milisaniyelik gecikme, tarayıcının değişikliği algılaması için yeterlidir
 }
 
 export function hideLoadingSpinner() {
   const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
   if (!loadingSpinnerOverlay) return;
-
-  loadingSpinnerOverlay.classList.add('hidden');
+  
+  // 1. Önce 'visible' sınıfını kaldırarak kapanma animasyonunu başlat
+  loadingSpinnerOverlay.classList.remove('visible');
   stopSplashScreenEffects(); // Parçacık efektlerini durdur
-}
 
+  // 2. CSS geçişi (transition) bittiğinde elemanı 'hidden' yaparak DOM'dan kaldır
+  loadingSpinnerOverlay.addEventListener('transitionend', () => {
+      if (!loadingSpinnerOverlay.classList.contains('visible')) {
+          loadingSpinnerOverlay.classList.add('hidden');
+      }
+  }, { once: true });
+}

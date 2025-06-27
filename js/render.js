@@ -263,12 +263,16 @@ export function renderSpecialLists(container, lists, onListClick) {
 
     lists.forEach((list, index) => {
         const listCard = document.createElement('div');
-        listCard.className = 'list-card-v2';
+        listCard.className = 'list-card-v3'; // Yeni bir sınıf ismi kullanıyoruz
         listCard.style.setProperty('--animation-delay', `${index * 80}ms`);
 
+        const posterUrl = list.heroImage || 'https://placehold.co/300x450/161b22/8b949e?text=SineLog';
+        
         listCard.innerHTML = `
-            <div class="list-card-image-container">
-                <img src="${list.heroImage || 'https://placehold.co/500x281/2A2A2A/AAAAAA?text=Poster+Yok'}" alt="${list.name}" class="list-card-image" onerror="this.style.display='none'">
+            <div class="list-card-image-wrapper">
+                <div class="list-card-bg-image" style="background-image: url(${posterUrl})"></div>
+                
+                <img src="${posterUrl}" alt="${list.name}" class="list-card-fg-image" onerror="this.style.display='none'">
             </div>
             <div class="list-card-text-content">
                 <div>
