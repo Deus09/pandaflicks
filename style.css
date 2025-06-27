@@ -150,14 +150,15 @@ header {
 }
 
 .header-logo {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-right: 12px;
+  margin-left: 20px;;
   flex-shrink: 0; /* Küçülmesini engelle */
 }
 
 header h1 {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.2px;
   margin-right: auto; /* Profil butonunu sağa iter */
@@ -171,7 +172,6 @@ header h1 {
   height: 34px;
   border-radius: 50%;
   background-color: var(--bg-surface);
-  border: 1.5px solid var(--border-color); /* Varsayılan kenarlık */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -186,7 +186,7 @@ header h1 {
 
 /* Header'daki profil butonu için yeni stiller */
 #nav-profile {
-    background-color: #0d1117; /* Arka planı beyaz yapar */
+    background-color: #e6edf3; /* Arka planı beyaz yapar */
     border-radius: 50%;      /* Butonu dairesel yapar */
     width: 30px;             /* Genişlik, isteğe bağlı olarak değiştirilebilir */
     height: 30px;            /* Yükseklik, isteğe bağlı olarak değiştirilebilir */
