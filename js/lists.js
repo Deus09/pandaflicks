@@ -69,77 +69,12 @@ const CURATED_LISTS = [
         tmdbId: '138' // Quentin Tarantino'nun yönetmen ID'si
     },
     {
-        name: "90'ların Kült Filmleri",
-        description: "Bir nesle damgasını vuran, zamanının ötesindeki unutulmaz filmler.",
-        type: 'list',
-        tmdbId: '8292275' // 90'lar Kült Klasikleri listesi
-    },
-    {
-        name: "21. Yüzyılın En İyileri (BBC)",
-        description: "Dünyanın dört bir yanından eleştirmenlerin seçtiği modern başyapıtlar.",
-        type: 'list',
-        tmdbId: '8221516' // BBC'nin 21. Yüzyılın En İyi 100 Filmi listesi
-    },
-    {
-        name: "Akıl Oyunları ve Sürpriz Sonlar",
-        description: "Finaliyle sizi koltuğunuza çivileyecek, zekanızı zorlayan filmler.",
-        type: 'list',
-        tmdbId: '7066929' // Mind-Bending & Twist-Ending filmler listesi
-    },
-
-    // --- SİNEMA TARİHİNDEN ALTIN SEÇKİLER ---
-    {
-        name: "Film Noir'ın Karanlık Sokakları",
-        description: "Kara filmin gölgelerle dolu, gizemli ve tehlikeli dünyası.",
-        type: 'list',
-        tmdbId: '1267' // En İyi Film Noir'lar listesi
-    },
-    {
-        name: "Hollywood'un Altın Çağı",
-        description: "Sinemanın büyüsünü yaratan 1930'lar ve 40'ların unutulmaz klasikleri.",
-        type: 'list',
-        tmdbId: '8284583' // Hollywood'un Altın Çağı listesi
-    },
-    {
-        name: "70'ler Sineması: Yeni Hollywood",
-        description: "Kuralları yıkan yönetmenlerin ve anti-kahramanların yükseldiği cesur dönem.",
-        type: 'list',
-        tmdbId: '8244131' // New Hollywood (1967-1979) filmleri listesi
-    },
-    {
-        name: "Sessiz Sinemanın Büyüsü",
-        description: "Sözsüz anlatımın gücünü kanıtlayan, sinemanın temellerindeki eserler.",
-        type: 'list',
-        tmdbId: '8293433' // Sessiz Dönem Başyapıtları listesi
-    },
-
-    // --- DÜNYA SİNEMASINDAN İNCİLER ---
-    {
-        name: "Fransız Yeni Dalgası",
-        description: "Sinemada devrim yaratan, özgür ve entelektüel bir akımın öncü filmleri.",
-        type: 'list',
-        tmdbId: '8281313' // Fransız Yeni Dalgası filmleri listesi
-    },
-    {
-        name: "Uzak Doğu Sinemasının En İyileri",
-        description: "Asya'dan çıkan, görsel ve anlatımsal olarak büyüleyici filmler.",
-        type: 'list',
-        tmdbId: '9373' // En İyi Asya Filmleri listesi
-    },
-    
-    // --- ANİMASYON VE BİLİM KURGU KLASİKLERİ ---
-    {
-        name: "Pixar Stüdyoları Koleksiyonu",
-        description: "Animasyon dünyasını değiştiren, kalplere dokunan Pixar maceraları.",
+        name: "Yüzüklerin Efendisi Üçlemesi",
+        description: "Bir nesle damgasını vuran unutulmaz filmler.",
         type: 'collection',
-        tmdbId: '10634' // Pixar Koleksiyonu
+        tmdbId: '119' 
     },
-    {
-        name: "Distopik Bilim Kurgu Başyapıtları",
-        description: "Karanlık gelecek tasvirleriyle günümüzü sorgulatan ikonik filmler.",
-        type: 'list',
-        tmdbId: '8210360' // Distopik Filmler listesi
-    }
+
 
 ];
 
