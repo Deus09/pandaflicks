@@ -170,7 +170,6 @@ function openChatInterfaceModal() {
     // İlk AI mesajını ekle
     const welcomeMessage = `Merhaba, ben ${characterName}. Senin için ne yapabilirim?`;
     addMessageToUI('model', welcomeMessage);
-    chatHistory.push({ role: 'model', text: welcomeMessage });
 }
 
 /**
@@ -207,8 +206,7 @@ async function handleSendMessage(e) {
         const aiResponse = await startChatSession(
             currentCharacter.character || currentCharacter.name,
             currentMovie.title,
-            chatHistory,
-            userMessage
+            chatHistory
         );
         
         // Düşünme animasyonunu gerçek cevapla değiştir
