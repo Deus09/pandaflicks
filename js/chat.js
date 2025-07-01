@@ -206,7 +206,8 @@ async function handleSendMessage(e) {
         const aiResponse = await startChatSession(
             currentCharacter.character || currentCharacter.name,
             currentMovie.title,
-            chatHistory
+            chatHistory,
+            userMessage // FIXED: Added the missing userMessage argument
         );
         
         // Düşünme animasyonunu gerçek cevapla değiştir
