@@ -281,6 +281,71 @@ header h1 {
   animation: ripple-effect 0.5s ease-out;
 }
 
+/* =================================================================== */
+/* === FİLTRE & SIRALA KONTROL PANELİ STİLİ === */
+/* =================================================================== */
+
+.section-header {
+  display: flex;
+  justify-content: flex-end; /* Kontrol panelini sağa yaslar */
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Kontrol butonlarını bir arada tutan kapsayıcı */
+.list-controls {
+  display: inline-flex; /* İçerik kadar yer kapla */
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Tüm kontrol butonları için ortak stil */
+.control-button {
+  background-color: transparent; /* Arkaplan artık kapsayıcıda */
+  color: var(--text-secondary);
+  border: none; /* Kenarlık artık kapsayıcıda */
+  padding: 0.6rem 1rem; /* Buton içi boşluk */
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Butonları ayıran dikey çizgi */
+.control-button:not(:first-child) {
+    border-left: 1px solid var(--border-color);
+}
+
+.control-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+/* Aktif Filtre Butonu Stili */
+#filter-button.active {
+  color: var(--accent-primary);
+  background-color: rgba(247, 120, 38, 0.1);
+}
+
+#filter-button.active svg {
+  stroke: var(--accent-primary);
+}
+
+/* Sıralama menüsü için pozisyonlama (değişiklik yok) */
+.sort-container {
+  position: relative;
+}
+
+/* Sıralama butonu içindeki ok'un dönüşü (değişiklik yok) */
+#sort-button.open svg {
+  transform: rotate(180deg);
+}
+
 
 
   
@@ -303,7 +368,7 @@ header h1 {
   display: flex; /* SVG'yi ortalamak için */
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-surface); /* Arkaplan rengi */
+  background-color: var(--bg-surface); /* Arkaplan rengi */ 
 }
 
 
