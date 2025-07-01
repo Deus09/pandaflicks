@@ -20,18 +20,18 @@ function createSplashBackground() {
     gridContainer.id = 'splash-background-grid';
 
     const posterUrls = [
-        'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', // The Shawshank Redemption
-        'https://image.tmdb.org/t/p/w500/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg',  // The Godfather
+        'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', // The fight club
+        'https://image.tmdb.org/t/p/w500/vseIVRdN4xasYwStQIi6SI7DcEu.jpg',  // The Godfather
         'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg', // The Dark Knight
-        'https://image.tmdb.org/t/p/w500/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg',  // Pulp Fiction
-        'https://image.tmdb.org/t/p/w500/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg', // Forrest Gump
-        'https://image.tmdb.org/t/p/w500/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg', // The Matrix
-        'https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg', // Inception
-        'https://image.tmdb.org/t/p/w500/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg', // Interstellar
-        'https://image.tmdb.org/t/p/w500/pB8Y3EMcRMOKBfHKU22Ngdd3eB6.jpg', // Fight Club
+        'https://image.tmdb.org/t/p/w500/AgY33Wtg4737MhYopJSFyKWhKsO.jpg',  // Pulp Fiction
+        'https://image.tmdb.org/t/p/w500/2rNjLWhb9hjv2ZmKAZVItjuJsCP.jpg', // Forrest Gump
+        'https://image.tmdb.org/t/p/w500/8g1aqEKt80x1gbKqc8a1TWb9cr6.jpg', // The Matrix
+        'https://image.tmdb.org/t/p/w500/4KAtscEx3Pt9YPpNuK3BO6irQn1.jpg', // Toystory
+        'https://image.tmdb.org/t/p/w500/cVeJ2kQ9qZmpud57iSKsANyAsNp.jpg', // Shrek
+        'https://image.tmdb.org/t/p/w500/hEntfzxB8yUXIxqZY929dELjLsi.jpg', // titanic
         'https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg', // LotR: Fellowship
-        'https://image.tmdb.org/t/p/w500/7BuH8itoSrLExs2YZSsM01Qk2ch.jpg', // Star Wars V
-        'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'   // Parasite
+        'https://image.tmdb.org/t/p/w500/46oFAcjORMltwPxR6uU6hM4mN7F.jpg', // Star Wars
+        'https://image.tmdb.org/t/p/w500/yh5rAnhNiZz0nkWhbWw98MvdvBH.jpg'   // Parasite XXXX
     ];
 
     // Repeat the array to have 24 posters for a seamless loop
