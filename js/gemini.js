@@ -86,18 +86,12 @@ export async function startChatSession(characterName, movieTitle, chatHistory, n
         parts: [{ text: `Anlaşıldı. Ben ${characterName}. Sor bakalım.` }]
     });
 
-    // Mevcut sohbet geçmişini ekle
+    // Mevcut sohbet geçmişini ekle (Bu geçmiş zaten en son kullanıcı mesajını da içeriyor)
     chatHistory.forEach(message => {
         contents.push({
             role: message.role,
             parts: [{ text: message.text }]
         });
-    });
-
-    // Yeni kullanıcı mesajını ekle
-    contents.push({
-        role: "user",
-        parts: [{ text: newUserMessage }]
     });
     
     const payload = { contents };
