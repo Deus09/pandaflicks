@@ -16,8 +16,8 @@
 # Gemini Proxy için özel yönlendirme kuralı
 # /api/gemini adresine gelen istekleri gemini-proxy.js fonksiyonuna yönlendirir.
 [[redirects]]
-  from = "/api/gemini"
-  to = "/.netlify/functions/gemini-proxy"
+ from = "/api/gemini/*"
+  to = "/.netlify/functions/gemini-proxy/:splat"
   status = 200
 
 # Film Öneri Proxy için özel yönlendirme kuralı
