@@ -10,6 +10,46 @@ import { initMovieSuggestion } from './movie-suggestion.js'; // YENİ
 
 
 /**
+ * Creates the animated background grid for the splash screen.
+ */
+function createSplashBackground() {
+    const splashScreen = document.getElementById('splash-screen');
+    if (!splashScreen) return;
+
+    const gridContainer = document.createElement('div');
+    gridContainer.id = 'splash-background-grid';
+
+    const posterUrls = [
+        'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', // The Shawshank Redemption
+        'https://image.tmdb.org/t/p/w500/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg',  // The Godfather
+        'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg', // The Dark Knight
+        'https://image.tmdb.org/t/p/w500/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg',  // Pulp Fiction
+        'https://image.tmdb.org/t/p/w500/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg', // Forrest Gump
+        'https://image.tmdb.org/t/p/w500/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg', // The Matrix
+        'https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg', // Inception
+        'https://image.tmdb.org/t/p/w500/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg', // Interstellar
+        'https://image.tmdb.org/t/p/w500/pB8Y3EMcRMOKBfHKU22Ngdd3eB6.jpg', // Fight Club
+        'https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg', // LotR: Fellowship
+        'https://image.tmdb.org/t/p/w500/7BuH8itoSrLExs2YZSsM01Qk2ch.jpg', // Star Wars V
+        'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'   // Parasite
+    ];
+
+    // Repeat the array to have 24 posters for a seamless loop
+    const repeatedUrls = [...posterUrls, ...posterUrls];
+
+    repeatedUrls.forEach(url => {
+        const posterDiv = document.createElement('div');
+        posterDiv.className = 'splash-poster';
+        posterDiv.style.backgroundImage = `url(${url})`;
+        gridContainer.appendChild(posterDiv);
+    });
+
+    // Insert the grid as the first child of the splash screen
+    splashScreen.prepend(gridContainer);
+}
+
+
+/**
  * Shows the main application UI and hides the splash screen.
  */
 function showAppUI() {
@@ -31,6 +71,9 @@ function showAppUI() {
  */
 function initializeApp() {
     console.log('initializeApp: Starting application...');
+    
+    // Create the premium splash screen background
+    createSplashBackground();
     
     // Gerekli tüm başlatmaları yap
     document.getElementById('movie-form').addEventListener('submit', handleMovieFormSubmit);
