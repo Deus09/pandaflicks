@@ -131,15 +131,14 @@ export function handleOpenCharacterSelection() {
         return;
     }
     
-    currentMovie.tmdbId = tmdbId;
-    currentMovie.title = title;
-
-    openCharacterSelectionModal();
-    loadAndRenderCharacters(tmdbId);
+    // DÜZELTME: Fonksiyonu çağırırken gerekli film bilgisini bir nesne olarak iletiyoruz.
+    openCharacterSelectionModal({ id: tmdbId, title: title });
 }
 
 async function openCharacterSelectionModal(movie) {
-    currentMovieForChat = movie;
+    // DÜZELTME: 'currentMovieForChat' yerine, modülün başında tanımlanan 'currentMovie' kullanılıyor.
+    currentMovie = movie;
+
     characterSelectionModal.classList.remove('hidden');
     setTimeout(() => characterSelectionModal.classList.add('visible'), 10);
     document.body.classList.add('no-scroll');
@@ -155,8 +154,14 @@ async function openCharacterSelectionModal(movie) {
     }
 
     try {
-        const characters = await getMovieCharacters(movie.id);
-        renderCharacterList(characters); // Yeni, güvenli render fonksiyonunu çağır
+        // DÜZELTME: Karakterleri, parametre olarak gelen 'movie.id' ile çekiyoruz.
+        const { cast } = await fetchMovieDetailsFromApi(movie.id);
+        const characters = cast
+            .filter(member => member.known_for_department === 'Acting' && member.profile_path)
+            .sort((a, b) => a.order - b.order)
+            .slice(0, 10);
+
+        renderCharacterList(characters);
         characterList.classList.remove('hidden');
 
     } catch (error) {
@@ -164,7 +169,7 @@ async function openCharacterSelectionModal(movie) {
         characterList.innerHTML = ''; // Önce temizle
         const errorEl = document.createElement('p');
         errorEl.className = 'text-red-400 text-center';
-        errorEl.textContent = 'Karakterler yüklenemedi.'; // GÜVENLİ: .textContent kullanılıyor
+        errorEl.textContent = 'Karakterler yüklenemedi.';
         characterList.appendChild(errorEl);
         characterList.classList.remove('hidden');
     } finally {

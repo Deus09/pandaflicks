@@ -316,58 +316,6 @@ export function closeMovieMode() {
   }
 }
 
-function populateMovieDetails(movieData, directorName, trailerKey) {
-  detailModalTitle.textContent = movieData.title || "Bilgi Yok";
-  detailMoviePoster.src = movieData.poster_path
-    ? TMDB_IMAGE_BASE_URL_W500 + movieData.poster_path
-    : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
-  detailMovieReleaseDate.textContent = movieData.release_date
-    ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString(
-        "tr-TR",
-        { year: "numeric", month: "long", day: "numeric" }
-      )}`
-    : "Vizyon Tarihi: Bilinmiyor";
-  detailMovieGenres.textContent =
-    movieData.genres?.length > 0
-      ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}`
-      : "Türler: Bilinmiyor";
-  detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
-  detailMovieOverview.textContent =
-    movieData.overview || "Bu film için özet bulunmamaktadır.";
-
-  if (trailerKey) {
-    detailMovieTrailerIframe.src = `${YOUTUBE_EMBED_URL}${trailerKey}?rel=0`;
-    detailMovieTrailerSection.classList.remove("hidden");
-  } else {
-    detailMovieTrailerSection.classList.add("hidden");
-  }
-
-  // --- Event Listener'ı Güvenli Bir Şekilde Ekleme ---
-
-  // 1. Önceki event listener'lardan kurtulmak için butonu klonla ve eskisini değiştir.
-  const newButton = detailAddToLogButton.cloneNode(true);
-  detailAddToLogButton.parentNode.replaceChild(newButton, detailAddToLogButton);
-  detailAddToLogButton = newButton; // Referansı güncelle
-
-  // 2. Yeni butona olay dinleyicisini ekle.
-  detailAddToLogButton.addEventListener("click", () => {
-    closeMovieDetailsModal();
-    openMovieMode(null, {
-      title: movieData.title,
-      tmdbId: movieData.id,
-      poster: movieData.poster_path
-        ? TMDB_IMAGE_BASE_URL_W92 + movieData.poster_path
-        : "",
-      release_date: movieData.release_date,
-      runtime: movieData.runtime,
-      genres: movieData.genres,
-      director: directorName,
-    });
-  });
-
-  detailAddToLogButton.disabled = false;
-}
-
 // openMovieDetailsModal fonksiyonunun YENİ ve TAM HALİ
 
 export async function openMovieDetailsModal(tmdbMovieId) {
