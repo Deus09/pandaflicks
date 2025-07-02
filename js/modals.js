@@ -4,6 +4,7 @@ import {
   TMDB_IMAGE_BASE_URL_W500,
   YOUTUBE_EMBED_URL,
   fetchMovieDetailsFromApi,
+  searchTmdbMovies,
 } from "./api.js";
 import { setupStarRating, setCurrentRating, currentRating } from "./rating.js";
 import {
@@ -15,285 +16,250 @@ import {
 import { showSection } from "./sections.js";
 import { showNotification } from "./utils.js";
 import { enhanceCommentWithGemini } from "./gemini.js";
+import { displayTmdbSearchResults } from "./render.js";
 
-// --- DEĞİŞİKLİK 1: Tüm element referansları "let" olarak değiştirildi ---
-// Bu değişkenler, modal ilk kez açıldığında doldurulacak.
-let movieModalOverlay,
-  modalTitle,
-  movieIdInput,
-  movieTmdbIdInput,
-  movieTypeInput,
-  movieTitleInput,
-  moviePosterInput,
-  movieRatingInputDiv,
-  watchLaterCheckbox,
-  watchedDateGroup,
-  movieDateInput,
-  movieCommentInput,
-  enhanceCommentButton,
-  chatWithCharacterButton,
-  tmdbSearchResultsDiv,
-  tmdbSearchMessage,
-  movieRuntimeInput,
-  movieGenresInput,
-  movieDirectorInput,
-  movieDetailsModalOverlay,
-  detailModalTitle,
-  detailModalBody,
-  detailLottieLoader,
-  detailMoviePoster,
-  detailMovieReleaseDate,
-  detailMovieGenres,
-  detailMovieDirector,
-  detailMovieOverview,
-  detailMovieTrailerSection,
-  detailMovieTrailerIframe,
-  detailAddToLogButton;
+// --- MODAL ELEMENT REFERANSLARI ---
+// Bu değişkenler, ilgili modal ilk kez açıldığında doldurulacak.
+let movieModalOverlay, modalTitle, movieIdInput, movieTmdbIdInput, movieTypeInput,
+    movieTitleInput, moviePosterInput, movieRatingInputDiv, watchLaterCheckbox,
+    watchedDateGroup, movieDateInput, movieCommentInput, enhanceCommentButton,
+    chatWithCharacterButton, tmdbSearchResultsDiv, tmdbSearchMessage, movieRuntimeInput,
+    movieGenresInput, movieDirectorInput, movieDetailsModalOverlay, detailModalTitle,
+    detailModalBody, detailLottieLoader, detailMoviePoster, detailMovieReleaseDate,
+    detailMovieGenres, detailMovieDirector, detailMovieOverview, detailMovieTrailerSection,
+    detailMovieTrailerIframe, detailAddToLogButton, movieForm;
 
-// --- YENİ YARDIMCI FONKSİYONLAR ---
+let isModalInitialized = false; // Modal'ın bir kez ayarlandığını takip eden bayrak
 
 /**
- * Film Ekle/Düzenle modalının içeriğini sadece bir kez, gerektiğinde oluşturur.
+ * Sadece bir kez çalışarak Film Ekle/Düzenle modalının içeriğini oluşturur,
+ * referansları atar ve olay dinleyicilerini bağlar.
  */
-function renderMovieModalContent() {
-  if (document.getElementById("movie-form")) return; // Zaten varsa tekrar oluşturma
+function initializeMovieModal() {
+    if (isModalInitialized) return; // Zaten kurulduysa tekrar yapma.
 
-  const overlay = document.getElementById("movie-modal-overlay");
-  const modalContent = document.createElement("div");
-  modalContent.className = "modal-content";
-  modalContent.innerHTML = `
-        <div class="modal-header">
-          <h2 id="modal-title"></h2>
-        </div>
+    // 1. HTML İÇERİĞİNİ OLUŞTURMA
+    const overlay = document.getElementById('movie-modal-overlay');
+    if (!overlay) return;
+
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+    modalContent.innerHTML = `
+        <div class="modal-header"><h2 id="modal-title"></h2></div>
         <form id="movie-form" novalidate>
-          <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
-          <div class="form-group">
-            <label for="movie-title-input">Film Adı:</label>
-            <input type="text" id="movie-title-input" required placeholder="Film adı yazmaya başlayın..." />
-            <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
-            <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
-          </div>
-          <input type="hidden" id="movie-poster-input" />
-          <div class="form-group">
-            <label for="movie-rating-input">Puanınız:</label>
-            <div id="movie-rating-input" class="rating-input"></div>
-          </div>
-          <label class="toggle-switch-container">
-            <span class="toggle-switch-label">Daha Sonra İzle</span>
-            <div class="toggle-switch-wrapper">
-              <input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span>
+            <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
+            <div class="form-group">
+                <label for="movie-title-input">Film Adı:</label>
+                <input type="text" id="movie-title-input" required placeholder="Film adı yazmaya başlayın..." />
+                <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
+                <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
             </div>
-          </label>
-          <div class="form-group" id="watched-date-group">
-            <label for="movie-date-input">İzleme Tarihi:</label>
-            <input type="date" id="movie-date-input" value="" required />
-          </div>
-          <div class="form-group">
-            <label for="movie-comment-input">Yorumunuz:</label>
-            <textarea id="movie-comment-input" rows="3" placeholder="Filme dair düşüncelerinizi buraya yazın..."></textarea>
-            <div class="form-buttons-group">
-                <button type="button" id="enhance-comment-button" class="enhance-comment-button"><span class="loading-spinner"></span><span class="button-text">✨ Yorumumu Geliştir</span></button>
-                <button type="button" id="chat-with-character-button" class="chat-character-button hidden"><span class="loading-spinner"></span><span class="button-text">🎭 Karakterle Sohbet Et</span></button>
+            <input type="hidden" id="movie-poster-input" />
+            <div class="form-group"><label for="movie-rating-input">Puanınız:</label><div id="movie-rating-input" class="rating-input"></div></div>
+            <label class="toggle-switch-container"><span class="toggle-switch-label">Daha Sonra İzle</span><div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div></label>
+            <div class="form-group" id="watched-date-group"><label for="movie-date-input">İzleme Tarihi:</label><input type="date" id="movie-date-input" value="" required /></div>
+            <div class="form-group">
+                <label for="movie-comment-input">Yorumunuz:</label>
+                <textarea id="movie-comment-input" rows="3" placeholder="Filme dair düşüncelerinizi buraya yazın..."></textarea>
+                <div class="form-buttons-group">
+                    <button type="button" id="enhance-comment-button" class="enhance-comment-button"><span class="loading-spinner"></span><span class="button-text">✨ Yorumumu Geliştir</span></button>
+                    <button type="button" id="chat-with-character-button" class="chat-character-button hidden"><span class="loading-spinner"></span><span class="button-text">🎭 Karakterle Sohbet Et</span></button>
+                </div>
             </div>
-          </div>
-          <div class="modal-actions">
-            <button type="button" id="cancel-button" class="cancel-button">İptal</button>
-            <button type="submit" id="save-button" class="save-button">Kaydet</button>
-          </div>
+            <div class="modal-actions">
+                <button type="button" id="cancel-button" class="cancel-button">İptal</button>
+                <button type="submit" id="save-button" class="save-button">Kaydet</button>
+            </div>
         </form>
     `;
-  overlay.appendChild(modalContent);
+    overlay.appendChild(modalContent);
+
+    // 2. DOM REFERANSLARINI ATAMA
+    movieModalOverlay = overlay;
+    modalTitle = document.getElementById("modal-title");
+    movieIdInput = document.getElementById("movie-id");
+    movieTmdbIdInput = document.getElementById("movie-tmdb-id");
+    movieTypeInput = document.getElementById("movie-type");
+    movieTitleInput = document.getElementById("movie-title-input");
+    moviePosterInput = document.getElementById("movie-poster-input");
+    movieRatingInputDiv = document.getElementById("movie-rating-input");
+    watchLaterCheckbox = document.getElementById("watch-later-checkbox");
+    watchedDateGroup = document.getElementById("watched-date-group");
+    movieDateInput = document.getElementById("movie-date-input");
+    movieCommentInput = document.getElementById("movie-comment-input");
+    enhanceCommentButton = document.getElementById("enhance-comment-button");
+    chatWithCharacterButton = document.getElementById("chat-with-character-button");
+    tmdbSearchResultsDiv = document.getElementById("tmdb-search-results");
+    tmdbSearchMessage = document.getElementById("tmdb-search-message");
+    movieRuntimeInput = document.getElementById("movie-runtime-input");
+    movieGenresInput = document.getElementById("movie-genres-input");
+    movieDirectorInput = document.getElementById("movie-director-input");
+    movieForm = document.getElementById("movie-form");
+
+    // 3. OLAY DİNLEYİCİLERİNİ BAĞLAMA
+    let tmdbSearchTimeout;
+    movieForm.addEventListener('submit', handleMovieFormSubmit);
+    document.getElementById('cancel-button').addEventListener('click', () => closeMovieMode());
+    movieModalOverlay.addEventListener('click', (e) => { if (e.target === movieModalOverlay) closeMovieMode(); });
+    
+    watchLaterCheckbox.addEventListener("change", () => {
+        const ratingGroup = movieRatingInputDiv.parentElement;
+        const hasTmdbId = !!movieTmdbIdInput.value;
+        if (watchLaterCheckbox.checked) {
+            movieDateInput.disabled = true;
+            movieDateInput.required = false;
+            watchedDateGroup.style.display = "none";
+            ratingGroup.style.display = "none";
+            movieRatingInputDiv.innerHTML = "";
+            enhanceCommentButton.style.display = "none";
+            chatWithCharacterButton.classList.add("hidden");
+        } else {
+            movieDateInput.disabled = false;
+            movieDateInput.required = true;
+            watchedDateGroup.style.display = "block";
+            ratingGroup.style.display = "block";
+            setupStarRating(movieRatingInputDiv, 0);
+            enhanceCommentButton.style.display = "block";
+            if (hasTmdbId) {
+                chatWithCharacterButton.classList.remove("hidden");
+            }
+        }
+    });
+
+    movieTitleInput.addEventListener("input", () => {
+        if (movieTitleInput.readOnly) return;
+        clearTimeout(tmdbSearchTimeout);
+        tmdbSearchTimeout = setTimeout(() => {
+            searchTmdbMovies(movieTitleInput.value, tmdbSearchResultsDiv, tmdbSearchMessage, displayTmdbSearchResults);
+        }, 300);
+    });
+
+    enhanceCommentButton.addEventListener("click", async () => {
+        const currentComment = movieCommentInput.value.trim();
+        if (currentComment.length < 10) {
+            showNotification("Lütfen yorumunuzu geliştirmek için en az 10 karakter girin.", "error");
+            return;
+        }
+        await enhanceCommentWithGemini(currentComment, movieTitleInput.value, movieCommentInput, enhanceCommentButton);
+    });
+
+    isModalInitialized = true; // Kurulumun tamamlandığını işaretle
 }
 
 /**
- * Modal içeriği oluşturulduktan sonra, element referanslarını bulur ve atar.
+ * Film Ekle/Düzenle modalını açar ve doldurur.
  */
-function initializeModalDOMReferences() {
-  if (modalTitle) return; // Referanslar zaten doluysa, tekrar arama yapma.
+export function openMovieMode(movieId = null, prefillData = null, originList = null) {
+    // Modalın içeriğini ve olay dinleyicilerini sadece ilk açılışta oluştur.
+    initializeMovieModal();
 
-  movieModalOverlay = document.getElementById("movie-modal-overlay");
-  modalTitle = document.getElementById("modal-title");
-  movieIdInput = document.getElementById("movie-id");
-  movieTmdbIdInput = document.getElementById("movie-tmdb-id");
-  movieTypeInput = document.getElementById("movie-type");
-  movieTitleInput = document.getElementById("movie-title-input");
-  moviePosterInput = document.getElementById("movie-poster-input");
-  movieRatingInputDiv = document.getElementById("movie-rating-input");
-  watchLaterCheckbox = document.getElementById("watch-later-checkbox");
-  watchedDateGroup = document.getElementById("watched-date-group");
-  movieDateInput = document.getElementById("movie-date-input");
-  movieCommentInput = document.getElementById("movie-comment-input");
-  enhanceCommentButton = document.getElementById("enhance-comment-button");
-  chatWithCharacterButton = document.getElementById(
-    "chat-with-character-button"
-  );
-  tmdbSearchResultsDiv = document.getElementById("tmdb-search-results");
-  tmdbSearchMessage = document.getElementById("tmdb-search-message");
-  movieRuntimeInput = document.getElementById("movie-runtime-input");
-  movieGenresInput = document.getElementById("movie-genres-input");
-  movieDirectorInput = document.getElementById("movie-director-input");
-  movieDetailsModalOverlay = document.getElementById(
-    "movie-details-modal-overlay"
-  );
-  detailModalTitle = document.getElementById("detail-modal-title");
-  detailModalBody = document.getElementById("detail-modal-body");
-  detailLottieLoader = document.getElementById("detail-lottie-loader");
-  detailMoviePoster = document.getElementById("detail-movie-poster");
-  detailMovieReleaseDate = document.getElementById("detail-movie-release-date");
-  detailMovieGenres = document.getElementById("detail-movie-genres");
-  detailMovieDirector = document.getElementById("detail-movie-director");
-  detailMovieOverview = document.getElementById("detail-movie-overview");
-  detailMovieTrailerSection = document.getElementById(
-    "detail-movie-trailer-section"
-  );
-  detailMovieTrailerIframe = document.getElementById(
-    "detail-movie-trailer-iframe"
-  );
-  detailAddToLogButton = document.getElementById("detail-add-to-log-button");
+    const today = new Date().toISOString().split("T")[0];
+    movieDateInput.max = today;
 
-  // Olay dinleyicileri burada merkezi olarak ayarlanabilir
-  document
-    .getElementById("movie-form")
-    .addEventListener("submit", handleMovieFormSubmit);
-  document
-    .getElementById("cancel-button")
-    .addEventListener("click", () => closeMovieMode());
-  movieModalOverlay.addEventListener("click", (e) => {
-    if (e.target === movieModalOverlay) closeMovieMode();
-  });
-}
+    movieForm.reset();
+    setCurrentRating(0);
 
-// --- ANA FONKSİYONLAR ---
+    tmdbSearchResultsDiv.innerHTML = "";
+    tmdbSearchResultsDiv.classList.add("hidden");
+    tmdbSearchMessage.style.display = "none";
+    movieTitleInput.readOnly = false;
+    chatWithCharacterButton.classList.add("hidden");
 
-// GÜNCELLENMİŞ openMovieMode FONKSİYONU
-export function openMovieMode(
-  movieId = null,
-  prefillData = null,
-  originList = null
-) {
-  // 1. Modalın HTML'ini oluştur/garanti et.
-  renderMovieModalContent();
-  // 2. Element referanslarını al/garanti et.
-  initializeModalDOMReferences();
+    const ratingGroup = movieRatingInputDiv.parentElement;
 
-  // 3. Mevcut fonksiyon mantığını güvenle çalıştır.
-  const today = new Date().toISOString().split("T")[0];
-  movieDateInput.max = today;
+    if (movieId) {
+        let movieToEdit;
+        let isWatchLater = originList === "watch-later";
 
-  document.getElementById("movie-form").reset();
-  setCurrentRating(0);
+        if (isWatchLater) {
+            movieToEdit = watchLaterMovies.find((movie) => movie.id === movieId);
+        } else {
+            movieToEdit = watchedMovies.find((movie) => movie.id === movieId);
+        }
 
-  tmdbSearchResultsDiv.innerHTML = "";
-  tmdbSearchResultsDiv.classList.add("hidden");
-  tmdbSearchMessage.style.display = "none";
-  movieTitleInput.value = "";
-  moviePosterInput.value = "";
-  movieRuntimeInput.value = "";
-  movieGenresInput.value = "";
-  movieDirectorInput.value = "";
-  movieTmdbIdInput.value = "";
-  movieTitleInput.readOnly = false;
-  chatWithCharacterButton.classList.add("hidden");
+        if (movieToEdit) {
+            modalTitle.textContent = "Filmi Düzenle";
+            movieIdInput.value = movieToEdit.id;
+            movieTmdbIdInput.value = movieToEdit.tmdbId || "";
+            movieTypeInput.value = originList;
+            movieRuntimeInput.value = movieToEdit.runtime || "";
+            movieTitleInput.value = movieToEdit.title;
+            moviePosterInput.value = movieToEdit.poster;
+            movieCommentInput.value = movieToEdit.comment || "";
+            movieGenresInput.value = JSON.stringify(movieToEdit.genres || []);
+            movieDirectorInput.value = movieToEdit.director || "";
+            watchLaterCheckbox.checked = isWatchLater;
 
-  const ratingGroup = movieRatingInputDiv.parentElement;
-
-  if (movieId) {
-    let movieToEdit;
-    let isWatchLater = originList === "watch-later";
-
-    if (isWatchLater) {
-      movieToEdit = watchLaterMovies.find((movie) => movie.id === movieId);
+            if (isWatchLater) {
+                movieDateInput.disabled = true;
+                movieDateInput.required = false;
+                watchedDateGroup.style.display = "none";
+                ratingGroup.style.display = "none";
+                enhanceCommentButton.style.display = "none";
+                setCurrentRating(0);
+                movieRatingInputDiv.innerHTML = "";
+            } else {
+                movieDateInput.disabled = false;
+                movieDateInput.required = true;
+                watchedDateGroup.style.display = "block";
+                ratingGroup.style.display = "block";
+                enhanceCommentButton.style.display = "block";
+                movieDateInput.value = movieToEdit.watchedDate || "";
+                setCurrentRating(movieToEdit.rating || 0);
+                setupStarRating(movieRatingInputDiv, movieToEdit.rating || 0);
+            }
+        }
     } else {
-      movieToEdit = watchedMovies.find((movie) => movie.id === movieId);
-    }
-
-    if (movieToEdit) {
-      modalTitle.textContent = "Filmi Düzenle";
-      movieIdInput.value = movieToEdit.id;
-      movieTmdbIdInput.value = movieToEdit.tmdbId || "";
-      movieTypeInput.value = originList;
-      movieRuntimeInput.value = movieToEdit.runtime || "";
-      movieTitleInput.value = movieToEdit.title;
-      moviePosterInput.value = movieToEdit.poster;
-      movieCommentInput.value = movieToEdit.comment || "";
-      movieGenresInput.value = JSON.stringify(movieToEdit.genres || []);
-      movieDirectorInput.value = movieToEdit.director || "";
-      watchLaterCheckbox.checked = isWatchLater;
-
-      if (isWatchLater) {
-        movieDateInput.disabled = true;
-        movieDateInput.required = false;
-        watchedDateGroup.style.display = "none";
-        ratingGroup.style.display = "none";
-        enhanceCommentButton.style.display = "none";
-        setCurrentRating(0);
-        movieRatingInputDiv.innerHTML = "";
-      } else {
+        modalTitle.textContent = "Film Ekle";
+        movieIdInput.value = "";
+        movieTypeInput.value = "watched";
+        movieDateInput.value = today;
+        watchLaterCheckbox.checked = false;
         movieDateInput.disabled = false;
         movieDateInput.required = true;
         watchedDateGroup.style.display = "block";
         ratingGroup.style.display = "block";
         enhanceCommentButton.style.display = "block";
-        movieDateInput.value = movieToEdit.watchedDate || "";
-        setCurrentRating(movieToEdit.rating || 0);
-        setupStarRating(movieRatingInputDiv, movieToEdit.rating || 0);
-      }
+        setupStarRating(movieRatingInputDiv, 0);
+
+        if (prefillData) {
+            movieTitleInput.value = prefillData.title || "";
+            moviePosterInput.value = prefillData.poster || "";
+            movieRuntimeInput.value = prefillData.runtime || "";
+            movieGenresInput.value = JSON.stringify(prefillData.genres || []);
+            movieDirectorInput.value = prefillData.director || "";
+            movieTmdbIdInput.value = prefillData.tmdbId || "";
+            if (prefillData.release_date) {
+                movieDateInput.value = prefillData.release_date;
+            }
+            movieTitleInput.readOnly = true;
+        }
     }
-  } else {
-    modalTitle.textContent = "Film Ekle";
-    movieIdInput.value = "";
-    movieTypeInput.value = "watched";
-    movieDateInput.value = today;
-    watchLaterCheckbox.checked = false;
-    movieDateInput.disabled = false;
-    movieDateInput.required = true;
-    watchedDateGroup.style.display = "block";
-    ratingGroup.style.display = "block";
-    enhanceCommentButton.style.display = "block";
-    setupStarRating(movieRatingInputDiv, 0);
 
-    if (prefillData) {
-      movieTitleInput.value = prefillData.title || "";
-      moviePosterInput.value = prefillData.poster || "";
-      movieRuntimeInput.value = prefillData.runtime || "";
-      movieGenresInput.value = JSON.stringify(prefillData.genres || []);
-      movieDirectorInput.value = prefillData.director || "";
-      movieTmdbIdInput.value = prefillData.tmdbId || "";
-      if (prefillData.release_date) {
-        movieDateInput.value = prefillData.release_date;
-      }
-      movieTitleInput.readOnly = true;
+    const hasTmdbId = !!movieTmdbIdInput.value;
+    const isWatchLaterChecked = watchLaterCheckbox.checked;
+
+    if (hasTmdbId && !isWatchLaterChecked) {
+        chatWithCharacterButton.classList.remove("hidden");
+    } else {
+        chatWithCharacterButton.classList.add("hidden");
     }
-  }
 
-  const hasTmdbId = !!movieTmdbIdInput.value;
-  const isWatchLaterChecked = watchLaterCheckbox.checked;
-
-  if (hasTmdbId && !isWatchLaterChecked) {
-    chatWithCharacterButton.classList.remove("hidden");
-  } else {
-    chatWithCharacterButton.classList.add("hidden");
-  }
-
-  document.body.classList.add("no-scroll");
-  movieModalOverlay.classList.remove("hidden");
-  setTimeout(() => movieModalOverlay.classList.add("visible"), 10);
+    document.body.classList.add("no-scroll");
+    movieModalOverlay.classList.remove('hidden');
+    setTimeout(() => movieModalOverlay.classList.add("visible"), 10);
 }
 
 export function closeMovieMode() {
-  if (movieModalOverlay) {
-    movieModalOverlay.classList.remove("visible");
-    movieModalOverlay.addEventListener(
-      "transitionend",
-      () => {
-        if (!movieModalOverlay.classList.contains("visible")) {
-          movieModalOverlay.classList.add("hidden");
-        }
-      },
-      { once: true }
-    );
-    document.body.classList.remove("no-scroll");
-  }
+    if (movieModalOverlay) {
+        movieModalOverlay.classList.remove('visible');
+        movieModalOverlay.addEventListener('transitionend', () => {
+            if (!movieModalOverlay.classList.contains('visible')) {
+                movieModalOverlay.classList.add('hidden');
+            }
+        }, { once: true });
+        document.body.classList.remove('no-scroll');
+    }
 }
 
 function populateMovieDetails(movieData, directorName, trailerKey) {
@@ -398,84 +364,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 export async function handleMovieFormSubmit(e) {
   e.preventDefault();
+  closeMovieMode();
 
-  const modal = document.getElementById("movie-modal-overlay");
-  closeMovieMode(modal);
+  const movieData = {
+      id: movieIdInput.value || Date.now().toString(),
+      tmdbId: movieTmdbIdInput.value,
+      title: movieTitleInput.value.trim(),
+      poster: moviePosterInput.value || `https://placehold.co/70x100/2A2A2A/AAAAAA?text=Poster+Yok`,
+      comment: movieCommentInput.value,
+      type: watchLaterCheckbox.checked ? "watch-later" : "watched",
+      runtime: parseInt(movieRuntimeInput.value, 10) || 0,
+      director: movieDirectorInput.value || "Bilinmiyor",
+      genres: JSON.parse(movieGenresInput.value || "[]"),
+      rating: watchLaterCheckbox.checked ? null : currentRating,
+      watchedDate: watchLaterCheckbox.checked ? null : movieDateInput.value,
+  };
 
-  const movieId = movieIdInput.value;
-  const tmdbId = movieTmdbIdInput.value;
-  const originalType = movieTypeInput.value;
-  const title = movieTitleInput.value.trim();
-  const poster =
-    moviePosterInput.value ||
-    `https://placehold.co/70x100/2A2A2A/AAAAAA?text=${encodeURIComponent(
-      "Poster Yok"
-    )}`;
-  const comment = movieCommentInput.value;
-  const isWatchLater = watchLaterCheckbox.checked;
-  const runtime = parseInt(movieRuntimeInput.value, 10) || 0;
-  const director = movieDirectorInput.value || "Bilinmiyor";
-  let genres = [];
-  try {
-    genres = JSON.parse(movieGenresInput.value || "[]");
-  } catch (e) {
-    console.error("Genres parse error", e);
-    genres = [];
-  }
-
-  if (title === "") {
-    showNotification("Lütfen film adı alanını doldurunuz.", "error");
+  if (movieData.type === 'watched' && (movieData.rating === 0 || !movieData.watchedDate)) {
+    showNotification("Lütfen puan ve izleme tarihi alanlarını doldurunuz.", "error");
     return;
   }
-
-  const newId = movieId || Date.now().toString();
-  const newType = isWatchLater ? "watch-later" : "watched";
-  let movieData;
-
-  if (isWatchLater) {
-    movieData = {
-      id: newId,
-      title,
-      poster,
-      comment,
-      type: newType,
-      runtime,
-      director,
-      genres,
-      tmdbId,
-    };
-  } else {
-    if (currentRating === 0 || !movieDateInput.value) {
-      showNotification(
-        "Lütfen puan ve izleme tarihi alanlarını doldurunuz.",
-        "error"
-      );
-      return;
-    }
-    movieData = {
-      id: newId,
-      title,
-      poster,
-      rating: currentRating,
-      watchedDate: movieDateInput.value,
-      comment,
-      type: newType,
-      runtime,
-      director,
-      genres,
-      tmdbId,
-    };
-  }
-
-  if (movieId && originalType !== newType) {
-    await deleteMovieFromList(movieId, originalType);
+  
+  if (movieIdInput.value && movieTypeInput.value !== movieData.type) {
+      await deleteMovieFromList(movieIdInput.value, movieTypeInput.value);
   }
 
   await saveMovie(movieData);
-  showNotification(`'${title}' başarıyla kaydedildi.`, "success");
-  showSection(
-    isWatchLater ? "watch-later-movies-section" : "my-watched-movies-section"
-  );
+  showNotification(`'${movieData.title}' başarıyla kaydedildi.`, "success");
 }
 
 // modals.js dosyasının en altına veya uygun bir yere ekleyin
