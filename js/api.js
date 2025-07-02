@@ -8,7 +8,7 @@ const TMDB_PROXY_BASE = '/api/tmdb';
 export const TMDB_IMAGE_BASE_URL_W500 = 'https://image.tmdb.org/t/p/w500';
 export const TMDB_IMAGE_BASE_URL_W185 = 'https://image.tmdb.org/t/p/w185';
 export const TMDB_IMAGE_BASE_URL_W92 = 'https://image.tmdb.org/t/p/w92';
-export const YOUTUBE_EMBED_URL = 'https://www.youtube.com/embed/';
+export const YOUTUBE_EMBED_URL = 'https://www.youtube-nocookie.com/embed/';
 
 export async function fetchTrendingMovies(gridElement, errorMessageElement, renderFunction, openDetailModalFunction) {
     errorMessageElement.style.display = 'none';
