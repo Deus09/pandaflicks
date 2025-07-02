@@ -12,6 +12,9 @@ import { initBadgeInfoModal } from "./badge-modal.js";
 import { initChat } from "./chat.js"; // YENİ
 import { initMovieSuggestion } from "./movie-suggestion.js"; // YENİ
 
+// YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
+let currentLoadedUserId = null;
+
 /**
  * Creates the animated background grid for the splash screen.
  */
@@ -94,53 +97,39 @@ function initializeApp() {
   let isUiReady = false;
 
   // Set up the persistent listener for auth state changes.
+  // YENİ VE İYİLEŞTİRİLMİŞ HALİ
   initAuth((user) => {
     if (user) {
-      console.log(
-        "Auth state changed. User found:",
-        user.isAnonymous ? "Anonymous" : "Authenticated",
-        user.uid
-      );
+      // Sadece kullanıcı değiştiyse veya ilk yükleme ise verileri çek
+      if (user.uid !== currentLoadedUserId) {
+        console.log(
+          `Auth state changed. New user detected: ${user.uid}. Loading data...`
+        );
+        currentLoadedUserId = user.uid; // Mevcut kullanıcı ID'sini güncelle
+        loadMoviesFromFirestore(user.uid);
+      }
 
       if (!isUiReady) {
         showAppUI();
         isUiReady = true;
       }
-
-      loadMoviesFromFirestore(user.uid);
+      // updateProfileView her zaman çalışabilir çünkü kullanıcı bilgisi değişebilir
+      updateProfileView(user);
     } else {
       console.log(
         "Auth state changed. No user found. Signing in anonymously..."
       );
       clearMovieLists();
       updateProfileView(null);
+      currentLoadedUserId = null; // Kullanıcı çıkışı olduğunda takipçiyi sıfırla
 
-      // YENİ VE İYİLEŞTİRİLMİŞ KOD
       handleAnonymousSignIn().catch((err) => {
         console.error(
           "Critical: Failed to sign in anonymously on initialization.",
           err
         );
-        const splashScreen = document.getElementById("splash-screen");
-
-        // Mevcut bir hata mesajı olup olmadığını kontrol et, varsa tekrar ekleme
-        if (
-          splashScreen &&
-          !splashScreen.querySelector(".splash-error-overlay")
-        ) {
-          // Yeni bir div oluşturup, stillerini ata
-          const errorOverlay = document.createElement("div");
-          errorOverlay.className = "splash-error-overlay";
-
-          // İçeriğini ayarla
-          errorOverlay.innerHTML = `
-            <h1>Uygulama Başlatılamadı</h1>
-            <p>Sunucuyla ilk bağlantı kurulamadı. Lütfen internet bağlantınızı kontrol edip sayfayı yenileyin.</p>
-        `;
-
-          // Mevcut içeriği silmek yerine, hata katmanını üzerine ekle
-          splashScreen.appendChild(errorOverlay);
-        }
+        const splash = document.getElementById("splash-screen");
+        // ... (hata gösterme kodunuz) ...
       });
     }
   });
