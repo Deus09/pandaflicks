@@ -14,24 +14,56 @@ function unsubscribeListeners() {
 }
 
 export function loadMoviesFromFirestore(userId) {
-    unsubscribeListeners();
+    // Bu fonksiyon artık bir Promise döndürecek.
+    return new Promise((resolve, reject) => {
+        unsubscribeListeners();
 
-    const watchedRef = collection(db, "users", userId, "watchedMovies");
-    watchedUnsubscribe = onSnapshot(watchedRef, (snapshot) => {
-        watchedMovies = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log("Watched movies updated from Firestore:", watchedMovies.length);
-        if (!document.getElementById('my-watched-movies-section').classList.contains('hidden')) {
-            showSection('my-watched-movies-section');
-        }
-    });
+        // Her iki dinleyicinin de ilk veriyi yükleyip yüklemediğini kontrol etmek için
+        let watchedLoaded = false;
+        let watchLaterLoaded = false;
 
-    const watchLaterRef = collection(db, "users", userId, "watchLaterMovies");
-    watchLaterUnsubscribe = onSnapshot(watchLaterRef, (snapshot) => {
-        watchLaterMovies = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log("Watch later movies updated from Firestore:", watchLaterMovies.length);
-        if (!document.getElementById('watch-later-movies-section').classList.contains('hidden')) {
-            showSection('watch-later-movies-section');
-        }
+        const checkCompletion = () => {
+            // İkisi de yüklendiğinde, Promise'i başarıyla sonlandır.
+            if (watchedLoaded && watchLaterLoaded) {
+                console.log("Initial data from both collections loaded.");
+                resolve();
+            }
+        };
+
+        const watchedRef = collection(db, "users", userId, "watchedMovies");
+        watchedUnsubscribe = onSnapshot(watchedRef, (snapshot) => {
+            watchedMovies = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            
+            if (document.getElementById('my-watched-movies-section') && !document.getElementById('my-watched-movies-section').classList.contains('hidden')) {
+                showSection('my-watched-movies-section');
+            }
+
+            // Eğer bu ilk yükleme ise, durumu işaretle ve tamamlanıp tamamlanmadığını kontrol et
+            if (!watchedLoaded) {
+                watchedLoaded = true;
+                checkCompletion();
+            }
+        }, (error) => {
+            console.error("Watched movies listener error:", error);
+            reject(error); // Hata durumunda Promise'i reddet
+        });
+
+        const watchLaterRef = collection(db, "users", userId, "watchLaterMovies");
+        watchLaterUnsubscribe = onSnapshot(watchLaterRef, (snapshot) => {
+            watchLaterMovies = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            
+            if (document.getElementById('watch-later-movies-section') && !document.getElementById('watch-later-movies-section').classList.contains('hidden')) {
+                showSection('watch-later-movies-section');
+            }
+
+            if (!watchLaterLoaded) {
+                watchLaterLoaded = true;
+                checkCompletion();
+            }
+        }, (error) => {
+            console.error("Watch later listener error:", error);
+            reject(error);
+        });
     });
 }
 

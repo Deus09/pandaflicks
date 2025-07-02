@@ -11,6 +11,7 @@ import { handleMovieFormSubmit } from "./modals.js";
 import { initBadgeInfoModal } from "./badge-modal.js";
 import { initChat } from "./chat.js"; // YENİ
 import { initMovieSuggestion } from "./movie-suggestion.js"; // YENİ
+import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -98,22 +99,35 @@ function initializeApp() {
 
   // Set up the persistent li,stener for auth state changes.
   // YENİ VE İYİLEŞTİRİLMİŞ HALİ
-  initAuth((user) => {
+  // initAuth bloğunun YENİ HALİ
+  initAuth(async (user) => {
+    // Geri çağrıyı async yap
     if (user) {
-      // Sadece kullanıcı değiştiyse veya ilk yükleme ise verileri çek
       if (user.uid !== currentLoadedUserId) {
-        console.log(
-          `Auth state changed. New user detected: ${user.uid}. Loading data...`
-        );
-        currentLoadedUserId = user.uid; // Mevcut kullanıcı ID'sini güncelle
-        loadMoviesFromFirestore(user.uid);
+        currentLoadedUserId = user.uid;
+
+        // 1. Veri çekme başlamadan önce animasyonu göster
+        showLoadingSpinner("Verileriniz yükleniyor...");
+
+        try {
+          // 2. Verilerin ilk yüklemesinin tamamlanmasını bekle
+          await loadMoviesFromFirestore(user.uid);
+        } catch (error) {
+          console.error(
+            "Firestore'dan ilk veri yüklenirken hata oluştu:",
+            error
+          );
+          // Burada kullanıcıya bir hata mesajı da gösterebilirsiniz.
+        } finally {
+          // 3. İşlem başarılı da olsa, hatalı da olsa animasyonu gizle
+          hideLoadingSpinner();
+        }
       }
 
       if (!isUiReady) {
         showAppUI();
         isUiReady = true;
       }
-      // updateProfileView her zaman çalışabilir çünkü kullanıcı bilgisi değişebilir
       updateProfileView(user);
     } else {
       console.log(
@@ -121,15 +135,10 @@ function initializeApp() {
       );
       clearMovieLists();
       updateProfileView(null);
-      currentLoadedUserId = null; // Kullanıcı çıkışı olduğunda takipçiyi sıfırla
+      currentLoadedUserId = null;
 
       handleAnonymousSignIn().catch((err) => {
-        console.error(
-          "Critical: Failed to sign in anonymously on initialization.",
-          err
-        );
-        const splash = document.getElementById("splash-screen");
-        // ... (hata gösterme kodunuz) ...
+        // ...hata gösterme kodunuz...
       });
     }
   });
