@@ -24,37 +24,81 @@ export function createStarsForDisplay(rating) {
     return starsHtml;
 }
 
+// renderMyMovies fonksiyonunun GÜVENLİ ve YENİ HALİ
+
 export function renderMyMovies(listElement, movies, emptyMessageElement, openMovieModeFunction) {
-    listElement.innerHTML = '';
+    // 1. Önce listeyi temizle (Bu yöntem güvenlidir)
+    listElement.replaceChildren();
+
     if (movies.length === 0) {
         emptyMessageElement.style.display = 'block';
         return;
     }
+
     emptyMessageElement.style.display = 'none';
+
     movies.forEach(movie => {
+        // 2. Her bir elementi programatik olarak oluştur
         const movieItem = document.createElement('div');
-        movieItem.classList.add('movie-item');
-        const commentHTML = movie.comment ? `<p class="short-comment">${movie.comment}</p>` : '';
-        movieItem.innerHTML = `
-            <img src="${movie.poster}" alt="${movie.title} Poster" class="movie-poster" onerror="this.onerror=null;this.src='https://placehold.co/70x100/2A2A2A/AAAAAA?text=Poster+Yok';">
-            <div class="movie-details">
-                <div class="movie-title">${movie.title}</div>
-                ${createStarsForDisplay(movie.rating)}
-                <div class="watched-date">${formatDate(movie.watchedDate)}</div>
-                ${commentHTML}
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-gray-400 self-center ml-2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
-        `;
-        const commentElement = movieItem.querySelector('.short-comment');
-        if (commentElement) {
-            commentElement.addEventListener('click', (e) => {
+        movieItem.className = 'movie-item';
+
+        const posterImg = document.createElement('img');
+        posterImg.className = 'movie-poster';
+        posterImg.src = movie.poster;
+        posterImg.alt = `${movie.title} Poster`;
+        posterImg.onerror = function() {
+            this.onerror = null;
+            this.src = 'https://placehold.co/70x100/2A2A2A/AAAAAA?text=Poster+Yok';
+        };
+
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'movie-details';
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'movie-title';
+        titleEl.textContent = movie.title; // GÜVENLİ: .textContent kullanılıyor
+
+        const starsEl = document.createElement('div');
+        starsEl.innerHTML = createStarsForDisplay(movie.rating); // Bu fonksiyonun içi güvenli olduğu için innerHTML kullanılabilir
+
+        const dateEl = document.createElement('div');
+        dateEl.className = 'watched-date';
+        dateEl.textContent = formatDate(movie.watchedDate); // GÜVENLİ: .textContent kullanılıyor
+
+        // Önce detayları kendi kapsayıcısına ekle
+        detailsDiv.append(titleEl, starsEl, dateEl);
+
+        // Yorum varsa oluştur ve ekle
+        if (movie.comment) {
+            const commentEl = document.createElement('p');
+            commentEl.className = 'short-comment';
+            commentEl.textContent = movie.comment; // GÜVENLİ: .textContent kullanılıyor
+            
+            commentEl.addEventListener('click', (e) => {
                 e.stopPropagation();
-                commentElement.classList.toggle('expanded');
+                commentEl.classList.toggle('expanded');
             });
+            detailsDiv.appendChild(commentEl);
         }
+        
+        const chevronIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        chevronIcon.setAttribute('fill', 'none');
+        chevronIcon.setAttribute('viewBox', '0 0 24 24');
+        chevronIcon.setAttribute('stroke-width', '2.5');
+        chevronIcon.setAttribute('stroke', 'currentColor');
+        chevronIcon.classList.add('w-5', 'h-5', 'text-gray-400', 'self-center', 'ml-2');
+        chevronIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
+
+
+        // 3. Oluşturulan tüm elementleri ana kapsayıcıya ekle
+        movieItem.append(posterImg, detailsDiv, chevronIcon);
+
+        // 4. Ana kapsayıcıya click olayını ekle
         movieItem.addEventListener('click', () => {
             openMovieModeFunction(movie.id, null, 'watched');
         });
+
+        // 5. Son olarak, tam ve güvenli listeyi DOM'a ekle
         listElement.appendChild(movieItem);
     });
 }
