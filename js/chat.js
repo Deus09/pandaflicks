@@ -14,7 +14,7 @@ const CHAT_HISTORY_LIMIT = 10;
 let isChatInitialized = false;
 
 // Sadece bir kez çalışarak tüm chat elementlerini bulur ve olayları bağlar.
-function initializeChatDOM() {
+export function initializeChatDOM() {
     if (isChatInitialized) return;
 
     characterSelectionModal = document.getElementById('character-selection-modal');

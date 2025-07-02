@@ -9,7 +9,7 @@ import {
 import { setupEventListeners } from "./events.js";
 import { handleMovieFormSubmit } from "./modals.js";
 import { initBadgeInfoModal } from "./badge-modal.js";
-import { initChat } from "./chat.js"; // YENİ
+import { initializeChatDOM } from "./chat.js"; // YENİ
 import { initMovieSuggestion } from "./movie-suggestion.js"; // YENİ
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 
@@ -90,7 +90,7 @@ function initializeApp() {
   setupEventListeners();
   setupListViewControls();
   initBadgeInfoModal();
-  initChat();
+  initializeChatDOM();
   initMovieSuggestion(); // YENİ
 
   let isUiReady = false;
