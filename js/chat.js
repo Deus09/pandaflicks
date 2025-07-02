@@ -68,6 +68,61 @@ export function initChat() {
 }
 
 /**
+ * Karakter listesini DOM'a güvenli bir şekilde çizer.
+ * @param {Array<object>} characters - Gösterilecek karakterlerin dizisi.
+ */
+function renderCharacterList(characters) {
+    characterList.replaceChildren(); // Önceki listeyi ve olay dinleyicilerini güvenli bir şekilde temizle
+
+    if (!characters || characters.length === 0) {
+        const noCharacterMsg = document.createElement('p');
+        noCharacterMsg.className = 'text-center text-gray-500';
+        noCharacterMsg.textContent = 'Bu film için konuşulacak karakter bulunamadı.';
+        characterList.appendChild(noCharacterMsg);
+        return;
+    }
+
+    characters.forEach(character => {
+        // Elementleri programatik olarak oluşturarak XSS zafiyetini önle
+        const charItem = document.createElement('div');
+        charItem.className = 'character-item';
+
+        const avatarImg = document.createElement('img');
+        avatarImg.className = 'character-avatar';
+        avatarImg.alt = character.name;
+        avatarImg.src = character.profile_path
+            ? `${TMDB_IMAGE_BASE_URL_W185}${character.profile_path}`
+            : 'https://placehold.co/60x60/2d333b/8b949e?text=?';
+
+        // Güvenli hata yönetimi
+        avatarImg.addEventListener('error', () => {
+            avatarImg.src = 'https://placehold.co/60x60/2d333b/8b949e?text=?';
+        }, { once: true });
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'character-info';
+
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'character-name';
+        nameDiv.textContent = character.character || character.name; // .textContent ile güvenli atama
+
+        const actorDiv = document.createElement('div');
+        actorDiv.className = 'character-actor';
+        actorDiv.textContent = character.name; // .textContent ile güvenli atama
+
+        infoDiv.append(nameDiv, actorDiv);
+        charItem.append(avatarImg, infoDiv);
+
+        // Olay dinleyicisini ekle
+        charItem.addEventListener('click', () => handleCharacterSelect(character));
+        
+        characterList.appendChild(charItem);
+    });
+}
+
+
+
+/**
  * Karakter seçim modalını açmak için olay yöneticisi.
  */
 function handleOpenCharacterSelection() {
@@ -86,15 +141,43 @@ function handleOpenCharacterSelection() {
     loadAndRenderCharacters(tmdbId);
 }
 
-/**
- * Karakter seçimi modalını DOM'da görünür hale getirir.
- */
-function openCharacterSelectionModal() {
-    characterListContainer.innerHTML = ''; // Önceki listeyi temizle
-    characterListLoader.style.display = 'flex';
-    characterListContainer.appendChild(characterListLoader);
-    characterSelectionModal.classList.add('visible');
+async function openCharacterSelectionModal(movie) {
+    currentMovieForChat = movie;
+    characterSelectionModal.classList.remove('hidden');
+    setTimeout(() => characterSelectionModal.classList.add('visible'), 10);
     document.body.classList.add('no-scroll');
+
+    characterList.classList.add('hidden');
+    
+    // Animasyonu göster ve OYNAT
+    characterListLoader.classList.remove('hidden');
+    characterListLoader.classList.add('visible');
+    const player = characterListLoader.querySelector('dotlottie-player');
+    if (player) {
+        player.play();
+    }
+
+    try {
+        const characters = await getMovieCharacters(movie.id);
+        renderCharacterList(characters); // Yeni, güvenli render fonksiyonunu çağır
+        characterList.classList.remove('hidden');
+
+    } catch (error) {
+        console.error("Karakterler alınırken hata:", error);
+        characterList.innerHTML = ''; // Önce temizle
+        const errorEl = document.createElement('p');
+        errorEl.className = 'text-red-400 text-center';
+        errorEl.textContent = 'Karakterler yüklenemedi.'; // GÜVENLİ: .textContent kullanılıyor
+        characterList.appendChild(errorEl);
+        characterList.classList.remove('hidden');
+    } finally {
+        // Animasyonu gizle ve DURDUR
+        characterListLoader.classList.add('hidden');
+        characterListLoader.classList.remove('visible');
+        if (player) {
+            player.stop();
+        }
+    }
 }
 
 /**

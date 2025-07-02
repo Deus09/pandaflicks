@@ -29,7 +29,9 @@ const watchedDateGroup = document.getElementById("watched-date-group");
 const movieDateInput = document.getElementById("movie-date-input");
 const movieCommentInput = document.getElementById("movie-comment-input");
 const enhanceCommentButton = document.getElementById("enhance-comment-button");
-const chatWithCharacterButton = document.getElementById("chat-with-character-button");
+const chatWithCharacterButton = document.getElementById(
+  "chat-with-character-button"
+);
 const tmdbSearchResultsDiv = document.getElementById("tmdb-search-results");
 const tmdbSearchMessage = document.getElementById("tmdb-search-message");
 const movieRuntimeInput = document.getElementById("movie-runtime-input");
@@ -81,7 +83,7 @@ export function openMovieMode(
   movieDirectorInput.value = "";
   movieTmdbIdInput.value = "";
   movieTitleInput.readOnly = false;
-  chatWithCharacterButton.classList.add('hidden'); // Sohbet butonunu başlangıçta gizle
+  chatWithCharacterButton.classList.add("hidden"); // Sohbet butonunu başlangıçta gizle
 
   const ratingGroup = movieRatingInputDiv.parentElement;
 
@@ -161,11 +163,10 @@ export function openMovieMode(
   const isWatchLaterChecked = watchLaterCheckbox.checked;
 
   if (hasTmdbId && !isWatchLaterChecked) {
-      chatWithCharacterButton.classList.remove('hidden');
+    chatWithCharacterButton.classList.remove("hidden");
   } else {
-      chatWithCharacterButton.classList.add('hidden');
+    chatWithCharacterButton.classList.add("hidden");
   }
-
 
   document.body.classList.add("no-scroll");
   movieModalOverlay.classList.add("visible");
@@ -178,11 +179,70 @@ export function closeMovieMode(modalOverlay) {
   }
 }
 
+// Bu yardımcı fonksiyon, film detaylarını modal'a doldurur.
+function populateMovieDetails(movieData, directorName, trailerKey) {
+  detailModalTitle.textContent = movieData.title || "Bilgi Yok";
+  detailMoviePoster.src = movieData.poster_path
+    ? TMDB_IMAGE_BASE_URL_W500 + movieData.poster_path
+    : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
+  detailMovieReleaseDate.textContent = movieData.release_date
+    ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString(
+        "tr-TR",
+        { year: "numeric", month: "long", day: "numeric" }
+      )}`
+    : "Vizyon Tarihi: Bilinmiyor";
+  detailMovieGenres.textContent =
+    movieData.genres?.length > 0
+      ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}`
+      : "Türler: Bilinmiyor";
+  detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
+  detailMovieOverview.textContent =
+    movieData.overview || "Bu film için özet bulunmamaktadır.";
+
+  if (trailerKey) {
+    detailMovieTrailerIframe.src = `${YOUTUBE_EMBED_URL}${trailerKey}?rel=0`;
+    detailMovieTrailerSection.classList.remove("hidden");
+  } else {
+    detailMovieTrailerSection.classList.add("hidden");
+  }
+
+  // --- Event Listener'ı Güvenli Bir Şekilde Ekleme ---
+
+  // 1. Önceki event listener'lardan kurtulmak için butonu klonla ve eskisini değiştir.
+  const newButton = detailAddToLogButton.cloneNode(true);
+  detailAddToLogButton.parentNode.replaceChild(newButton, detailAddToLogButton);
+  detailAddToLogButton = newButton; // Referansı güncelle
+
+  // 2. Yeni butona olay dinleyicisini ekle.
+  detailAddToLogButton.addEventListener("click", () => {
+    closeMovieDetailsModal();
+    openMovieMode(null, {
+      title: movieData.title,
+      tmdbId: movieData.id,
+      poster: movieData.poster_path
+        ? TMDB_IMAGE_BASE_URL_W92 + movieData.poster_path
+        : "",
+      release_date: movieData.release_date,
+      runtime: movieData.runtime,
+      genres: movieData.genres,
+      director: directorName,
+    });
+  });
+
+  detailAddToLogButton.disabled = false;
+}
+
+// openMovieDetailsModal fonksiyonunun YENİ ve İYİLEŞTİRİLMİŞ HALİ
 export async function openMovieDetailsModal(tmdbMovieId) {
-  detailLottieLoader.style.display = "flex";
-  detailModalBody.style.display = "none";
+  movieDetailsModalOverlay.classList.remove("hidden");
+  setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
   document.body.classList.add("no-scroll");
-  movieDetailsModalOverlay.classList.add("visible");
+
+  detailModalBody.style.display = "none";
+  detailLottieLoader.style.display = "flex";
+  const player = detailLottieLoader.querySelector("dotlottie-player");
+  if (player) player.play(); // Animasyonu başlat
+
   detailModalTitle.textContent = "Yükleniyor...";
   detailAddToLogButton.disabled = true;
 
@@ -190,53 +250,19 @@ export async function openMovieDetailsModal(tmdbMovieId) {
   const apiPromise = fetchMovieDetailsFromApi(tmdbMovieId);
 
   try {
-    const [_, { movieData, directorName, trailerKey }] = await Promise.all([
-      timerPromise,
-      apiPromise,
-    ]);
-
-    detailModalTitle.textContent = movieData.title || "Bilgi Yok";
-    detailMoviePoster.src = movieData.poster_path
-      ? TMDB_IMAGE_BASE_URL_W500 + movieData.poster_path
-      : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
-    detailMovieReleaseDate.textContent = movieData.release_date
-      ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString("tr-TR",{ year: "numeric", month: "long", day: "numeric" })}`
-      : "Vizyon Tarihi: Bilinmiyor";
-    detailMovieGenres.textContent =
-      movieData.genres && movieData.genres.length > 0
-        ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}`
-        : "Türler: Bilinmiyor";
-    detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
-    detailMovieOverview.textContent =
-      movieData.overview || "Bu film için özet bulunmamaktadır.";
-
-    if (trailerKey) {
-      detailMovieTrailerIframe.src = `${YOUTUBE_EMBED_URL}${trailerKey}?autoplay=0&rel=0`;
-      detailMovieTrailerSection.classList.remove("hidden");
-    } else {
-      detailMovieTrailerSection.classList.add("hidden");
-    }
-
-    detailAddToLogButton.disabled = false;
-    detailAddToLogButton.onclick = () => {
-      closeMovieDetailsModal();
-      openMovieMode(null, {
-        title: movieData.title,
-        tmdbId: movieData.id, // TMDB ID'sini de gönder
-        poster: movieData.poster_path
-          ? TMDB_IMAGE_BASE_URL_W92 + movieData.poster_path
-          : "",
-        release_date: movieData.release_date,
-        runtime: movieData.runtime,
-        genres: movieData.genres,
-        director: directorName,
-      });
-    };
+    const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
+    populateMovieDetails(
+      movieDetails.movieData,
+      movieDetails.directorName,
+      movieDetails.trailerKey
+    );
   } catch (error) {
     console.error("Film detayları yüklenirken hata oluştu:", error);
     detailModalTitle.textContent = "Hata Oluştu";
-    detailMovieOverview.innerHTML = `<p class="text-red-400">Film detayları yüklenirken bir sorun oluştu.</p>`;
+    // GÜVENLİK: innerHTML yerine textContent kullanılıyor.
+    detailMovieOverview.textContent = `Film detayları yüklenirken bir sorun oluştu: ${error.message}`;
   } finally {
+    if (player) player.stop(); // Animasyonu durdur
     detailLottieLoader.style.display = "none";
     detailModalBody.style.display = "flex";
   }
@@ -256,10 +282,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 export async function handleMovieFormSubmit(e) {
   e.preventDefault();
-  
+
   const modal = document.getElementById("movie-modal-overlay");
   closeMovieMode(modal);
-  
+
   const movieId = movieIdInput.value;
   const tmdbId = movieTmdbIdInput.value;
   const originalType = movieTypeInput.value;
@@ -276,11 +302,10 @@ export async function handleMovieFormSubmit(e) {
   let genres = [];
   try {
     genres = JSON.parse(movieGenresInput.value || "[]");
-  } catch(e) {
+  } catch (e) {
     console.error("Genres parse error", e);
     genres = [];
   }
-
 
   if (title === "") {
     showNotification("Lütfen film adı alanını doldurunuz.", "error");
@@ -292,9 +317,16 @@ export async function handleMovieFormSubmit(e) {
   let movieData;
 
   if (isWatchLater) {
-    movieData = { 
-      id: newId, title, poster, comment, type: newType, 
-      runtime, director, genres, tmdbId
+    movieData = {
+      id: newId,
+      title,
+      poster,
+      comment,
+      type: newType,
+      runtime,
+      director,
+      genres,
+      tmdbId,
     };
   } else {
     if (currentRating === 0 || !movieDateInput.value) {
@@ -305,9 +337,17 @@ export async function handleMovieFormSubmit(e) {
       return;
     }
     movieData = {
-      id: newId, title, poster, rating: currentRating,
-      watchedDate: movieDateInput.value, comment,
-      type: newType, runtime, director, genres, tmdbId
+      id: newId,
+      title,
+      poster,
+      rating: currentRating,
+      watchedDate: movieDateInput.value,
+      comment,
+      type: newType,
+      runtime,
+      director,
+      genres,
+      tmdbId,
     };
   }
 
@@ -324,90 +364,99 @@ export async function handleMovieFormSubmit(e) {
 
 // modals.js dosyasının en altına veya uygun bir yere ekleyin
 
-const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
-const particlesContainer = document.querySelector('.particles-container');
+const loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
+const particlesContainer = document.querySelector(".particles-container");
 let particleInterval;
 
 // Film önerisi modalı için kullanılan filmlerden rastgele posterler alır
 // Bu listeyi projenize uygun şekilde daha dinamik hale getirebilirsiniz.
 const particleImages = [
-    'https://image.tmdb.org/t/p/w92/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', // The Shawshank Redemption
-    'https://image.tmdb.org/t/p/w92/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg',  // The Godfather
-    'https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg', // The Dark Knight
-    'https://image.tmdb.org/t/p/w92/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg',  // Pulp Fiction
-    'https://image.tmdb.org/t/p/w92/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg', // Forrest Gump
-    'https://image.tmdb.org/t/p/w92/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg', // The Matrix
-    'https://image.tmdb.org/t/p/w92/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg', // Inception
-    'https://image.tmdb.org/t/p/w92/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg'  // Interstellar
+  "https://image.tmdb.org/t/p/w92/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", // The Shawshank Redemption
+  "https://image.tmdb.org/t/p/w92/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg", // The Godfather
+  "https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg", // The Dark Knight
+  "https://image.tmdb.org/t/p/w92/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg", // Pulp Fiction
+  "https://image.tmdb.org/t/p/w92/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg", // Forrest Gump
+  "https://image.tmdb.org/t/p/w92/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg", // The Matrix
+  "https://image.tmdb.org/t/p/w92/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg", // Inception
+  "https://image.tmdb.org/t/p/w92/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg", // Interstellar
 ];
 
 function createParticle() {
-    if (!particlesContainer) return;
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    
-    // Rastgele boyut, konum, süre ve gecikme
-    const size = Math.random() * 40 + 10; // 10px - 50px arası
-    const xPos = Math.random() * 100; // 0% - 100% arası
-    const duration = Math.random() * 10 + 8; // 8s - 18s arası
-    const delay = Math.random() * 5; // 0s - 5s arası
-    const image = particleImages[Math.floor(Math.random() * particleImages.length)];
+  if (!particlesContainer) return;
+  const particle = document.createElement("div");
+  particle.className = "particle";
 
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-    particle.style.left = `${xPos}%`;
-    particle.style.animationDuration = `${duration}s`;
-    particle.style.animationDelay = `${delay}s`;
-    particle.style.backgroundImage = `url(${image})`;
-    
-    particlesContainer.appendChild(particle);
+  // Rastgele boyut, konum, süre ve gecikme
+  const size = Math.random() * 40 + 10; // 10px - 50px arası
+  const xPos = Math.random() * 100; // 0% - 100% arası
+  const duration = Math.random() * 10 + 8; // 8s - 18s arası
+  const delay = Math.random() * 5; // 0s - 5s arası
+  const image =
+    particleImages[Math.floor(Math.random() * particleImages.length)];
 
-    // Animasyon bitince parçacığı DOM'dan kaldır
-    setTimeout(() => {
-        particle.remove();
-    }, (duration + delay) * 1000);
+  particle.style.width = `${size}px`;
+  particle.style.height = `${size}px`;
+  particle.style.left = `${xPos}%`;
+  particle.style.animationDuration = `${duration}s`;
+  particle.style.animationDelay = `${delay}s`;
+  particle.style.backgroundImage = `url(${image})`;
+
+  particlesContainer.appendChild(particle);
+
+  // Animasyon bitince parçacığı DOM'dan kaldır
+  setTimeout(() => {
+    particle.remove();
+  }, (duration + delay) * 1000);
 }
 
 // Splash ekranı gösterildiğinde parçacık üretimini başlat
 export function startSplashScreenEffects() {
-    if (particleInterval) clearInterval(particleInterval);
-    if(particlesContainer) particlesContainer.innerHTML = ''; // Eskileri temizle
-    // Her 200ms'de bir yeni parçacık oluştur
-    particleInterval = setInterval(createParticle, 200);
+  if (particleInterval) clearInterval(particleInterval);
+  if (particlesContainer) particlesContainer.innerHTML = ""; // Eskileri temizle
+  // Her 200ms'de bir yeni parçacık oluştur
+  particleInterval = setInterval(createParticle, 200);
 }
 
 // Splash ekranı gizlendiğinde parçacık üretimini durdur
 export function stopSplashScreenEffects() {
-    if (particleInterval) clearInterval(particleInterval);
+  if (particleInterval) clearInterval(particleInterval);
 }
 
-export function showLoadingSpinner(text = 'Film aranıyor...') {
-  const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
+export function showLoadingSpinner(text = "Film aranıyor...") {
+  const loadingSpinnerOverlay = document.getElementById(
+    "loadingSpinnerOverlay"
+  );
   if (!loadingSpinnerOverlay) return;
 
   // 1. Önce 'hidden' sınıfını kaldırarak elemanı DOM'da "var" et
-  loadingSpinnerOverlay.classList.remove('hidden');
-  document.getElementById('splash-text').textContent = text;
-  
+  loadingSpinnerOverlay.classList.remove("hidden");
+  document.getElementById("splash-text").textContent = text;
+
   // 2. Çok küçük bir gecikmeyle 'visible' sınıfını ekleyerek CSS animasyonlarını tetikle
   setTimeout(() => {
-    loadingSpinnerOverlay.classList.add('visible');
+    loadingSpinnerOverlay.classList.add("visible");
     startSplashScreenEffects(); // Parçacık efektlerini başlat
   }, 10); // 10 milisaniyelik gecikme, tarayıcının değişikliği algılaması için yeterlidir
 }
 
 export function hideLoadingSpinner() {
-  const loadingSpinnerOverlay = document.getElementById('loadingSpinnerOverlay');
+  const loadingSpinnerOverlay = document.getElementById(
+    "loadingSpinnerOverlay"
+  );
   if (!loadingSpinnerOverlay) return;
-  
+
   // 1. Önce 'visible' sınıfını kaldırarak kapanma animasyonunu başlat
-  loadingSpinnerOverlay.classList.remove('visible');
+  loadingSpinnerOverlay.classList.remove("visible");
   stopSplashScreenEffects(); // Parçacık efektlerini durdur
 
   // 2. CSS geçişi (transition) bittiğinde elemanı 'hidden' yaparak DOM'dan kaldır
-  loadingSpinnerOverlay.addEventListener('transitionend', () => {
-      if (!loadingSpinnerOverlay.classList.contains('visible')) {
-          loadingSpinnerOverlay.classList.add('hidden');
+  loadingSpinnerOverlay.addEventListener(
+    "transitionend",
+    () => {
+      if (!loadingSpinnerOverlay.classList.contains("visible")) {
+        loadingSpinnerOverlay.classList.add("hidden");
       }
-  }, { once: true });
+    },
+    { once: true }
+  );
 }

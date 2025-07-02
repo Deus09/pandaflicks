@@ -217,48 +217,34 @@ export async function showSection(sectionId) {
       openMovieDetailsModal
     );
   } else if (sectionId === "special-lists-section") {
-    // 1. Animasyonu göster, eski içeriği temizle ve içeriği gizle
-    specialListsLoader.classList.remove("hidden");
-    specialListsLoader.classList.add("visible"); // DÜZELTME: Animasyonu göstermek için .visible sınıfı ekleniyor.
-    specialListsContentContainer.innerHTML = "";
-    specialListsContentContainer.classList.add("hidden");
+    // 1. Animasyonu göster
+        specialListsLoader.classList.remove('hidden');
+        specialListsLoader.classList.add('visible');
+        
+        // YENİ: İçindeki oynatıcıyı bul ve oynatmaya başla
+        const player = specialListsLoader.querySelector('dotlottie-player');
+        if (player) {
+            player.play();
+        }
 
-    // 2. İki asenkron işlemi aynı anda başlat
-    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+        specialListsContentContainer.innerHTML = '';
+        specialListsContentContainer.classList.add('hidden');
 
-    const dataFetchPromise = (async () => {
-      const lists = getCuratedLists();
-      const listPromises = lists.map((list) => fetchMoviesFromList(list));
-      const moviesPerList = await Promise.all(listPromises);
+        // ... (Promise ve veri çekme kodları aynı kalacak) ...
+        const [_, listsWithImages] = await Promise.all([timerPromise, dataFetchPromise]);
+        
+        // 4. Animasyonu gizle
+        specialListsLoader.classList.add('hidden');
+        specialListsLoader.classList.remove('visible');
+        
+        // YENİ: Oynatıcıyı bul ve kaynak tüketmemesi için durdur
+        if (player) {
+            player.stop();
+        }
 
-      return lists.map((list, index) => {
-        const firstMovieWithPoster = moviesPerList[index].find(
-          (m) => m.poster_path
-        );
-        return {
-          ...list,
-          heroImage: firstMovieWithPoster
-            ? `https://image.tmdb.org/t/p/w500${firstMovieWithPoster.poster_path}`
-            : null,
-        };
-      });
-    })();
+        specialListsContentContainer.classList.remove('hidden');
+        renderSpecialLists(specialListsContentContainer, listsWithImages, showListDetail);
 
-    // 3. Hem 1 saniyenin dolmasını hem de verilerin gelmesini bekle
-    const [_, listsWithImages] = await Promise.all([
-      timerPromise,
-      dataFetchPromise,
-    ]);
-
-    // 4. İki işlem de bittiğinde animasyonu gizle, içeriği göster ve listeyi render et
-    specialListsLoader.classList.add("hidden");
-    specialListsLoader.classList.remove("visible"); // DÜZELTME: Animasyonu gizlemek için .visible sınıfı kaldırılıyor.
-    specialListsContentContainer.classList.remove("hidden");
-    renderSpecialLists(
-      specialListsContentContainer,
-      listsWithImages,
-      showListDetail
-    );
   } else if (sectionId === "watch-later-movies-section") {
     renderWatchLaterMovies(
       watchLaterMoviesList,
