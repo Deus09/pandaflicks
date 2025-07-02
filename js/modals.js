@@ -363,40 +363,96 @@ function populateMovieDetails(movieData, directorName, trailerKey) {
   detailAddToLogButton.disabled = false;
 }
 
-// openMovieDetailsModal fonksiyonunun YENİ ve İYİLEŞTİRİLMİŞ HALİ
+// openMovieDetailsModal fonksiyonunun YENİ ve TAM HALİ
+
 export async function openMovieDetailsModal(tmdbMovieId) {
-  movieDetailsModalOverlay.classList.remove("hidden");
-  setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
-  document.body.classList.add("no-scroll");
+    // 1. Bu modalın kullandığı elementleri, sadece ilk kez çağrıldığında bul ve ata.
+    if (!movieDetailsModalOverlay) {
+        movieDetailsModalOverlay = document.getElementById("movie-details-modal-overlay");
+        detailModalTitle = document.getElementById("detail-modal-title");
+        detailModalBody = document.getElementById("detail-modal-body");
+        detailLottieLoader = document.getElementById("detail-lottie-loader");
+        detailMoviePoster = document.getElementById("detail-movie-poster");
+        detailMovieReleaseDate = document.getElementById("detail-movie-release-date");
+        detailMovieGenres = document.getElementById("detail-movie-genres");
+        detailMovieDirector = document.getElementById("detail-movie-director");
+        detailMovieOverview = document.getElementById("detail-movie-overview");
+        detailMovieTrailerSection = document.getElementById("detail-movie-trailer-section");
+        detailMovieTrailerIframe = document.getElementById("detail-movie-trailer-iframe");
+        detailAddToLogButton = document.getElementById("detail-add-to-log-button");
+    }
 
-  detailModalBody.style.display = "none";
-  detailLottieLoader.style.display = "flex";
-  const player = detailLottieLoader.querySelector("dotlottie-player");
-  if (player) player.play(); // Animasyonu başlat
+    // 2. Modal'ı görünür yapma ve yükleme animasyonunu başlatma mantığı
+    movieDetailsModalOverlay.classList.remove("hidden");
+    setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
+    document.body.classList.add("no-scroll");
 
-  detailModalTitle.textContent = "Yükleniyor...";
-  detailAddToLogButton.disabled = true;
+    detailModalBody.style.display = "none";
+    detailLottieLoader.style.display = "flex";
+    const player = detailLottieLoader.querySelector("dotlottie-player");
+    if (player) player.play(); // Animasyonu başlat
 
-  const timerPromise = new Promise((resolve) => setTimeout(resolve, 1500));
-  const apiPromise = fetchMovieDetailsFromApi(tmdbMovieId);
+    detailModalTitle.textContent = "Yükleniyor...";
+    detailAddToLogButton.disabled = true;
 
-  try {
-    const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
-    populateMovieDetails(
-      movieDetails.movieData,
-      movieDetails.directorName,
-      movieDetails.trailerKey
-    );
-  } catch (error) {
-    console.error("Film detayları yüklenirken hata oluştu:", error);
-    detailModalTitle.textContent = "Hata Oluştu";
-    // GÜVENLİK: innerHTML yerine textContent kullanılıyor.
-    detailMovieOverview.textContent = `Film detayları yüklenirken bir sorun oluştu: ${error.message}`;
-  } finally {
-    if (player) player.stop(); // Animasyonu durdur
-    detailLottieLoader.style.display = "none";
-    detailModalBody.style.display = "flex";
-  }
+    // 3. Veri çekme ve içeriği doldurma mantığı (değişiklik yok)
+    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1500));
+    const apiPromise = fetchMovieDetailsFromApi(tmdbMovieId);
+
+    try {
+        const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
+        
+        // populateMovieDetails'i çağırmak yerine, mantığı doğrudan burada tutmak
+        // bu fonksiyonun kendi kendine yetmesini sağlar.
+        const { movieData, directorName, trailerKey } = movieDetails;
+        
+        detailModalTitle.textContent = movieData.title || "Bilgi Yok";
+        detailMoviePoster.src = movieData.poster_path
+            ? TMDB_IMAGE_BASE_URL_W500 + movieData.poster_path
+            : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
+        detailMovieReleaseDate.textContent = movieData.release_date
+            ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString("tr-TR",{ year: "numeric", month: "long", day: "numeric" })}`
+            : "Vizyon Tarihi: Bilinmiyor";
+        detailMovieGenres.textContent = movieData.genres?.length > 0
+            ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}`
+            : "Türler: Bilinmiyor";
+        detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
+        detailMovieOverview.textContent = movieData.overview || "Bu film için özet bulunmamaktadır.";
+
+        if (trailerKey) {
+            detailMovieTrailerIframe.src = `${YOUTUBE_EMBED_URL}${trailerKey}?rel=0`;
+            detailMovieTrailerSection.classList.remove("hidden");
+        } else {
+            detailMovieTrailerSection.classList.add("hidden");
+        }
+
+        const newButton = detailAddToLogButton.cloneNode(true);
+        detailAddToLogButton.parentNode.replaceChild(newButton, detailAddToLogButton);
+        detailAddToLogButton = newButton; 
+
+        detailAddToLogButton.addEventListener("click", () => {
+            closeMovieDetailsModal();
+            openMovieMode(null, {
+                title: movieData.title,
+                tmdbId: movieData.id,
+                poster: movieData.poster_path ? TMDB_IMAGE_BASE_URL_W92 + movieData.poster_path : "",
+                release_date: movieData.release_date,
+                runtime: movieData.runtime,
+                genres: movieData.genres,
+                director: directorName,
+            });
+        });
+        detailAddToLogButton.disabled = false;
+
+    } catch (error) {
+        console.error("Film detayları yüklenirken hata oluştu:", error);
+        detailModalTitle.textContent = "Hata Oluştu";
+        detailMovieOverview.textContent = `Film detayları yüklenirken bir sorun oluştu: ${error.message}`;
+    } finally {
+        if (player) player.stop(); // Animasyonu durdur
+        detailLottieLoader.style.display = "none";
+        detailModalBody.style.display = "flex";
+    }
 }
 
 export function closeMovieDetailsModal() {
