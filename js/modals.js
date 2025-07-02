@@ -135,9 +135,10 @@ function initializeMovieModal() {
     let tmdbSearchTimeout;
 
     watchLaterCheckbox.addEventListener("change", () => {
-        const ratingGroup = movieRatingInputDiv.parentElement;
-        const hasTmdbId = !!movieTmdbIdInput.value;
-        if (watchLaterCheckbox.checked) {
+    const ratingGroup = movieRatingInputDiv.parentElement;
+    const hasTmdbId = !!movieTmdbIdInput.value;
+    
+    if (watchLaterCheckbox.checked) {
             movieDateInput.disabled = true;
             movieDateInput.required = false;
             watchedDateGroup.style.display = "none";
@@ -185,7 +186,6 @@ function initializeMovieModal() {
         );
     });
 
-    chatWithCharacterButton = document.getElementById("chat-with-character-button");
     chatWithCharacterButton.addEventListener('click', handleOpenCharacterSelection);
     // --- EKSİK KODLARIN SONU ---
 
