@@ -1,6 +1,6 @@
 // js/movie-suggestion.js
 import { fetchSuggestedMovie } from './api.js';
-import { openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner, startSplashScreenEffects, stopSplashScreenEffects } from './modals.js';
+import { openMovieDetailsModal } from './modals.js';
 
 
 
@@ -79,29 +79,36 @@ async function handleSubmitPrompt() {
         return;
     }
 
-    promptError.classList.add('hidden'); // Hata mesajını temizle
-    closePromptModal(); // Prompt modalını kapat
-    showLoadingSpinner(); // Yükleniyor spinner'ını göster
+    // --- Yükleme Durumuna Geçiş ---
+    promptError.classList.add('hidden'); // Önceki hataları temizle
+    submitPromptBtn.classList.add('loading'); // Butona loading sınıfı ekle
+    submitPromptBtn.disabled = true; // Butonu devre dışı bırak
+    moviePromptInput.disabled = true; // Yazı alanını devre dışı bırak
 
     try {
         const movieData = await fetchSuggestedMovie(promptText);
+
         if (movieData && movieData.id) {
-            openMovieDetailsModal(movieData.id); // Mevcut detay modalını kullan
+            // BAŞARILI: Film bulundu, şimdi modalları yönet
+            closePromptModal(); 
+            openMovieDetailsModal(movieData.id);
         } else {
-            // Film bulunamadıysa veya API'den boş yanıt geldiyse
-            promptError.textContent = 'İsteğinize uygun bir film bulunamadı. .Lütfen daha spesifik bir istek deneyin.';
+            // BAŞARISIZ: Film bulunamadı, hatayı modal içinde göster
+            promptError.textContent = 'İsteğinize uygun bir film bulunamadı. Lütfen daha farklı bir istek deneyin.';
             promptError.classList.remove('hidden');
-            openPromptModal(); // Prompt modalını tekrar açıp hata göster
         }
     } catch (error) {
+        // HATA: API hatası oluştu, hatayı modal içinde göster
         console.error('Film önerisi alınırken hata:', error);
-        promptError.textContent = `Film önerisi alınırken bir hata oluştu: ${error.message}`;
+        promptError.textContent = `Bir hata oluştu: ${error.message}`;
         promptError.classList.remove('hidden');
-        openPromptModal(); // Prompt modalını tekrar açıp hata göster
     } finally {
-        hideLoadingSpinner(); // Yükleniyor spinner'ını kapat
+        // --- Yükleme Durumundan Çıkış ---
+        // İşlem başarılı da olsa, hatalı da olsa butonları tekrar aktif et
+        submitPromptBtn.classList.remove('loading');
+        submitPromptBtn.disabled = false;
+        moviePromptInput.disabled = false;
     }
 }
-
 
 

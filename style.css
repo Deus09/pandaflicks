@@ -374,6 +374,38 @@ header h1 {
     color: var(--text-secondary);
 }
 
+/* =================================================================== */
+/* === FİLM ÖNERİ BUTONU YÜKLEME STİLİ === */
+/* =================================================================== */
+
+.prompt-submit-button .button-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.prompt-submit-button .loading-spinner {
+  position: absolute; /* Butonun tam ortasına gelmesi için */
+  display: none; /* Normalde gizli */
+}
+
+/* Yükleme durumundayken... */
+.prompt-submit-button.loading {
+  cursor: wait; /* Fare imlecini bekleme olarak değiştir */
+}
+
+/* Normal içeriği (ikon ve metni) görünmez yap */
+.prompt-submit-button.loading .button-content {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Spinner'ı görünür yap */
+.prompt-submit-button.loading .loading-spinner {
+  display: block; 
+}
+
 
 
   
