@@ -710,6 +710,11 @@ header h1 {
   padding: 0.5rem;
   border-radius: 10px;
   transition: color 0.2s ease, transform 0.2s ease;
+   /* YENİ EKLENEN KURALLAR */
+  background: none; /* Varsayılan buton arkaplanını kaldır */
+  border: none; /* Varsayılan buton kenarlığını kaldır */
+  font-family: inherit; /* Yazı tipini body'den almasını sağla */
+  cursor: pointer; /* Fare imlecini el yap */
 }
 
 .nav-item:active {
