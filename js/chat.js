@@ -4,8 +4,7 @@ import { startChatSession } from './gemini.js';
 import { showNotification } from './utils.js';
 
 // DOM Elementleri
-let chatWithCharacterButton;
-let characterSelectionModal, closeCharacterSelectionModalBtn, characterListContainer, characterListLoader;
+let characterSelectionModal, closeCharacterSelectionModalBtn, characterList, characterListLoader;
 let chatInterfaceModal, closeChatInterfaceModalBtn, chatHeaderAvatar, chatHeaderName, chatMessagesContainer, chatForm, chatMessageInput, chatSendBtn;
 
 // Durum Değişkenleri (State)
@@ -26,7 +25,7 @@ export function initChat() {
     // Karakter seçim modalı
     characterSelectionModal = document.getElementById('character-selection-modal');
     closeCharacterSelectionModalBtn = document.getElementById('close-character-selection-modal-btn');
-    characterListContainer = document.getElementById('character-list-container');
+    characterList = document.getElementById('character-list-container');
     characterListLoader = document.getElementById('character-list-loader');
 
     // Sohbet arayüzü modalı
