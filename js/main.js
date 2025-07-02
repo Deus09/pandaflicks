@@ -87,8 +87,6 @@ function initializeApp() {
 
   // Gerekli tüm başlatmaları yap
   document
-    .getElementById("movie-form")
-    .addEventListener("submit", handleMovieFormSubmit);
   setupEventListeners();
   setupListViewControls();
   initBadgeInfoModal();

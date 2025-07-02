@@ -1,8 +1,5 @@
 // js/events.js
-import {
-  openMovieMode,
-  closeMovieDetailsModal,
-} from "./modals.js";
+import {openMovieMode,closeMovieDetailsModal} from "./modals.js";
 import { showSection } from "./sections.js";
 import { showNotification } from "./utils.js";
 import { handleSignIn, handleSignUp, handleSignOut } from "./auth.js";
