@@ -209,7 +209,7 @@ header {
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  margin-left: 10px;;
+  margin-left: 10px;
   flex-shrink: 0; /* Küçülmesini engelle */
 }
 
@@ -287,13 +287,6 @@ header h1 {
 /* =================================================================== */
 /* === FİLTRE & SIRALA KONTROL PANELİ STİLİ === */
 /* =================================================================== */
-
-.section-header {
-  display: flex;
-  justify-content: flex-end; /* Kontrol panelini sağa yaslar */
-  align-items: center;
-  margin-bottom: 1rem;
-}
 
 /* Kontrol butonlarını bir arada tutan kapsayıcı */
 .list-controls {
@@ -472,9 +465,7 @@ header h1 {
   margin-bottom: 1rem;
 }
 
-.sort-container {
-  position: relative;
-}
+
 
 .sort-button {
   background-color: var(--bg-surface);
@@ -1948,14 +1939,6 @@ input:checked + .toggle-switch-slider:before {
   stroke: var(--accent-primary);
 }
 
-.close-modal-btn {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 1.8rem;
-  cursor: pointer;
-  line-height: 1;
-}
 
 .filter-modal-body {
   display: flex;
@@ -2099,24 +2082,6 @@ input:checked + .toggle-switch-slider:before {
 }
 .year-range-container input[type="number"] {
   -moz-appearance: textfield;
-}
-
-/* Özel Listeler Sayfası Tasarımı */
-.special-lists-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-@keyframes fadeInStagger {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* =================================================================== */
