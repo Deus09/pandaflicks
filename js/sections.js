@@ -218,33 +218,58 @@ export async function showSection(sectionId) {
     );
   } else if (sectionId === "special-lists-section") {
     // 1. Animasyonu göster
-        specialListsLoader.classList.remove('hidden');
-        specialListsLoader.classList.add('visible');
-        
-        // YENİ: İçindeki oynatıcıyı bul ve oynatmaya başla
-        const player = specialListsLoader.querySelector('dotlottie-player');
-        if (player) {
-            player.play();
-        }
+    specialListsLoader.classList.remove("hidden");
+    specialListsLoader.classList.add("visible");
 
-        specialListsContentContainer.innerHTML = '';
-        specialListsContentContainer.classList.add('hidden');
+    // YENİ: İçindeki oynatıcıyı bul ve oynatmaya başla
+    const player = specialListsLoader.querySelector("dotlottie-player");
+    if (player) {
+      player.play();
+    }
 
-        // ... (Promise ve veri çekme kodları aynı kalacak) ...
-        const [_, listsWithImages] = await Promise.all([timerPromise, dataFetchPromise]);
-        
-        // 4. Animasyonu gizle
-        specialListsLoader.classList.add('hidden');
-        specialListsLoader.classList.remove('visible');
-        
-        // YENİ: Oynatıcıyı bul ve kaynak tüketmemesi için durdur
-        if (player) {
-            player.stop();
-        }
+    specialListsContentContainer.innerHTML = "";
+    specialListsContentContainer.classList.add("hidden");
 
-        specialListsContentContainer.classList.remove('hidden');
-        renderSpecialLists(specialListsContentContainer, listsWithImages, showListDetail);
+    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
 
+    //    - API'den verileri çekme işlemi
+    const dataFetchPromise = (async () => {
+      const lists = getCuratedLists();
+      const listPromises = lists.map((list) => fetchMoviesFromList(list));
+      const moviesPerList = await Promise.all(listPromises);
+
+      return lists.map((list, index) => {
+        const firstMovieWithPoster = moviesPerList[index].find(
+          (m) => m.poster_path
+        );
+        return {
+          ...list,
+          heroImage: firstMovieWithPoster
+            ? `https://image.tmdb.org/t/p/w500${firstMovieWithPoster.poster_path}`
+            : null,
+        };
+      });
+    })();
+    const [_, listsWithImages] = await Promise.all([
+      timerPromise,
+      dataFetchPromise,
+    ]);
+
+    // 4. Animasyonu gizle
+    specialListsLoader.classList.add("hidden");
+    specialListsLoader.classList.remove("visible");
+
+    // YENİ: Oynatıcıyı bul ve kaynak tüketmemesi için durdur
+    if (player) {
+      player.stop();
+    }
+
+    specialListsContentContainer.classList.remove("hidden");
+    renderSpecialLists(
+      specialListsContentContainer,
+      listsWithImages,
+      showListDetail
+    );
   } else if (sectionId === "watch-later-movies-section") {
     renderWatchLaterMovies(
       watchLaterMoviesList,
