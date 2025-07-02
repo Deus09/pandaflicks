@@ -346,6 +346,34 @@ header h1 {
   transform: rotate(180deg);
 }
 
+/* Splash Screen Hata Mesajı Stili */
+.splash-error-overlay {
+    position: absolute;
+    inset: 0; /* top, right, bottom, left: 0 */
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-primary);
+    z-index: 10; /* Diğer splash screen içeriğinin üzerinde olmalı */
+}
+
+.splash-error-overlay h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f87171; /* Hata rengi */
+    margin-bottom: 0.5rem;
+}
+
+.splash-error-overlay p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
 
 
   
