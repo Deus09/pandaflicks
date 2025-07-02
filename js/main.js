@@ -96,7 +96,7 @@ function initializeApp() {
 
   let isUiReady = false;
 
-  // Set up the persistent listener for auth state changes.
+  // Set up the persistent li,stener for auth state changes.
   // YENİ VE İYİLEŞTİRİLMİŞ HALİ
   initAuth((user) => {
     if (user) {
