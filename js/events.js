@@ -153,19 +153,20 @@ export function setupEventListeners() {
 
       try {
         if (isLogin) {
+          // Giriş yapma mantığı aynı kalıyor
           await handleSignIn(email, password);
           showNotification("Başarıyla giriş yapıldı!", "success");
         } else {
-          await handleSignUp(email, password);
-          await handleSignOut();
+          // Kayıt olma mantığı İYİLEŞTİRİLDİ
+          const userCredential = await handleSignUp(email, password);
+          // Artık kullanıcıyı sistemden atmıyoruz.
+          // Firebase, kayıt sonrası kullanıcıyı zaten "giriş yapmış" kabul eder.
           showNotification(
-            "Hesabınız oluşturuldu, lütfen giriş yapınız.",
-            "info",
-            6000
+            `Hoş geldin, ${userCredential.user.email}! Hesabın başarıyla oluşturuldu.`,
+            "success"
           );
-          authTabLogin.classList.add("active");
-          authTabSignup.classList.remove("active");
-          authSubmitButton.textContent = "Giriş Yap";
+          // Formu sıfırlayıp modalı kapatabilir veya doğrudan ana ekrana yönlendirebiliriz.
+          // Şimdilik formu sıfırlayalım ve kullanıcı modalı kendi kapatabilir.
           emailAuthForm.reset();
         }
       } catch (error) {
