@@ -22,7 +22,6 @@ const CHAT_HISTORY_LIMIT = 10; // Son 10 mesajı tut (5 soru-cevap)
  */
 export function initChat() {
     // Ana modal üzerindeki buton
-    chatWithCharacterButton = document.getElementById('chat-with-character-button');
     
     // Karakter seçim modalı
     characterSelectionModal = document.getElementById('character-selection-modal');
@@ -41,9 +40,7 @@ export function initChat() {
     chatSendBtn = document.getElementById('chat-send-btn');
 
     // Olay Dinleyicileri
-    if (chatWithCharacterButton) {
-        chatWithCharacterButton.addEventListener('click', handleOpenCharacterSelection);
-    }
+
     if (closeCharacterSelectionModalBtn) {
         closeCharacterSelectionModalBtn.addEventListener('click', () => closeCharacterSelectionModal());
     }
@@ -125,7 +122,7 @@ function renderCharacterList(characters) {
 /**
  * Karakter seçim modalını açmak için olay yöneticisi.
  */
-function handleOpenCharacterSelection() {
+export function handleOpenCharacterSelection() {
     const tmdbId = document.getElementById('movie-tmdb-id').value;
     const title = document.getElementById('movie-title-input').value;
 

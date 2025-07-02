@@ -17,6 +17,8 @@ import { showSection } from "./sections.js";
 import { showNotification } from "./utils.js";
 import { enhanceCommentWithGemini } from "./gemini.js";
 import { displayTmdbSearchResults } from "./render.js";
+import { handleOpenCharacterSelection } from './chat.js';
+
 
 // --- MODAL ELEMENT REFERANSLARI ---
 // Bu değişkenler, ilgili modal ilk kez açıldığında doldurulacak.
@@ -182,6 +184,9 @@ function initializeMovieModal() {
             enhanceCommentButton
         );
     });
+
+    chatWithCharacterButton = document.getElementById("chat-with-character-button");
+    chatWithCharacterButton.addEventListener('click', handleOpenCharacterSelection);
     // --- EKSİK KODLARIN SONU ---
 
     isModalInitialized = true; // Kurulumun tamamlandığını işaretle
