@@ -128,7 +128,7 @@ function renderSuggestionGrid(movies) {
         posterItem.appendChild(posterImg);
         
         posterItem.addEventListener('click', () => {
-            openMovieDetailsModal(movie.id);
+            openMovieDetailsModal(movie.id,true);
         });
 
         suggestionGrid.appendChild(posterItem);

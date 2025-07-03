@@ -2702,3 +2702,27 @@ input:checked + .toggle-switch-slider:before {
     color: var(--text-primary);
     transform: scale(1.1);
 }
+
+/* =================================================================== */
+/* === KATMANLI (LAYERED) MODAL STİLLERİ (YENİ) === */
+/* =================================================================== */
+
+/* Katmanlı modal, diğerinin üzerinde görünmesi için daha yüksek z-index alır */
+.modal-overlay.is-layered {
+  z-index: 30; /* Normal modal z-index'i 25'ti */
+
+  /* Arkadaki modalı görebilmek için arka planı ve bulanıklığı kaldır */
+  background-color: rgba(0, 0, 0, 0.5); /* Hafif karartma yeterli */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Üstteki modalın içeriğinin daha belirgin olmasını sağla */
+.modal-overlay.is-layered .modal-content {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  /* Yüksekliğini tüm ekranı kaplamayacak şekilde ayarla */
+  height: 90%;
+  max-height: 700px;
+  border-radius: 16px; /* Köşeleri yuvarlat */
+}
