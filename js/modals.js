@@ -18,11 +18,10 @@ import { showNotification } from "./utils.js";
 import { enhanceCommentWithGemini } from "./gemini.js";
 import { displayTmdbSearchResults } from "./render.js";
 import { handleOpenCharacterSelection } from './chat.js';
-import { isUserPro, updateUIForSubscriptionStatus } from './user.js'; // GÜNCELLEME: user.js'den fonksiyonları import et
-
+// GÜNCELLEME: user.js'den ilgili fonksiyonları import ediyoruz.
+import { isUserPro, updateUIForSubscriptionStatus } from './user.js';
 
 // --- MODAL ELEMENT REFERANSLARI ---
-// Bu değişkenler, ilgili modal ilk kez açıldığında doldurulacak.
 let movieModalOverlay,
   modalTitle,
   movieIdInput,
@@ -56,22 +55,22 @@ let movieModalOverlay,
   detailAddToLogButton,
   movieForm;
 
-let isModalInitialized = false; // Modal'ın bir kez ayarlandığını takip eden bayrak
+let isModalInitialized = false;
 
 /**
  * Sadece bir kez çalışarak Film Ekle/Düzenle modalının içeriğini oluşturur,
  * referansları atar ve olay dinleyicilerini bağlar.
  */
 function initializeMovieModal() {
-  if (isModalInitialized) return; // Zaten kurulduysa tekrar yapma.
+    if (isModalInitialized) return;
 
-  // 1. HTML İÇERİĞİNİ OLUŞTURMA (Bu kısım doğruydu)
-  const overlay = document.getElementById("movie-modal-overlay");
-  if (!overlay) return;
+    const overlay = document.getElementById("movie-modal-overlay");
+    if (!overlay) return;
 
-  const modalContent = document.createElement("div");
-  modalContent.className = "modal-content";
-  modalContent.innerHTML = `
+    const modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
+    // DÜZELTME: Butonların HTML'ine pro-feature sınıfı ve pro-badge span'ı doğru şekilde eklendi.
+    modalContent.innerHTML = `
         <div class="modal-header"><h2 id="modal-title"></h2></div>
         <form id="movie-form" novalidate>
             <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
@@ -99,108 +98,107 @@ function initializeMovieModal() {
             </div>
         </form>
     `;
-  overlay.appendChild(modalContent);
+    overlay.appendChild(modalContent);
 
-  // 2. DOM REFERANSLARINI ATAMA (Bu kısım da doğruydu)
-  movieModalOverlay = overlay;
-  modalTitle = document.getElementById("modal-title");
-  movieIdInput = document.getElementById("movie-id");
-  movieTmdbIdInput = document.getElementById("movie-tmdb-id");
-  movieTypeInput = document.getElementById("movie-type");
-  movieTitleInput = document.getElementById("movie-title-input");
-  moviePosterInput = document.getElementById("movie-poster-input");
-  movieRatingInputDiv = document.getElementById("movie-rating-input");
-  watchLaterCheckbox = document.getElementById("watch-later-checkbox");
-  watchedDateGroup = document.getElementById("watched-date-group");
-  movieDateInput = document.getElementById("movie-date-input");
-  movieCommentInput = document.getElementById("movie-comment-input");
-  enhanceCommentButton = document.getElementById("enhance-comment-button");
-  chatWithCharacterButton = document.getElementById("chat-with-character-button");
-  tmdbSearchResultsDiv = document.getElementById("tmdb-search-results");
-  tmdbSearchMessage = document.getElementById("tmdb-search-message");
-  movieRuntimeInput = document.getElementById("movie-runtime-input");
-  movieGenresInput = document.getElementById("movie-genres-input");
-  movieDirectorInput = document.getElementById("movie-director-input");
-  movieForm = document.getElementById("movie-form");
+    // DOM referanslarını atama...
+    movieModalOverlay = overlay;
+    modalTitle = document.getElementById("modal-title");
+    movieIdInput = document.getElementById("movie-id");
+    movieTmdbIdInput = document.getElementById("movie-tmdb-id");
+    movieTypeInput = document.getElementById("movie-type");
+    movieTitleInput = document.getElementById("movie-title-input");
+    moviePosterInput = document.getElementById("movie-poster-input");
+    movieRatingInputDiv = document.getElementById("movie-rating-input");
+    watchLaterCheckbox = document.getElementById("watch-later-checkbox");
+    watchedDateGroup = document.getElementById("watched-date-group");
+    movieDateInput = document.getElementById("movie-date-input");
+    movieCommentInput = document.getElementById("movie-comment-input");
+    enhanceCommentButton = document.getElementById("enhance-comment-button");
+    chatWithCharacterButton = document.getElementById("chat-with-character-button");
+    tmdbSearchResultsDiv = document.getElementById("tmdb-search-results");
+    tmdbSearchMessage = document.getElementById("tmdb-search-message");
+    movieRuntimeInput = document.getElementById("movie-runtime-input");
+    movieGenresInput = document.getElementById("movie-genres-input");
+    movieDirectorInput = document.getElementById("movie-director-input");
+    movieForm = document.getElementById("movie-form");
 
-  // --- 3. OLAY DİNLEYİCİLERİNİ EKSİKSİZ BİR ŞEKİLDE BAĞLAMA ---
+    // Olay Dinleyicileri...
+    movieForm.addEventListener("submit", handleMovieFormSubmit);
+    document.getElementById("cancel-button").addEventListener("click", () => closeMovieMode());
+    movieModalOverlay.addEventListener("click", (e) => {
+        if (e.target === movieModalOverlay) closeMovieMode();
+    });
 
-  // Ana form ve kapatma butonları
-  movieForm.addEventListener("submit", handleMovieFormSubmit);
-  document.getElementById("cancel-button").addEventListener("click", () => closeMovieMode());
-  movieModalOverlay.addEventListener("click", (e) => {
-    if (e.target === movieModalOverlay) closeMovieMode();
-  });
+    let tmdbSearchTimeout;
 
-  // --- BURASI EKSİK OLAN KOD BLOKLARIYDI ---
-  let tmdbSearchTimeout;
+    watchLaterCheckbox.addEventListener("change", () => {
+        const ratingGroup = movieRatingInputDiv.parentElement;
+        const hasTmdbId = !!movieTmdbIdInput.value;
+        
+        if (watchLaterCheckbox.checked) {
+            movieDateInput.disabled = true;
+            movieDateInput.required = false;
+            watchedDateGroup.style.display = "none";
+            ratingGroup.style.display = "none";
+            movieRatingInputDiv.innerHTML = "";
+            enhanceCommentButton.style.display = "none";
+            chatWithCharacterButton.classList.add("hidden");
+        } else {
+            movieDateInput.disabled = false;
+            movieDateInput.required = true;
+            watchedDateGroup.style.display = "block";
+            ratingGroup.style.display = "block";
+            setupStarRating(movieRatingInputDiv, 0);
+            enhanceCommentButton.style.display = "block";
+            if (hasTmdbId) {
+                chatWithCharacterButton.classList.remove("hidden");
+            }
+        }
+    });
 
-  watchLaterCheckbox.addEventListener("change", () => {
-    const ratingGroup = movieRatingInputDiv.parentElement;
-    const hasTmdbId = !!movieTmdbIdInput.value;
+    movieTitleInput.addEventListener("input", () => {
+        if (movieTitleInput.readOnly) return;
+        clearTimeout(tmdbSearchTimeout);
+        tmdbSearchTimeout = setTimeout(() => {
+            searchTmdbMovies(
+                movieTitleInput.value,
+                tmdbSearchResultsDiv,
+                tmdbSearchMessage,
+                displayTmdbSearchResults
+            );
+        }, 300);
+    });
 
-    if (watchLaterCheckbox.checked) {
-      movieDateInput.disabled = true;
-      movieDateInput.required = false;
-      watchedDateGroup.style.display = "none";
-      ratingGroup.style.display = "none";
-      movieRatingInputDiv.innerHTML = "";
-      enhanceCommentButton.style.display = "none";
-      chatWithCharacterButton.classList.add("hidden");
-    } else {
-      movieDateInput.disabled = false;
-      movieDateInput.required = true;
-      watchedDateGroup.style.display = "block";
-      ratingGroup.style.display = "block";
-      setupStarRating(movieRatingInputDiv, 0);
-      enhanceCommentButton.style.display = "block";
-      if (hasTmdbId) {
-        chatWithCharacterButton.classList.remove("hidden");
-      }
-    }
-  });
+    // DÜZELTME: "Yorumumu Geliştir" butonu tıklama olayı, Pro kontrolü eklendi.
+    enhanceCommentButton.addEventListener("click", async () => {
+        if (!isUserPro()) {
+            alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
+            return;
+        }
+        
+        const currentComment = movieCommentInput.value.trim();
+        if (currentComment.length < 10) {
+            showNotification("Lütfen yorumunuzu geliştirmek için en az 10 karakter girin.","error");
+            return;
+        }
+        await enhanceCommentWithGemini(
+            currentComment,
+            movieTitleInput.value,
+            movieCommentInput,
+            enhanceCommentButton
+        );
+    });
 
-  movieTitleInput.addEventListener("input", () => {
-    if (movieTitleInput.readOnly) return;
-    clearTimeout(tmdbSearchTimeout);
-    tmdbSearchTimeout = setTimeout(() => {
-      searchTmdbMovies(
-        movieTitleInput.value,
-        tmdbSearchResultsDiv,
-        tmdbSearchMessage,
-        displayTmdbSearchResults
-      );
-    }, 300);
-  });
+    // DÜZELTME: "Karakterle Sohbet" butonu tıklama olayı, Pro kontrolü eklendi.
+    chatWithCharacterButton.addEventListener('click', () => {
+        if (!isUserPro()) {
+            alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
+            return;
+        }
+        handleOpenCharacterSelection();
+    });
 
-  enhanceCommentButton.addEventListener("click", async () => {
-    if (!isUserPro()) {
-      alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
-      return;
-    }
-
-    const currentComment = movieCommentInput.value.trim();
-    if (currentComment.length < 10) {
-      showNotification("Lütfen yorumunuzu geliştirmek için en az 10 karakter girin.", "error");
-      return;
-    }
-    await enhanceCommentWithGemini(
-      currentComment,
-      movieTitleInput.value,
-      movieCommentInput,
-      enhanceCommentButton
-    );
-  });
-
-  // GÜNCELLEME: "Karakterle Sohbet" butonu tıklama olayı
-  chatWithCharacterButton.addEventListener('click', () => {
-    if (!isUserPro()) {
-      alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
-      return;
-    }
-    handleOpenCharacterSelection();
-  });
-  isModalInitialized = true; // Kurulumun tamamlandığını işaretle
+    isModalInitialized = true;
 }
 
 /**
@@ -211,7 +209,6 @@ export function openMovieMode(
   prefillData = null,
   originList = null
 ) {
-  // Modalın içeriğini ve olay dinleyicilerini sadece ilk açılışta oluştur.
   initializeMovieModal();
 
   const today = new Date().toISOString().split("T")[0];
@@ -306,7 +303,8 @@ export function openMovieMode(
     chatWithCharacterButton.classList.add("hidden");
   }
 
-  // YENİ: Modal her açıldığında, içindeki Pro özelliklerin durumunu güncelle.
+  // DÜZELTME: Modal her açıldığında, içindeki Pro özelliklerin durumunu güncelle.
+  // Bu, dinamik olarak eklenen butonların da kilitlenmesini sağlar.
   updateUIForSubscriptionStatus();
 
   document.body.classList.add("no-scroll");
@@ -314,140 +312,130 @@ export function openMovieMode(
   setTimeout(() => movieModalOverlay.classList.add("visible"), 10);
 }
 
+// Geri kalan fonksiyonlarda (closeMovieMode, openMovieDetailsModal vb.) değişiklik yok.
 export function closeMovieMode() {
-  if (movieModalOverlay) {
-    movieModalOverlay.classList.remove("visible");
-    movieModalOverlay.addEventListener(
-      "transitionend",
-      () => {
-        if (!movieModalOverlay.classList.contains("visible")) {
-          movieModalOverlay.classList.add("hidden");
-        }
-      },
-      { once: true }
-    );
-    document.body.classList.remove("no-scroll");
-  }
+    if (movieModalOverlay) {
+        movieModalOverlay.classList.remove("visible");
+        movieModalOverlay.addEventListener(
+            "transitionend",
+            () => {
+                if (!movieModalOverlay.classList.contains("visible")) {
+                    movieModalOverlay.classList.add("hidden");
+                }
+            },
+            { once: true }
+        );
+        document.body.classList.remove("no-scroll");
+    }
 }
 
-// openMovieDetailsModal fonksiyonunun YENİ ve TAM HALİ
-
 export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
-  // 1. Find elements (this part remains the same)
-  if (!movieDetailsModalOverlay) {
-    movieDetailsModalOverlay = document.getElementById("movie-details-modal-overlay");
-    detailModalTitle = document.getElementById("detail-modal-title");
-    detailModalBody = document.getElementById("detail-modal-body");
-    detailLottieLoader = document.getElementById("detail-lottie-loader");
-    detailMoviePoster = document.getElementById("detail-movie-poster");
-    detailMovieReleaseDate = document.getElementById("detail-movie-release-date");
-    detailMovieGenres = document.getElementById("detail-movie-genres");
-    detailMovieDirector = document.getElementById("detail-movie-director");
-    detailMovieOverview = document.getElementById("detail-movie-overview");
-    detailMovieTrailerSection = document.getElementById("detail-movie-trailer-section");
-    detailMovieTrailerIframe = document.getElementById("detail-movie-trailer-iframe");
-    detailAddToLogButton = document.getElementById("detail-add-to-log-button");
-  }
-
-  // 2. Show modal and start loading animation
-  document.body.classList.add("no-scroll"); // Add scroll lock
-
-  // YENİ: Katmanlı durum için sınıf ekle
-  if (isLayered) {
-    movieDetailsModalOverlay.classList.add('is-layered');
-  }
-
-  movieDetailsModalOverlay.classList.remove("hidden");
-  setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
-
-  detailModalBody.style.display = "none";
-  detailLottieLoader.style.display = "flex";
-  const player = detailLottieLoader.querySelector("dotlottie-player");
-  if (player) player.play();
-
-  detailModalTitle.textContent = "Yükleniyor...";
-  detailAddToLogButton.disabled = true;
-
-  // 3. Fetch data and populate content (this part remains the same)
-  const timerPromise = new Promise((resolve) => setTimeout(resolve, 500)); // Shortened timer for better UX
-  const apiPromise = fetchMovieDetailsFromApi(tmdbMovieId);
-
-  try {
-    const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
-    const { movieData, directorName, trailerKey } = movieDetails;
-
-    detailModalTitle.textContent = movieData.title || "Bilgi Yok";
-    detailMoviePoster.src = movieData.poster_path ? `${TMDB_IMAGE_BASE_URL_W500}${movieData.poster_path}` : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
-    detailMovieReleaseDate.textContent = movieData.release_date ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString("tr-TR", { year: "numeric", month: "long", day: "numeric" })}` : "Vizyon Tarihi: Bilinmiyor";
-    detailMovieGenres.textContent = movieData.genres?.length > 0 ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}` : "Türler: Bilinmiyor";
-    detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
-    detailMovieOverview.textContent = movieData.overview || "Bu film için özet bulunmamaktadır.";
-
-    if (trailerKey) {
-      detailMovieTrailerIframe.src = `${YOUTUBE_EMBED_URL}${trailerKey}?rel=0`;
-      detailMovieTrailerSection.classList.remove("hidden");
-    } else {
-      detailMovieTrailerIframe.src = '';
-      detailMovieTrailerSection.classList.add("hidden");
+    if (!movieDetailsModalOverlay) {
+        movieDetailsModalOverlay = document.getElementById("movie-details-modal-overlay");
+        detailModalTitle = document.getElementById("detail-modal-title");
+        detailModalBody = document.getElementById("detail-modal-body");
+        detailLottieLoader = document.getElementById("detail-lottie-loader");
+        detailMoviePoster = document.getElementById("detail-movie-poster");
+        detailMovieReleaseDate = document.getElementById("detail-movie-release-date");
+        detailMovieGenres = document.getElementById("detail-movie-genres");
+        detailMovieDirector = document.getElementById("detail-movie-director");
+        detailMovieOverview = document.getElementById("detail-movie-overview");
+        detailMovieTrailerSection = document.getElementById("detail-movie-trailer-section");
+        detailMovieTrailerIframe = document.getElementById("detail-movie-trailer-iframe");
+        detailAddToLogButton = document.getElementById("detail-add-to-log-button");
     }
 
-    const newButton = detailAddToLogButton.cloneNode(true);
-    detailAddToLogButton.parentNode.replaceChild(newButton, detailAddToLogButton);
-    detailAddToLogButton = newButton;
+    document.body.classList.add("no-scroll");
+    
+    if (isLayered) {
+        movieDetailsModalOverlay.classList.add('is-layered');
+    }
 
-    detailAddToLogButton.addEventListener("click", () => {
-      closeMovieDetailsModal();
-      // Also close the suggestion modal if it's open
-      const suggestionModal = document.getElementById('suggestionResultOverlay');
-      if (suggestionModal && suggestionModal.classList.contains('visible')) {
-        suggestionModal.classList.remove('visible');
-      }
+    movieDetailsModalOverlay.classList.remove("hidden");
+    setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
+    
+    detailModalBody.style.display = "none";
+    detailLottieLoader.style.display = "flex";
+    const player = detailLottieLoader.querySelector("dotlottie-player");
+    if (player) player.play();
 
-      openMovieMode(null, {
-        title: movieData.title,
-        tmdbId: movieData.id,
-        poster: movieData.poster_path ? TMDB_IMAGE_BASE_URL_W92 + movieData.poster_path : "",
-        release_date: movieData.release_date,
-        runtime: movieData.runtime,
-        genres: movieData.genres,
-        director: directorName,
-      });
-    });
-    detailAddToLogButton.disabled = false;
+    detailModalTitle.textContent = "Yükleniyor...";
+    detailAddToLogButton.disabled = true;
 
-  } catch (error) {
-    console.error("Film detayları yüklenirken hata oluştu:", error);
-    detailModalTitle.textContent = "Hata Oluştu";
-    detailMovieOverview.textContent = `Film detayları yüklenirken bir sorun oluştu: ${error.message}`;
-  } finally {
-    if (player) player.stop();
-    detailLottieLoader.style.display = "none";
-    detailModalBody.style.display = "flex";
-  }
+    const timerPromise = new Promise((resolve) => setTimeout(resolve, 500));
+    const apiPromise = fetchMovieDetailsFromApi(tmdbMovieId);
+
+    try {
+        const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
+        const { movieData, directorName, trailerKey } = movieDetails;
+        
+        detailModalTitle.textContent = movieData.title || "Bilgi Yok";
+        detailMoviePoster.src = movieData.poster_path ? `${TMDB_IMAGE_BASE_URL_W500}${movieData.poster_path}` : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
+        detailMovieReleaseDate.textContent = movieData.release_date ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString("tr-TR",{ year: "numeric", month: "long", day: "numeric" })}` : "Vizyon Tarihi: Bilinmiyor";
+        detailMovieGenres.textContent = movieData.genres?.length > 0 ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}` : "Türler: Bilinmiyor";
+        detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
+        detailMovieOverview.textContent = movieData.overview || "Bu film için özet bulunmamaktadır.";
+
+        if (trailerKey) {
+            detailMovieTrailerIframe.src = `${YOUTUBE_EMBED_URL}${trailerKey}?rel=0`;
+            detailMovieTrailerSection.classList.remove("hidden");
+        } else {
+            detailMovieTrailerIframe.src = '';
+            detailMovieTrailerSection.classList.add("hidden");
+        }
+
+        const newButton = detailAddToLogButton.cloneNode(true);
+        detailAddToLogButton.parentNode.replaceChild(newButton, detailAddToLogButton);
+        detailAddToLogButton = newButton; 
+
+        detailAddToLogButton.addEventListener("click", () => {
+            closeMovieDetailsModal();
+            const suggestionModal = document.getElementById('suggestionResultOverlay');
+            if(suggestionModal && suggestionModal.classList.contains('visible')) {
+                suggestionModal.classList.remove('visible');
+            }
+
+            openMovieMode(null, {
+                title: movieData.title,
+                tmdbId: movieData.id,
+                poster: movieData.poster_path ? TMDB_IMAGE_BASE_URL_W92 + movieData.poster_path : "",
+                release_date: movieData.release_date,
+                runtime: movieData.runtime,
+                genres: movieData.genres,
+                director: directorName,
+            });
+        });
+        detailAddToLogButton.disabled = false;
+
+    } catch (error) {
+        console.error("Film detayları yüklenirken hata oluştu:", error);
+        detailModalTitle.textContent = "Hata Oluştu";
+        detailMovieOverview.textContent = `Film detayları yüklenirken bir sorun oluştu: ${error.message}`;
+    } finally {
+        if (player) player.stop();
+        detailLottieLoader.style.display = "none";
+        detailModalBody.style.display = "flex";
+    }
 }
 
 export function closeMovieDetailsModal() {
   if (!movieDetailsModalOverlay) return;
 
-  // Hide the modal
   movieDetailsModalOverlay.classList.remove("visible");
-  detailMovieTrailerIframe.src = ""; // Stop video playback
+  detailMovieTrailerIframe.src = "";
 
-  // Clean up layering class after transition
   movieDetailsModalOverlay.addEventListener('transitionend', () => {
-    if (!movieDetailsModalOverlay.classList.contains('visible')) {
-      movieDetailsModalOverlay.classList.add('hidden');
-      movieDetailsModalOverlay.classList.remove('is-layered');
-    }
+      if (!movieDetailsModalOverlay.classList.contains('visible')) {
+          movieDetailsModalOverlay.classList.add('hidden');
+          movieDetailsModalOverlay.classList.remove('is-layered');
+      }
   }, { once: true });
 
-  // YENİ: Sadece başka bir modal açık değilse 'no-scroll' sınıfını kaldır
-  // A setTimeout is used to check for other modals *after* the DOM has updated
   setTimeout(() => {
-    const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
-    if (!isAnotherModalVisible) {
-      document.body.classList.remove('no-scroll');
-    }
+      const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
+      if (!isAnotherModalVisible) {
+          document.body.classList.remove('no-scroll');
+      }
   }, 100);
 }
 
@@ -490,23 +478,19 @@ export async function handleMovieFormSubmit(e) {
   showNotification(`'${movieData.title}' başarıyla kaydedildi.`, "success");
 }
 
-// modals.js dosyasının en altına veya uygun bir yere ekleyin
-
 const loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
 const particlesContainer = document.querySelector(".particles-container");
 let particleInterval;
 
-// Film önerisi modalı için kullanılan filmlerden rastgele posterler alır
-// Bu listeyi projenize uygun şekilde daha dinamik hale getirebilirsiniz.
 const particleImages = [
-  "https://image.tmdb.org/t/p/w92/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", // The Shawshank Redemption
-  "https://image.tmdb.org/t/p/w92/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg", // The Godfather
-  "https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg", // The Dark Knight
-  "https://image.tmdb.org/t/p/w92/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg", // Pulp Fiction
-  "https://image.tmdb.org/t/p/w92/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg", // Forrest Gump
-  "https://image.tmdb.org/t/p/w92/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg", // The Matrix
-  "https://image.tmdb.org/t/p/w92/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg", // Inception
-  "https://image.tmdb.org/t/p/w92/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg", // Interstellar
+  "https://image.tmdb.org/t/p/w92/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+  "https://image.tmdb.org/t/p/w92/rBF8wVQN8hTwsGPgWbARNIJyEj.jpg",
+  "https://image.tmdb.org/t/p/w92/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+  "https://image.tmdb.org/t/p/w92/2u7zbn8EudG6kLlJXPv2DEqv6H.jpg",
+  "https://image.tmdb.org/t/p/w92/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+  "https://image.tmdb.org/t/p/w92/8OKmBV5BUFzmozIC3pPWKHy17kx.jpg",
+  "https://image.tmdb.org/t/p/w92/d5iIlFn5s0ImszYzrKYOFT0Rdl2.jpg",
+  "https://image.tmdb.org/t/p/w92/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg",
 ];
 
 function createParticle() {
@@ -514,11 +498,10 @@ function createParticle() {
   const particle = document.createElement("div");
   particle.className = "particle";
 
-  // Rastgele boyut, konum, süre ve gecikme
-  const size = Math.random() * 40 + 10; // 10px - 50px arası
-  const xPos = Math.random() * 100; // 0% - 100% arası
-  const duration = Math.random() * 10 + 8; // 8s - 18s arası
-  const delay = Math.random() * 5; // 0s - 5s arası
+  const size = Math.random() * 40 + 10;
+  const xPos = Math.random() * 100;
+  const duration = Math.random() * 10 + 8;
+  const delay = Math.random() * 5;
   const image =
     particleImages[Math.floor(Math.random() * particleImages.length)];
 
@@ -531,40 +514,41 @@ function createParticle() {
 
   particlesContainer.appendChild(particle);
 
-  // Animasyon bitince parçacığı DOM'dan kaldır
   setTimeout(() => {
     particle.remove();
   }, (duration + delay) * 1000);
 }
 
-// Splash ekranı gösterildiğinde parçacık üretimini başlat
 export function startSplashScreenEffects() {
   if (particleInterval) clearInterval(particleInterval);
-  if (particlesContainer) particlesContainer.innerHTML = ""; // Eskileri temizle
-  // Her 200ms'de bir yeni parçacık oluştur
+  if (particlesContainer) particlesContainer.innerHTML = "";
   particleInterval = setInterval(createParticle, 200);
 }
 
-// Splash ekranı gizlendiğinde parçacık üretimini durdur
 export function stopSplashScreenEffects() {
   if (particleInterval) clearInterval(particleInterval);
 }
 
-export function showLoadingSpinner(text = "Film aranıyor...") {
-  const loadingSpinnerOverlay = document.getElementById(
-    "loadingSpinnerOverlay"
-  );
+const loadingTexts = [
+    "Film evreni taranıyor...",
+    "Karakterlerle pazarlık yapılıyor...",
+    "Mısırlar hazırlanıyor...",
+    "En iyi koltuk seçiliyor...",
+    "Yönetmenin kamerasından bakılıyor..."
+];
+
+export function showLoadingSpinner(text) {
+  const loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
   if (!loadingSpinnerOverlay) return;
 
-  // 1. Önce 'hidden' sınıfını kaldırarak elemanı DOM'da "var" et
-  loadingSpinnerOverlay.classList.remove("hidden");
-  document.getElementById("splash-text").textContent = text;
+  const displayText = text || loadingTexts[Math.floor(Math.random() * loadingTexts.length)];
+  document.getElementById("splash-text").textContent = displayText;
 
-  // 2. Çok küçük bir gecikmeyle 'visible' sınıfını ekleyerek CSS animasyonlarını tetikle
+  loadingSpinnerOverlay.classList.remove("hidden");
   setTimeout(() => {
     loadingSpinnerOverlay.classList.add("visible");
-    startSplashScreenEffects(); // Parçacık efektlerini başlat
-  }, 10); // 10 milisaniyelik gecikme, tarayıcının değişikliği algılaması için yeterlidir
+    startSplashScreenEffects();
+  }, 10);
 }
 
 export function hideLoadingSpinner() {
@@ -573,11 +557,9 @@ export function hideLoadingSpinner() {
   );
   if (!loadingSpinnerOverlay) return;
 
-  // 1. Önce 'visible' sınıfını kaldırarak kapanma animasyonunu başlat
   loadingSpinnerOverlay.classList.remove("visible");
-  stopSplashScreenEffects(); // Parçacık efektlerini durdur
+  stopSplashScreenEffects(); 
 
-  // 2. CSS geçişi (transition) bittiğinde elemanı 'hidden' yaparak DOM'dan kaldır
   loadingSpinnerOverlay.addEventListener(
     "transitionend",
     () => {
@@ -589,9 +571,7 @@ export function hideLoadingSpinner() {
   );
 }
 
-// YENİ: Film Ekle/Düzenle modalının içeriğini dinamik olarak oluşturan fonksiyon
 function renderMovieModalContent() {
-  // Eğer modalın içi zaten doluysa tekrar oluşturma
   if (movieModalOverlay.querySelector(".modal-content")) {
     return;
   }
@@ -656,9 +636,6 @@ function renderMovieModalContent() {
 
   movieModalOverlay.appendChild(modalContent);
 
-  // ÖNEMLİ: Elementler DOM'a eklendikten sonra olay dinleyicilerini yeniden bağla.
-  // Bu, `events.js` dosyasındaki setupEventListeners'ı çağırmak yerine,
-  // spesifik olarak bu modal'ın olaylarını burada bağlamak daha iyi bir pratiktir.
   modalContent
     .querySelector(".close-modal-btn")
     .addEventListener("click", () => closeMovieMode(movieModalOverlay));
