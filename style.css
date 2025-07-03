@@ -429,7 +429,7 @@ header h1 {
 }
 
 #tryAgainBtn {
-    background: var(--bg-surface);
+    background: var(--accent-secondary;
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
@@ -1015,7 +1015,7 @@ input:checked + .toggle-switch-slider:before {
 .modal-actions {
   border-top: 1px solid var(--border-color);
   padding-top: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 0.8rem;
   display: flex;
   gap: 1rem;
 }
