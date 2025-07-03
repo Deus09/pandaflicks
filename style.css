@@ -2776,3 +2776,29 @@ input:checked + .toggle-switch-slider:before {
     font-size: 0.9rem; /* Buton yazısını küçült */
   }
 }
+
+/* === PRO ÖZELLİK STİLLERİ === */
+
+.pro-badge {
+    font-size: 0.6rem; /* Küçük font boyutu */
+    font-weight: 700;
+    color: var(--bg-main);
+    background-color: var(--accent-secondary); /* Altın sarısı */
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle; /* Metinle hizalamak için */
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* Bir özelliğin kilitli olduğunu gösteren genel sınıf */
+.feature-locked {
+    opacity: 0.5; /* Soluk göster */
+    cursor: help; /* Fare imlecini yardım olarak değiştir */
+}
+
+/* Kilitli bir butona basıldığında animasyon olmasın */
+.feature-locked:active {
+    transform: none;
+}

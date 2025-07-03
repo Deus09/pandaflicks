@@ -9,10 +9,10 @@ import {
 import { setupEventListeners } from "./events.js";
 import { handleMovieFormSubmit } from "./modals.js";
 import { initBadgeInfoModal } from "./badge-modal.js";
-import { initializeChatDOM } from "./chat.js"; 
-import { initMovieSuggestion } from "./movie-suggestion.js"; 
+import { initializeChatDOM } from "./chat.js";
+import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
-import { fetchUserSubscriptionStatus } from "./user.js"; // YENİ: import ekle
+import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus } from "./user.js"; // GÜNCELLEME
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -99,44 +99,38 @@ function initializeApp() {
     if (user) {
       if (user.uid !== currentLoadedUserId) {
         currentLoadedUserId = user.uid;
-
         showLoadingSpinner("Verileriniz yükleniyor...");
-
         try {
-          // Film verilerini ve abonelik durumunu AYNI ANDA çekelim
           await Promise.all([
-              loadMoviesFromFirestore(user.uid),
-              fetchUserSubscriptionStatus(user.uid) // YENİ: Abonelik durumunu çek
+            loadMoviesFromFirestore(user.uid),
+            fetchUserSubscriptionStatus(user.uid)
           ]);
 
+          // YENİ: Arayüzü kullanıcının durumuna göre güncelle
+          updateUIForSubscriptionStatus();
+
         } catch (error) {
-          console.error(
-            "Firestore'dan ilk veri yüklenirken hata oluştu:",
-            error
-          );
+          console.error("Firestore'dan ilk veri yüklenirken hata oluştu:", error);
         } finally {
           hideLoadingSpinner();
         }
       }
-
       if (!isUiReady) {
         showAppUI();
         isUiReady = true;
       }
       updateProfileView(user);
     } else {
-      console.log(
-        "Auth state changed. No user found. Signing in anonymously..."
-      );
+      console.log("Auth state changed. No user found. Signing in anonymously...");
       clearMovieLists();
-      // YENİ: Çıkış yapıldığında veya anonim kullanıcı olduğunda abonelik durumunu sıfırla
-      await fetchUserSubscriptionStatus(null); 
+      await fetchUserSubscriptionStatus(null);
+
+      // YENİ: Arayüzü kullanıcının durumuna göre güncelle
+      updateUIForSubscriptionStatus();
+
       updateProfileView(null);
       currentLoadedUserId = null;
-
-      handleAnonymousSignIn().catch((err) => {
-        // ...hata gösterme kodunuz...
-      });
+      handleAnonymousSignIn().catch((err) => { /*...*/ });
     }
   });
 }

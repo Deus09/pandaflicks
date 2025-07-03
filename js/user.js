@@ -55,3 +55,23 @@ export async function fetchUserSubscriptionStatus(userId) {
 export function isUserPro() {
     return currentUserStatus.isPro;
 }
+
+/**
+ * YENİ FONKSİYON:
+ * Kullanıcının abonelik durumu kontrol edildikten sonra
+ * arayüzdeki Pro özellikleri kilitler veya açar.
+ */
+export function updateUIForSubscriptionStatus() {
+    const proFeatures = document.querySelectorAll('.pro-feature');
+    const isPro = isUserPro();
+
+    proFeatures.forEach(featureElement => {
+        if (isPro) {
+            // Kullanıcı Pro ise, kilit sınıfını kaldır.
+            featureElement.classList.remove('feature-locked');
+        } else {
+            // Kullanıcı Pro değilse, kilit sınıfını ekle.
+            featureElement.classList.add('feature-locked');
+        }
+    });
+}

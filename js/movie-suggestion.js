@@ -1,5 +1,6 @@
 import { fetchSuggestedMovie } from './api.js';
 import { openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner } from './modals.js';
+import { isUserPro } from './user.js'; // YENİ: import ekle
 
 // --- DOM Elementleri ---
 let suggestMovieBtn;
@@ -40,7 +41,16 @@ export function initMovieSuggestion() {
     }
 
     // Olay Dinleyicileri
-    suggestMovieBtn.addEventListener('click', openPromptModal);
+    suggestMovieBtn.addEventListener('click', () => {
+        if (isUserPro()) {
+            openPromptModal();
+        } else {
+            // Şimdilik sadece bir uyarı gösterelim.
+            // Bir sonraki adımda buraya Paywall ekranını açan kodu yazacağız.
+            alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
+        }
+    });
+
     closePromptModalBtn.addEventListener('click', closePromptModal);
     promptModalOverlay.addEventListener('click', (e) => {
         if (e.target === promptModalOverlay) closePromptModal();
@@ -70,7 +80,7 @@ function openPromptModal() {
  */
 function closePromptModal() {
     promptModalOverlay.classList.remove('visible');
-    
+
     setTimeout(() => {
         const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
         if (!isAnotherModalVisible) {
@@ -127,18 +137,18 @@ function renderSuggestionGrid(movies) {
 
         const posterItem = document.createElement('div');
         posterItem.className = 'suggestion-poster-item';
-        
+
         const posterImg = document.createElement('img');
-        posterImg.src = movie.poster_path 
+        posterImg.src = movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : 'https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok';
         posterImg.alt = movie.title;
-        posterImg.onerror = function() { this.onerror=null; this.src='https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
+        posterImg.onerror = function () { this.onerror = null; this.src = 'https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
 
         posterItem.appendChild(posterImg);
-        
+
         posterItem.addEventListener('click', () => {
-            openMovieDetailsModal(movie.id, true); 
+            openMovieDetailsModal(movie.id, true);
         });
 
         suggestionGrid.appendChild(posterItem);
@@ -166,7 +176,7 @@ async function handleSubmitPrompt() {
     }
     lastPrompt = promptText;
     promptError.classList.add('hidden');
-    
+
     closePromptModal();
     await fetchAndDisplaySuggestions();
 }
