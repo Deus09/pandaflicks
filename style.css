@@ -429,7 +429,7 @@ header h1 {
 }
 
 #tryAgainBtn {
-    background: var(--accent-secondary);
+    background: var(--bg-surface);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
