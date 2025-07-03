@@ -9,9 +9,10 @@ import {
 import { setupEventListeners } from "./events.js";
 import { handleMovieFormSubmit } from "./modals.js";
 import { initBadgeInfoModal } from "./badge-modal.js";
-import { initializeChatDOM } from "./chat.js"; // YENİ
-import { initMovieSuggestion } from "./movie-suggestion.js"; // YENİ
+import { initializeChatDOM } from "./chat.js"; 
+import { initMovieSuggestion } from "./movie-suggestion.js"; 
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
+import { fetchUserSubscriptionStatus } from "./user.js"; // YENİ: import ekle
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -86,38 +87,34 @@ function initializeApp() {
   createSplashBackground();
 
   // Gerekli tüm başlatmaları yap
-  document
   setupEventListeners();
   setupListViewControls();
   initBadgeInfoModal();
   initializeChatDOM();
-  initMovieSuggestion(); // YENİ
+  initMovieSuggestion();
 
   let isUiReady = false;
 
-  // Set up the persistent li,stener for auth state changes.
-  // YENİ VE İYİLEŞTİRİLMİŞ HALİ
-  // initAuth bloğunun YENİ HALİ
   initAuth(async (user) => {
-    // Geri çağrıyı async yap
     if (user) {
       if (user.uid !== currentLoadedUserId) {
         currentLoadedUserId = user.uid;
 
-        // 1. Veri çekme başlamadan önce animasyonu göster
         showLoadingSpinner("Verileriniz yükleniyor...");
 
         try {
-          // 2. Verilerin ilk yüklemesinin tamamlanmasını bekle
-          await loadMoviesFromFirestore(user.uid);
+          // Film verilerini ve abonelik durumunu AYNI ANDA çekelim
+          await Promise.all([
+              loadMoviesFromFirestore(user.uid),
+              fetchUserSubscriptionStatus(user.uid) // YENİ: Abonelik durumunu çek
+          ]);
+
         } catch (error) {
           console.error(
             "Firestore'dan ilk veri yüklenirken hata oluştu:",
             error
           );
-          // Burada kullanıcıya bir hata mesajı da gösterebilirsiniz.
         } finally {
-          // 3. İşlem başarılı da olsa, hatalı da olsa animasyonu gizle
           hideLoadingSpinner();
         }
       }
@@ -132,6 +129,8 @@ function initializeApp() {
         "Auth state changed. No user found. Signing in anonymously..."
       );
       clearMovieLists();
+      // YENİ: Çıkış yapıldığında veya anonim kullanıcı olduğunda abonelik durumunu sıfırla
+      await fetchUserSubscriptionStatus(null); 
       updateProfileView(null);
       currentLoadedUserId = null;
 
