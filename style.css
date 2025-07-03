@@ -428,22 +428,33 @@ header h1 {
   object-fit: cover;
 }
 
+/* "Beğenmedim, yeniden dene" Butonu için YENİ ve BELİRGİN Stil */
 #tryAgainBtn {
-    background: var(--bg-surface);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    /* Ana renklerden birini kullanarak dış çizgi ve metin rengi oluştur */
+    background-color: transparent; /* Arkaplanı şeffaf yap */
+    border: 2px solid var(--accent-secondary); /* Altın rengi dış çizgi */
+    color: var(--accent-secondary); /* Metin rengini de altın yap */
+    
+    /* Eski gradient'i kesinlikle iptal et */
+    background-image: none; 
+
+    /* Geçiş efektlerini ayarla */
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
+/* Üzerine gelince butonun içi dolsun */
 #tryAgainBtn:hover {
-    background-color: var(--border-color);
-    transform: translateY(-3px);
+    background-color: var(--accent-secondary); /* Arkaplanı altın rengiyle doldur */
+    color: var(--bg-main); /* Metin rengini koyu yap */
+    transform: translateY(-3px); /* Hafif yukarı kalkma efekti */
 }
 
-#tryAgainBtn .animate-spin-hover {
+/* Buton içindeki ikonun rengi ve animasyonu */
+#tryAgainBtn svg {
   transition: transform 0.5s ease;
 }
 
-#tryAgainBtn:hover .animate-spin-hover {
+#tryAgainBtn:hover svg {
   transform: rotate(-180deg);
 }
 
