@@ -2743,6 +2743,11 @@ input:checked + .toggle-switch-slider:before {
     padding-bottom: 1rem;
   }
 
+  .suggestion-poster-item {
+    height: 90%;
+    width: 90%;
+  }
+
   /* Hedef: Film posterlerinin bulunduğu grid */
   .suggestion-grid {
     /* Posterler arasındaki boşluğu daha da küçült */
