@@ -13,6 +13,8 @@ import { initializeChatDOM } from "./chat.js";
 import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus } from "./user.js"; // GÜNCELLEME
+import { initPaywall } from './paywall.js'; // YENİ: import ekle
+
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -92,6 +94,7 @@ function initializeApp() {
   initBadgeInfoModal();
   initializeChatDOM();
   initMovieSuggestion();
+  initPaywall();
 
   let isUiReady = false;
 

@@ -22,7 +22,8 @@
   <meta name="theme-color" content="#1A1A1A" />
 
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="js/user.js"></script> 
+  <script type="module" src="js/user.js"></script>
+  <script type="module" src="js/paywall.js"></script>
   <script type="module" src="js/main.js"></script>
 
 </head>
@@ -485,6 +486,53 @@
 
       <div class="splash-text-container">
         <p id="splash-text" class="splash-text">En iyi öneri bulunuyor...</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Ödeme Yapısı -->
+  <div id="paywall-overlay" class="modal-overlay hidden">
+    <div class="modal-content paywall-content">
+      <div class="modal-header">
+        <h2 class="paywall-title">
+          <span class="paywall-icon">👑</span>
+          SineLog Pro ile Sınırları Kaldırın
+        </h2>
+        <button type="button" id="close-paywall-btn" class="close-modal-btn">×</button>
+      </div>
+      <div class="paywall-body">
+        <p class="paywall-subtitle">
+          SineLog deneyiminizi en üst seviyeye taşıyın ve bu özel özelliklerin tamamına erişin:
+        </p>
+        <ul class="feature-list">
+          <li>✓ Sınırsız Film Arşivi</li>
+          <li>✓ Yapay Zeka Film Asistanı</li>
+          <li>✓ Film Karakterleriyle Sohbet</li>
+          <li>✓ AI Destekli Yorum Geliştirici</li>
+          <li>✓ Gelişmiş İstatistikler ve Tüm Rozetler</li>
+          <li>✓ Reklamsız Deneyim</li>
+        </ul>
+        <div id="plan-selector" class="plan-selector">
+          <button class="plan-option recommended" data-plan="yearly">
+            <span class="plan-title">Yıllık Plan</span>
+            <span class="plan-price">199.99 TL</span>
+            <span class="plan-desc">Aylık 16.66 TL</span>
+            <span class="plan-badge">En Popüler</span>
+          </button>
+          <button class="plan-option" data-plan="monthly">
+            <span class="plan-title">Aylık Plan</span>
+            <span class="plan-price">19.99 TL</span>
+            <span class="plan-desc">Her ay yenilenir</span>
+          </button>
+        </div>
+        <button id="upgrade-to-pro-btn" class="prompt-submit-button">
+          Pro'ya Yükselt
+        </button>
+        <p class="paywall-footer">
+          Ödemeler, satın alma onayıyla App Store/Google Play hesabınızdan alınacaktır. Aboneliğinizi istediğiniz zaman
+          hesap ayarlarınızdan yönetebilir veya iptal edebilirsiniz.
+        </p>
       </div>
     </div>
   </div>

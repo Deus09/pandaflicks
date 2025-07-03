@@ -20,6 +20,8 @@ import { displayTmdbSearchResults } from "./render.js";
 import { handleOpenCharacterSelection } from './chat.js';
 // GÜNCELLEME: user.js'den ilgili fonksiyonları import ediyoruz.
 import { isUserPro, updateUIForSubscriptionStatus } from './user.js';
+import { showPaywall } from './paywall.js'; // YENİ: import ekle
+
 
 // --- MODAL ELEMENT REFERANSLARI ---
 let movieModalOverlay,
@@ -172,7 +174,7 @@ function initializeMovieModal() {
     // DÜZELTME: "Yorumumu Geliştir" butonu tıklama olayı, Pro kontrolü eklendi.
     enhanceCommentButton.addEventListener("click", async () => {
         if (!isUserPro()) {
-            alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
+        showPaywall(); // GÜNCELLEME: alert yerine paywall göster
             return;
         }
         
@@ -192,7 +194,7 @@ function initializeMovieModal() {
     // DÜZELTME: "Karakterle Sohbet" butonu tıklama olayı, Pro kontrolü eklendi.
     chatWithCharacterButton.addEventListener('click', () => {
         if (!isUserPro()) {
-            alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
+        showPaywall(); // GÜNCELLEME: alert yerine paywall göster
             return;
         }
         handleOpenCharacterSelection();

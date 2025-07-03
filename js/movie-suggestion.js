@@ -1,6 +1,8 @@
 import { fetchSuggestedMovie } from './api.js';
 import { openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner } from './modals.js';
 import { isUserPro } from './user.js'; // YENİ: import ekle
+import { showPaywall } from './paywall.js'; // YENİ: import ekle
+
 
 // --- DOM Elementleri ---
 let suggestMovieBtn;
@@ -47,7 +49,7 @@ export function initMovieSuggestion() {
         } else {
             // Şimdilik sadece bir uyarı gösterelim.
             // Bir sonraki adımda buraya Paywall ekranını açan kodu yazacağız.
-            alert("Bu özellik SineLog Pro üyelerine özeldir. Çok yakında!");
+            showPaywall(); // GÜNCELLEME: alert yerine paywall göster
         }
     });
 
