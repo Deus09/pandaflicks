@@ -177,7 +177,16 @@ async function showListDetail(list) {
   renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
 }
 
+// In js/sections.js
+
+// Keep all other code in the file the same...
+
+let isTransitioning = false; // Prevents spam-clicking during animation
+
 export async function showSection(sectionId) {
+  if (isTransitioning) return; // Don't do anything if an animation is in progress
+  isTransitioning = true;
+
   const sections = [
     trendingMoviesSection,
     myWatchedMoviesSection,
@@ -187,25 +196,40 @@ export async function showSection(sectionId) {
     listDetailSection,
   ];
   const navItems = document.querySelectorAll(".nav-item");
-  sections.forEach((section) => {
-    section.classList.toggle("hidden", section.id !== sectionId);
-  });
+
+  // Find the currently active section
+  const currentSection = sections.find(
+    (s) => !s.classList.contains("hidden") && !s.classList.contains("fade-out")
+  );
+  // Find the new section to show
+  const newSection = document.getElementById(sectionId);
+
+  // Fade out the current section if there is one
+  if (currentSection && currentSection !== newSection) {
+    currentSection.classList.add("fade-out");
+    currentSection.classList.remove("fade-in");
+  }
+  
+  // Make the new section ready to be faded in
+  if (newSection) {
+    newSection.classList.remove("hidden", "fade-out");
+    newSection.classList.add("fade-in");
+  }
+
+  // Update nav bar active state
   navItems.forEach((item) => {
     let expectedNavItemId = "";
-    if (sectionId === "my-watched-movies-section")
-      expectedNavItemId = "nav-my-log";
-    else if (sectionId === "trending-movies-section")
-      expectedNavItemId = "nav-trending";
-    else if (sectionId === "special-lists-section")
-      expectedNavItemId = "nav-lists";
-    else if (sectionId === "watch-later-movies-section")
-      expectedNavItemId = "nav-watch-later";
+    if (sectionId === "my-watched-movies-section") expectedNavItemId = "nav-my-log";
+    else if (sectionId === "trending-movies-section") expectedNavItemId = "nav-trending";
+    else if (sectionId === "special-lists-section") expectedNavItemId = "nav-lists";
+    else if (sectionId === "watch-later-movies-section") expectedNavItemId = "nav-watch-later";
     else if (sectionId === "profile-section") expectedNavItemId = "nav-profile";
     item.classList.toggle("active", item.id === expectedNavItemId);
   });
 
   addMovieFloatButton.style.display = "flex";
 
+  // Handle data loading for the new section
   if (sectionId === "my-watched-movies-section") {
     refreshWatchedMoviesList();
   } else if (sectionId === "trending-movies-section") {
@@ -217,31 +241,20 @@ export async function showSection(sectionId) {
       openMovieDetailsModal
     );
   } else if (sectionId === "special-lists-section") {
-    // 1. Animasyonu göster
     specialListsLoader.classList.remove("hidden");
     specialListsLoader.classList.add("visible");
-
-    // YENİ: İçindeki oynatıcıyı bul ve oynatmaya başla
     const player = specialListsLoader.querySelector("dotlottie-player");
-    if (player) {
-      player.play();
-    }
-
+    if (player) player.play();
     specialListsContentContainer.innerHTML = "";
     specialListsContentContainer.classList.add("hidden");
 
     const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
-
-    //    - API'den verileri çekme işlemi
     const dataFetchPromise = (async () => {
       const lists = getCuratedLists();
       const listPromises = lists.map((list) => fetchMoviesFromList(list));
       const moviesPerList = await Promise.all(listPromises);
-
       return lists.map((list, index) => {
-        const firstMovieWithPoster = moviesPerList[index].find(
-          (m) => m.poster_path
-        );
+        const firstMovieWithPoster = moviesPerList[index].find((m) => m.poster_path);
         return {
           ...list,
           heroImage: firstMovieWithPoster
@@ -250,28 +263,16 @@ export async function showSection(sectionId) {
         };
       });
     })();
-    const [_, listsWithImages] = await Promise.all([
-      timerPromise,
-      dataFetchPromise,
-    ]);
-
-    // 4. Animasyonu gizle
+    const [_, listsWithImages] = await Promise.all([timerPromise, dataFetchPromise]);
+    
+    if (player) player.stop();
     specialListsLoader.classList.add("hidden");
     specialListsLoader.classList.remove("visible");
 
-    // YENİ: Oynatıcıyı bul ve kaynak tüketmemesi için durdur
-    if (player) {
-      player.stop();
-    }
-
     specialListsContentContainer.classList.remove("hidden");
-    renderSpecialLists(
-      specialListsContentContainer,
-      listsWithImages,
-      showListDetail
-    );
+    renderSpecialLists(specialListsContentContainer, listsWithImages, showListDetail);
   } else if (sectionId === "watch-later-movies-section") {
-    renderWatchLaterMovies(
+    refreshWatchLaterMovies(
       watchLaterMoviesList,
       watchLaterMovies,
       watchLaterEmptyMessage,
@@ -280,6 +281,17 @@ export async function showSection(sectionId) {
   } else if (sectionId === "profile-section") {
     updateProfileView(auth.currentUser);
   }
+  
+  // After the animation duration, clean up classes
+  setTimeout(() => {
+    sections.forEach(s => {
+        if (s.id !== sectionId) {
+            s.classList.add('hidden'); // Hide all non-active sections
+            s.classList.remove('fade-out'); // Clean up animation class
+        }
+    });
+    isTransitioning = false;
+  }, 300); // Must match the CSS transition duration
 }
 
 document.getElementById("back-to-lists-btn").addEventListener("click", () => {
