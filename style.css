@@ -2726,3 +2726,22 @@ input:checked + .toggle-switch-slider:before {
   max-height: 700px;
   border-radius: 16px; /* Köşeleri yuvarlat */
 }
+
+/* =================================================================== */
+/* === KÜÇÜK EKRAN İÇİN ÖNERİ MODALI UYARLAMALARI (YENİ) === */
+/* =================================================================== */
+
+@media (max-width: 480px) {
+  /* Hedef: Sadece öneri sonuçları modalı */
+  #suggestionResultOverlay .modal-content {
+    /* Yan boşlukları azaltarak içeriğe daha fazla yer aç */
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  /* Hedef: Film posterlerinin bulunduğu grid */
+  .suggestion-grid {
+    /* Posterler arasındaki boşluğu azalt */
+    gap: 0.75rem;
+  }
+}

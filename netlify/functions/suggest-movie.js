@@ -14,84 +14,71 @@ function parseMovieTitles(rawText) {
 }
 
 // Gemini'ye istek atıp film adlarını alan yardımcı fonksiyon
-async function getMovieSuggestionsFromGemini(prompt, apiKey) {
+async function getMovieSuggestionsFromGemini(prompt, apiKey, isRetry = false) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
     
-    let attempt = 0;
-    const maxAttempts = 2;
-
-    while (attempt < maxAttempts) {
-        attempt++;
-        console.log(`[SUGGEST-MOVIE-LOG] Gemini Attempt #${attempt}`);
-
-        // On the second attempt, be more strict with the prompt.
-        const fullPrompt = attempt === 1
-            ? `Lütfen kullanıcının şu isteğine göre bir birinden farklı 4 film öner: "${prompt}". Sadece numaralandırılmış bir liste halinde, her satırda bir tane olacak şekilde, filmlerin orijinal adını ve parantez içinde çıkış yılını döndür. Başka hiçbir açıklama, selamlama veya ek metin ekleme. Örneğin:
+    // If this is a retry, modify the prompt to ask for different suggestions.
+    const retryText = isRetry ? " Lütfen daha önceki önerilerden TAMAMEN FARKLI olacak şekilde " : " ";
+    
+    const fullPrompt = `Lütfen kullanıcının şu isteğine göre${retryText}birbirinden farklı 4 film öner: "${prompt}". Sadece numaralandırılmış bir liste halinde, her satırda bir tane olacak şekilde, filmlerin orijinal adını ve parantez içinde çıkış yılını döndür. Başka hiçbir açıklama, selamlama veya ek metin ekleme. Örneğin:
 1. The Dark Knight (2008)
 2. Inception (2010)
 3. Pulp Fiction (1994)
-4. The Matrix (1999)`
-            : `YANLIŞ FORMAT. Lütfen SADECE numaralandırılmış bir liste olarak 4 film adı ve yılı döndür. Başka HİÇBİR METİN ekleme. Örneğin:
-1. The Godfather (1972)
-2. Forrest Gump (1994)
-3. Fight Club (1999)
-4. Interstellar (2014)`;
-        
-        const payload = { contents: [{ role: "user", parts: [{ text: fullPrompt }] }] };
+4. The Matrix (1999)`;
+    
+    // Add the generationConfig to increase creativity (temperature)
+    const payload = {
+        contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+        generationConfig: {
+          temperature: 1.0, // Increased from default for more variety
+          topK: 40,
+          topP: 0.95,
+        },
+    };
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    console.log(`[SUGGEST-MOVIE-LOG] Sending prompt to Gemini (Retry: ${isRetry}):\n${fullPrompt}`);
 
-        if (!response.ok) {
-            const errorBody = await response.text();
-            console.error(`[SUGGEST-MOVIE-LOG] Gemini API Error (Attempt ${attempt}):`, errorBody);
-            // If it's a server error, don't retry.
-            if (response.status >= 500) {
-                 throw new Error("Gemini sunucusunda bir hata oluştu.");
-            }
-            continue; // For client errors, try again.
-        }
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
 
-        const data = await response.json();
-        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        
-        console.log(`[SUGGEST-MOVIE-LOG] Raw Gemini Response (Attempt ${attempt}):\n---\n${rawText}\n---`);
-
-        const movieTitles = parseMovieTitles(rawText);
-
-        if (movieTitles.length >= 4) {
-            console.log("[SUGGEST-MOVIE-LOG] Successfully parsed titles:", movieTitles);
-            return movieTitles; // Success!
-        }
-        
-        console.warn(`[SUGGEST-MOVIE-LOG] Failed to parse titles on attempt ${attempt}. Retrying...`);
+    if (!response.ok) {
+        const errorBody = await response.text();
+        console.error("[SUGGEST-MOVIE-LOG] Gemini API Error:", errorBody);
+        throw new Error("Gemini API'sinden film adı alınamadı.");
     }
 
-    // If both attempts fail
-    throw new Error('Gemini\'den beklenen formatta film listesi alınamadı.');
+    const data = await response.json();
+    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    
+    console.log(`[SUGGEST-MOVIE-LOG] Raw Gemini Response:\n---\n${rawText}\n---`);
+    
+    const movieTitles = parseMovieTitles(rawText);
+
+    if (movieTitles.length < 4) {
+        console.warn("[SUGGEST-MOVIE-LOG] Gemini did not return 4 valid titles. Parsed:", movieTitles);
+        throw new Error('Gemini\'den beklenen formatta film listesi alınamadı.');
+    }
+    
+    return movieTitles;
 }
 
-// TMDB'de arama yapıp ilk sonucu döndüren yardımcı fonksiyon
+// TMDB'de arama yapıp ilk sonucu döndüren yardımcı fonksiyon (No changes here)
 async function searchTmdb(query, apiKey) {
     let year = '';
     const yearMatch = query.match(/\((\d{4})\)/);
-    if (yearMatch) {
-        year = yearMatch[1];
-    }
+    if (yearMatch) year = yearMatch[1];
     const movieTitle = query.replace(/\s\(\d{4}\)$/, '').trim();
     
     let url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieTitle)}&language=tr-TR&api_key=${apiKey}`;
-    if (year) {
-        url += `&year=${year}`;
-    }
+    if (year) url += `&year=${year}`;
 
     const response = await fetch(url);
     if (!response.ok) {
         console.error(`[SUGGEST-MOVIE-LOG] TMDB search failed for query: ${query}`);
-        return null; // Return null instead of throwing an error for a single failed search
+        return null;
     }
     const data = await response.json();
     return data.results && data.results.length > 0 ? data.results[0] : null;
@@ -108,12 +95,13 @@ exports.handler = async function(event) {
     }
 
     try {
-        const { prompt } = JSON.parse(event.body);
+        // Check if this is a retry attempt from the frontend
+        const { prompt, isRetry } = JSON.parse(event.body);
         if (!prompt) {
             return { statusCode: 400, body: JSON.stringify({ error: 'Prompt gerekli.' }) };
         }
 
-        const movieTitles = await getMovieSuggestionsFromGemini(prompt, VITE_GEMINI_API_KEY);
+        const movieTitles = await getMovieSuggestionsFromGemini(prompt, VITE_GEMINI_API_KEY, isRetry);
         
         const moviePromises = movieTitles.map(title => searchTmdb(title, VITE_TMDB_API_KEY));
         const tmdbResults = await Promise.all(moviePromises);
@@ -124,8 +112,7 @@ exports.handler = async function(event) {
 
         if (foundMovies.length === 0) {
              return { 
-                statusCode: 200, // It's not a server error, so return 200
-                headers: { "Content-Type": "application/json" },
+                statusCode: 200,
                 body: JSON.stringify({ error: 'Önerilen filmlerin hiçbiri veritabanında bulunamadı. Lütfen tekrar deneyin.' })
              };
         }

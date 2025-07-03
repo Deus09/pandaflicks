@@ -180,28 +180,27 @@ export async function fetchMoviesFromList(listObject) {
 /**
  * Backend üzerinden Gemini'dan film önerisi alır ve TMDB'den detaylarını çeker.
  * @param {string} prompt - Kullanıcının doğal dildeki film isteği.
+ * @param {boolean} [isRetry=false] - Bu isteğin bir "yeniden deneme" olup olmadığını belirtir.
  * @returns {Promise<object>} Bulunan filmin TMDB detayları.
  */
-export async function fetchSuggestedMovie(prompt) {
+export async function fetchSuggestedMovie(prompt, isRetry = false) {
     try {
         const response = await fetch('/api/suggest-movie', { // Netlify Function yolu
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ prompt: prompt })
+            // Send the prompt and the retry status to the backend
+            body: JSON.stringify({ prompt: prompt, isRetry: isRetry })
         });
 
         if (!response.ok) {
-            // 404 gibi durumlarda yanıt JSON olmayabilir, bu yüzden önce metin olarak okuyalım.
             const errorText = await response.text();
             try {
-                // Yanıtın JSON olup olmadığını kontrol et
                 const errorData = JSON.parse(errorText);
                 throw new Error(errorData.error || `Film önerisi alınırken bir hata oluştu: ${response.status}`);
             } catch (e) {
-                // Eğer JSON parse edilemezse, bu muhtemelen 404 hatasıdır.
-                throw new Error(`Sunucu fonksiyonu bulunamadı veya bir hata oluştu (HTTP ${response.status}). Lütfen site yöneticisiyle iletişime geçin.`);
+                throw new Error(`Sunucu fonksiyonu bulunamadı veya bir hata oluştu (HTTP ${response.status}).`);
             }
         }
         return await response.json();

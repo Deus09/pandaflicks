@@ -98,7 +98,13 @@ function openSuggestionResultModal(movies) {
  */
 function closeSuggestionResultModal() {
     suggestionResultOverlay.classList.remove('visible');
-    document.body.classList.remove('no-scroll');
+    setTimeout(() => {
+        const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
+        if (!isAnotherModalVisible) {
+            document.body.classList.remove('no-scroll');
+        }
+    }, 100);
+
     suggestionResultOverlay.addEventListener('transitionend', () => {
         if (!suggestionResultOverlay.classList.contains('visible')) {
             suggestionResultOverlay.classList.add('hidden');
@@ -117,18 +123,18 @@ function renderSuggestionGrid(movies) {
 
         const posterItem = document.createElement('div');
         posterItem.className = 'suggestion-poster-item';
-        
+
         const posterImg = document.createElement('img');
-        posterImg.src = movie.poster_path 
+        posterImg.src = movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : 'https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok';
         posterImg.alt = movie.title;
-        posterImg.onerror = function() { this.onerror=null; this.src='https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
+        posterImg.onerror = function () { this.onerror = null; this.src = 'https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
 
         posterItem.appendChild(posterImg);
-        
+
         posterItem.addEventListener('click', () => {
-            openMovieDetailsModal(movie.id,true);
+            openMovieDetailsModal(movie.id, true);
         });
 
         suggestionGrid.appendChild(posterItem);
@@ -156,25 +162,27 @@ async function handleSubmitPrompt() {
     }
     lastPrompt = promptText; // Prompt'u "Yeniden Dene" için sakla
     promptError.classList.add('hidden');
-    
+
     closePromptModal();
     await fetchAndDisplaySuggestions();
 }
 
 /**
  * YENİ ve MERKEZİ FONKSİYON: API'dan önerileri alır, yükleme ekranını yönetir ve sonuçları gösterir.
+ * @param {boolean} [isRetry=false] - Bu çağrının yeniden deneme olup olmadığını belirtir.
  */
-async function fetchAndDisplaySuggestions() {
-    showLoadingSpinner("Sana özel 4 öneri hazırlanıyor...");
+async function fetchAndDisplaySuggestions(isRetry = false) {
+    const spinnerText = isRetry ? "Yeni öneriler hazırlanıyor..." : "Sana özel 4 öneri hazırlanıyor...";
+    showLoadingSpinner(spinnerText);
 
     try {
-        const data = await fetchSuggestedMovie(lastPrompt);
+        // Pass the isRetry flag to the API call
+        const data = await fetchSuggestedMovie(lastPrompt, isRetry);
         hideLoadingSpinner();
 
         if (data && data.movies && data.movies.length > 0) {
             openSuggestionResultModal(data.movies);
         } else {
-            // API'den bir hata mesajı geldiyse onu göster, yoksa genel bir mesaj göster.
             const errorMessage = data.error || 'İsteğine uygun filmler bulunamadı. Lütfen daha farklı bir dilde veya içerikte tekrar dene.';
             openPromptModal();
             promptError.textContent = errorMessage;
@@ -187,4 +195,28 @@ async function fetchAndDisplaySuggestions() {
         promptError.textContent = `Bir hata oluştu: ${error.message}`;
         promptError.classList.remove('hidden');
     }
+}
+
+// Modify the two functions that call the above function
+
+async function handleTryAgain() {
+    if (!lastPrompt) return;
+    closeSuggestionResultModal();
+    // Pass 'true' to indicate this is a retry
+    await fetchAndDisplaySuggestions(true);
+}
+
+async function handleSubmitPrompt() {
+    const promptText = moviePromptInput.value.trim();
+    if (!promptText) {
+        promptError.textContent = 'Lütfen bir film öneri isteği girin.';
+        promptError.classList.remove('hidden');
+        return;
+    }
+    lastPrompt = promptText;
+    promptError.classList.add('hidden');
+
+    closePromptModal();
+    // This is the first attempt, so we don't pass anything (it defaults to false)
+    await fetchAndDisplaySuggestions();
 }
