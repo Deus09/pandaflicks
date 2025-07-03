@@ -2780,16 +2780,40 @@ input:checked + .toggle-switch-slider:before {
 /* === PRO ÖZELLİK STİLLERİ === */
 
 .pro-badge {
-    font-size: 0.6rem; /* Küçük font boyutu */
+    font-size: 0.5rem; /* Daha küçük font boyutu */
     font-weight: 700;
-    color: var(--bg-main);
-    background-color: var(--accent-secondary); /* Altın sarısı */
-    padding: 2px 5px;
+    color: var(--text-primary); /* Metin rengi */
+    background-color: var(--accent-secondary); /* Vurgu rengi (altın sarısı gibi) */
+    padding: 2px 4px; /* Daha küçük padding */
     border-radius: 4px;
-    margin-left: 6px;
-    vertical-align: middle; /* Metinle hizalamak için */
+    margin-left: auto; /* Sol boşluğu otomatik yap, sağa yasla */
+    margin-top: -0.2rem; /* Hafifçe yukarı kaydır */
+    vertical-align: top; /* Üste hizala */
     text-transform: uppercase;
     line-height: 1;
+    letter-spacing: 0.5px; /* Harfler arası hafif boşluk */
+}
+
+.pro-feature.nav-suggest-button {
+    display: flex; /* Öğeleri yan yana sırala */
+    flex-direction: column; /* İçindeki svg ve span'ı alt alta yap */
+    align-items: center; /* Yatayda ortala */
+    justify-content: center; /* Dikeyde ortala */
+    gap: 0.2rem; /* İkon ve yazı arası boşluk */
+    padding: 0.5rem 0; /* Dikey padding'i azalt */
+}
+
+.pro-feature.nav-suggest-button span {
+    display: flex; /* Yazı ve badge'i yan yana sırala */
+    align-items: center; /* Dikeyde ortala */
+    gap: 0.2rem; /* Yazı ve badge arası boşluk */
+    width: 100%; /* Yazının tam genişlikte olmasını sağla */
+    justify-content: center; /* Yazı ve badge'i ortala */
+}
+
+.pro-feature.nav-suggest-button span .pro-badge {
+    margin-left: 0; /* Yazıdan sonra sağa yasla */
+    margin-top: 0; /* Dikeyde ortala */
 }
 
 /* Bir özelliğin kilitli olduğunu gösteren genel sınıf */
