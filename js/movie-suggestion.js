@@ -9,20 +9,19 @@ let moviePromptInput;
 let submitPromptBtn;
 let promptError;
 
-// YENİ: Öneri sonuç modalı için DOM elementleri
+// Öneri sonuç modalı için DOM elementleri
 let suggestionResultOverlay;
 let closeSuggestionResultBtn;
 let suggestionGrid;
 let tryAgainBtn;
 
-// YENİ: Son girilen prompt'u saklamak için değişken
+// Son girilen prompt'u saklamak için değişken
 let lastPrompt = '';
 
 /**
  * Film öneri özelliğini başlatır ve olay dinleyicilerini ayarlar.
  */
 export function initMovieSuggestion() {
-    // Mevcut elementler
     suggestMovieBtn = document.getElementById('suggestMovieBtn');
     promptModalOverlay = document.getElementById('promptModalOverlay');
     closePromptModalBtn = document.getElementById('closePromptModalBtn');
@@ -30,7 +29,6 @@ export function initMovieSuggestion() {
     submitPromptBtn = document.getElementById('submitPromptBtn');
     promptError = document.getElementById('promptError');
 
-    // YENİ: Yeni modal elementleri
     suggestionResultOverlay = document.getElementById('suggestionResultOverlay');
     closeSuggestionResultBtn = document.getElementById('closeSuggestionResultBtn');
     suggestionGrid = document.getElementById('suggestionGrid');
@@ -41,15 +39,13 @@ export function initMovieSuggestion() {
         return;
     }
 
-    // Mevcut Olay Dinleyicileri
+    // Olay Dinleyicileri
     suggestMovieBtn.addEventListener('click', openPromptModal);
     closePromptModalBtn.addEventListener('click', closePromptModal);
     promptModalOverlay.addEventListener('click', (e) => {
         if (e.target === promptModalOverlay) closePromptModal();
     });
     submitPromptBtn.addEventListener('click', handleSubmitPrompt);
-
-    // YENİ: Yeni Olay Dinleyicileri
     closeSuggestionResultBtn.addEventListener('click', closeSuggestionResultModal);
     suggestionResultOverlay.addEventListener('click', (e) => {
         if (e.target === suggestionResultOverlay) closeSuggestionResultModal();
@@ -64,8 +60,8 @@ function openPromptModal() {
     moviePromptInput.value = '';
     promptError.textContent = '';
     promptError.classList.add('hidden');
-    promptModalOverlay.classList.remove('hidden');
     document.body.classList.add('no-scroll');
+    promptModalOverlay.classList.remove('hidden');
     setTimeout(() => promptModalOverlay.classList.add('visible'), 10);
 }
 
@@ -74,7 +70,14 @@ function openPromptModal() {
  */
 function closePromptModal() {
     promptModalOverlay.classList.remove('visible');
-    document.body.classList.remove('no-scroll');
+    
+    setTimeout(() => {
+        const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
+        if (!isAnotherModalVisible) {
+            document.body.classList.remove('no-scroll');
+        }
+    }, 100);
+
     promptModalOverlay.addEventListener('transitionend', () => {
         if (!promptModalOverlay.classList.contains('visible')) {
             promptModalOverlay.classList.add('hidden');
@@ -83,21 +86,22 @@ function closePromptModal() {
 }
 
 /**
- * YENİ: Öneri sonuç modalını açar
+ * Öneri sonuç modalını açar
  * @param {Array} movies - Gösterilecek film nesneleri dizisi.
  */
 function openSuggestionResultModal(movies) {
     renderSuggestionGrid(movies);
-    suggestionResultOverlay.classList.remove('hidden');
     document.body.classList.add('no-scroll');
+    suggestionResultOverlay.classList.remove('hidden');
     setTimeout(() => suggestionResultOverlay.classList.add('visible'), 10);
 }
 
 /**
- * YENİ: Öneri sonuç modalını kapatır
+ * Öneri sonuç modalını kapatır
  */
 function closeSuggestionResultModal() {
     suggestionResultOverlay.classList.remove('visible');
+
     setTimeout(() => {
         const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
         if (!isAnotherModalVisible) {
@@ -113,28 +117,28 @@ function closeSuggestionResultModal() {
 }
 
 /**
- * YENİ: 4'lü film grid'ini oluşturur ve DOM'a ekler.
+ * 4'lü film grid'ini oluşturur ve DOM'a ekler.
  * @param {Array} movies - Gösterilecek film nesneleri dizisi.
  */
 function renderSuggestionGrid(movies) {
-    suggestionGrid.innerHTML = ''; // Önceki sonuçları temizle
-    movies.slice(0, 4).forEach(movie => { // En fazla 4 film göster
-        if (!movie || !movie.id) return; // Geçersiz film verisini atla
+    suggestionGrid.innerHTML = '';
+    movies.slice(0, 4).forEach(movie => {
+        if (!movie || !movie.id) return;
 
         const posterItem = document.createElement('div');
         posterItem.className = 'suggestion-poster-item';
-
+        
         const posterImg = document.createElement('img');
-        posterImg.src = movie.poster_path
+        posterImg.src = movie.poster_path 
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : 'https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok';
         posterImg.alt = movie.title;
-        posterImg.onerror = function () { this.onerror = null; this.src = 'https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
+        posterImg.onerror = function() { this.onerror=null; this.src='https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
 
         posterItem.appendChild(posterImg);
-
+        
         posterItem.addEventListener('click', () => {
-            openMovieDetailsModal(movie.id, true);
+            openMovieDetailsModal(movie.id, true); 
         });
 
         suggestionGrid.appendChild(posterItem);
@@ -142,12 +146,12 @@ function renderSuggestionGrid(movies) {
 }
 
 /**
- * YENİ: "Yeniden Dene" butonuna basıldığında çalışır.
+ * "Yeniden Dene" butonuna basıldığında çalışır.
  */
 async function handleTryAgain() {
     if (!lastPrompt) return;
     closeSuggestionResultModal();
-    await fetchAndDisplaySuggestions();
+    await fetchAndDisplaySuggestions(true);
 }
 
 /**
@@ -160,15 +164,15 @@ async function handleSubmitPrompt() {
         promptError.classList.remove('hidden');
         return;
     }
-    lastPrompt = promptText; // Prompt'u "Yeniden Dene" için sakla
+    lastPrompt = promptText;
     promptError.classList.add('hidden');
-
+    
     closePromptModal();
     await fetchAndDisplaySuggestions();
 }
 
 /**
- * YENİ ve MERKEZİ FONKSİYON: API'dan önerileri alır, yükleme ekranını yönetir ve sonuçları gösterir.
+ * API'dan önerileri alır, yükleme ekranını yönetir ve sonuçları gösterir.
  * @param {boolean} [isRetry=false] - Bu çağrının yeniden deneme olup olmadığını belirtir.
  */
 async function fetchAndDisplaySuggestions(isRetry = false) {
@@ -176,7 +180,6 @@ async function fetchAndDisplaySuggestions(isRetry = false) {
     showLoadingSpinner(spinnerText);
 
     try {
-        // Pass the isRetry flag to the API call
         const data = await fetchSuggestedMovie(lastPrompt, isRetry);
         hideLoadingSpinner();
 
@@ -195,28 +198,4 @@ async function fetchAndDisplaySuggestions(isRetry = false) {
         promptError.textContent = `Bir hata oluştu: ${error.message}`;
         promptError.classList.remove('hidden');
     }
-}
-
-// Modify the two functions that call the above function
-
-async function handleTryAgain() {
-    if (!lastPrompt) return;
-    closeSuggestionResultModal();
-    // Pass 'true' to indicate this is a retry
-    await fetchAndDisplaySuggestions(true);
-}
-
-async function handleSubmitPrompt() {
-    const promptText = moviePromptInput.value.trim();
-    if (!promptText) {
-        promptError.textContent = 'Lütfen bir film öneri isteği girin.';
-        promptError.classList.remove('hidden');
-        return;
-    }
-    lastPrompt = promptText;
-    promptError.classList.add('hidden');
-
-    closePromptModal();
-    // This is the first attempt, so we don't pass anything (it defaults to false)
-    await fetchAndDisplaySuggestions();
 }
