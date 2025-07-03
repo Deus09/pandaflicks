@@ -135,18 +135,7 @@ function renderSuggestionGrid(movies) {
         posterImg.alt = movie.title;
         posterImg.onerror = function() { this.onerror=null; this.src='https://placehold.co/400x600/2A2A2A/AAAAAA?text=Poster+Yok'; };
 
-        // YENİ: Overlay ve Title elementlerini oluştur
-        const overlay = document.createElement('div');
-        overlay.className = 'suggestion-poster-overlay';
-
-        const title = document.createElement('h3');
-        title.className = 'suggestion-poster-title';
-        title.textContent = movie.title;
-
-        // Elementleri iç içe ekle
-        overlay.appendChild(title);
         posterItem.appendChild(posterImg);
-        posterItem.appendChild(overlay); // Overlay'i postere ekle
         
         posterItem.addEventListener('click', () => {
             openMovieDetailsModal(movie.id, true); 
