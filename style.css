@@ -2728,36 +2728,35 @@ input:checked + .toggle-switch-slider:before {
 }
 
 /* =================================================================== */
-/* === KÜÇÜK EKRAN İÇİN ÖNERİ MODALI UYARLAMALARI (YENİ) === */
+/* === KÜÇÜK EKRAN İÇİN ÖNERİ MODALI UYARLAMALARI (YENİ VE GELİŞTİRİLMİŞ) === */
 /* =================================================================== */
 
 @media (max-width: 480px) {
-  /* Hedef: Sadece öneri sonuçları modalı */
+  /* Hedef: Öneri sonuçları modalının kendisi */
   #suggestionResultOverlay .modal-content {
-    /* Yan boşlukları azaltarak içeriğe daha fazla yer aç */
+    /* Yan boşlukları daha da azalt */
     padding-left: 0.75rem;
     padding-right: 0.75rem;
-
-    /* Dikey boşlukları da biraz azaltarak her şeyin sığmasına yardımcı ol */
+    
+    /* Dikey boşlukları da daha kompakt hale getir */
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
 
   /* Hedef: Film posterlerinin bulunduğu grid */
   .suggestion-grid {
-    /* Posterler arasındaki boşluğu azalt */
-    gap: 0.75rem;
+    /* Posterler arasındaki boşluğu daha da küçült */
+    gap: 0.5rem; /* Önceki 1rem'den daha küçük */
   }
 
-  /* Hedef: Modal başlığı */
-  #suggestionResultOverlay .modal-header {
-     /* Başlık ve grid arasındaki boşluğu azalt */
-    margin-bottom: 1rem;
+  /* Hedef: Modal başlığı (h2) */
+  #suggestionResultOverlay .modal-header h2 {
+    font-size: 1.1rem; /* Başlık yazısını biraz küçült */
   }
-  
-  /* Hedef: "Yeniden Dene" butonunun kapsayıcısı */
-  #suggestionResultOverlay .modal-actions {
-     /* Grid ve buton arasındaki boşluğu azalt */
-     margin-top: 1rem;
+
+  /* Hedef: "Yeniden Dene" butonu */
+  #tryAgainBtn {
+    padding: 0.75rem; /* Butonun iç boşluğunu azalt */
+    font-size: 0.9rem; /* Buton yazısını küçült */
   }
 }
