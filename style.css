@@ -1,20 +1,22 @@
 /* Genel Stil Ayarları (Mobil Odaklı, Premium, Sinematik) */
 
 :root {
-  --bg-main: #0d1117; /* Ana arka plan (Çok Koyu Gri) */
-  --bg-surface: #161b22; /* Kartlar ve yüzeyler için arka plan */
-  --border-color: #30363d; /* Kenarlıklar ve ayırıcılar */
-  --text-primary: #e6edf3; /* Ana metin rengi */
-  --text-secondary: #8b949e; /* İkincil, soluk metin rengi */
-  --accent-primary: #f77826; /* Ana Eylem Rengi (Canlı Turuncu) */
-  --accent-primary-hover: #fa8c41;
-  --accent-secondary: #e3b341; /* Vurgu Rengi (Altın Sarısı) */
-  --accent-secondary-hover: #f0c65a;
-  --accent-magic: #8256d0; /* "Yorumu Geliştir" için Büyü Rengi (Mor) */
-  --accent-magic-hover: #9266e0;
-  --accent-chat: #2688f7; /* Sohbet için yeni renk (Mavi) */
-  --accent-chat-hover: #419aff;
-  --accent-chat-glow: rgba(38, 136, 247, 0.4); /* Sohbet butonu parlama rengi */
+  --bg-main: #0b192f;               /* Ana arka plan (Derin Okyanus Mavisi) */
+  --bg-surface: #172a46;            /* Kartlar ve yüzeyler (Gece Mavisi) */
+  --border-color: #3a506b;          /* Kenarlıklar (Mavi-Gri) */
+  --text-primary: #ccd6f6;          /* Ana metin (Çok Açık Mavi) */
+  --text-secondary: #8892b0;        /* İkincil metin (Soluk Mavi-Gri) */
+
+  /* Vurgu Renkleri (Klasik Teal & Orange) */
+  --accent-primary: #ff8c00;          /* Vurgu 1 (Canlı Ateş Turuncusu) */
+  --accent-primary-hover: #ffa500;
+  --accent-secondary: #64ffda;         /* Vurgu 2 (Parlak Turkuaz/Nane Yeşili) */
+  --accent-secondary-hover: #a0ffee;
+  --accent-magic: #c778dd;             /* Büyü Rengi (Orkide Moru) */
+  --accent-magic-hover: #e099f5;
+  --accent-chat: #64ffda;              /* Sohbet Rengi (Yine Turkuaz) */
+  --accent-chat-hover: #a0ffee;
+  --accent-chat-glow: rgba(100, 255, 218, 0.4);
 }
 
 body {
@@ -954,7 +956,7 @@ header h1 {
 .rating-input .star-container svg.star-svg {
   width: 2.2rem;
   height: 2.2rem;
-  fill: #484f58;
+  fill: #3a506b; /* --border-color */
   transition: all 0.1s ease-in-out;
 }
 .rating-input .star-container:hover svg.star-svg {
@@ -1100,8 +1102,9 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: none;
-  position: relative;
+  border: 1px solid rgba(100, 255, 218, 0.5); /* Hafif bir sınır */
+  background-image: linear-gradient(-45deg, #172a46, var(--accent-chat), #a0ffee,var(--accent-chat));
+  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(204, 214, 246, 0.1);  position: relative;
   min-height: 40px;
   overflow: hidden; /* Işıltı efektinin taşmasını engellemek için */
 }
@@ -1713,23 +1716,23 @@ input:checked + .toggle-switch-slider:before {
 }
 .rating-bar-container[data-rating^="5"] .rating-bar-fill,
 .rating-bar-container[data-rating^="4.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #238636, #4ade80);
-  --glow-color: rgba(35, 134, 54, 0.5);
+  background: linear-gradient(90deg, #31c48d, var(--accent-secondary)); /* Teal Green */
+  --glow-color: var(--accent-chat-glow);
 }
 .rating-bar-container[data-rating^="4"] .rating-bar-fill,
 .rating-bar-container[data-rating^="3.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #e3b341, #fde047);
-  --glow-color: rgba(227, 179, 65, 0.5);
+  background: linear-gradient(90deg, #2980b9, #3498db); /* Blue */
+  --glow-color: rgba(52, 152, 219, 0.4);
 }
 .rating-bar-container[data-rating^="3"] .rating-bar-fill,
 .rating-bar-container[data-rating^="2.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #f77826, #fbbf24);
-  --glow-color: rgba(247, 120, 38, 0.5);
+  background: linear-gradient(90deg, #c778dd, #e099f5); /* Magic Purple */
+  --glow-color: rgba(199, 120, 221, 0.4);
 }
 .rating-bar-container[data-rating^="2"] .rating-bar-fill,
 .rating-bar-container[data-rating^="1.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #da3633, #f87171);
-  --glow-color: rgba(218, 54, 51, 0.5);
+  background: linear-gradient(90deg, #ff8c00, #ffa500); /* Primary Orange */
+  --glow-color: rgba(255, 140, 0, 0.4);
 }
 .rating-bar-container[data-rating^="1"] .rating-bar-fill,
 .rating-bar-container[data-rating^="0.5"] .rating-bar-fill {
@@ -2367,9 +2370,9 @@ input:checked + .toggle-switch-slider:before {
     line-height: 1.5;
 }
 .chat-message.user .message-bubble {
-    background-color: var(--accent-chat);
-    color: white;
-    border-bottom-right-radius: 4px;
+  background-color: var(--accent-primary);
+  color: white;
+  border-bottom-right-radius: 4px;
 }
 .chat-message.ai .message-bubble {
     background-color: #2d333b;
@@ -2680,8 +2683,8 @@ input:checked + .toggle-switch-slider:before {
 /* --- Ana Eylem Butonu --- */
 .prompt-submit-button {
   width: 100%;
-  background-image: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
-  color: white;
+  background-image: linear-gradient(45deg, var(--accent-primary), #ffae42);
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.3);  color: white;
   font-weight: 600;
   font-size: 1.1rem;
   padding: 1rem;
