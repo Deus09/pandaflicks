@@ -283,10 +283,11 @@ header h1 {
 
 /* Header'daki profil butonu için yeni stiller */
 #nav-profile {
-  background-color: #e6edf3;
+  background-color: var(--bg-surface);
   /* Arka planı beyaz yapar */
   border-radius: 50%;
   /* Butonu dairesel yapar */
+  border: 1px solid var(--border-color);
   width: 30px;
   /* Genişlik, isteğe bağlı olarak değiştirilebilir */
   height: 30px;
