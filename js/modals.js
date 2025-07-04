@@ -577,7 +577,7 @@ const loadingTexts = [
     "Houston, bir önerimiz var...",
     "Görevimiz: Mükemmel Filmi Bulmak.",
     "Büyük güç, büyük film önerileri getirir.",
-        "Batman sinemaya gizlice girdi, yakalanmadan ilerleniyor...",
+     "Batman sinemaya gizlice girdi, yakalanmadan ilerleniyor...",
     "Thanos eldivenini taktı... spoiler vermemeye çalışıyoruz!",
     "Hızlı ve Öfkeli kadrosu park yeri arıyor...",
     "Harry Potter büyüyü yanlış yaptı, sahne başa sarıldı...",

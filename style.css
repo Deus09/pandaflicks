@@ -3346,3 +3346,21 @@ input:checked+.toggle-switch-slider:before {
   text-align: center;
   line-height: 1.5;
 }
+
+#splash-text {
+  /* 1. Yazıyı ortalamak için */
+  text-align: center;
+
+  /* 2. Font boyutunu daha makul bir seviyeye indirmek için (değeri kendinize göre ayarlayabilirsiniz) */
+  font-size: 1.2rem; /* veya 22px gibi sabit bir değer de kullanabilirsiniz */
+
+  /* 3. Yazının çok geniş bir alana yayılmasını önlemek için */
+  max-width: 85%;   /* Kendi kapsayıcısının en fazla %85'i kadar geniş olsun */
+
+  /* 4. Elementin kendisini (metin kutusunu) yatayda ortalamak için */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Okunabilirliği artırmak için satır yüksekliği ayarı (isteğe bağlı) */
+  line-height: 1.4; 
+}
