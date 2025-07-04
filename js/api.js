@@ -1,18 +1,20 @@
 // js/api.js
 console.log('api.js yüklendi.');
 
-// Proxy yolunu DOĞRUDAN burada tanımlıyoruz. Bu bir ortam değişkeni DEĞİLDİR.
 const TMDB_PROXY_BASE = '/api/tmdb'; 
 
-// İmaj URL'leri doğrudan TMDB'den çekilmeye devam edecek, bu yüzden bunlar kalıyor.
 export const TMDB_IMAGE_BASE_URL_W500 = 'https://image.tmdb.org/t/p/w500';
 export const TMDB_IMAGE_BASE_URL_W185 = 'https://image.tmdb.org/t/p/w185';
 export const TMDB_IMAGE_BASE_URL_W92 = 'https://image.tmdb.org/t/p/w92';
 export const YOUTUBE_EMBED_URL = 'https://www.youtube-nocookie.com/embed/';
 
-export async function fetchTrendingMovies(gridElement, errorMessageElement, renderFunction, openDetailModalFunction) {
-    errorMessageElement.style.display = 'none';
-
+/**
+ * GÜNCELLEME: Bu fonksiyon artık arayüzü doğrudan etkilemiyor.
+ * Sadece popüler filmlerin verisini çeker ve bir dizi olarak döndürür.
+ * @returns {Promise<Array>} Popüler filmlerin bir dizisini döndürür.
+ * @throws {Error} Veri çekme sırasında bir hata olursa hata fırlatır.
+ */
+export async function fetchTrendingMovies() {
     try {
         const url = `${TMDB_PROXY_BASE}/trending/movie/week?language=tr-TR`;
         const response = await fetch(url);
@@ -21,22 +23,14 @@ export async function fetchTrendingMovies(gridElement, errorMessageElement, rend
             throw new Error(`Proxy Hatası! Durum: ${response.status}`);
         }
         const data = await response.json();
-        if (data.results && data.results.length > 0) {
-            renderFunction(data.results.slice(0, 10), openDetailModalFunction);
-        } else {
-            gridElement.innerHTML = '';
-            errorMessageElement.style.display = 'block';
-            errorMessageElement.textContent = 'Popüler film bulunamadı.';
-        }
+        
+        // Sadece ilk 10 filmin verisini döndür veya sonuç yoksa boş dizi döndür.
+        return data.results ? data.results.slice(0, 10) : [];
+
     } catch (error) {
-        console.error('Trend filmler yüklenirken proxy hatası oluştu:', error);
-        gridElement.innerHTML = '';
-        errorMessageElement.style.display = 'block';
-        errorMessageElement.innerHTML = `
-            <p class="text-red-400 font-bold text-lg">Yükleme Hatası!</p>
-            <p class="mt-2 text-base text-gray-300">Popüler filmleri çekerken bir sorun oluştu.</p>
-            <p class="mt-2 text-sm text-gray-400">Detay: ${error.message}. Lütfen site yöneticisi ile iletişime geçin.</p>
-        `;
+        console.error('Trend filmler yüklenirken hata oluştu:', error);
+        // Hatanın üst katmanlarda yakalanabilmesi için tekrar fırlat.
+        throw error; 
     }
 }
 
@@ -84,7 +78,7 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
 
     } catch (error) {
         console.error("fetchMovieDetailsFromApi Hatası:", error);
-        throw error; // Hatanın daha üst katmanlarda da yakalanabilmesi için tekrar fırlat
+        throw error;
     }
 }
 
@@ -126,11 +120,6 @@ export async function searchTmdbMovies(query, resultsDiv, messageElement, displa
     }
 }
 
-/**
- * Belirli bir listenin film verilerini TMDB'den çeker. (YENİ: Buraya taşındı)
- * @param {object} listObject - Tipi ve ID'si/yolu olan liste nesnesi.
- * @returns {Promise<Array<object>>} Film nesnelerinin bir dizisi.
- */
 export async function fetchMoviesFromList(listObject) {
     const { type, tmdbId } = listObject;
 
@@ -145,7 +134,7 @@ export async function fetchMoviesFromList(listObject) {
                 if (type === 'list') path = `/list/${tmdbId}`;
                 else if (type === 'collection') path = `/collection/${tmdbId}`;
                 else if (type === 'director') path = `/person/${tmdbId}/movie_credits`;
-                else path = String(tmdbId); // 'endpoint' için tmdbId doğrudan path'dir.
+                else path = String(tmdbId);
                 
                 const separator = path.includes('?') ? '&' : '?';
                 const url = `${TMDB_PROXY_BASE}${path}${separator}language=tr-TR`;
@@ -177,20 +166,13 @@ export async function fetchMoviesFromList(listObject) {
     }
 }
 
-/**
- * Backend üzerinden Gemini'dan film önerisi alır ve TMDB'den detaylarını çeker.
- * @param {string} prompt - Kullanıcının doğal dildeki film isteği.
- * @param {boolean} [isRetry=false] - Bu isteğin bir "yeniden deneme" olup olmadığını belirtir.
- * @returns {Promise<object>} Bulunan filmin TMDB detayları.
- */
 export async function fetchSuggestedMovie(prompt, isRetry = false) {
     try {
-        const response = await fetch('/api/suggest-movie', { // Netlify Function yolu
+        const response = await fetch('/api/suggest-movie', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            // Send the prompt and the retry status to the backend
             body: JSON.stringify({ prompt: prompt, isRetry: isRetry })
         });
 

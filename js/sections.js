@@ -10,7 +10,8 @@ import {
 } from "./render.js";
 import { calculateStats } from "./stats.js";
 import { fetchTrendingMovies, fetchMoviesFromList } from "./api.js";
-import { openMovieMode, openMovieDetailsModal } from "./modals.js";
+// YENİ: Lottie animasyon fonksiyonlarını import ediyoruz
+import { openMovieMode, openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { watchedMovies, watchLaterMovies } from "./storage.js";
 import { auth } from "./firebase.js";
 import { initFilterModal, openFilterModal, applyFilters } from "./filters.js";
@@ -47,7 +48,6 @@ const profileLoggedInView = document.getElementById("profile-logged-in-view");
 const profileLoggedOutView = document.getElementById("profile-logged-out-view");
 const addMovieFloatButton = document.getElementById("add-movie-float-button");
 
-// Özel listeler bölümü için Lottie loader ve içerik alanı
 const specialListsLoader = document.getElementById("special-lists-loader");
 const specialListsContentContainer = document.getElementById(
   "special-lists-content-container"
@@ -99,10 +99,7 @@ export function refreshWatchedMoviesList(newFilters) {
   );
 }
 
-// refreshWatchedMoviesList fonksiyonunun altına bu yeni fonksiyonu ekleyin
-
 export function refreshWatchLaterList() {
-  // Eğer "Daha Sonra İzle" bölümü o an ekranda değilse, hiçbir şey yapma.
   if (watchLaterMoviesSection.classList.contains("hidden")) {
     return;
   }
@@ -171,10 +168,17 @@ async function showListDetail(list) {
     .forEach((s) => s.classList.add("hidden"));
   listDetailSection.classList.remove("hidden");
   listDetailTitle.textContent = "Yükleniyor...";
-  renderTrendingSkeletons(listDetailGrid);
-  const movies = await fetchMoviesFromList(list);
-  listDetailTitle.textContent = list.name;
-  renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
+  showLoadingSpinner("Liste detayları getiriliyor...");
+  try {
+      const movies = await fetchMoviesFromList(list);
+      listDetailTitle.textContent = list.name;
+      renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
+  } catch(error) {
+      listDetailTitle.textContent = "Hata";
+      listDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">Liste yüklenemedi.</p>`;
+  } finally {
+      hideLoadingSpinner();
+  }
 }
 
 export async function showSection(sectionId) {
@@ -204,45 +208,53 @@ export async function showSection(sectionId) {
     item.classList.toggle("active", item.id === expectedNavItemId);
   });
 
-    // YENİ: '+' butonunun görünürlüğünü kontrol eden mantık bloğu
   if (sectionId === 'my-watched-movies-section' || sectionId === 'watch-later-movies-section') {
     addMovieFloatButton.style.display = 'flex';
   } else {
     addMovieFloatButton.style.display = 'none';
   }
 
+  trendingErrorMessage.style.display = 'none';
+
   if (sectionId === "my-watched-movies-section") {
     refreshWatchedMoviesList();
   } else if (sectionId === "trending-movies-section") {
-    renderTrendingSkeletons(trendingMoviesGrid);
-    fetchTrendingMovies(
-      trendingMoviesGrid,
-      trendingErrorMessage,
-      renderTrendingMovies,
-      openMovieDetailsModal
-    );
+    // GÜNCELLEME: 'Popüler' sekmesi için yeni Lottie animasyonlu yükleme mantığı
+    showLoadingSpinner("Popüler filmler yükleniyor...");
+    trendingMoviesGrid.innerHTML = ''; 
+
+    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+    const dataFetchPromise = fetchTrendingMovies();
+
+    try {
+        const [_, movies] = await Promise.all([timerPromise, dataFetchPromise]);
+        if (movies.length === 0) {
+            trendingErrorMessage.textContent = 'Popüler film bulunamadı.';
+            trendingErrorMessage.style.display = 'block';
+        } else {
+            renderTrendingMovies(movies, openMovieDetailsModal);
+        }
+    } catch (error) {
+        trendingErrorMessage.textContent = `Bir hata oluştu: ${error.message}`;
+        trendingErrorMessage.style.display = 'block';
+    } finally {
+        hideLoadingSpinner();
+    }
+
   } else if (sectionId === "special-lists-section") {
-    // 1. Animasyonu göster
     specialListsLoader.classList.remove("hidden");
     specialListsLoader.classList.add("visible");
-
-    // YENİ: İçindeki oynatıcıyı bul ve oynatmaya başla
     const player = specialListsLoader.querySelector("dotlottie-player");
     if (player) {
       player.play();
     }
-
     specialListsContentContainer.innerHTML = "";
     specialListsContentContainer.classList.add("hidden");
-
     const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
-
-    //    - API'den verileri çekme işlemi
     const dataFetchPromise = (async () => {
       const lists = getCuratedLists();
       const listPromises = lists.map((list) => fetchMoviesFromList(list));
       const moviesPerList = await Promise.all(listPromises);
-
       return lists.map((list, index) => {
         const firstMovieWithPoster = moviesPerList[index].find(
           (m) => m.poster_path
@@ -259,16 +271,11 @@ export async function showSection(sectionId) {
       timerPromise,
       dataFetchPromise,
     ]);
-
-    // 4. Animasyonu gizle
     specialListsLoader.classList.add("hidden");
     specialListsLoader.classList.remove("visible");
-
-    // YENİ: Oynatıcıyı bul ve kaynak tüketmemesi için durdur
     if (player) {
       player.stop();
     }
-
     specialListsContentContainer.classList.remove("hidden");
     renderSpecialLists(
       specialListsContentContainer,
