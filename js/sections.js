@@ -204,7 +204,12 @@ export async function showSection(sectionId) {
     item.classList.toggle("active", item.id === expectedNavItemId);
   });
 
-  addMovieFloatButton.style.display = "flex";
+    // YENİ: '+' butonunun görünürlüğünü kontrol eden mantık bloğu
+  if (sectionId === 'my-watched-movies-section' || sectionId === 'watch-later-movies-section') {
+    addMovieFloatButton.style.display = 'flex';
+  } else {
+    addMovieFloatButton.style.display = 'none';
+  }
 
   if (sectionId === "my-watched-movies-section") {
     refreshWatchedMoviesList();
