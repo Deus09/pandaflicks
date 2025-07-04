@@ -90,6 +90,22 @@ export function setupEventListeners() {
         }
     });
   }
+
+ // Tüm plan seçeneklerini seç
+const planOptions = document.querySelectorAll('.plan-option');
+
+// Her bir seçeneğe tıklama olayı ekle
+planOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        // Önce tüm seçeneklerden 'selected' sınıfını kaldır
+        planOptions.forEach(otherOption => {
+            otherOption.classList.remove('selected');
+        });
+
+        // Sadece tıklanan seçeneğe 'selected' sınıfını ekle
+        option.classList.add('selected');
+    });
+}); 
 }
 
 // Bu fonksiyon, global scopeda olmadığı için setupEventListeners içinde kalmalı

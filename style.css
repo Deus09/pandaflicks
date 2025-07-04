@@ -2814,7 +2814,7 @@ input:checked + .toggle-switch-slider:before {
 
 /* === PAYWALL EKRANI STİLLERİ === */
 .paywall-content {
-  max-width: 420px;
+  max-width: 410px;
   padding: 2rem;
   width: 90%;
   height: 90%;
@@ -2828,12 +2828,19 @@ input:checked + .toggle-switch-slider:before {
 }
 
 .modal-overlay.visible .paywall-content {
-    transform: scale(1);
+    transform: scale(1.01);
 }
 
 .paywall-content .modal-header {
   border-bottom: none;
   margin-bottom: 0.5rem;
+}
+
+/* JavaScript ile eklenecek olan 'selected' sınıfının stili */
+.plan-option.selected {
+  border-color: var(--accent-primary); /* Ana vurgu rengimiz olan turuncu */
+  transform: scale(1.05); /* Hafifçe büyütür */
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3); /* Turuncu bir parlama efekti ekler */
 }
 
 .paywall-title {
@@ -2874,6 +2881,7 @@ input:checked + .toggle-switch-slider:before {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-primary);
+  text-align: center;
 }
 
 .plan-selector {
@@ -2924,7 +2932,7 @@ input:checked + .toggle-switch-slider:before {
     background-color: var(--accent-secondary);
     color: var(--bg-main);
     padding: 3px 8px;
-    font-size: 0.7rem;
+    font-size: 0.5rem;
     font-weight: 600;
     border-radius: 0 10px 0 10px;
 }
