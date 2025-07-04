@@ -543,6 +543,9 @@ export function showLoadingSpinner(text) {
   const loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
   if (!loadingSpinnerOverlay) return;
 
+  // EKLENECEK: Yükleme ekranı içindeki lottie oynatıcısını buluyoruz.
+  const player = loadingSpinnerOverlay.querySelector("dotlottie-player");
+
   const displayText = text || loadingTexts[Math.floor(Math.random() * loadingTexts.length)];
   document.getElementById("splash-text").textContent = displayText;
 
@@ -550,6 +553,10 @@ export function showLoadingSpinner(text) {
   setTimeout(() => {
     loadingSpinnerOverlay.classList.add("visible");
     startSplashScreenEffects();
+    // EKLENECEK: Eğer oynatıcı bulunduysa, play() komutuyla animasyonu başlatıyoruz.
+    if (player) {
+      player.play();
+    }
   }, 10);
 }
 
@@ -558,6 +565,13 @@ export function hideLoadingSpinner() {
     "loadingSpinnerOverlay"
   );
   if (!loadingSpinnerOverlay) return;
+
+  // EKLENECEK: Durdurmak için lottie oynatıcısını tekrar buluyoruz.
+  const player = loadingSpinnerOverlay.querySelector("dotlottie-player");
+  // EKLENECEK: Eğer oynatıcı bulunduysa, stop() komutuyla animasyonu durduruyoruz.
+  if (player) {
+    player.stop();
+  }
 
   loadingSpinnerOverlay.classList.remove("visible");
   stopSplashScreenEffects(); 
