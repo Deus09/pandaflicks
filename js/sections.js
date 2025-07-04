@@ -220,7 +220,7 @@ export async function showSection(sectionId) {
     refreshWatchedMoviesList();
   } else if (sectionId === "trending-movies-section") {
     // GÜNCELLEME: 'Popüler' sekmesi için yeni Lottie animasyonlu yükleme mantığı
-    showLoadingSpinner("Popüler filmler yükleniyor...");
+    showLoadingSpinner();
     trendingMoviesGrid.innerHTML = ''; 
 
     const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
