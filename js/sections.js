@@ -242,14 +242,12 @@ export async function showSection(sectionId) {
     }
 
   } else if (sectionId === "special-lists-section") {
-    specialListsLoader.classList.remove("hidden");
-    specialListsLoader.classList.add("visible");
-    const player = specialListsLoader.querySelector("dotlottie-player");
-    if (player) {
-      player.play();
-    }
+    // --- YENİ KOD ---
+    // Genel yükleme animasyonunu metinsiz çağırarak rastgele metin gelmesini sağlıyoruz.
+    showLoadingSpinner(); 
     specialListsContentContainer.innerHTML = "";
     specialListsContentContainer.classList.add("hidden");
+    
     const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
     const dataFetchPromise = (async () => {
       const lists = getCuratedLists();
@@ -267,15 +265,15 @@ export async function showSection(sectionId) {
         };
       });
     })();
+
     const [_, listsWithImages] = await Promise.all([
       timerPromise,
       dataFetchPromise,
     ]);
-    specialListsLoader.classList.add("hidden");
-    specialListsLoader.classList.remove("visible");
-    if (player) {
-      player.stop();
-    }
+
+    // --- YENİ KOD ---
+    // Veri yüklendikten sonra genel yükleme animasyonunu gizliyoruz.
+    hideLoadingSpinner(); 
     specialListsContentContainer.classList.remove("hidden");
     renderSpecialLists(
       specialListsContentContainer,
