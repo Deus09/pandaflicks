@@ -864,10 +864,10 @@ header h1 {
 
 .modal-content {
   background-color: var(--bg-surface);
-  border-radius: 10%;
-  padding: 2.8rem;
-  width: 90%;
-  height: 90%;
+  border-radius: 5px;
+  padding: 2.5rem;
+  width: 95%;
+  height: 95%;
   max-width: none;
   max-height: none;
   overflow-y: auto;
