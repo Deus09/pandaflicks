@@ -458,7 +458,7 @@ header h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  padding: 1rem 0;
+  padding: 0.5rem 0.25rem;
   min-height: 200px;
 }
 
@@ -473,14 +473,9 @@ header h1 {
   border: 1px solid var(--border-color);
 }
 
-.suggestion-poster-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-}
-
 .suggestion-poster-item img {
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   object-fit: cover;
 }
 
@@ -1215,11 +1210,13 @@ input:checked+.toggle-switch-slider:before {
   gap: 0.5rem;
   border: 1px solid rgba(100, 255, 218, 0.5);
   /* Hafif bir sınır */
-  background-image: linear-gradient(-45deg, #172a46, var(--accent-chat), #a0ffee, var(--accent-chat));
+  background-image: linear-gradient(-99deg, #172a46, var(--accent-chat), #a0ffee, var(--accent-chat));
   box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(204, 214, 246, 0.1);
   position: relative;
   min-height: 40px;
-  overflow: hidden;
+    animation: animated-gradient 4s ease infinite;
+  /* Canlı gradyan animasyonu */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   /* Işıltı efektinin taşmasını engellemek için */
 }
 
@@ -3122,22 +3119,22 @@ input:checked+.toggle-switch-slider:before {
 /* === KÜÇÜK EKRAN İÇİN ÖNERİ MODALI UYARLAMALARI (YENİ VE GELİŞTİRİLMİŞ) === */
 /* =================================================================== */
 
-@media (max-width: 480px) {
+@media (max-width: 400px) {
 
   /* Hedef: Öneri sonuçları modalının kendisi */
   #suggestionResultOverlay .modal-content {
     /* Yan boşlukları daha da azalt */
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     /* Dikey boşlukları da daha kompakt hale getir */
-    padding-top: 1rem;
+    padding-top: 1.3rem;
     padding-bottom: 1rem;
   }
 
   .suggestion-poster-item {
-    height: 90%;
-    width: 90%;
+    height: 80%;
+    width: 80%;
   }
 
   /* Hedef: Film posterlerinin bulunduğu grid */
