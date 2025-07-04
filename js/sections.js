@@ -223,7 +223,7 @@ export async function showSection(sectionId) {
     showLoadingSpinner();
     trendingMoviesGrid.innerHTML = ''; 
 
-    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1300));
     const dataFetchPromise = fetchTrendingMovies();
 
     try {
@@ -248,7 +248,7 @@ export async function showSection(sectionId) {
     specialListsContentContainer.innerHTML = "";
     specialListsContentContainer.classList.add("hidden");
     
-    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+    const timerPromise = new Promise((resolve) => setTimeout(resolve, 1300));
     const dataFetchPromise = (async () => {
       const lists = getCuratedLists();
       const listPromises = lists.map((list) => fetchMoviesFromList(list));
