@@ -2823,7 +2823,7 @@ input:checked + .toggle-switch-slider:before {
   max-width: 420px;
   padding: 2rem;
   width: 95%;
-  height: auto; /* İçeriğe göre boyutu ayarla */
+  height: 95%;
   border-radius: 16px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-surface);
@@ -2844,7 +2844,7 @@ input:checked + .toggle-switch-slider:before {
 }
 
 .paywall-title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 700;
   text-align: center;
   width: 100%;
