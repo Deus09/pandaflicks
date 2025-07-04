@@ -864,10 +864,10 @@ header h1 {
 
 .modal-content {
   background-color: var(--bg-surface);
-  border-radius: 5%;
-  padding: 2.5rem;
-  width: 95%;
-  height: 95%;
+  border-radius: 10%;
+  padding: 2.8rem;
+  width: 90%;
+  height: 90%;
   max-width: none;
   max-height: none;
   overflow-y: auto;
@@ -1039,7 +1039,7 @@ input:checked + .toggle-switch-slider:before {
   font-weight: 600;
   font-size: 0.9rem;
   transition: transform 0.1s ease, background-color 0.2s ease;
-  border: none;
+  border: 1px solid var(--border-color);
 }
 .modal-actions button:active {
   transform: scale(0.97);
@@ -1093,7 +1093,7 @@ input:checked + .toggle-switch-slider:before {
 .enhance-comment-button, .chat-character-button {
   color: white;
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.6rem;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
