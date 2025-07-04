@@ -168,6 +168,12 @@ async function showListDetail(list) {
     .forEach((s) => s.classList.add("hidden"));
   listDetailSection.classList.remove("hidden");
   listDetailTitle.textContent = "Yükleniyor...";
+
+
+  specialListsLoader.classList.remove("hidden");
+  specialListsLoader.classList.add("visible");
+  const player = specialListsLoader.querySelector("dotlottie-player");
+  if (player) player.play();
   showLoadingSpinner("Liste detayları getiriliyor...");
   try {
       const movies = await fetchMoviesFromList(list);
