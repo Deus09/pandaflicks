@@ -208,10 +208,10 @@ header {
 }
 
 .header-logo {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  margin-left: 10px;
+  width: 45px;
+  height: 45px;
+  margin-right: 5px;
+  margin-left: 5px;
   flex-shrink: 0; /* Küçülmesini engelle */
 }
 
@@ -864,10 +864,10 @@ header h1 {
 
 .modal-content {
   background-color: var(--bg-surface);
-  border-radius: 0;
-  padding: 1.5rem;
-  width: 100%;
-  height: 100%;
+  border-radius: 5%;
+  padding: 2.5rem;
+  width: 95%;
+  height: 95%;
   max-width: none;
   max-height: none;
   overflow-y: auto;
@@ -892,13 +892,13 @@ header h1 {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
   flex-shrink: 0;
 }
 
 .modal-header h2 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
@@ -954,8 +954,8 @@ header h1 {
   height: 1rem;
 }
 .rating-input .star-container svg.star-svg {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.8rem;
+  height: 1.8rem;
   fill: #3a506b; /* --border-color */
   transition: all 0.1s ease-in-out;
 }
@@ -1034,7 +1034,7 @@ input:checked + .toggle-switch-slider:before {
 }
 .modal-actions button {
   flex: 1;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 10px;
   font-weight: 600;
   font-size: 1rem;
