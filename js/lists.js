@@ -63,13 +63,15 @@ const CURATED_LISTS = [
         tmdbId: '86311' // Marvel Cinematic Universe: Phase One Collection ID'si
     },
     {
-        id: "Quentin Tarantino Sineması",
+        id: "quentin_tarantino_films", // YENİ EKLENEN ID
+        name: "Quentin Tarantino Sineması",
         description: "Diyalogların ve stilin ustası Tarantino'nun filmografisine dalın.",
         type: 'director',
         tmdbId: '138' // Quentin Tarantino'nun yönetmen ID'si
     },
     {
-        id: "Yüzüklerin Efendisi Üçlemesi",
+        id: "lord_of_the_rings_trilogy", // YENİ EKLENEN ID
+        name: "Yüzüklerin Efendisi Üçlemesi",
         description: "Bir nesle damgasını vuran unutulmaz filmler.",
         type: 'collection',
         tmdbId: '119' 
