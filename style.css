@@ -865,9 +865,9 @@ header h1 {
 .modal-content {
   background-color: var(--bg-surface);
   border-radius: 5px;
-  padding: 2.2rem;
-  width: 95%;
-  height: 95%;
+  padding: 2rem;
+  width: 90%;
+  height: 90%;
   max-width: none;
   max-height: none;
   overflow-y: auto;
@@ -2815,9 +2815,9 @@ input:checked + .toggle-switch-slider:before {
 /* === PAYWALL EKRANI STİLLERİ === */
 .paywall-content {
   max-width: 420px;
-  padding: 2.2rem;
-  width: 95%;
-  height: 95%;
+  padding: 2rem;
+  width: 90%;
+  height: 90%;
   border-radius: 16px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-surface);
