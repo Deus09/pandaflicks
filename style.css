@@ -40,6 +40,9 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease;
   font-size: 16px;
+   /* YENİ EKLENEN KOD */
+  /* Bu, ekranın üst kısmında biraz daha açık bir tondan başlayıp ana renge doğru yumuşakça geçen bir gradyan oluşturur. */
+  background: linear-gradient(to bottom, #161b22, var(--bg-main) 30%);
 }
 
 /* Mevcut body stilinizin hemen altına ekleyin */
