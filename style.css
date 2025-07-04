@@ -2710,6 +2710,10 @@ input:checked + .toggle-switch-slider:before {
     z-index: 5;
 }
 
+.paywall-close-modal-btn {
+  margin-left: 155px;
+}
+
 
 /* =================================================================== */
 /* === KATMANLI (LAYERED) MODAL STİLLERİ (YENİ) === */
