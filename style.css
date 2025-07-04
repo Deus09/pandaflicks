@@ -1,20 +1,29 @@
 /* Genel Stil Ayarları (Mobil Odaklı, Premium, Sinematik) */
 
 :root {
-  --bg-main: #0b192f;               /* Ana arka plan (Derin Okyanus Mavisi) */
-  --bg-surface: #172a46;            /* Kartlar ve yüzeyler (Gece Mavisi) */
-  --border-color: #3a506b;          /* Kenarlıklar (Mavi-Gri) */
-  --text-primary: #ccd6f6;          /* Ana metin (Çok Açık Mavi) */
-  --text-secondary: #8892b0;        /* İkincil metin (Soluk Mavi-Gri) */
+  --bg-main: #0b192f;
+  /* Ana arka plan (Derin Okyanus Mavisi) */
+  --bg-surface: #172a46;
+  /* Kartlar ve yüzeyler (Gece Mavisi) */
+  --border-color: #3a506b;
+  /* Kenarlıklar (Mavi-Gri) */
+  --text-primary: #ccd6f6;
+  /* Ana metin (Çok Açık Mavi) */
+  --text-secondary: #8892b0;
+  /* İkincil metin (Soluk Mavi-Gri) */
 
   /* Vurgu Renkleri (Klasik Teal & Orange) */
-  --accent-primary: #ff8c00;          /* Vurgu 1 (Canlı Ateş Turuncusu) */
+  --accent-primary: #ff8c00;
+  /* Vurgu 1 (Canlı Ateş Turuncusu) */
   --accent-primary-hover: #ffa500;
-  --accent-secondary: #64ffda;         /* Vurgu 2 (Parlak Turkuaz/Nane Yeşili) */
+  --accent-secondary: #64ffda;
+  /* Vurgu 2 (Parlak Turkuaz/Nane Yeşili) */
   --accent-secondary-hover: #a0ffee;
-  --accent-magic: #c778dd;             /* Büyü Rengi (Orkide Moru) */
+  --accent-magic: #c778dd;
+  /* Büyü Rengi (Orkide Moru) */
   --accent-magic-hover: #e099f5;
-  --accent-chat: #64ffda;              /* Sohbet Rengi (Yine Turkuaz) */
+  --accent-chat: #64ffda;
+  /* Sohbet Rengi (Yine Turkuaz) */
   --accent-chat-hover: #a0ffee;
   --accent-chat-glow: rgba(100, 255, 218, 0.4);
 }
@@ -41,26 +50,33 @@ body.no-scroll {
 
 /* Scrollbar Gizleme */
 ::-webkit-scrollbar {
-  width: 6px; /* DÜZELTME: Rozetler için scrollbar genişliği */
+  width: 6px;
+  /* DÜZELTME: Rozetler için scrollbar genişliği */
 }
+
 * {
   -ms-overflow-style: none;
-  scrollbar-width: thin; /* Firefox için */
-  scrollbar-color: var(--border-color) var(--bg-surface); /* Firefox için */
+  scrollbar-width: thin;
+  /* Firefox için */
+  scrollbar-color: var(--border-color) var(--bg-surface);
+  /* Firefox için */
 }
 
 /* Özel Scrollbar Stili */
 .badge-collection-grid.expanded::-webkit-scrollbar {
   width: 6px;
 }
+
 .badge-collection-grid.expanded::-webkit-scrollbar-track {
   background: var(--bg-surface);
   border-radius: 10px;
 }
+
 .badge-collection-grid.expanded::-webkit-scrollbar-thumb {
   background-color: var(--border-color);
   border-radius: 10px;
 }
+
 .badge-collection-grid.expanded::-webkit-scrollbar-thumb:hover {
   background-color: var(--text-secondary);
 }
@@ -80,8 +96,10 @@ body.no-scroll {
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity;
   /* UPDATED FOR PREMIUM SPLASH */
-  position: relative; /* For z-index stacking context */
-  overflow: hidden;  /* To hide the part of the grid that scrolls out */
+  position: relative;
+  /* For z-index stacking context */
+  overflow: hidden;
+  /* To hide the part of the grid that scrolls out */
 }
 
 #splash-screen.fade-out {
@@ -93,7 +111,8 @@ body.no-scroll {
   text-align: center;
   animation: pulse-splash 2s infinite ease-in-out;
   /* UPDATED FOR PREMIUM SPLASH */
-  position: relative; /* To apply z-index */
+  position: relative;
+  /* To apply z-index */
   z-index: 10;
   background: rgba(13, 17, 23, 0.5);
   padding: 2rem;
@@ -107,11 +126,13 @@ body.no-scroll {
 }
 
 @keyframes pulse-splash {
+
   0%,
   100% {
     transform: scale(1);
     opacity: 0.9;
   }
+
   50% {
     transform: scale(1.05);
     opacity: 1;
@@ -136,6 +157,7 @@ body.no-scroll {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(-50%);
   }
@@ -146,11 +168,12 @@ body.no-scroll {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 200vh; /* Twice the viewport height for seamless looping */
+  height: 200vh;
+  /* Twice the viewport height for seamless looping */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   /* 8 rows to fill 200vh. Each row is 25vh. */
-  grid-template-rows: repeat(8, 25vh); 
+  grid-template-rows: repeat(8, 25vh);
   gap: 1rem;
   padding: 1rem;
   box-sizing: border-box;
@@ -184,15 +207,18 @@ body.no-scroll {
   border-radius: 0;
   overflow: hidden;
   position: relative;
-  padding-bottom: 80px; /* Nav bar yüksekliği kadar boşluk */
+  padding-bottom: 80px;
+  /* Nav bar yüksekliği kadar boşluk */
 }
+
 .container.hidden {
   display: none;
 }
 
 /* --- Başlık --- */
 header {
-  background: rgba(13, 17, 23, 0.8); /* Yarı şeffaf arka plan */
+  background: rgba(13, 17, 23, 0.8);
+  /* Yarı şeffaf arka plan */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--text-primary);
@@ -200,7 +226,8 @@ header {
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* İçerikleri iki yana yasla */
+  justify-content: space-between;
+  /* İçerikleri iki yana yasla */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -212,20 +239,24 @@ header {
   height: 45px;
   margin-right: 5px;
   margin-left: 5px;
-  flex-shrink: 0; /* Küçülmesini engelle */
+  flex-shrink: 0;
+  /* Küçülmesini engelle */
 }
 
 header h1 {
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.2px;
-  margin-right: auto; /* Profil butonunu sağa iter */
-  margin-left: 0; /* Varsayılan margin'i sıfırla */
+  margin-right: auto;
+  /* Profil butonunu sağa iter */
+  margin-left: 0;
+  /* Varsayılan margin'i sıfırla */
 }
 
 /* YENİ: Header'daki profil butonu (Instagram stili) */
 .header-profile-button {
-  position: relative; /* Sahte elementleri konumlandırmak için */
+  position: relative;
+  /* Sahte elementleri konumlandırmak için */
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -235,26 +266,35 @@ header h1 {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: visible; /* Parlamanın dışarı taşması için */
+  overflow: visible;
+  /* Parlamanın dışarı taşması için */
   /* DOKUNMA EFEKTİ İÇİN ÖNEMLİ: */
-  overflow: hidden; /* Dalga efektinin dışarı taşmasını engeller */
-  transition: transform 0.1s ease-out; /* Basma efektinin hızlı olması için */
-  -webkit-tap-highlight-color: transparent; /* iOS'teki dokunma mavisini kaldırır */
+  overflow: hidden;
+  /* Dalga efektinin dışarı taşmasını engeller */
+  transition: transform 0.1s ease-out;
+  /* Basma efektinin hızlı olması için */
+  -webkit-tap-highlight-color: transparent;
+  /* iOS'teki dokunma mavisini kaldırır */
 }
 
 /* Header'daki profil butonu için yeni stiller */
 #nav-profile {
-    background-color: #e6edf3; /* Arka planı beyaz yapar */
-    border-radius: 50%;      /* Butonu dairesel yapar */
-    width: 30px;             /* Genişlik, isteğe bağlı olarak değiştirilebilir */
-    height: 30px;            /* Yükseklik, isteğe bağlı olarak değiştirilebilir */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    padding: 0; /* İçeriğin tam ortalanması için */
-    opacity: 1;
+  background-color: #e6edf3;
+  /* Arka planı beyaz yapar */
+  border-radius: 50%;
+  /* Butonu dairesel yapar */
+  width: 30px;
+  /* Genişlik, isteğe bağlı olarak değiştirilebilir */
+  height: 30px;
+  /* Yükseklik, isteğe bağlı olarak değiştirilebilir */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  /* İçeriğin tam ortalanması için */
+  opacity: 1;
 }
 
 /* Profil butonu içindeki SVG ikonun rengi ve boyutu */
@@ -292,7 +332,8 @@ header h1 {
 
 /* Kontrol butonlarını bir arada tutan kapsayıcı */
 .list-controls {
-  display: inline-flex; /* İçerik kadar yer kapla */
+  display: inline-flex;
+  /* İçerik kadar yer kapla */
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 10px;
@@ -301,10 +342,13 @@ header h1 {
 
 /* Tüm kontrol butonları için ortak stil */
 .control-button {
-  background-color: transparent; /* Arkaplan artık kapsayıcıda */
+  background-color: transparent;
+  /* Arkaplan artık kapsayıcıda */
   color: var(--text-secondary);
-  border: none; /* Kenarlık artık kapsayıcıda */
-  padding: 0.6rem 1rem; /* Buton içi boşluk */
+  border: none;
+  /* Kenarlık artık kapsayıcıda */
+  padding: 0.6rem 1rem;
+  /* Buton içi boşluk */
   font-size: 0.9rem;
   font-weight: 500;
   display: flex;
@@ -316,7 +360,7 @@ header h1 {
 
 /* Butonları ayıran dikey çizgi */
 .control-button:not(:first-child) {
-    border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
 }
 
 .control-button:hover {
@@ -346,30 +390,33 @@ header h1 {
 
 /* Splash Screen Hata Mesajı Stili */
 .splash-error-overlay {
-    position: absolute;
-    inset: 0; /* top, right, bottom, left: 0 */
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 1rem;
-    color: var(--text-primary);
-    z-index: 10; /* Diğer splash screen içeriğinin üzerinde olmalı */
+  position: absolute;
+  inset: 0;
+  /* top, right, bottom, left: 0 */
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  color: var(--text-primary);
+  z-index: 10;
+  /* Diğer splash screen içeriğinin üzerinde olmalı */
 }
 
 .splash-error-overlay h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #f87171; /* Hata rengi */
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f87171;
+  /* Hata rengi */
+  margin-bottom: 0.5rem;
 }
 
 .splash-error-overlay p {
-    font-size: 1rem;
-    color: var(--text-secondary);
+  font-size: 1rem;
+  color: var(--text-secondary);
 }
 
 /* =================================================================== */
@@ -384,8 +431,10 @@ header h1 {
 }
 
 .prompt-submit-button .loading-spinner {
-  position: absolute; /* Butonun tam ortasına gelmesi için */
-  display: none; /* Normalde gizli */
+  position: absolute;
+  /* Butonun tam ortasına gelmesi için */
+  display: none;
+  /* Normalde gizli */
 }
 
 /* =================================================================== */
@@ -420,8 +469,8 @@ header h1 {
 }
 
 .suggestion-poster-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 .suggestion-poster-item img {
@@ -432,23 +481,29 @@ header h1 {
 
 /* "Beğenmedim, yeniden dene" Butonu için YENİ ve BELİRGİN Stil */
 #tryAgainBtn {
-    /* Ana renklerden birini kullanarak dış çizgi ve metin rengi oluştur */
-    background-color: transparent; /* Arkaplanı şeffaf yap */
-    border: 2px solid var(--accent-secondary); /* Altın rengi dış çizgi */
-    color: var(--accent-secondary); /* Metin rengini de altın yap */
-    
-    /* Eski gradient'i kesinlikle iptal et */
-    background-image: none; 
+  /* Ana renklerden birini kullanarak dış çizgi ve metin rengi oluştur */
+  background-color: transparent;
+  /* Arkaplanı şeffaf yap */
+  border: 2px solid var(--accent-secondary);
+  /* Altın rengi dış çizgi */
+  color: var(--accent-secondary);
+  /* Metin rengini de altın yap */
 
-    /* Geçiş efektlerini ayarla */
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  /* Eski gradient'i kesinlikle iptal et */
+  background-image: none;
+
+  /* Geçiş efektlerini ayarla */
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 /* Üzerine gelince butonun içi dolsun */
 #tryAgainBtn:hover {
-    background-color: var(--accent-secondary); /* Arkaplanı altın rengiyle doldur */
-    color: var(--bg-main); /* Metin rengini koyu yap */
-    transform: translateY(-3px); /* Hafif yukarı kalkma efekti */
+  background-color: var(--accent-secondary);
+  /* Arkaplanı altın rengiyle doldur */
+  color: var(--bg-main);
+  /* Metin rengini koyu yap */
+  transform: translateY(-3px);
+  /* Hafif yukarı kalkma efekti */
 }
 
 /* Buton içindeki ikonun rengi ve animasyonu */
@@ -463,7 +518,8 @@ header h1 {
 
 /* Yükleme durumundayken... */
 .prompt-submit-button.loading {
-  cursor: wait; /* Fare imlecini bekleme olarak değiştir */
+  cursor: wait;
+  /* Fare imlecini bekleme olarak değiştir */
 }
 
 /* Normal içeriği (ikon ve metni) görünmez yap */
@@ -474,32 +530,37 @@ header h1 {
 
 /* Spinner'ı görünür yap */
 .prompt-submit-button.loading .loading-spinner {
-  display: block; 
+  display: block;
 }
 
 
 
-  
+
 
 .header-profile-button .profile-avatar-small {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%; /* Resmin yuvarlak olmasını sağla */
+  border-radius: 50%;
+  /* Resmin yuvarlak olmasını sağla */
 }
 
 /* Header'daki profil butonu için doğru ve geliştirilmiş stil */
 .header-profile-button {
   padding: 0;
-  width: 35px; /* Buton boyutu */
+  width: 35px;
+  /* Buton boyutu */
   height: 35px;
   border-radius: 50%;
-  border: 1.5px solid var(--text-secondary); /* Hafif bir kenarlık */
+  border: 1.5px solid var(--text-secondary);
+  /* Hafif bir kenarlık */
   transition: transform 0.2s ease, border-color 0.2s ease;
-  display: flex; /* SVG'yi ortalamak için */
+  display: flex;
+  /* SVG'yi ortalamak için */
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-surface); /* Arkaplan rengi */ 
+  background-color: var(--bg-surface);
+  /* Arkaplan rengi */
 }
 
 
@@ -509,7 +570,8 @@ header h1 {
   height: 20px;
   fill: var(--text-secondary);
   transition: fill 0.3s ease;
-  z-index: 2; /* Diğer her şeyin üzerinde kalması için */
+  z-index: 2;
+  /* Diğer her şeyin üzerinde kalması için */
 }
 
 
@@ -525,6 +587,7 @@ header h1 {
 #profile-section.content-section {
   padding: 0;
 }
+
 .content-section {
   padding: 1rem;
   flex-grow: 1;
@@ -722,9 +785,11 @@ header h1 {
   0% {
     background-color: #21262d;
   }
+
   50% {
     background-color: #30363d;
   }
+
   100% {
     background-color: #21262d;
   }
@@ -779,11 +844,15 @@ header h1 {
   padding: 0.5rem;
   border-radius: 10px;
   transition: color 0.2s ease, transform 0.2s ease;
-   /* YENİ EKLENEN KURALLAR */
-  background: none; /* Varsayılan buton arkaplanını kaldır */
-  border: none; /* Varsayılan buton kenarlığını kaldır */
-  font-family: inherit; /* Yazı tipini body'den almasını sağla */
-  cursor: pointer; /* Fare imlecini el yap */
+  /* YENİ EKLENEN KURALLAR */
+  background: none;
+  /* Varsayılan buton arkaplanını kaldır */
+  border: none;
+  /* Varsayılan buton kenarlığını kaldır */
+  font-family: inherit;
+  /* Yazı tipini body'den almasını sağla */
+  cursor: pointer;
+  /* Fare imlecini el yap */
 }
 
 .nav-item:active {
@@ -834,6 +903,7 @@ header h1 {
   transform: scale(1.1);
   box-shadow: 0 8px 25px rgba(247, 120, 38, 0.4);
 }
+
 #add-movie-float-button:active {
   transform: scale(1);
 }
@@ -945,6 +1015,7 @@ header h1 {
   display: flex;
   gap: 0.25rem;
 }
+
 .rating-input .star-container {
   cursor: pointer;
 }
@@ -953,18 +1024,23 @@ header h1 {
   width: 1rem;
   height: 1rem;
 }
+
 .rating-input .star-container svg.star-svg {
   width: 1.8rem;
   height: 1.8rem;
-  fill: #3a506b; /* --border-color */
+  fill: #3a506b;
+  /* --border-color */
   transition: all 0.1s ease-in-out;
 }
+
 .rating-input .star-container:hover svg.star-svg {
   transform: scale(1.1);
 }
+
 .rating-input .star-container.selected svg.star-svg {
   fill: var(--accent-secondary);
 }
+
 .rating-input .star-container.selected-half svg.star-svg {
   fill: url(#halfStarGradient);
 }
@@ -980,22 +1056,28 @@ header h1 {
   margin: 1rem 0;
   cursor: pointer;
 }
+
 .toggle-switch-label {
   font-weight: 600;
-  pointer-events: none; /* Etiketin kendi olayını engelle */
+  pointer-events: none;
+  /* Etiketin kendi olayını engelle */
 }
+
 .toggle-switch-wrapper {
   position: relative;
   display: inline-block;
   width: 51px;
   height: 31px;
-  pointer-events: none; /* Kapsayıcının olayını engelle */
+  pointer-events: none;
+  /* Kapsayıcının olayını engelle */
 }
+
 .toggle-switch-wrapper input {
   opacity: 0;
   width: 0;
   height: 0;
 }
+
 .toggle-switch-slider {
   position: absolute;
   top: 0;
@@ -1006,6 +1088,7 @@ header h1 {
   transition: 0.4s;
   border-radius: 34px;
 }
+
 .toggle-switch-slider:before {
   position: absolute;
   content: "";
@@ -1017,10 +1100,12 @@ header h1 {
   transition: 0.4s;
   border-radius: 50%;
 }
-input:checked + .toggle-switch-slider {
+
+input:checked+.toggle-switch-slider {
   background-color: var(--accent-primary);
 }
-input:checked + .toggle-switch-slider:before {
+
+input:checked+.toggle-switch-slider:before {
   transform: translateX(20px);
 }
 
@@ -1032,6 +1117,7 @@ input:checked + .toggle-switch-slider:before {
   display: flex;
   gap: 1rem;
 }
+
 .modal-actions button {
   flex: 1;
   padding: 0.5rem;
@@ -1041,56 +1127,76 @@ input:checked + .toggle-switch-slider:before {
   transition: transform 0.1s ease, background-color 0.2s ease;
   border: 1px solid var(--border-color);
 }
+
 .modal-actions button:active {
   transform: scale(0.97);
 }
+
 .modal-actions .cancel-button {
   background-color: #21262d;
   color: var(--text-primary);
 }
+
 .modal-actions .cancel-button:hover {
   background-color: #30363d;
 }
+
 .modal-actions .save-button {
   background-color: var(--accent-primary);
   color: white;
 }
+
 .modal-actions .save-button:hover {
   background-color: var(--accent-primary-hover);
 }
 
 /* --- Form İçi Buton Grubu --- */
 .form-buttons-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* YENİ: Animasyonlu gradyan için keyframes */
 @keyframes animated-gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* YENİ: Üzerine gelince oluşan ışıltı efekti için keyframes */
 @keyframes shimmer {
-    0% {
-        transform: translateX(-100%) skewX(-20deg);
-    }
-    100% {
-        transform: translateX(200%) skewX(-20deg);
-    }
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+  }
+
+  100% {
+    transform: translateX(200%) skewX(-20deg);
+  }
 }
 
 
-.enhance-comment-button, .chat-character-button {
+.enhance-comment-button,
+.chat-character-button {
   color: white;
   width: 100%;
   padding: 0.6rem;
@@ -1102,67 +1208,74 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 1px solid rgba(100, 255, 218, 0.5); /* Hafif bir sınır */
-  background-image: linear-gradient(-45deg, #172a46, var(--accent-chat), #a0ffee,var(--accent-chat));
-  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(204, 214, 246, 0.1);  position: relative;
+  border: 1px solid rgba(100, 255, 218, 0.5);
+  /* Hafif bir sınır */
+  background-image: linear-gradient(-45deg, #172a46, var(--accent-chat), #a0ffee, var(--accent-chat));
+  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(204, 214, 246, 0.1);
+  position: relative;
   min-height: 40px;
-  overflow: hidden; /* Işıltı efektinin taşmasını engellemek için */
+  overflow: hidden;
+  /* Işıltı efektinin taşmasını engellemek için */
 }
-.enhance-comment-button:active, .chat-character-button:active {
+
+.enhance-comment-button:active,
+.chat-character-button:active {
   transform: scale(0.97);
 }
 
 .enhance-comment-button {
-    background-color: var(--accent-magic);
+  background-color: var(--accent-magic);
 }
+
 .enhance-comment-button:hover {
-    background-color: var(--accent-magic-hover);
+  background-color: var(--accent-magic-hover);
 }
 
 /* --- YENİ: "Karakterle Konuş" Butonunun Özel Stili --- */
 .chat-character-button {
-    border: 1px solid rgba(38, 136, 247, 0.5); /* Hafif bir sınır */
-    background-size: 200% 200%; /* Animasyon için gradyan boyutunu artır */
-    background-image: linear-gradient(
-        -45deg, 
-        #1a3d6d, 
-        var(--accent-chat), 
-        #4f9bff,
-        var(--accent-chat)
-    );
-    animation: animated-gradient 4s ease infinite; /* Canlı gradyan animasyonu */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(38, 136, 247, 0.5);
+  /* Hafif bir sınır */
+  background-size: 200% 200%;
+  /* Animasyon için gradyan boyutunu artır */
+  background-image: linear-gradient(-45deg,
+      #1a3d6d,
+      var(--accent-chat),
+      #4f9bff,
+      var(--accent-chat));
+  animation: animated-gradient 4s ease infinite;
+  /* Canlı gradyan animasyonu */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 .chat-character-button:hover {
-    transform: scale(1.03); /* Hafifçe büyüt */
-    box-shadow: 0 0 25px var(--accent-chat-glow), inset 0 0 12px rgba(255, 255, 255, 0.15);
+  transform: scale(1.03);
+  /* Hafifçe büyüt */
+  box-shadow: 0 0 25px var(--accent-chat-glow), inset 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
 /* YENİ: Üzerine gelince oluşan ışıltı efekti */
 .chat-character-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-        to right, 
-        rgba(255, 255, 255, 0) 0%, 
-        rgba(255, 255, 255, 0.3) 50%, 
-        rgba(255, 255, 255, 0) 100%
-    );
-    transform: translateX(-150%) skewX(-20deg);
-    opacity: 0;
-    transition: none; /* Anlık geçiş için */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-150%) skewX(-20deg);
+  opacity: 0;
+  transition: none;
+  /* Anlık geçiş için */
 }
 
 .chat-character-button:hover::before {
-    opacity: 1;
-    animation: shimmer 1s ease-in-out;
-    transition: opacity 0.2s ease;
+  opacity: 1;
+  animation: shimmer 1s ease-in-out;
+  transition: opacity 0.2s ease;
 }
 
 
@@ -1189,11 +1302,12 @@ input:checked + .toggle-switch-slider:before {
 
 /* Yükleme durumundayken animasyonları ve efektleri durdur */
 .chat-character-button.loading {
-    animation: none;
-    box-shadow: none;
+  animation: none;
+  box-shadow: none;
 }
+
 .chat-character-button.loading::before {
-    display: none;
+  display: none;
 }
 
 
@@ -1211,9 +1325,11 @@ input:checked + .toggle-switch-slider:before {
   max-height: 250px;
   overflow-y: auto;
 }
+
 .tmdb-result-item:hover {
   background-color: #30363d;
 }
+
 .tmdb-result-item {
   padding: 0.8rem;
   display: flex;
@@ -1221,18 +1337,22 @@ input:checked + .toggle-switch-slider:before {
   border-bottom: 1px solid var(--border-color);
   cursor: pointer;
 }
+
 .tmdb-result-item:last-child {
   border-bottom: none;
 }
+
 .tmdb-result-poster {
   width: 40px;
   height: 60px;
   margin-right: 12px;
   border-radius: 4px;
 }
+
 .tmdb-result-title {
   font-size: 0.95rem;
 }
+
 .tmdb-result-year {
   font-size: 0.8rem;
   color: var(--text-secondary);
@@ -1242,31 +1362,40 @@ input:checked + .toggle-switch-slider:before {
 #detail-modal-body {
   gap: 1.2rem;
 }
+
 #detail-movie-poster {
   width: 100px;
   height: 150px;
   border-radius: 8px;
 }
+
 #detail-movie-overview {
   color: var(--text-secondary);
   line-height: 1.6;
 }
+
 .lottie-loader {
   display: none;
   width: 100%;
-  margin:auto
+  margin: auto
 }
+
 .lottie-loader.visible {
   display: flex;
-  justify-content: center; /* İçindeki elemanı (animasyonu) yatayda ortala */
-  align-items: center; /* İçindeki elemanı (animasyonu) dikeyde ortala */
+  justify-content: center;
+  /* İçindeki elemanı (animasyonu) yatayda ortala */
+  align-items: center;
+  /* İçindeki elemanı (animasyonu) dikeyde ortala */
 }
+
 #detail-modal-body.hidden {
   display: none;
 }
+
 .modal-body {
   display: flex;
 }
+
 #detail-add-to-log-button {
   background-color: var(--accent-secondary);
   color: var(--bg-main);
@@ -1276,9 +1405,11 @@ input:checked + .toggle-switch-slider:before {
   width: 100%;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
 #detail-add-to-log-button:hover {
   background-color: var(--accent-secondary-hover);
 }
+
 #detail-add-to-log-button:active {
   transform: scale(0.97);
 }
@@ -1330,6 +1461,7 @@ input:checked + .toggle-switch-slider:before {
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
     transform: translateY(20px);
@@ -1353,9 +1485,11 @@ input:checked + .toggle-switch-slider:before {
   text-align: center;
   padding: 1rem;
 }
+
 .auth-container.hidden {
   display: none;
 }
+
 .auth-form-container {
   width: 100%;
   max-width: 380px;
@@ -1364,11 +1498,13 @@ input:checked + .toggle-switch-slider:before {
   border-radius: 12px;
   border: 1px solid var(--border-color);
 }
+
 .auth-tabs {
   display: flex;
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 1.5rem;
 }
+
 .auth-tab {
   flex: 1;
   padding: 0.8rem;
@@ -1381,32 +1517,40 @@ input:checked + .toggle-switch-slider:before {
   border-bottom: 3px solid transparent;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
+
 .auth-tab:hover {
   color: var(--text-primary);
 }
+
 .auth-tab.active {
   color: var(--accent-secondary);
   border-bottom-color: var(--accent-secondary);
 }
+
 #email-auth-form input {
   background-color: var(--bg-main);
 }
+
 #email-auth-form .form-group.invalid input {
   border-color: var(--status-error);
   box-shadow: 0 0 0 3px rgba(218, 54, 51, 0.2);
 }
+
 .email-error-message {
   color: var(--status-error);
   font-size: 0.85rem;
   margin-top: 0.4rem;
   text-align: left;
 }
+
 .email-error-message:not(.hidden) {
   display: block;
 }
+
 .password-input-wrapper {
   position: relative;
 }
+
 .password-toggle-btn {
   position: absolute;
   bottom: 12px;
@@ -1418,18 +1562,22 @@ input:checked + .toggle-switch-slider:before {
   cursor: pointer;
   padding: 0.5rem;
 }
+
 .password-toggle-btn:hover {
   color: var(--text-primary);
 }
+
 #auth-submit-button {
   width: 100%;
   margin-top: 0.5rem;
 }
+
 .auth-error {
   color: var(--status-error);
   margin-top: 1rem;
   font-size: 0.9rem;
 }
+
 .auth-error:not(.hidden) {
   display: block;
 }
@@ -1448,14 +1596,17 @@ input:checked + .toggle-switch-slider:before {
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
+
 .auth-button:active {
   transform: scale(0.97);
 }
+
 .auth-button.primary {
   background-color: var(--accent-primary);
   color: white;
   border-color: var(--accent-primary);
 }
+
 .auth-button.primary:hover {
   background-color: var(--accent-primary-hover);
 }
@@ -1466,6 +1617,7 @@ input:checked + .toggle-switch-slider:before {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1485,6 +1637,7 @@ input:checked + .toggle-switch-slider:before {
   justify-content: center;
   transition: background-image 0.5s ease-in-out;
 }
+
 #profile-hero::before {
   content: "";
   position: absolute;
@@ -1492,15 +1645,14 @@ input:checked + .toggle-switch-slider:before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    to top,
-    var(--bg-main) 0%,
-    rgba(13, 17, 23, 0.7) 50%,
-    rgba(13, 17, 23, 0.4) 100%
-  );
+  background: linear-gradient(to top,
+      var(--bg-main) 0%,
+      rgba(13, 17, 23, 0.7) 50%,
+      rgba(13, 17, 23, 0.4) 100%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
+
 .hero-content {
   position: relative;
   z-index: 1;
@@ -1509,6 +1661,7 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   gap: 0.5rem;
 }
+
 #profile-hero .profile-avatar {
   width: 90px;
   height: 90px;
@@ -1518,28 +1671,29 @@ input:checked + .toggle-switch-slider:before {
   object-fit: cover;
   margin-bottom: 0.5rem;
 }
+
 #profile-hero .profile-name {
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-primary);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 #profile-hero .profile-email {
   font-size: 1rem;
   color: var(--text-secondary);
   margin-top: -5px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
+
 .cinematic-identity {
   margin-top: 1rem;
   font-weight: 600;
   padding: 0.4rem 1rem;
   border-radius: 20px;
-  background-image: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
+  background-image: linear-gradient(45deg,
+      var(--accent-primary),
+      var(--accent-secondary));
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -1554,6 +1708,7 @@ input:checked + .toggle-switch-slider:before {
   flex-direction: column;
   gap: 1rem;
 }
+
 .stat-group {
   background: rgba(22, 27, 34, 0.8);
   backdrop-filter: blur(10px);
@@ -1565,6 +1720,7 @@ input:checked + .toggle-switch-slider:before {
   animation: slideInUp 0.5s ease-out forwards;
   animation-delay: var(--animation-delay, 0ms);
 }
+
 .stat-group-title {
   font-size: 0.8rem;
   font-weight: 600;
@@ -1579,6 +1735,7 @@ input:checked + .toggle-switch-slider:before {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+
 .overview-card {
   background-color: var(--bg-surface);
   border-radius: 8px;
@@ -1588,26 +1745,32 @@ input:checked + .toggle-switch-slider:before {
   gap: 1rem;
   border: 1px solid var(--border-color);
 }
+
 .overview-card:last-child {
   grid-column: 1 / -1;
 }
+
 .overview-icon {
   color: var(--accent-secondary);
 }
+
 .overview-icon svg {
   width: 28px;
   height: 28px;
 }
+
 .overview-text {
   display: flex;
   flex-direction: column;
 }
+
 .overview-value {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
 }
+
 .overview-label {
   font-size: 0.8rem;
   color: var(--text-secondary);
@@ -1617,10 +1780,12 @@ input:checked + .toggle-switch-slider:before {
   border-left: 3px solid var(--accent-magic);
   box-shadow: 0 0 20px rgba(130, 86, 208, 0.1);
 }
+
 .capsule-subtitle {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
 }
+
 .capsule-item {
   display: flex;
   align-items: center;
@@ -1629,6 +1794,7 @@ input:checked + .toggle-switch-slider:before {
   padding: 0.75rem;
   border-radius: 8px;
 }
+
 .capsule-icon-wrapper {
   flex-shrink: 0;
   width: 40px;
@@ -1638,23 +1804,28 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   justify-content: center;
 }
+
 .capsule-icon-wrapper.time-travel {
   background-color: rgba(130, 86, 208, 0.2);
   color: var(--accent-magic);
 }
+
 .capsule-text p {
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--text-secondary);
 }
+
 .capsule-text strong {
   color: var(--text-primary);
   font-weight: 600;
 }
+
 .capsule-text em {
   font-style: italic;
   color: var(--accent-secondary);
 }
+
 .capsule-poster-small {
   width: 40px;
   height: 60px;
@@ -1662,20 +1833,24 @@ input:checked + .toggle-switch-slider:before {
   border-radius: 4px;
   margin-left: auto;
 }
+
 .milestones-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.75rem;
 }
+
 .milestone-item {
   background-color: var(--bg-main);
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 0.85rem;
 }
+
 .milestone-item p {
   color: var(--text-secondary);
 }
+
 .milestone-item strong {
   color: var(--text-primary);
   font-weight: 500;
@@ -1689,11 +1864,13 @@ input:checked + .toggle-switch-slider:before {
   padding: 0;
   margin: 0;
 }
+
 .rating-bar-container {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
+
 /* DÜZELTME 1: Puan dağılımı yıldız hizalama */
 .rating-bar-label {
   min-width: 95px;
@@ -1701,6 +1878,7 @@ input:checked + .toggle-switch-slider:before {
   display: flex;
   justify-content: flex-start;
 }
+
 .rating-bar {
   flex-grow: 1;
   height: 10px;
@@ -1708,37 +1886,48 @@ input:checked + .toggle-switch-slider:before {
   border-radius: 5px;
   overflow: hidden;
 }
+
 .rating-bar-fill {
   height: 100%;
   border-radius: 5px;
   transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: 0 0 10px 2px var(--glow-color, transparent);
 }
+
 .rating-bar-container[data-rating^="5"] .rating-bar-fill,
 .rating-bar-container[data-rating^="4.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #31c48d, var(--accent-secondary)); /* Teal Green */
+  background: linear-gradient(90deg, #31c48d, var(--accent-secondary));
+  /* Teal Green */
   --glow-color: var(--accent-chat-glow);
 }
+
 .rating-bar-container[data-rating^="4"] .rating-bar-fill,
 .rating-bar-container[data-rating^="3.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #2980b9, #3498db); /* Blue */
+  background: linear-gradient(90deg, #2980b9, #3498db);
+  /* Blue */
   --glow-color: rgba(52, 152, 219, 0.4);
 }
+
 .rating-bar-container[data-rating^="3"] .rating-bar-fill,
 .rating-bar-container[data-rating^="2.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #c778dd, #e099f5); /* Magic Purple */
+  background: linear-gradient(90deg, #c778dd, #e099f5);
+  /* Magic Purple */
   --glow-color: rgba(199, 120, 221, 0.4);
 }
+
 .rating-bar-container[data-rating^="2"] .rating-bar-fill,
 .rating-bar-container[data-rating^="1.5"] .rating-bar-fill {
-  background: linear-gradient(90deg, #ff8c00, #ffa500); /* Primary Orange */
+  background: linear-gradient(90deg, #ff8c00, #ffa500);
+  /* Primary Orange */
   --glow-color: rgba(255, 140, 0, 0.4);
 }
+
 .rating-bar-container[data-rating^="1"] .rating-bar-fill,
 .rating-bar-container[data-rating^="0.5"] .rating-bar-fill {
   background: linear-gradient(90deg, #b02a2a, #ef4444);
   --glow-color: rgba(176, 42, 42, 0.5);
 }
+
 .rating-bar-count {
   font-size: 0.9rem;
   font-weight: 600;
@@ -1754,6 +1943,7 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   margin-bottom: 1rem;
 }
+
 .badge-count {
   font-size: 0.9rem;
   font-weight: 500;
@@ -1762,6 +1952,7 @@ input:checked + .toggle-switch-slider:before {
   padding: 0.25rem 0.6rem;
   border-radius: 8px;
 }
+
 .badge-showcase {
   display: flex;
   align-items: flex-end;
@@ -1769,6 +1960,7 @@ input:checked + .toggle-switch-slider:before {
   margin-bottom: 1rem;
   cursor: pointer;
 }
+
 .featured-badge {
   display: flex;
   flex-direction: column;
@@ -1776,6 +1968,7 @@ input:checked + .toggle-switch-slider:before {
   gap: 0.5rem;
   text-align: center;
 }
+
 .featured-badge-icon {
   font-size: 3.5rem;
   width: 80px;
@@ -1788,11 +1981,13 @@ input:checked + .toggle-switch-slider:before {
   justify-content: center;
   box-shadow: 0 0 20px rgba(227, 179, 65, 0.3);
 }
+
 .featured-badge-name {
   font-weight: 600;
   color: var(--text-primary);
   font-size: 1rem;
 }
+
 .featured-badge-label {
   font-size: 0.75rem;
   color: var(--accent-secondary);
@@ -1800,11 +1995,13 @@ input:checked + .toggle-switch-slider:before {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
 .other-badges {
   display: flex;
   gap: 0.5rem;
   padding-bottom: 0.5rem;
 }
+
 .badge-icon-preview {
   font-size: 1.8rem;
   width: 44px;
@@ -1819,6 +2016,7 @@ input:checked + .toggle-switch-slider:before {
   opacity: 0.8;
   transition: opacity 0.2s ease;
 }
+
 .badge-icon-preview:hover {
   opacity: 1;
 }
@@ -1833,10 +2031,12 @@ input:checked + .toggle-switch-slider:before {
   transition: max-height 0.5s ease-in-out;
   padding-right: 8px;
 }
+
 .badge-collection-grid.expanded {
   max-height: 400px;
   overflow-y: auto;
 }
+
 .badge-card {
   background-color: var(--bg-main);
   border: 1px solid var(--border-color);
@@ -1850,37 +2050,45 @@ input:checked + .toggle-switch-slider:before {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
+
 .badge-card.locked {
   filter: grayscale(1);
   opacity: 0.5;
 }
+
 .badge-card.earned {
   border-color: var(--accent-secondary);
   box-shadow: 0 0 10px rgba(227, 179, 65, 0.1);
 }
+
 .badge-card.earned:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 20px rgba(227, 179, 65, 0.2);
 }
+
 .badge-icon {
   font-size: 2.2rem;
   line-height: 1;
   margin-bottom: 0.5rem;
 }
+
 .badge-text {
   display: flex;
   flex-direction: column;
 }
+
 .badge-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
 }
+
 .badge-locked-text {
   font-size: 0.7rem;
   color: var(--text-secondary);
   font-style: italic;
 }
+
 .toggle-badges-btn {
   width: 100%;
   margin-top: 1rem;
@@ -1893,6 +2101,7 @@ input:checked + .toggle-switch-slider:before {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
+
 .toggle-badges-btn:hover {
   background-color: var(--border-color);
   color: var(--text-primary);
@@ -1905,6 +2114,7 @@ input:checked + .toggle-switch-slider:before {
   width: calc(100% - 2rem);
   margin: 1.5rem 1rem 1rem 1rem;
 }
+
 #profile-section .auth-button.danger:hover {
   background-color: rgba(218, 54, 51, 0.2);
   border-color: var(--status-error);
@@ -1927,12 +2137,15 @@ input:checked + .toggle-switch-slider:before {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .micro-modal-overlay.hidden {
   display: none;
 }
+
 .micro-modal-overlay.visible {
   opacity: 1;
 }
+
 .micro-modal-content {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -1945,27 +2158,32 @@ input:checked + .toggle-switch-slider:before {
   transform: scale(0.95);
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
 .micro-modal-overlay.visible .micro-modal-content {
   transform: scale(1);
 }
+
 .micro-modal-icon {
   font-size: 3rem;
   line-height: 1;
   display: block;
   margin-bottom: 0.75rem;
 }
+
 .micro-modal-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
+
 .micro-modal-description {
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
+
 .micro-modal-close-btn {
   width: 100%;
   padding: 0.75rem;
@@ -1977,6 +2195,7 @@ input:checked + .toggle-switch-slider:before {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
+
 .micro-modal-close-btn:hover {
   background-color: var(--accent-primary-hover);
 }
@@ -2058,7 +2277,7 @@ input:checked + .toggle-switch-slider:before {
   transition: all 0.2s ease;
 }
 
-.genre-filter-label input:checked + span {
+.genre-filter-label input:checked+span {
   background-color: var(--accent-secondary);
   border-color: var(--accent-secondary);
   color: var(--bg-main);
@@ -2071,12 +2290,14 @@ input:checked + .toggle-switch-slider:before {
   flex-direction: column;
   gap: 0.75rem;
 }
+
 .range-values {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
   color: var(--text-secondary);
 }
+
 .range-values span:first-child,
 .range-values span:last-child {
   font-weight: 600;
@@ -2089,6 +2310,7 @@ input:checked + .toggle-switch-slider:before {
   display: flex;
   align-items: center;
 }
+
 .slider-track {
   position: absolute;
   height: 5px;
@@ -2097,6 +2319,7 @@ input:checked + .toggle-switch-slider:before {
   border-radius: 3px;
   z-index: 1;
 }
+
 .slider-progress {
   position: absolute;
   height: 5px;
@@ -2104,17 +2327,21 @@ input:checked + .toggle-switch-slider:before {
   border-radius: 3px;
   z-index: 2;
 }
+
 .dual-range-slider input[type="range"] {
   -webkit-appearance: none;
   position: absolute;
   width: 100%;
   background: transparent;
-  pointer-events: none; /* Kapsayıcıya olayları devret */
+  pointer-events: none;
+  /* Kapsayıcıya olayları devret */
   z-index: 3;
 }
+
 .dual-range-slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  pointer-events: auto; /* Sadece başlıklar tıklanabilir olsun */
+  pointer-events: auto;
+  /* Sadece başlıklar tıklanabilir olsun */
   height: 20px;
   width: 20px;
   border-radius: 50%;
@@ -2123,6 +2350,7 @@ input:checked + .toggle-switch-slider:before {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
+
 .dual-range-slider input[type="range"]::-moz-range-thumb {
   pointer-events: auto;
   height: 20px;
@@ -2139,9 +2367,11 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   gap: 1rem;
 }
+
 .year-range-container span {
   color: var(--text-secondary);
 }
+
 .year-range-container input {
   width: 100%;
   background-color: var(--bg-main);
@@ -2151,11 +2381,13 @@ input:checked + .toggle-switch-slider:before {
   border-radius: 6px;
   text-align: center;
 }
+
 .year-range-container input::-webkit-outer-spin-button,
 .year-range-container input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .year-range-container input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -2165,8 +2397,15 @@ input:checked + .toggle-switch-slider:before {
 /* =================================================================== */
 
 @keyframes fadeInStagger {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .special-lists-container {
@@ -2198,12 +2437,14 @@ input:checked + .toggle-switch-slider:before {
 
 /* --- Görsel Alan --- */
 .list-card-image-wrapper {
-  aspect-ratio: 16 / 10; /* Yüksekliği biraz azalttık, daha sinematik */
+  aspect-ratio: 16 / 10;
+  /* Yüksekliği biraz azalttık, daha sinematik */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Bu, blur efektinin kenarlardan taşmamasını sağlar */
+  overflow: hidden;
+  /* Bu, blur efektinin kenarlardan taşmamasını sağlar */
 }
 
 /* 1. Arkaplan Katmanı (Bulanık Poster) */
@@ -2215,8 +2456,10 @@ input:checked + .toggle-switch-slider:before {
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: blur(15px) brightness(0.6); /* Bulanıklık ve karartma efekti */
-  transform: scale(1.2); /* Kenarlarda boşluk kalmaması için büyütme */
+  filter: blur(15px) brightness(0.6);
+  /* Bulanıklık ve karartma efekti */
+  transform: scale(1.2);
+  /* Kenarlarda boşluk kalmaması için büyütme */
   z-index: 1;
 }
 
@@ -2224,15 +2467,19 @@ input:checked + .toggle-switch-slider:before {
 .list-card-fg-image {
   position: relative;
   z-index: 2;
-  height: 90%; /* Dikey posterin sığması için yükseklik ayarı */
-  width: auto; /* Oranı koru */
+  height: 90%;
+  /* Dikey posterin sığması için yükseklik ayarı */
+  width: auto;
+  /* Oranı koru */
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Derinlik hissi için gölge */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  /* Derinlik hissi için gölge */
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .list-card-v3:hover .list-card-fg-image {
-  transform: scale(1.05) rotateZ(1deg); /* Üzerine gelince hafifçe dönme ve büyüme */
+  transform: scale(1.05) rotateZ(1deg);
+  /* Üzerine gelince hafifçe dönme ve büyüme */
 }
 
 /* --- Metin Alanı --- */
@@ -2244,18 +2491,21 @@ input:checked + .toggle-switch-slider:before {
   flex-grow: 1;
   border-top: 1px solid var(--border-color);
 }
+
 .list-card-v3 .list-card-title {
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-primary);
   line-height: 1.3;
 }
+
 .list-card-v3 .list-card-description {
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-top: 0.25rem;
   line-height: 1.5;
 }
+
 .list-card-chevron {
   color: var(--text-secondary);
   align-self: center;
@@ -2263,6 +2513,7 @@ input:checked + .toggle-switch-slider:before {
   opacity: 0.5;
   transition: all 0.3s ease;
 }
+
 .list-card-v3:hover .list-card-chevron {
   opacity: 1;
   transform: translateX(3px);
@@ -2271,174 +2522,219 @@ input:checked + .toggle-switch-slider:before {
 
 /* YENİ: Karakter Seçim Modalı Stilleri */
 .character-list-container {
-    overflow-y: auto;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
+
 .character-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.75rem;
-    background-color: var(--bg-main);
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background-color: var(--bg-main);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
 .character-item:hover {
-    background-color: var(--border-color);
-    transform: scale(1.02);
+  background-color: var(--border-color);
+  transform: scale(1.02);
 }
+
 .character-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #2d333b;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #2d333b;
 }
+
 .character-info {
-    flex-grow: 1;
+  flex-grow: 1;
 }
+
 .character-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
+
 .character-actor {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
 }
 
 /* YENİ: Sohbet Arayüzü Modalı Stilleri */
 .modal-content.chat-modal-content {
-    padding: 0;
+  padding: 0;
 }
+
 .chat-header {
-    padding: 1rem 1.5rem;
-    margin-bottom: 0;
-    background-color: rgba(22, 27, 34, 0.8);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+  padding: 1rem 1.5rem;
+  margin-bottom: 0;
+  background-color: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
+
 .chat-header-character-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
+
 .chat-header-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
 }
+
 .chat-header h2 {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
+
 .chat-messages-container {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
+
 .chat-message {
-    display: flex;
-    gap: 0.75rem;
-    max-width: 85%;
+  display: flex;
+  gap: 0.75rem;
+  max-width: 85%;
 }
+
 .chat-message.user {
-    align-self: flex-end;
-    flex-direction: row-reverse;
+  align-self: flex-end;
+  flex-direction: row-reverse;
 }
+
 .chat-message.ai {
-    align-self: flex-start;
+  align-self: flex-start;
 }
+
 .message-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
+
 .message-bubble {
-    padding: 0.75rem 1rem;
-    border-radius: 18px;
-    line-height: 1.5;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  line-height: 1.5;
 }
+
 .chat-message.user .message-bubble {
   background-color: var(--accent-primary);
   color: white;
   border-bottom-right-radius: 4px;
 }
+
 .chat-message.ai .message-bubble {
-    background-color: #2d333b;
-    color: var(--text-primary);
-    border-bottom-left-radius: 4px;
+  background-color: #2d333b;
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
 }
+
 .message-bubble.thinking {
-    display: flex;
-    gap: 5px;
-    align-items: center;
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
-@keyframes thinking-dot { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+@keyframes thinking-dot {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1.0);
+  }
+}
+
 .message-bubble.thinking span {
-    width: 8px;
-    height: 8px;
-    background-color: var(--text-secondary);
-    border-radius: 50%;
-    animation: thinking-dot 1.4s infinite ease-in-out both;
+  width: 8px;
+  height: 8px;
+  background-color: var(--text-secondary);
+  border-radius: 50%;
+  animation: thinking-dot 1.4s infinite ease-in-out both;
 }
-.message-bubble.thinking span:nth-child(1) { animation-delay: -0.32s; }
-.message-bubble.thinking span:nth-child(2) { animation-delay: -0.16s; }
+
+.message-bubble.thinking span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.message-bubble.thinking span:nth-child(2) {
+  animation-delay: -0.16s;
+}
 
 .chat-form {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    border-top: 1px solid var(--border-color);
-    background-color: var(--bg-surface);
-    flex-shrink: 0;
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  flex-shrink: 0;
 }
+
 #chat-message-input {
-    flex-grow: 1;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
 }
+
 #chat-message-input:focus {
-    outline: none;
-    border-color: var(--accent-chat);
+  outline: none;
+  border-color: var(--accent-chat);
 }
+
 #chat-send-btn {
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background-color: var(--accent-chat);
-    color: white;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--accent-chat);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
+
 #chat-send-btn:hover {
-    background-color: var(--accent-chat-hover);
+  background-color: var(--accent-chat-hover);
 }
 
 /* YENİ: Sohbet Arayüzü Modalı Stilleri */
-.modal-body p { /* Genel modal body p etiketleri için */
+.modal-body p {
+  /* Genel modal body p etiketleri için */
   color: var(--text-secondary);
 }
+
 #moviePromptInput {
-  resize: vertical; /* Sadece dikeyde boyutlandırmaya izin ver */
+  resize: vertical;
+  /* Sadece dikeyde boyutlandırmaya izin ver */
 }
 
 /* =================================================================== */
@@ -2447,18 +2743,33 @@ input:checked + .toggle-switch-slider:before {
 
 /* Animasyon Keyframes */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes text-flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
 }
+
 @keyframes particle-flow {
   from {
     transform: translateY(120vh) scale(0);
     opacity: 0;
   }
+
   to {
     transform: translateY(-20vh) scale(1);
     opacity: 1;
@@ -2468,7 +2779,8 @@ input:checked + .toggle-switch-slider:before {
 /* --- Ana Splash Ekranı Katmanı --- */
 #loadingSpinnerOverlay {
   animation: fadeIn 0.5s ease forwards;
-  display: flex; /* .visible sınıfına gerek kalmadan flex yap */
+  display: flex;
+  /* .visible sınıfına gerek kalmadan flex yap */
   justify-content: center;
   align-items: center;
 }
@@ -2483,6 +2795,7 @@ input:checked + .toggle-switch-slider:before {
   background: radial-gradient(circle at center, #1a1f27 0%, #0d1117 70%);
   z-index: 1;
 }
+
 /* Gürültü (noise) efekti için */
 .splash-background::after {
   content: '';
@@ -2506,9 +2819,11 @@ input:checked + .toggle-switch-slider:before {
   overflow: hidden;
   z-index: 3;
 }
+
 .particle {
   position: absolute;
-  bottom: -50px; /* Ekranın altından başla */
+  bottom: -50px;
+  /* Ekranın altından başla */
   background-size: cover;
   background-position: center;
   border-radius: 50%;
@@ -2526,6 +2841,7 @@ input:checked + .toggle-switch-slider:before {
   align-items: center;
   justify-content: center;
 }
+
 .splash-lottie-wrapper {
   filter: drop-shadow(0 0 25px rgba(130, 86, 208, 0.5));
 }
@@ -2533,8 +2849,10 @@ input:checked + .toggle-switch-slider:before {
 /* --- Yükleme Metni --- */
 .splash-text-container {
   margin-top: 1rem;
-  min-height: 2rem; /* Metin değişirken zıplamayı engelle */
+  min-height: 2rem;
+  /* Metin değişirken zıplamayı engelle */
 }
+
 .splash-text {
   font-size: 1.25rem;
   font-weight: 500;
@@ -2561,18 +2879,31 @@ input:checked + .toggle-switch-slider:before {
 
 /* Animasyon Keyframes */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes animate-grid {
-  from { background-position: 0 0; }
-  to { background-position: -100px -100px; }
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -100px -100px;
+  }
 }
 
 /* --- Genel Modal Yapısı --- */
 #promptModalOverlay .modal-content {
-  background: rgba(22, 27, 34, 0.7); /* %70 şeffaf yüzey */
+  background: rgba(22, 27, 34, 0.7);
+  /* %70 şeffaf yüzey */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2581,9 +2912,12 @@ input:checked + .toggle-switch-slider:before {
   width: 90%;
   max-width: 520px;
   height: auto;
-  transform: none; /* Eski transformları sıfırla */
-  opacity: 1; /* Eski opacity'yi sıfırla */
-  overflow: hidden; /* İçerideki animasyonların taşmasını engelle */
+  transform: none;
+  /* Eski transformları sıfırla */
+  opacity: 1;
+  /* Eski opacity'yi sıfırla */
+  overflow: hidden;
+  /* İçerideki animasyonların taşmasını engelle */
   position: relative;
   animation: fadeInUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
@@ -2618,15 +2952,26 @@ input:checked + .toggle-switch-slider:before {
   text-align: center;
   margin-bottom: 1.5rem;
 }
+
 .prompt-icon {
   display: inline-block;
   color: var(--accent-magic);
   margin-bottom: 1rem;
   animation: pulse-glow 2.5s infinite ease-in-out;
 }
+
 @keyframes pulse-glow {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--accent-magic)); }
-  50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--accent-magic)); }
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px var(--accent-magic));
+  }
+
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px var(--accent-magic));
+  }
 }
 
 /* --- Metin Giriş Alanı (Textarea) --- */
@@ -2638,10 +2983,12 @@ input:checked + .toggle-switch-slider:before {
   transition: all 0.2s ease-in-out;
   padding: 1rem;
 }
+
 .prompt-input-wrapper:focus-within {
   border-color: var(--accent-magic);
   box-shadow: 0 0 0 3px rgba(130, 86, 208, 0.25);
 }
+
 #moviePromptInput {
   width: 100%;
   background: transparent;
@@ -2652,6 +2999,7 @@ input:checked + .toggle-switch-slider:before {
   resize: none;
   height: 100px;
 }
+
 #moviePromptInput::placeholder {
   color: var(--text-secondary);
 }
@@ -2664,6 +3012,7 @@ input:checked + .toggle-switch-slider:before {
   margin-top: 1rem;
   justify-content: center;
 }
+
 .example-prompt-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-color);
@@ -2674,6 +3023,7 @@ input:checked + .toggle-switch-slider:before {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .example-prompt-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
@@ -2684,7 +3034,8 @@ input:checked + .toggle-switch-slider:before {
 .prompt-submit-button {
   width: 100%;
   background-image: linear-gradient(45deg, var(--accent-primary), #ffae42);
-  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.3);  color: white;
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.3);
+  color: white;
   font-weight: 600;
   font-size: 1rem;
   padding: 0.7rem;
@@ -2705,13 +3056,33 @@ input:checked + .toggle-switch-slider:before {
 
 /* --- Kapatma Butonu --- */
 #promptModalOverlay .close-modal-btn {
-    color: var(--text-secondary);
-    transition: color 0.2s ease, transform 0.2s ease;
-    z-index: 5;
+  color: var(--text-secondary);
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 5;
 }
 
 .paywall-close-modal-btn {
-  margin-left: 300px;
+  position: absolute;
+  /* Referans noktasına göre konumlandır */
+  top: 1rem;
+  /* Üst kenardan 16px boşluk */
+  right: 1rem;
+  /* Sağ kenardan 16px boşluk */
+  /* Butonun daha iyi görünmesi için ek stiller */
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
 }
 
 
@@ -2721,10 +3092,12 @@ input:checked + .toggle-switch-slider:before {
 
 /* Katmanlı modal, diğerinin üzerinde görünmesi için daha yüksek z-index alır */
 .modal-overlay.is-layered {
-  z-index: 30; /* Normal modal z-index'i 25'ti */
+  z-index: 30;
+  /* Normal modal z-index'i 25'ti */
 
   /* Arkadaki modalı görebilmek için arka planı ve bulanıklığı kaldır */
-  background-color: rgba(0, 0, 0, 0.5); /* Hafif karartma yeterli */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Hafif karartma yeterli */
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -2736,7 +3109,8 @@ input:checked + .toggle-switch-slider:before {
   /* Yüksekliğini tüm ekranı kaplamayacak şekilde ayarla */
   height: 90%;
   max-height: 700px;
-  border-radius: 16px; /* Köşeleri yuvarlat */
+  border-radius: 16px;
+  /* Köşeleri yuvarlat */
 }
 
 /* =================================================================== */
@@ -2744,12 +3118,13 @@ input:checked + .toggle-switch-slider:before {
 /* =================================================================== */
 
 @media (max-width: 480px) {
+
   /* Hedef: Öneri sonuçları modalının kendisi */
   #suggestionResultOverlay .modal-content {
     /* Yan boşlukları daha da azalt */
     padding-left: 0.75rem;
     padding-right: 0.75rem;
-    
+
     /* Dikey boşlukları da daha kompakt hale getir */
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -2763,18 +3138,22 @@ input:checked + .toggle-switch-slider:before {
   /* Hedef: Film posterlerinin bulunduğu grid */
   .suggestion-grid {
     /* Posterler arasındaki boşluğu daha da küçült */
-    gap: 0.5rem; /* Önceki 1rem'den daha küçük */
+    gap: 0.5rem;
+    /* Önceki 1rem'den daha küçük */
   }
 
   /* Hedef: Modal başlığı (h2) */
   #suggestionResultOverlay .modal-header h2 {
-    font-size: 1.1rem; /* Başlık yazısını biraz küçült */
+    font-size: 1.1rem;
+    /* Başlık yazısını biraz küçült */
   }
 
   /* Hedef: "Yeniden Dene" butonu */
   #tryAgainBtn {
-    padding: 0.75rem; /* Butonun iç boşluğunu azalt */
-    font-size: 0.9rem; /* Buton yazısını küçült */
+    padding: 0.75rem;
+    /* Butonun iç boşluğunu azalt */
+    font-size: 0.9rem;
+    /* Buton yazısını küçült */
   }
 }
 
@@ -2782,38 +3161,45 @@ input:checked + .toggle-switch-slider:before {
 
 /* Pro özelliğe sahip nav-item'ı konumlandırma için hazırlıyoruz */
 .nav-item.pro-feature {
-    position: relative; /* Badge'i konumlandırmak için bu gerekli */
+  position: relative;
+  /* Badge'i konumlandırmak için bu gerekli */
 }
 
 .pro-badge {
-    position: absolute;   /* Badge'i ana kapsayıcıya göre konumlandır */
-    top: 2px;             /* Yukarıdan boşluk (Değeri değiştirerek ince ayar yapabilirsiniz) */
-    right: 16px;            /* Sağdan boşluk (Değeri değiştirerek ince ayar yapabilirsiniz) */
-    
-    font-size: 8px;       /* Daha küçük font boyutu */
-    font-weight: 700;
-    line-height: 1;
-    color: var(--bg-main); /* Arkaplan rengiyle uyumlu metin */
-    background-color: var(--accent-secondary); /* Vurgu rengi */
-    padding: 2px 4px;
-    border-radius: 4px;
-    
-    /* İkonun üzerinde daha iyi durması için ince bir çerçeve */
-    border: 1.5px solid var(--bg-main); 
+  position: absolute;
+  /* Badge'i ana kapsayıcıya göre konumlandır */
+  top: 2px;
+  /* Yukarıdan boşluk (Değeri değiştirerek ince ayar yapabilirsiniz) */
+  right: 16px;
+  /* Sağdan boşluk (Değeri değiştirerek ince ayar yapabilirsiniz) */
 
-    /* Badge'in kendisinin tıklanmasını engelle */
-    pointer-events: none; 
+  font-size: 8px;
+  /* Daha küçük font boyutu */
+  font-weight: 700;
+  line-height: 1;
+  color: var(--bg-main);
+  /* Arkaplan rengiyle uyumlu metin */
+  background-color: var(--accent-secondary);
+  /* Vurgu rengi */
+  padding: 2px 4px;
+  border-radius: 4px;
+
+  /* İkonun üzerinde daha iyi durması için ince bir çerçeve */
+  border: 1.5px solid var(--bg-main);
+
+  /* Badge'in kendisinin tıklanmasını engelle */
+  pointer-events: none;
 }
 
 /* Bir özelliğin kilitli olduğunu gösteren genel sınıf */
 .feature-locked {
-    opacity: 0.5;
-    cursor: help;
+  opacity: 0.5;
+  cursor: help;
 }
 
 /* Kilitli bir butona basıldığında animasyon olmasın */
 .feature-locked:active {
-    transform: none;
+  transform: none;
 }
 
 /* === PAYWALL EKRANI STİLLERİ === */
@@ -2832,7 +3218,7 @@ input:checked + .toggle-switch-slider:before {
 }
 
 .modal-overlay.visible .paywall-content {
-    transform: scale(1.01);
+  transform: scale(1.01);
 }
 
 .paywall-content .modal-header {
@@ -2842,9 +3228,12 @@ input:checked + .toggle-switch-slider:before {
 
 /* JavaScript ile eklenecek olan 'selected' sınıfının stili */
 .plan-option.selected {
-  border-color: var(--accent-primary); /* Ana vurgu rengimiz olan turuncu */
-  transform: scale(1.05); /* Hafifçe büyütür */
-  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3); /* Turuncu bir parlama efekti ekler */
+  border-color: var(--accent-primary);
+  /* Ana vurgu rengimiz olan turuncu */
+  transform: scale(1.05);
+  /* Hafifçe büyütür */
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+  /* Turuncu bir parlama efekti ekler */
 }
 
 .paywall-title {
@@ -2864,7 +3253,8 @@ input:checked + .toggle-switch-slider:before {
 .paywall-body {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem; /* Elementler arası boşluk */
+  gap: 1.1rem;
+  /* Elementler arası boşluk */
   padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
@@ -2930,15 +3320,15 @@ input:checked + .toggle-switch-slider:before {
 }
 
 .plan-badge {
-    position: absolute;
-    top: -1px;
-    right: -1px;
-    background-color: var(--accent-secondary);
-    color: var(--bg-main);
-    padding: 3px 8px;
-    font-size: 0.5rem;
-    font-weight: 600;
-    border-radius: 0 10px 0 10px;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  background-color: var(--accent-secondary);
+  color: var(--bg-main);
+  padding: 3px 8px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  border-radius: 0 10px 0 10px;
 }
 
 #upgrade-to-pro-btn {
