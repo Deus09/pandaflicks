@@ -865,7 +865,7 @@ header h1 {
 .modal-content {
   background-color: var(--bg-surface);
   border-radius: 5px;
-  padding: 2.5rem;
+  padding: 2.2rem;
   width: 95%;
   height: 95%;
   max-width: none;
@@ -2686,8 +2686,8 @@ input:checked + .toggle-switch-slider:before {
   background-image: linear-gradient(45deg, var(--accent-primary), #ffae42);
   box-shadow: 0 4px 20px rgba(255, 140, 0, 0.3);  color: white;
   font-weight: 600;
-  font-size: 1.1rem;
-  padding: 1rem;
+  font-size: 1rem;
+  padding: 0.7rem;
   border-radius: 12px;
   border: none;
   display: flex;
@@ -2698,10 +2698,7 @@ input:checked + .toggle-switch-slider:before {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-shadow: 0 4px 20px rgba(247, 120, 38, 0.3);
 }
-.prompt-submit-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(247, 120, 38, 0.4);
-}
+
 .prompt-submit-button:active {
   transform: translateY(0) scale(0.98);
 }
@@ -2712,10 +2709,7 @@ input:checked + .toggle-switch-slider:before {
     transition: color 0.2s ease, transform 0.2s ease;
     z-index: 5;
 }
-#promptModalOverlay .close-modal-btn:hover {
-    color: var(--text-primary);
-    transform: scale(1.1);
-}
+
 
 /* =================================================================== */
 /* === KATMANLI (LAYERED) MODAL STİLLERİ (YENİ) === */
@@ -2821,7 +2815,7 @@ input:checked + .toggle-switch-slider:before {
 /* === PAYWALL EKRANI STİLLERİ === */
 .paywall-content {
   max-width: 420px;
-  padding: 2rem;
+  padding: 2.2rem;
   width: 95%;
   height: 95%;
   border-radius: 16px;
@@ -2853,14 +2847,14 @@ input:checked + .toggle-switch-slider:before {
 
 .paywall-icon {
   display: block;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
 
 .paywall-body {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* Elementler arası boşluk */
+  gap: 1.1rem; /* Elementler arası boşluk */
   padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
@@ -2901,11 +2895,7 @@ input:checked + .toggle-switch-slider:before {
   overflow: hidden;
 }
 
-.plan-option.recommended, .plan-option:hover {
-  border-color: var(--accent-secondary);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(227, 179, 65, 0.15);
-}
+
 
 .plan-title {
   display: block;
