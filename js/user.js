@@ -2,6 +2,10 @@
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "./firebase.js";
 
+// YENİ: Admin olarak tanımlamak istediğiniz kullanıcıların UID'lerini bu listeye ekleyin.
+// 1. Adımda bulduğunuz kendi UID'nizi tırnak işaretlerinin arasına yapıştırın.
+const ADMIN_UIDS = ['510WsOiCBmdTYStLx14ZBvaikro1'];
+
 // Uygulama içinde kullanıcının Pro durumunu hızlıca kontrol etmek için
 // yerel bir değişken tutacağız.
 let currentUserStatus = {
@@ -15,6 +19,21 @@ let currentUserStatus = {
  * @param {string} userId - Mevcut giriş yapmış kullanıcının ID'si.
  */
 export async function fetchUserSubscriptionStatus(userId) {
+    // YENİ: ADMIN KONTROLÜ
+    // Fonksiyonun en başında, gelen userId'nin admin listesinde olup olmadığını kontrol et.
+    if (userId && ADMIN_UIDS.includes(userId)) {
+        console.log("👑 Admin kullanıcı algılandı. Tüm özellikler açılıyor.");
+        currentUserStatus = {
+            isPro: true,
+            plan: 'admin', // Planı 'admin' olarak belirtelim
+            endDate: null   // Adminlerin süresi dolmaz
+        };
+        // Admin ise Firestore'a hiç sormadan işlemi burada bitir.
+        return; 
+    }
+
+    // --- Buradan sonrası normal kullanıcılar için çalışmaya devam eder ---
+
     if (!userId) {
         // Kullanıcı yoksa veya anonim ise varsayılan olarak Pro değil.
         currentUserStatus = { isPro: false, plan: null, endDate: null };
@@ -27,7 +46,6 @@ export async function fetchUserSubscriptionStatus(userId) {
     if (userDocSnap.exists() && userDocSnap.data().subscription) {
         const subData = userDocSnap.data().subscription;
         
-        // Abonelik bitiş tarihini kontrol et. Eğer geçmişteyse, Pro değil.
         const isSubscriptionActive = subData.endDate && new Date(subData.endDate.toMillis()) > new Date();
 
         if (subData.isPro && isSubscriptionActive) {
@@ -37,11 +55,9 @@ export async function fetchUserSubscriptionStatus(userId) {
                 endDate: subData.endDate.toDate()
             };
         } else {
-            // Aboneliği var ama süresi dolmuş.
             currentUserStatus = { isPro: false, plan: null, endDate: null };
         }
     } else {
-        // Kullanıcının abonelik bilgisi hiç yok.
         currentUserStatus = { isPro: false, plan: null, endDate: null };
     }
     
@@ -57,7 +73,6 @@ export function isUserPro() {
 }
 
 /**
- * YENİ FONKSİYON:
  * Kullanıcının abonelik durumu kontrol edildikten sonra
  * arayüzdeki Pro özellikleri kilitler veya açar.
  */
