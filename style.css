@@ -1034,10 +1034,10 @@ input:checked + .toggle-switch-slider:before {
 }
 .modal-actions button {
   flex: 1;
-  padding: 1.2rem;
-  border-radius: 10px;
+  padding: 0.5rem;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: transform 0.1s ease, background-color 0.2s ease;
   border: none;
 }
