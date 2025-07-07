@@ -240,35 +240,54 @@ body:has(.modal-overlay.visible) {
 
 /* --- Başlık --- */
 header {
-  /* --- YENİ, PARLAK VE ODALI SPOT IŞIĞI EFEKTİ --- */
-  background-image: 
-    /* Üst Katman: Çevreyi karartarak spot ışığını öne çıkaran vinyet efekti */
-    radial-gradient(
-      ellipse 90% 100% at 15% 0%, 
-      transparent 30%, 
-      rgba(0, 0, 0, 0.5) 80%
-    ),
-    /* Alt Katman: Parlak ve dar ana spot ışığı */
-    radial-gradient(
-      ellipse 30% 70% at 15% -15%, /* Işık hüzmesini daha da daralttık */
-      rgba(204, 214, 246, 0.25) 0%, /* Işık kaynağını DAHA PARLAK yaptık (%15'ten %25'e) */
-      transparent 60% /* Işığın kenarlarını daha net hale getirdik */
-    );
-  /* --- STİL SONU --- */
- /* Yarı şeffaf arka plan */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text-primary);
-  padding: 1rem;
-  text-align: center;
+  /* Ana Konumlandırma ve Stil */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* İçerikleri iki yana yasla */
+  padding: 1rem;
   position: sticky;
   top: 0;
   z-index: 10;
   border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-main);
+
+  /* YENİ: Efekt için hazırlık */
+  overflow: hidden; /* Işığın taşan kısımlarını gizle */
+  position: relative; /* Sahte elementi konumlandırmak için */
+}
+
+/* YENİ: Spot ışığını oluşturan sahte element */
+header::before {
+  content: '';
+  position: absolute;
+
+  /* Işığın Konumu ve Boyutu */
+  top: -50px; /* Işık kaynağını header'ın yukarısına taşı */
+  left: -40px; /* Panda'nın üzerine gelecek şekilde sola kaydır */
+  width: 200px;  /* Işık hüzmesinin genişliği */
+  height: 150px; /* Işık hüzmesinin uzunluğu */
+
+  /* Işığın Kendisi: Merkezde parlak, kenarlara doğru kaybolan bir gradyan */
+  background: radial-gradient(
+    ellipse 50% 50% at center,
+    rgba(204, 214, 246, 0.2), /* Işığın merkezi, daha parlak */
+    transparent 70%
+  );
+
+  /* Efektin Sihirli Kısmı */
+  filter: blur(15px); /* Işığın kenarlarını yumuşatır */
+
+  /* ŞEKİL: Işığı bir koni (aşağı bakan üçgen) şeklinde kırpar */
+  clip-path: polygon(40% 0%, 10% 100%, 90% 100%);
+
+  /* İnce ayar için yatayda hafifçe döndürme */
+  transform: rotate(-5deg);
+}
+
+/* Header içindeki diğer elementlerin (logo, buton) ışığın üzerinde kalmasını sağla */
+header > * {
+  position: relative;
+  z-index: 2;
 }
 
 .header-logo {
