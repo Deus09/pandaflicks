@@ -242,7 +242,12 @@ body:has(.modal-overlay.visible) {
 header {
  /* YENİ EKLENEN KOD */
   /* Bu, ekranın üst kısmında biraz daha açık bir tondan başlayıp ana renge doğru yumuşakça geçen bir gradyan oluşturur. */
-  background: linear-gradient(to bottom, #161b22, var(--bg-main) 30%);
+  background-color: var(--bg-main);
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    rgba(204, 214, 246, 0.08) 0%, /* --text-primary'nin çok şeffaf hali */
+    transparent 40%
+  );
  /* Yarı şeffaf arka plan */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
