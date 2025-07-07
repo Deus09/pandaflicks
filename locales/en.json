@@ -146,4 +146,23 @@
   "notification_error": "An error occurred. Please try again."
   ,"filter_clear_button": "Clear",
 "character_select_title": "Select a Character"
+,
+  "my_movies_empty_message": "You haven't saved any movies yet.",
+  "watch_later_empty_message": "You have no movies to watch later.",
+  "character_no_character_found": "No characters available for this movie.",
+  "character_loading_error": "Could not load characters.",
+  "sort_newest": "Newest",
+  "sort_oldest": "Oldest",
+  "sort_rating_high": "Rating (High to Low)",
+  "sort_rating_low": "Rating (Low to High)",
+  "sort_title_az": "Title (A-Z)",
+  "auth_error_invalid_email": "Please enter a valid email address.",
+  "auth_error_wrong_password": "Incorrect email or password. Please check.",
+  "auth_error_email_in_use": "This email address is already in use by another account.",
+  "auth_error_weak_password": "Your password must be at least 6 characters long.",
+  "auth_error_default": "An error occurred. Please try again later.",
+  "notification_comment_enhance_fail": "Could not enhance comment: {error}",
+  "notification_comment_enhance_char_limit": "Please enter at least 10 characters to enhance your comment.",
+  "notification_save_validation_fail": "Please fill in the rating and watched date fields.",
+  "notification_movie_saved": "'{title}' was saved successfully."
 }

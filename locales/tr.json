@@ -146,4 +146,23 @@
   "notification_error": "Bir hata oluştu. Lütfen tekrar deneyin."
   ,"filter_clear_button": "Temizle",
 "character_select_title": "Bir Karakter Seç"
+,
+  "my_movies_empty_message": "Henüz hiç film kaydetmediniz.",
+  "watch_later_empty_message": "Daha sonra izlenecek filminiz bulunmuyor.",
+  "character_no_character_found": "Bu film için konuşulacak karakter bulunamadı.",
+  "character_loading_error": "Karakterler yüklenemedi.",
+  "sort_newest": "En Yeni",
+  "sort_oldest": "En Eski",
+  "sort_rating_high": "Puan (Yüksekten Düşüğe)",
+  "sort_rating_low": "Puan (Düşükten Yükseğe)",
+  "sort_title_az": "Film Adı (A-Z)",
+  "auth_error_invalid_email": "Lütfen geçerli bir e-posta adresi girin.",
+  "auth_error_wrong_password": "E-posta veya parola hatalı. Lütfen kontrol edin.",
+  "auth_error_email_in_use": "Bu e-posta adresi zaten başka bir hesap tarafından kullanılıyor.",
+  "auth_error_weak_password": "Parolanız en az 6 karakter uzunluğunda olmalıdır.",
+  "auth_error_default": "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+  "notification_comment_enhance_fail": "Yorum geliştirilemedi: {error}",
+  "notification_comment_enhance_char_limit": "Lütfen yorumunuzu geliştirmek için en az 10 karakter girin.",
+  "notification_save_validation_fail": "Lütfen puan ve izleme tarihi alanlarını doldurunuz.",
+  "notification_movie_saved": "'{title}' başarıyla kaydedildi."
 }
