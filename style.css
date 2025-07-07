@@ -967,7 +967,7 @@ header h1 {
 
 .modal-content {
   background-color: var(--bg-surface);
-  border-radius: 5px;
+  border-radius: 16px;
   padding: 2rem;
   width: 90%;
   height: 90%;
