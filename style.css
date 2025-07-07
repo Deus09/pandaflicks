@@ -473,6 +473,8 @@ header h1 {
   height: auto;
   transform: none;
   animation: fadeInUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  border-radius: 16px;
+  padding: 0.5rem;
 }
 
 .suggestion-grid {
