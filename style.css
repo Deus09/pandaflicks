@@ -263,15 +263,15 @@ header::before {
 
   /* Işığın Konumu ve Boyutu */
   top: -50px; /* Işık kaynağını header'ın yukarısına taşı */
-  left: -40px; /* Panda'nın üzerine gelecek şekilde sola kaydır */
-  width: 280px;  /* Işık hüzmesinin genişliği */
+  left: -45px; /* Panda'nın üzerine gelecek şekilde sola kaydır */
+  width: 300px;  /* Işık hüzmesinin genişliği */
   height: 150px; /* Işık hüzmesinin uzunluğu */
 
   /* Işığın Kendisi: Merkezde parlak, kenarlara doğru kaybolan bir gradyan */
   background: radial-gradient(
     ellipse 50% 50% at center,
     rgba(204, 214, 246, 0.2), /* Işığın merkezi, daha parlak */
-    transparent 75%
+    transparent 70%
   );
 
   /* Efektin Sihirli Kısmı */
