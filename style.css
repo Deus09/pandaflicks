@@ -474,7 +474,7 @@ header h1 {
   transform: none;
   animation: fadeInUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
   border-radius: 16px;
-  padding: 2.1rem;
+  padding: 0.5rem;
 }
 
 .suggestion-grid {
@@ -1145,9 +1145,8 @@ input:checked+.toggle-switch-slider:before {
 /* --- Modal Butonları --- */
 .modal-actions {
   border-top: 1px solid var(--border-color);
-  padding-top: 1.2rem;
-  padding-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+  margin-top: 0.8rem;
   display: flex;
   gap: 1rem;
 }
@@ -1166,20 +1165,23 @@ input:checked+.toggle-switch-slider:before {
   transform: scale(0.97);
 }
 
+.modal-actions .cancel-button {
+  background-color: #21262d;
+  color: var(--text-primary);
+}
+
+.modal-actions .cancel-button:hover {
+  background-color: #30363d;
+}
+
 .modal-actions .save-button {
   background-color: var(--accent-primary);
   color: white;
-  border: 2px solid var(--accent-primary);
 }
 
-
-
-.modal-actions .save-button {
-  background-color: var(--accent-primary);
-  color: white;
+.modal-actions .save-button:hover {
+  background-color: var(--accent-primary-hover);
 }
-
-
 
 /* --- Form İçi Buton Grubu --- */
 .form-buttons-group {
@@ -1228,33 +1230,88 @@ input:checked+.toggle-switch-slider:before {
 
 .enhance-comment-button,
 .chat-character-button {
-  color: var(--bg-main); /* YENİ: Metin rengini koyu ana renk yap */
-  font-weight: 700; /* YENİ: Metni daha okunaklı yapmak için kalınlaştır */
+  color: white;
   width: 100%;
-  padding: 0.8rem; /* İç boşluğu biraz artırdık */
-  border-radius: 12px;
-  /* ...diğer mevcut stiller aynı kalabilir... */
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.1s ease, background-color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: none; /* Kenarlığı kaldırarak daha temiz bir görünüm */
+  border: 1px solid rgba(100, 255, 218, 0.5);
+  /* Hafif bir sınır */
+  background-image: linear-gradient(-99deg, #172a46, var(--accent-chat), #a0ffee, var(--accent-chat));
+  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(204, 214, 246, 0.1);
+  position: relative;
+  min-height: 40px;
+    animation: animated-gradient 4s ease infinite;
+  /* Canlı gradyan animasyonu */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Işıltı efektinin taşmasını engellemek için */
 }
 
-/* Yorum Geliştirme butonu için özel gradyan */
+.enhance-comment-button:active,
+.chat-character-button:active {
+  transform: scale(0.97);
+}
+
 .enhance-comment-button {
-    background-image: linear-gradient(45deg, var(--accent-magic), #e099f5);
-    box-shadow: 0 4px 20px rgba(199, 120, 221, 0.4);
+  background-color: var(--accent-magic);
 }
 
-/* Karakterle Sohbet butonu için özel gradyan */
+.enhance-comment-button:hover {
+  background-color: var(--accent-magic-hover);
+}
+
+/* --- YENİ: "Karakterle Konuş" Butonunun Özel Stili --- */
 .chat-character-button {
-    background-image: linear-gradient(45deg, var(--accent-chat), #a0ffee);
-    box-shadow: 0 4px 20px var(--accent-chat-glow);
+  border: 1px solid rgba(38, 136, 247, 0.5);
+  /* Hafif bir sınır */
+  background-size: 200% 200%;
+  /* Animasyon için gradyan boyutunu artır */
+  background-image: linear-gradient(-45deg,
+      #1a3d6d,
+      var(--accent-chat),
+      #4f9bff,
+      var(--accent-chat));
+  animation: animated-gradient 4s ease infinite;
+  /* Canlı gradyan animasyonu */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
+.chat-character-button:hover {
+  transform: scale(1.03);
+  /* Hafifçe büyüt */
+  box-shadow: 0 0 25px var(--accent-chat-glow), inset 0 0 12px rgba(255, 255, 255, 0.15);
+}
 
 /* YENİ: Üzerine gelince oluşan ışıltı efekti */
+.chat-character-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-150%) skewX(-20deg);
+  opacity: 0;
+  transition: none;
+  /* Anlık geçiş için */
+}
+
+.chat-character-button:hover::before {
+  opacity: 1;
+  animation: shimmer 1s ease-in-out;
+  transition: opacity 0.2s ease;
+}
 
 
 .loading-spinner {
@@ -1267,14 +1324,15 @@ input:checked+.toggle-switch-slider:before {
   animation: spin 1s linear infinite;
 }
 
-/* Butonların içindeki span ve svg için metin rengini uygula */
-.enhance-comment-button .button-text,
-.chat-character-button .button-text {
-    color: var(--bg-main);
+.enhance-comment-button.loading .button-text,
+.chat-character-button.loading .button-text {
+  visibility: hidden;
 }
+
 .enhance-comment-button.loading .loading-spinner,
 .chat-character-button.loading .loading-spinner {
-    border-top-color: var(--bg-main); /* Spinner rengini de koyu yap */
+  display: block;
+  position: absolute;
 }
 
 /* Yükleme durumundayken animasyonları ve efektleri durdur */
@@ -3099,7 +3157,7 @@ input:checked+.toggle-switch-slider:before {
   /* Hedef: Öneri sonuçları modalının kendisi */
   #suggestionResultOverlay .modal-content {
     /* Yan boşlukları daha da azalt */
-    padding-left: 2rem;
+    padding-left: 1rem;
     padding-right: 1rem;
 
     /* Dikey boşlukları da daha kompakt hale getir */
