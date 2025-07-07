@@ -50,6 +50,10 @@ body.no-scroll {
   overflow: hidden;
 }
 
+body.no-scroll .content-section {
+  overflow: hidden;
+}
+
 /* Scrollbar Gizleme */
 ::-webkit-scrollbar {
   width: 6px;
@@ -465,55 +469,65 @@ header h1 {
 .suggestion-poster-item {
   position: relative;
   cursor: pointer;
-  border-radius: 10px;
-  overflow: hidden;
-  aspect-ratio: 2 / 3;
+  border-radius: 12px; /* Köşeleri daha belirgin yuvarlat */
+  overflow: hidden; /* Taşmaları engelle */
+  aspect-ratio: 2 / 3; /* Posterlerin standart dikey oranı */
   background-color: var(--bg-main);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Derinlik için gölge */
 }
 
 .suggestion-poster-item img {
-  width: 90%;
-  height: 90%;
-  object-fit: cover;
+  width: 100%;  /* %90 yerine %100 yapıldı */
+  height: 100%; /* %90 yerine %100 yapıldı */
+  object-fit: cover; /* Resmi, oranını bozmadan alanı kaplayacak şekilde sığdır */
+  transition: transform 0.4s ease;
+}
+
+/* Dokunma anı için anlık geri bildirim efekti */
+.suggestion-poster-item:active {
+  transform: scale(0.97); /* Hafifçe içeri çökme hissi */
+  transition: transform 0.1s ease-out; /* Tepkinin hızlı olmasını sağla */
 }
 
 /* "Beğenmedim, yeniden dene" Butonu için YENİ ve BELİRGİN Stil */
 #tryAgainBtn {
-  /* Ana renklerden birini kullanarak dış çizgi ve metin rengi oluştur */
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+
+  /* YENİ STİL */
   background-color: transparent;
-  /* Arkaplanı şeffaf yap */
-  border: 2px solid var(--accent-secondary);
-  /* Altın rengi dış çizgi */
-  color: var(--accent-secondary);
-  /* Metin rengini de altın yap */
-
-  /* Eski gradient'i kesinlikle iptal et */
-  background-image: none;
-
-  /* Geçiş efektlerini ayarla */
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  border: 2px solid var(--accent-secondary); /* Turkuaz kenarlık */
+  color: var(--accent-secondary); /* Turkuaz metin */
+  transition: all 0.2s ease;
 }
 
-/* Üzerine gelince butonun içi dolsun */
-#tryAgainBtn:hover {
+/* Dokunma anında butonun rengi anlık olarak değişir */
+#tryAgainBtn:active {
   background-color: var(--accent-secondary);
-  /* Arkaplanı altın rengiyle doldur */
   color: var(--bg-main);
-  /* Metin rengini koyu yap */
-  transform: translateY(-3px);
-  /* Hafif yukarı kalkma efekti */
+  transform: scale(0.98); /* Hafif basma efekti */
+}
+
+/* Dokunma anında SVG dönmeye başlar (bu kalabilir, güzel bir detay) */
+#tryAgainBtn:active svg {
+    transform: rotate(-180deg);
+    transition: transform 0.4s ease; /* Dönüşün yumuşak olmasını sağlar */
 }
 
 /* Buton içindeki ikonun rengi ve animasyonu */
 #tryAgainBtn svg {
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
-#tryAgainBtn:hover svg {
-  transform: rotate(-180deg);
-}
 
 
 /* Yükleme durumundayken... */
