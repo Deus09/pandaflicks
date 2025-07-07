@@ -45,15 +45,29 @@ body {
 }
 
 
+/* =================================================================== */
+/* === MODAL AÇIKKEN KAYDIRMAYI ENGELLEME (NİHAİ VE KESİN ÇÖZÜM) === */
+/* =================================================================== */
+
+/* 1. Genel olarak sayfanın "lastik bant" gibi esnemesini ve
+      yukarı çekince sayfayı yenilemesini engeller. Bu, mobil deneyimi iyileştirir. */
+html, body {
+  overscroll-behavior-y: contain;
+}
+
+/* 2. Herhangi bir modal (.modal-overlay.visible) göründüğünde,
+      body'nin kendi kaydırma çubuğunu gizle. */
 body:has(.modal-overlay.visible) {
-  /* 1. Ana gövdenin kaydırmasını kilitle (tedbir amaçlı). */
   overflow: hidden;
 }
 
-/* 2. VE EN ÖNEMLİSİ: içindeki TÜM kaydırılabilir içerik bölümlerini de kilitle. */
-body:has(.modal-overlay.visible) .content-section {
-    overflow: hidden !important; /* !important ekleyerek diğer kuralları ezmesini garantiliyoruz. */
+/* 3. Modal içeriğinin kendisi, scroll olayının dışarıya "sızmasını" engellesin.
+      BU, VİDEODAKİ SORUNUN DOĞRUDAN ÇÖZÜMÜDÜR. */
+.modal-content {
+  overscroll-behavior-y: contain;
 }
+
+/* Scrollbar Gizleme */
 
 /* Scrollbar Gizleme */
 
