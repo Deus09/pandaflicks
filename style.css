@@ -3459,6 +3459,7 @@ input:checked+.toggle-switch-slider:before {
   background-color: var(--bg-main);
   border: 1px solid var(--border-color);
   border-radius: 12px;
+  padding: 0.75rem; /* İç boşlukları ayarla
 }
 
 .ratings-container-v2 .rating-item {
