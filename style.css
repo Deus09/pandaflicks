@@ -242,16 +242,20 @@ body:has(.modal-overlay.visible) {
 header {
  /* YENİ EKLENEN KOD */
   /* Bu, ekranın üst kısmında biraz daha açık bir tondan başlayıp ana renge doğru yumuşakça geçen bir gradyan oluşturur. */
-  background-color: var(--bg-main);
-  background-image: radial-gradient(
-    /* ŞEKİL ve BOYUT: Yatayda dar, dikeyde uzun bir elips */
-    ellipse 40% 60% at 15% -10%, 
-
-    /* RENK GEÇİŞİ: Daha parlak bir merkez ve hızlı bir kayboluş */
-    rgba(204, 214, 246, 0.12) 0%,
-    rgba(204, 214, 246, 0.1) 30%,
-    transparent 60%
-  );
+  background-color: var(--bg-main); /* Ana zemin rengi */
+  background-image: 
+    /* Üst Katman: Geniş ve sönük gölge */
+    radial-gradient(
+      ellipse 80% 90% at 15% 0%, 
+      transparent 40%, 
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    /* Alt Katman: Dar ve parlak spot ışığı */
+    radial-gradient(
+      ellipse 35% 80% at 15% -20%, /* Yatayda dar, dikeyde uzun elips */
+      rgba(204, 214, 246, 0.15) 0%, /* Işığın merkezi, daha parlak */
+      transparent 50% /* Hızlıca kaybolur */
+    );
  /* Yarı şeffaf arka plan */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
