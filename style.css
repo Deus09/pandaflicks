@@ -3375,3 +3375,17 @@ input:checked+.toggle-switch-slider:before {
   /* Okunabilirliği artırmak için satır yüksekliği ayarı (isteğe bağlı) */
   line-height: 1.4; 
 }
+
+@media (max-width: 400px) {
+.suggestion-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  }
+  .suggestion-poster-item {
+  border-radius: 8px;
+  }
+  .suggestion-poster-item img {
+  object-fit: cover; 
+
+}
+}
