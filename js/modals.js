@@ -1,4 +1,5 @@
 // js/modals.js
+import { onModalOpen, onModalClose } from './scroll-lock.js'; // BU SATIRI EKLEYİN
 import {
   TMDB_IMAGE_BASE_URL_W92,
   TMDB_IMAGE_BASE_URL_W500,
@@ -206,11 +207,8 @@ function initializeMovieModal() {
 /**
  * Film Ekle/Düzenle modalını açar ve doldurur.
  */
-export function openMovieMode(
-  movieId = null,
-  prefillData = null,
-  originList = null
-) {
+export function openMovieMode(movieId = null, prefillData = null, originList = null) {
+  onModalOpen(); // BU SATIRI EKLEYİN
   initializeMovieModal();
 
   const today = new Date().toISOString().split("T")[0];
@@ -316,6 +314,7 @@ export function openMovieMode(
 // Geri kalan fonksiyonlarda (closeMovieMode, openMovieDetailsModal vb.) değişiklik yok.
 export function closeMovieMode() {
   if (movieModalOverlay) {
+    onModalClose(); // BU SATIRI EKLEYİN
     movieModalOverlay.classList.remove("visible");
     movieModalOverlay.addEventListener(
       "transitionend",
@@ -330,6 +329,7 @@ export function closeMovieMode() {
 }
 
 export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
+  onModalOpen(); // BU SATIRI EKLEYİN
   if (!movieDetailsModalOverlay) {
     movieDetailsModalOverlay = document.getElementById("movie-details-modal-overlay");
     detailModalTitle = document.getElementById("detail-modal-title");
@@ -438,7 +438,7 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
 
 export function closeMovieDetailsModal() {
   if (!movieDetailsModalOverlay) return;
-
+  onModalClose(); // BU SATIRI EKLEYİN
   movieDetailsModalOverlay.classList.remove("visible");
   detailMovieTrailerIframe.src = "";
 

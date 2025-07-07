@@ -2,6 +2,8 @@ import { fetchSuggestedMovie } from './api.js';
 import { openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner } from './modals.js';
 import { isUserPro } from './user.js'; // YENİ: import ekle
 import { showPaywall } from './paywall.js'; // YENİ: import ekle
+import { onModalOpen, onModalClose } from './scroll-lock.js'; // BU SATIRI EKLEYİN
+
 
 
 // --- DOM Elementleri ---
@@ -69,6 +71,8 @@ export function initMovieSuggestion() {
  * Prompt modalını açar.
  */
 function openPromptModal() {
+    onModalOpen(); // BU SATIRI EKLEYİN
+
     moviePromptInput.value = '';
     promptError.textContent = '';
     promptError.classList.add('hidden');
@@ -80,6 +84,8 @@ function openPromptModal() {
  * Prompt modalını kapatır.
  */
 function closePromptModal() {
+    onModalClose(); // BU SATIRI EKLEYİN
+
     promptModalOverlay.classList.remove('visible');
 
     setTimeout(() => {
@@ -100,6 +106,8 @@ function closePromptModal() {
  * @param {Array} movies - Gösterilecek film nesneleri dizisi.
  */
 function openSuggestionResultModal(movies) {
+    onModalOpen(); // BU SATIRI EKLEYİN
+
     renderSuggestionGrid(movies);
     suggestionResultOverlay.classList.remove('hidden');
     setTimeout(() => suggestionResultOverlay.classList.add('visible'), 10);
@@ -109,6 +117,8 @@ function openSuggestionResultModal(movies) {
  * Öneri sonuç modalını kapatır
  */
 function closeSuggestionResultModal() {
+    onModalClose(); // BU SATIRI EKLEYİN
+
     suggestionResultOverlay.classList.remove('visible');
 
     setTimeout(() => {
