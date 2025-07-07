@@ -3400,3 +3400,65 @@ input:checked+.toggle-switch-slider:before {
 
 }
 }
+
+/* =================================================================== */
+/* === FİLM DETAY PUANLAMA STİLLERİ === */
+/* =================================================================== */
+.ratings-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: var(--bg-main);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 0.5rem;
+}
+
+.rating-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.rating-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.1rem;
+}
+
+.rating-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-secondary); /* Parlak Turkuaz */
+  line-height: 1;
+}
+
+.rating-value::before {
+  content: '★ ';
+}
+
+.imdb-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f5c518; /* IMDb'nin ikonik sarı rengi */
+  color: #000000;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.imdb-button svg {
+  width: 20px;
+  height: auto;
+}
+
+.imdb-button:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}

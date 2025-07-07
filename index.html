@@ -276,6 +276,19 @@
           <div class="flex-1">
             <p id="detail-movie-release-date" class="text-sm text-gray-400 mb-1"></p>
             <p id="detail-movie-genres" class="text-sm text-gray-400 mb-2"></p>
+            <div id="detail-ratings-container" class="ratings-container">
+              <div class="rating-item">
+                <span class="rating-label">TMDB Puanı</span>
+                <span id="detail-tmdb-rating" class="rating-value"></span>
+              </div>
+              <a href="#" id="detail-imdb-link" target="_blank" class="imdb-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M22 3H2C.9 3 0 3.9 0 5v14c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M8 18H4V9h4zm6 0h-4V9h4zm6 0h-4V9h4z" />
+                </svg>
+                <span>IMDb'de Gör</span>
+              </a>
+            </div>
             <p id="detail-movie-director" class="text-sm text-gray-400 mb-2"></p>
             <p id="detail-movie-overview" class="text-gray-300 text-sm leading-relaxed"></p>
           </div>
