@@ -1,4 +1,5 @@
-// js/main.js
+// js/main.
+import { initializeI18n } from "./i18n.js";
 import { initAuth, handleAnonymousSignIn } from "./auth.js";
 import { loadMoviesFromFirestore, clearMovieLists } from "./storage.js";
 import {
@@ -83,6 +84,8 @@ function showAppUI() {
  * Initializes the application.
  */
 function initializeApp() {
+  initializeI18n(); // DİL SİSTEMİNİ BAŞLAT
+
   console.log("initializeApp: Starting application...");
 
   // Create the premium splash screen background
