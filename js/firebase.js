@@ -3,15 +3,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Firebase yapılandırmanızı doğrudan buraya girin.
+// Firebase yapılandırmanızı Netlify ortam değişkenlerinden güvenli bir şekilde alın
 const firebaseConfig = {
-  apiKey: "AIzaSyDAyKiJAWHz1AlTpUSfxXs5LKPU7UhuUYc",
-  authDomain: "sinelog-574c7.firebaseapp.com",
-  projectId: "sinelog-574c7",
-  storageBucket: "sinelog-574c7.firebasestorage.app",
-  messagingSenderId: "59986017154",
-  appId: "1:59986017154:web:b986101e950cb53072ad9b",
-  measurementId: "G-VMLTSMN4MH"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Firebase'i başlat
