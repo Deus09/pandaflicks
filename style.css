@@ -3440,10 +3440,10 @@ input:checked+.toggle-switch-slider:before {
 }
 
 .detail-meta-info {
-  font-size: 0.9rem; /* 14px */
+  font-size: 0.7rem; /* 14px */
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .detail-meta-info strong {
@@ -3502,7 +3502,7 @@ input:checked+.toggle-switch-slider:before {
 .ratings-container-v2 .imdb-button:active { transform: scale(0.96); }
 
 .detail-overview {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-primary);
   line-height: 1.6;
 }
