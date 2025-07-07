@@ -104,5 +104,22 @@
     "The Minions sabotaged the upload... trying to fix it.",
     "Freddy Krueger just woke up... you'll be waking up soon.",
     "The Eye of Sauron is watching you... loading is almost complete."
-  ]
+  ],
+  "paywall_title": "👑 Remove the Limits with SineLog Pro",
+  "paywall_subtitle": "Take your SineLog experience to the next level and get full access to these exclusive features:",
+  "feature_unlimited_archive": "✓ Unlimited Movie Archive",
+  "feature_ai_assistant": "✓ AI Movie Assistant",
+  "feature_character_chat": "✓ Chat with Movie Characters",
+  "feature_comment_enhancer": "✓ AI-Powered Comment Enhancer",
+  "feature_advanced_stats": "✓ Advanced Stats and All Badges",
+  "feature_no_ads": "✓ Ad-Free Experience",
+  "plan_yearly_title": "Yearly Plan",
+  "plan_yearly_price": "$9.99",
+  "plan_yearly_desc": "$0.83 per month",
+  "plan_yearly_badge": "Most Popular",
+  "plan_monthly_title": "Monthly Plan",
+  "plan_monthly_price": "$0.99",
+  "plan_monthly_desc": "Renews every month",
+  "upgrade_to_pro_button": "Upgrade to Pro",
+  "paywall_footer": "Payments will be charged to your App Store/Google Play account at confirmation of purchase. You can manage or cancel your subscription at any time in your account settings."
 }
