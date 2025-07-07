@@ -144,4 +144,6 @@
   "notification_movie_deleted": "Movie deleted successfully.",
   "notification_comment_enhanced": "Your comment has been enhanced by AI!",
   "notification_error": "An error occurred. Please try again."
+  ,"filter_clear_button": "Clear",
+"character_select_title": "Select a Character"
 }

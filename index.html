@@ -94,9 +94,9 @@
         </div>
 
         <div id="my-movies-list" class=""></div>
-        <p id="my-movies-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden">
-          Henüz hiç film kaydetmediniz.
-        </p>
+        <p id="my-movies-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden" data-i18n="my_movies_empty_message">
+  Henüz hiç film kaydetmediniz.
+</p>
       </div>
 
       <div id="trending-movies-section" class="content-section hidden">
@@ -128,9 +128,9 @@
 
       <div id="watch-later-movies-section" class="content-section hidden">
         <div id="watch-later-movies-list" class=""></div>
-        <p id="watch-later-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden">
-          Daha sonra izlenecek filminiz bulunmuyor.
-        </p>
+        <p id="watch-later-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden" data-i18n="watch_later_empty_message">
+  Daha sonra izlenecek filminiz bulunmuyor.
+</p>
       </div>
 
       <div id="profile-section" class="content-section hidden">
@@ -334,18 +334,18 @@
   <div id="filter-modal-overlay" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Filtrele</h2>
+        <h2 data-i18n="filter_modal_title">Filtrele</h2>
         <button id="close-filter-modal-button" class="close-modal-btn">
           ×
         </button>
       </div>
       <div class="filter-modal-body">
         <div class="filter-group">
-          <label class="filter-label">Türe Göre</label>
+          <label class="filter-label" data-i18n="filter_genres_label">Türe Göre</label>
           <div id="genre-filter-container" class="genre-filter-container"></div>
         </div>
         <div class="filter-group">
-          <label class="filter-label">Puan Aralığı</label>
+          <label class="filter-label" data-i18n="filter_rating_label">Puan Aralığı</label>
           <div class="dual-range-container">
             <div class="range-values">
               <span id="rating-min-value">1.0</span>
@@ -361,7 +361,7 @@
           </div>
         </div>
         <div class="filter-group">
-          <label class="filter-label">Yayın Yılı Aralığı</label>
+          <label class="filter-label" data-i18n="filter_year_label">Yayın Yılı Aralığı</label>
           <div class="year-range-container">
             <input type="number" id="year-start-input" placeholder="örn: 1990" />
             <span>-</span>
@@ -370,12 +370,8 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button type="button" id="clear-filter-btn" class="cancel-button">
-          Temizle
-        </button>
-        <button type="button" id="apply-filter-btn" class="save-button">
-          Uygula
-        </button>
+        <button type="button" id="clear-filter-btn" class="cancel-button" data-i18n="filter_clear_button">Temizle</button>
+        <button type="button" id="apply-filter-btn" class="save-button" data-i18n="filter_apply_button">Uygula</button>
       </div>
     </div>
   </div>
@@ -383,7 +379,7 @@
   <div id="character-selection-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Bir Karakter Seç</h2>
+        <h2 data-i18n="character_select_title">Bir Karakter Seç</h2>
         <button type="button" id="close-character-selection-modal-btn" class="close-modal-btn">
           ×
         </button>

@@ -144,4 +144,6 @@
   "notification_movie_deleted": "Film başarıyla silindi.",
   "notification_comment_enhanced": "Yorumunuz yapay zeka ile geliştirildi!",
   "notification_error": "Bir hata oluştu. Lütfen tekrar deneyin."
+  ,"filter_clear_button": "Temizle",
+"character_select_title": "Bir Karakter Seç"
 }
