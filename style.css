@@ -44,23 +44,15 @@ body {
   /* Bu, ekranın üst kısmında biraz daha açık bir tondan başlayıp ana renge doğru yumuşakça geçen bir gradyan oluşturur. */
 }
 
-/* Mevcut body stilinizin hemen altına ekleyin */
 
-/* Mevcut body stilinizin hemen altına ekleyin */
-
-/* YENİ VE DAHA GÜVENİLİR YÖNTEM:
-   Eğer body içinde .visible sınıfına sahip bir .modal-overlay varsa,
-   body'nin kendisi otomatik olarak kaydırmaya kapansın. */
-/* Herhangi bir modal göründüğünde... */
 body:has(.modal-overlay.visible) {
-  /* Ana gövdenin kaydırmasını kilitle (güvenlik için). */
+  /* 1. Ana gövdenin kaydırmasını kilitle (tedbir amaçlı). */
   overflow: hidden;
+}
 
-  /* VE en önemlisi, içindeki TÜM kaydırılabilir içerik bölümlerini de kilitle. */
-  /* Sorunun asıl çözümü bu satırdır. */
-  & .content-section {
-    overflow: hidden;
-  }
+/* 2. VE EN ÖNEMLİSİ: içindeki TÜM kaydırılabilir içerik bölümlerini de kilitle. */
+body:has(.modal-overlay.visible) .content-section {
+    overflow: hidden !important; /* !important ekleyerek diğer kuralları ezmesini garantiliyoruz. */
 }
 
 /* Scrollbar Gizleme */
