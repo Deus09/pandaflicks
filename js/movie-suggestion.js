@@ -72,7 +72,6 @@ function openPromptModal() {
     moviePromptInput.value = '';
     promptError.textContent = '';
     promptError.classList.add('hidden');
-    document.body.classList.add('no-scroll');
     promptModalOverlay.classList.remove('hidden');
     setTimeout(() => promptModalOverlay.classList.add('visible'), 10);
 }
@@ -86,7 +85,6 @@ function closePromptModal() {
     setTimeout(() => {
         const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
         if (!isAnotherModalVisible) {
-            document.body.classList.remove('no-scroll');
         }
     }, 100);
 
@@ -103,7 +101,6 @@ function closePromptModal() {
  */
 function openSuggestionResultModal(movies) {
     renderSuggestionGrid(movies);
-    document.body.classList.add('no-scroll');
     suggestionResultOverlay.classList.remove('hidden');
     setTimeout(() => suggestionResultOverlay.classList.add('visible'), 10);
 }
@@ -117,7 +114,6 @@ function closeSuggestionResultModal() {
     setTimeout(() => {
         const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
         if (!isAnotherModalVisible) {
-            document.body.classList.remove('no-scroll');
         }
     }, 100);
 

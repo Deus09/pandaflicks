@@ -46,13 +46,21 @@ body {
 
 /* Mevcut body stilinizin hemen altına ekleyin */
 
-body.no-scroll {
+/* Mevcut body stilinizin hemen altına ekleyin */
+
+/* YENİ VE DAHA GÜVENİLİR YÖNTEM:
+   Eğer body içinde .visible sınıfına sahip bir .modal-overlay varsa,
+   body'nin kendisi otomatik olarak kaydırmaya kapansın. */
+body:has(.modal-overlay.visible) {
   overflow: hidden;
 }
 
-body.no-scroll .content-section {
-  overflow: hidden;
+/* Aynı şekilde, content-section'un da kaymasını engelle */
+body:has(.modal-overlay.visible) .content-section {
+    overflow: hidden;
 }
+
+/* Scrollbar Gizleme */
 
 /* Scrollbar Gizleme */
 ::-webkit-scrollbar {

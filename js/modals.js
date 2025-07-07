@@ -309,7 +309,6 @@ export function openMovieMode(
   // Bu, dinamik olarak eklenen butonların da kilitlenmesini sağlar.
   updateUIForSubscriptionStatus();
 
-  document.body.classList.add("no-scroll");
   movieModalOverlay.classList.remove("hidden");
   setTimeout(() => movieModalOverlay.classList.add("visible"), 10);
 }
@@ -327,7 +326,6 @@ export function closeMovieMode() {
             },
             { once: true }
         );
-        document.body.classList.remove("no-scroll");
     }
 }
 
@@ -347,7 +345,6 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
         detailAddToLogButton = document.getElementById("detail-add-to-log-button");
     }
 
-    document.body.classList.add("no-scroll");
     
     if (isLayered) {
         movieDetailsModalOverlay.classList.add('is-layered');
@@ -436,7 +433,6 @@ export function closeMovieDetailsModal() {
   setTimeout(() => {
       const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
       if (!isAnotherModalVisible) {
-          document.body.classList.remove('no-scroll');
       }
   }, 100);
 }
