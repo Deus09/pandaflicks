@@ -240,22 +240,21 @@ body:has(.modal-overlay.visible) {
 
 /* --- Başlık --- */
 header {
- /* YENİ EKLENEN KOD */
-  /* Bu, ekranın üst kısmında biraz daha açık bir tondan başlayıp ana renge doğru yumuşakça geçen bir gradyan oluşturur. */
-  background-color: var(--bg-main); /* Ana zemin rengi */
+  /* --- YENİ, PARLAK VE ODALI SPOT IŞIĞI EFEKTİ --- */
   background-image: 
-    /* Üst Katman: Geniş ve sönük gölge */
+    /* Üst Katman: Çevreyi karartarak spot ışığını öne çıkaran vinyet efekti */
     radial-gradient(
-      ellipse 80% 90% at 15% 0%, 
-      transparent 40%, 
-      rgba(0, 0, 0, 0.4) 100%
+      ellipse 90% 100% at 15% 0%, 
+      transparent 30%, 
+      rgba(0, 0, 0, 0.5) 80%
     ),
-    /* Alt Katman: Dar ve parlak spot ışığı */
+    /* Alt Katman: Parlak ve dar ana spot ışığı */
     radial-gradient(
-      ellipse 35% 80% at 15% -20%, /* Yatayda dar, dikeyde uzun elips */
-      rgba(204, 214, 246, 0.15) 0%, /* Işığın merkezi, daha parlak */
-      transparent 50% /* Hızlıca kaybolur */
+      ellipse 30% 70% at 15% -15%, /* Işık hüzmesini daha da daralttık */
+      rgba(204, 214, 246, 0.25) 0%, /* Işık kaynağını DAHA PARLAK yaptık (%15'ten %25'e) */
+      transparent 60% /* Işığın kenarlarını daha net hale getirdik */
     );
+  /* --- STİL SONU --- */
  /* Yarı şeffaf arka plan */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
