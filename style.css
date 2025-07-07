@@ -264,7 +264,7 @@ header::before {
   /* Işığın Konumu ve Boyutu */
   top: -50px; /* Işık kaynağını header'ın yukarısına taşı */
   left: -40px; /* Panda'nın üzerine gelecek şekilde sola kaydır */
-  width: 200px;  /* Işık hüzmesinin genişliği */
+  width: 250px;  /* Işık hüzmesinin genişliği */
   height: 150px; /* Işık hüzmesinin uzunluğu */
 
   /* Işığın Kendisi: Merkezde parlak, kenarlara doğru kaybolan bir gradyan */
