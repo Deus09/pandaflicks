@@ -1230,12 +1230,12 @@ input:checked+.toggle-switch-slider:before {
 
 .enhance-comment-button,
 .chat-character-button {
-  color: white;
+  color: #0b192f;
   width: 100%;
   padding: 0.6rem;
   border-radius: 8px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: transform 0.1s ease, background-color 0.2s ease;
   display: flex;
   align-items: center;
@@ -1307,11 +1307,6 @@ input:checked+.toggle-switch-slider:before {
   /* Anlık geçiş için */
 }
 
-.chat-character-button:hover::before {
-  opacity: 1;
-  animation: shimmer 1s ease-in-out;
-  transition: opacity 0.2s ease;
-}
 
 
 .loading-spinner {
@@ -1319,7 +1314,7 @@ input:checked+.toggle-switch-slider:before {
   width: 20px;
   height: 20px;
   border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border-top-color: #0b192f;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1333,6 +1328,7 @@ input:checked+.toggle-switch-slider:before {
 .chat-character-button.loading .loading-spinner {
   display: block;
   position: absolute;
+  border-top-color: #0b192f ;
 }
 
 /* Yükleme durumundayken animasyonları ve efektleri durdur */
