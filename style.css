@@ -2774,7 +2774,7 @@ input:checked+.toggle-switch-slider:before {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: var(--accent-chat);
+  background-color: var(--accent-primary);
   color: white;
   border: none;
   display: flex;
