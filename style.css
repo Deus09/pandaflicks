@@ -51,13 +51,16 @@ body {
 /* YENİ VE DAHA GÜVENİLİR YÖNTEM:
    Eğer body içinde .visible sınıfına sahip bir .modal-overlay varsa,
    body'nin kendisi otomatik olarak kaydırmaya kapansın. */
+/* Herhangi bir modal göründüğünde... */
 body:has(.modal-overlay.visible) {
+  /* Ana gövdenin kaydırmasını kilitle (güvenlik için). */
   overflow: hidden;
-}
 
-/* Aynı şekilde, content-section'un da kaymasını engelle */
-body:has(.modal-overlay.visible) .content-section {
+  /* VE en önemlisi, içindeki TÜM kaydırılabilir içerik bölümlerini de kilitle. */
+  /* Sorunun asıl çözümü bu satırdır. */
+  & .content-section {
     overflow: hidden;
+  }
 }
 
 /* Scrollbar Gizleme */

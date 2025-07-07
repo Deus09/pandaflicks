@@ -430,11 +430,6 @@ export function closeMovieDetailsModal() {
       }
   }, { once: true });
 
-  setTimeout(() => {
-      const isAnotherModalVisible = document.querySelector('.modal-overlay.visible');
-      if (!isAnotherModalVisible) {
-      }
-  }, 100);
 }
 
 export async function handleMovieFormSubmit(e) {
