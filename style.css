@@ -3949,3 +3949,14 @@ body.light-theme {
 .light-theme #profile-username {
 color: var(--text-primary); /* Ana metin rengini kullan */
 }
+
+.light-theme #profile-hero .profile-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f4f5f7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.light-theme .modal-content {
+  color: #f4f5f7;
+}
