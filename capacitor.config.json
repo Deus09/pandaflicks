@@ -3,6 +3,7 @@
   "appName": "PandaFlicks",
   "webDir": "dist",
   "server": {
-    "androidScheme": "http"
+    "url": "http://localhost",
+    "cleartext": true
   }
 }
