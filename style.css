@@ -3920,7 +3920,7 @@ body.light-theme {
 
 /* Yükleme Ekranı Metni */
 .light-theme .splash-text {
-    color: var(--text-primary1);
+    color: var(--text-primary);
     text-shadow: none;
 }
 
@@ -3959,4 +3959,14 @@ color: var(--text-primary); /* Ana metin rengini kullan */
 
 .light-theme .modal-content {
   color: #f4f5f7;
+}
+
+.light-theme .toggle-switch-label {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: none;
+}
+
+.light-theme .control-button {
+  border-radius: 12px;
 }
