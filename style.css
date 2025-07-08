@@ -4004,8 +4004,8 @@ color: var(--text-primary); /* Ana metin rengini kullan */
 
 /* Paywall penceresindeki yeni Pro logosu resminin boyutu */
 .paywall-icon-img {
-    width: 55px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
-    height: 85px; /* Yükseklik */
+    width: 70px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
+    height: 70px; /* Yükseklik */
 
 }
 
