@@ -1,0 +1,8 @@
+{
+  "appId": "com.pandaflicks.app",
+  "appName": "PandaFlicks",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
