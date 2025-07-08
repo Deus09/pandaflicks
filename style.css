@@ -3920,7 +3920,7 @@ body.light-theme {
 
 /* Yükleme Ekranı Metni */
 .light-theme .splash-text {
-    color: var(--text-secondary);
+    color: var(--text-primary1);
     text-shadow: none;
 }
 
@@ -3944,4 +3944,8 @@ body.light-theme {
     background-color: #e5e7eb; 
     color: var(--text-secondary);
     border: 1px solid #d1d5db;
+}
+
+.light-theme #profile-username {
+color: var(--text-primary); /* Ana metin rengini kullan */
 }
