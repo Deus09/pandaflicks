@@ -3990,24 +3990,27 @@ color: var(--text-primary); /* Ana metin rengini kullan */
   margin-top: 1 rem;
 }
 
+
 /* Paywall penceresindeki yeni Pro logosu resminin boyutu */
-.paywall-icon-img {
-    width: 55px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
-    height: 85px; /* Yükseklik */
+.paywall-icon {
+
     padding-top: 2rem;
-    /* filter: drop-shadow(0 0 2px white) drop-shadow(0 0 4px white); */
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-body:not(.light-theme) .paywall-icon-img {
-    /* Logonun etrafına 2px kalınlığında, hafif şeffaf bir beyaz çizgi ekle */
-    border: 2px solid rgba(255, 255, 255, 0.9);
+
+
+/* Paywall penceresindeki yeni Pro logosu resminin boyutu */
+.paywall-icon-img {
+    width: 55px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
+    height: 85px; /* Yükseklik */
+
 }
 
-/* Aydınlık Tema Aktifken */
-.light-theme .paywall-icon-img {
-    /* Logonun etrafına, aydınlık temanın kenarlık renginde bir çizgi ekle */
-    border: 2px solid var(--border-color);
+body:not(.light-theme) .paywall-icon-img {
+    /* Logonun etrafına 2px kalınlığında, hafif şeffaf bir beyaz çizgi ekle */
+    filter: drop-shadow(0 0 2px white) drop-shadow(0 0 4px white);
 }
+
