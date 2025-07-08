@@ -3689,3 +3689,8 @@ input:checked+.toggle-switch-slider:before {
     font-weight: 600;
     cursor: pointer;
 }
+
+/* Dişli çark ikonunun konumunu sabitlemek için */
+#profile-logged-in-view {
+  position: relative;
+}
