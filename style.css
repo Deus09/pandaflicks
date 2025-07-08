@@ -3980,5 +3980,11 @@ color: var(--text-primary); /* Ana metin rengini kullan */
 
 .light-theme .splash-logo {
   background-color: var(--text-primary);
+}
+
+.light-theme .splash-logo h1 {
   color: #f4f5f7;
+  text-shadow: none;
+  font-size: 2.5rem;
+  font-weight: 700;
 }
