@@ -278,4 +278,8 @@
 "identity_eclectic_taste": "Eclectic Taste",
 "identity_diverse_taste": "Diverse Tastes",
 "identity_awaiting_discovery": "Awaiting Discovery"
+,
+"time_hours": "hours",
+"time_minutes": "minutes",
+"time_zero_minutes": "0 minutes"
 }
