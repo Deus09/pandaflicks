@@ -46,14 +46,14 @@ export function setupEventListeners() {
     if (authTabLogin) authTabLogin.addEventListener("click", () => {
         authTabLogin.classList.add("active");
         authTabSignup.classList.remove("active");
-        authSubmitButton.textContent = "Giriş Yap";
+        authSubmitButton.textContent = getTranslation('auth_submit_login');
         authErrorMessage.classList.add("hidden");
     });
 
     if (authTabSignup) authTabSignup.addEventListener("click", () => {
         authTabSignup.classList.add("active");
         authTabLogin.classList.remove("active");
-        authSubmitButton.textContent = "Kayıt Ol";
+        authSubmitButton.textContent = getTranslation('auth_submit_signup');
         authErrorMessage.classList.add("hidden");
     });
     
