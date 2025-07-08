@@ -329,4 +329,7 @@
 "list_quentin_tarantino_films_desc": "Dive into the filmography of the master of dialogue and style.",
 "list_lord_of_the_rings_trilogy_name": "The Lord of the Rings Trilogy",
 "list_lord_of_the_rings_trilogy_desc": "The unforgettable films that defined a generation."
+,
+"ai_loading_initial": "Preparing 4 special suggestions for you...",
+"ai_loading_retry": "Preparing new suggestions..."
 }

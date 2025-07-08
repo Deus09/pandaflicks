@@ -3,6 +3,7 @@ import { openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner } from '.
 import { isUserPro } from './user.js'; // YENİ: import ekle
 import { showPaywall } from './paywall.js'; // YENİ: import ekle
 import { onModalOpen, onModalClose } from './scroll-lock.js'; // BU SATIRI EKLEYİN
+import { getTranslation } from './i18n.js';
 
 
 
@@ -194,7 +195,7 @@ async function handleSubmitPrompt() {
  * @param {boolean} [isRetry=false] - Bu çağrının yeniden deneme olup olmadığını belirtir.
  */
 async function fetchAndDisplaySuggestions(isRetry = false) {
-    const spinnerText = isRetry ? "Yeni öneriler hazırlanıyor..." : "Sana özel 4 öneri hazırlanıyor...";
+    const spinnerText = isRetry ? getTranslation('ai_loading_retry') : getTranslation('ai_loading_initial');
     showLoadingSpinner(spinnerText);
 
     try {

@@ -329,4 +329,7 @@
 "list_quentin_tarantino_films_desc": "Diyalogların ve stilin ustası Tarantino'nun filmografisine dalın.",
 "list_lord_of_the_rings_trilogy_name": "Yüzüklerin Efendisi Üçlemesi",
 "list_lord_of_the_rings_trilogy_desc": "Bir nesle damgasını vuran unutulmaz filmler."
+,
+"ai_loading_initial": "Sana özel 4 öneri hazırlanıyor...",
+"ai_loading_retry": "Yeni öneriler hazırlanıyor..."
 }
