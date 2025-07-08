@@ -3,6 +3,6 @@
   "appName": "PandaFlicks",
   "webDir": "dist",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "http"
   }
 }
