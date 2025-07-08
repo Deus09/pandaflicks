@@ -310,4 +310,23 @@
 "settings_close_button": "Close"
 ,
 "badge_locked": "Locked"
+,
+"list_top_rated_all_time_name": "All-Time Best",
+"list_top_rated_all_time_desc": "The highest-rated, unforgettable masterpieces in cinema history.",
+"list_harry_potter_collection_name": "The Harry Potter Saga",
+"list_harry_potter_collection_desc": "All the films from the legendary series that opened the doors to the wizarding world.",
+"list_oscars_2024_winners_name": "2024 Oscar Winners",
+"list_oscars_2024_winners_desc": "The films that marked the past year and were honored by the Academy.",
+"list_christopher_nolan_films_name": "Christopher Nolan Filmography",
+"list_christopher_nolan_films_desc": "A look at the career of the master director of mind-bending scripts and visual feasts.",
+"list_ghibli_magic_name": "The Magic of Studio Ghibli",
+"list_ghibli_magic_desc": "Animation wonders from the unique worlds of Hayao Miyazaki and Isao Takahata.",
+"list_action_packed_adrenaline_name": "Action-Packed Adrenaline",
+"list_action_packed_adrenaline_desc": "Modern action films renowned for their breathtaking scenes.",
+"list_mcu_phase_one_name": "Marvel: Phase One",
+"list_mcu_phase_one_desc": "Where it all began: The first superhero films of the Marvel Cinematic Universe.",
+"list_quentin_tarantino_films_name": "The Cinema of Tarantino",
+"list_quentin_tarantino_films_desc": "Dive into the filmography of the master of dialogue and style.",
+"list_lord_of_the_rings_trilogy_name": "The Lord of the Rings Trilogy",
+"list_lord_of_the_rings_trilogy_desc": "The unforgettable films that defined a generation."
 }

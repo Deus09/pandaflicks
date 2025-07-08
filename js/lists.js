@@ -4,87 +4,77 @@
 // type: 'director' -> Belirli bir yönetmenin filmlerini çeker.
 // type: 'collection' -> Resmi bir film serisini çeker.
 // type: 'manual' -> Film ID'lerinin manuel olarak girildiği özel liste.
+// js/lists.js
 const CURATED_LISTS = [
     {
         id: 'top_rated_all_time',
-        name: 'Tüm Zamanların En İyileri',
-        description: 'Sinema tarihinin en yüksek puanlı, unutulmaz başyapıtları.',
+        name: 'list_top_rated_all_time_name',
+        description: 'list_top_rated_all_time_desc',
         type: 'endpoint',
         tmdbId: '/movie/top_rated'
     },
     {
         id: 'harry_potter_collection',
-        name: 'Harry Potter Serisi',
-        description: 'Büyücülük dünyasının kapılarını aralayan bu efsanevi serinin tüm filmleri bir arada.',
+        name: 'list_harry_potter_collection_name',
+        description: 'list_harry_potter_collection_desc',
         type: 'collection',
         tmdbId: '1241'
     },
     {
         id: 'oscars_2024_winners',
-        name: '2024 Oscar Ödülleri',
-        description: 'Geçtiğimiz yıla damgasını vuran ve Akademi tarafından onurlandırılan filmler.',
+        name: 'list_oscars_2024_winners_name',
+        description: 'list_oscars_2024_winners_desc',
         type: 'manual',
-        tmdbId: [
-            872585, // Oppenheimer
-            792307, // Poor Things
-            915935, // Anatomy of a Fall
-            840430, // The Holdovers
-            467244, // The Zone of Interest
-            363215, // American Fiction
-            508883, // The Boy and the Heron
-        ]
+        tmdbId: [ 872585, 792307, 915935, 840430, 467244, 363215, 508883 ]
     },
     {
         id: 'christopher_nolan_films',
-        name: 'Christopher Nolan Filmografisi',
-        description: 'Zihin büken senaryoların ve görsel şölenlerin usta yönetmeninin kariyerine bir bakış.',
+        name: 'list_christopher_nolan_films_name',
+        description: 'list_christopher_nolan_films_desc',
         type: 'director',
         tmdbId: '525',
     },
     {
         id: 'ghibli_magic',
-        name: 'Ghibli Stüdyosu Büyüsü',
-        description: 'Hayao Miyazaki ve Isao Takahata\'nın eşsiz dünyasından animasyon harikaları.',
+        name: 'list_ghibli_magic_name',
+        description: 'list_ghibli_magic_desc',
         type: 'endpoint',
-        tmdbId: '/discover/movie?with_companies=10342&sort_by=vote_average.desc', // Studio Ghibli filmleri
+        tmdbId: '/discover/movie?with_companies=10342&sort_by=vote_average.desc',
     },
     {
         id: 'action_packed_adrenaline',
-        name: 'Aksiyon Dolu Adrenalin',
-        description: 'Nefes kesen sahneleriyle akıllarda yer etmiş modern aksiyon filmleri.',
+        name: 'list_action_packed_adrenaline_name',
+        description: 'list_action_packed_adrenaline_desc',
         type: 'endpoint',
-        tmdbId: '/discover/movie?with_genres=28&sort_by=popularity.desc&primary_release_date.gte=2015-01-01' // 2015 sonrası popüler aksiyonlar
+        tmdbId: '/discover/movie?with_genres=28&sort_by=popularity.desc&primary_release_date.gte=2015-01-01'
     },
     {
         id: 'mcu_phase_one',
-        name: 'Marvel: Faz 1',
-        description: 'Her şeyin başladığı yer: Marvel Sinematik Evreni\'nin ilk süper kahraman filmleri.',
+        name: 'list_mcu_phase_one_name',
+        description: 'list_mcu_phase_one_desc',
         type: 'collection',
-        tmdbId: '86311' // Marvel Cinematic Universe: Phase One Collection ID'si
+        tmdbId: '86311'
     },
     {
-        id: "quentin_tarantino_films", // YENİ EKLENEN ID
-        name: "Quentin Tarantino Sineması",
-        description: "Diyalogların ve stilin ustası Tarantino'nun filmografisine dalın.",
+        id: "quentin_tarantino_films",
+        name: "list_quentin_tarantino_films_name",
+        description: "list_quentin_tarantino_films_desc",
         type: 'director',
-        tmdbId: '138' // Quentin Tarantino'nun yönetmen ID'si
+        tmdbId: '138'
     },
     {
-        id: "lord_of_the_rings_trilogy", // YENİ EKLENEN ID
-        name: "Yüzüklerin Efendisi Üçlemesi",
-        description: "Bir nesle damgasını vuran unutulmaz filmler.",
+        id: "lord_of_the_rings_trilogy",
+        name: "list_lord_of_the_rings_trilogy_name",
+        description: "list_lord_of_the_rings_trilogy_desc",
         type: 'collection',
-        tmdbId: '119' 
+        tmdbId: '119'
     },
-
-
 ];
 
 /**
  * Tüm kürate edilmiş listeleri döndürür.
  * @returns {Array<object>} Liste nesnelerinin bir dizisi.
  */
-
 export function getCuratedLists() {
     return CURATED_LISTS;
 }

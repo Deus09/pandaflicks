@@ -66,13 +66,16 @@ async function getMovieSuggestionsFromGemini(prompt, apiKey, isRetry = false) {
 }
 
 // TMDB'de arama yapıp ilk sonucu döndüren yardımcı fonksiyon (No changes here)
-async function searchTmdb(query, apiKey) {
+async function searchTmdb(query, apiKey, lang = 'tr') { // lang parametresini ekledik
     let year = '';
     const yearMatch = query.match(/\((\d{4})\)/);
     if (yearMatch) year = yearMatch[1];
     const movieTitle = query.replace(/\s\(\d{4}\)$/, '').trim();
-    
-    let url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieTitle)}&language=tr-TR&api_key=${apiKey}`;
+
+    // Gelen 'tr' veya 'en' bilgisine göre doğru TMDB dil kodunu seçiyoruz
+    const tmdbLang = lang === 'en' ? 'en-US' : 'tr-TR';
+
+    let url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieTitle)}&language=${tmdbLang}&api_key=${apiKey}`;
     if (year) url += `&year=${year}`;
 
     const response = await fetch(url);
@@ -96,14 +99,14 @@ exports.handler = async function(event) {
 
     try {
         // Check if this is a retry attempt from the frontend
-        const { prompt, isRetry } = JSON.parse(event.body);
+        const { prompt, isRetry, lang } = JSON.parse(event.body);
         if (!prompt) {
             return { statusCode: 400, body: JSON.stringify({ error: 'Prompt gerekli.' }) };
         }
 
         const movieTitles = await getMovieSuggestionsFromGemini(prompt, VITE_GEMINI_API_KEY, isRetry);
         
-        const moviePromises = movieTitles.map(title => searchTmdb(title, VITE_TMDB_API_KEY));
+        const moviePromises = movieTitles.map(title => searchTmdb(title, VITE_TMDB_API_KEY, lang));
         const tmdbResults = await Promise.all(moviePromises);
         
         const foundMovies = tmdbResults.filter(movie => movie !== null);

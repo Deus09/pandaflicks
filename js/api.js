@@ -182,7 +182,7 @@ export async function fetchSuggestedMovie(prompt, isRetry = false) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ prompt: prompt, isRetry: isRetry })
+            body: JSON.stringify({ prompt: prompt, isRetry: isRetry, lang: getCurrentLang() })
         });
 
         if (!response.ok) {

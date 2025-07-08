@@ -166,15 +166,12 @@ export function renderTrendingMovies(trendingMovies, openDetailModalFunction) {
   trendingMovies.forEach((movie) => {
     const trendingItem = document.createElement("div");
     trendingItem.classList.add("trending-item");
-    trendingItem.innerHTML = `<img src="${
-      movie.poster_path
-        ? TMDB_IMAGE_BASE_URL_W185 + movie.poster_path
-        : "https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok"
-    }" alt="${
-      movie.title
-    }" class="trending-poster" onerror="this.onerror=null;this.src='https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok';"><div class="trending-title">${
-      movie.title
-    }</div>`;
+    trendingItem.innerHTML = `<img src="${movie.poster_path
+      ? TMDB_IMAGE_BASE_URL_W185 + movie.poster_path
+      : "https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok"
+      }" alt="${movie.title
+      }" class="trending-poster" onerror="this.onerror=null;this.src='https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok';"><div class="trending-title">${movie.title
+      }</div>`;
     trendingItem.addEventListener("click", () =>
       openDetailModalFunction(movie.id)
     );
@@ -198,17 +195,13 @@ export function displayTmdbSearchResults(results, resultsDiv) {
   results.slice(0, 5).forEach((movie) => {
     const movieResultItem = document.createElement("div");
     movieResultItem.classList.add("tmdb-result-item");
-    movieResultItem.innerHTML = `<img src="${
-      movie.poster_path
-        ? TMDB_IMAGE_BASE_URL_W92 + movie.poster_path
-        : "https://placehold.co/40x60/2A2A2A/AAAAAA?text=Yok"
-    }" alt="${
-      movie.title
-    }" class="tmdb-result-poster"><div class="tmdb-result-details"><div class="tmdb-result-title">${
-      movie.title
-    }</div><div class="tmdb-result-year">${
-      movie.release_date ? movie.release_date.substring(0, 4) : ""
-    }</div></div>`;
+    movieResultItem.innerHTML = `<img src="${movie.poster_path
+      ? TMDB_IMAGE_BASE_URL_W92 + movie.poster_path
+      : "https://placehold.co/40x60/2A2A2A/AAAAAA?text=Yok"
+      }" alt="${movie.title
+      }" class="tmdb-result-poster"><div class="tmdb-result-details"><div class="tmdb-result-title">${movie.title
+      }</div><div class="tmdb-result-year">${movie.release_date ? movie.release_date.substring(0, 4) : ""
+      }</div></div>`;
 
     movieResultItem.addEventListener("click", async () => {
       const movieTitleInput = document.getElementById("movie-title-input");
@@ -350,13 +343,10 @@ export function renderProfilePage(stats) {
     badgesHTML += `<div id="badge-collection-grid" class="badge-collection-grid">`;
     allBadges.forEach((badge) => {
       const isEarned = earnedBadgeIds.has(badge.id);
-      badgesHTML += `<div class="badge-card ${
-        isEarned ? "earned" : "locked"
-      }" data-badge-id="${badge.id}"><div class="badge-icon">${
-        badge.icon
-      }</div><div class="badge-text"><span class="badge-name">${getTranslation(badge.name)}</span>${
-        !isEarned ? `<span class="badge-locked-text">${getTranslation("badge_locked")}</span>` : ""
-      }</div></div>`;
+      badgesHTML += `<div class="badge-card ${isEarned ? "earned" : "locked"
+        }" data-badge-id="${badge.id}"><div class="badge-icon">${badge.icon
+        }</div><div class="badge-text"><span class="badge-name">${getTranslation(badge.name)}</span>${!isEarned ? `<span class="badge-locked-text">${getTranslation("badge_locked")}</span>` : ""
+        }</div></div>`;
     });
     badgesHTML += `</div>`;
     if (allBadges.length > 0) {
@@ -422,8 +412,8 @@ export function renderSpecialLists(container, lists, onListClick) {
             </div>
             <div class="list-card-text-content">
                 <div>
-                    <h3 class="list-card-title">${list.name}</h3>
-                    <p class="list-card-description">${list.description}</p>
+                    <h3 class="list-card-title">${getTranslation(list.name)}</h3>
+                    <p class="list-card-description">${getTranslation(list.description)}</p>
                 </div>
                 <div class="list-card-chevron">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -445,15 +435,12 @@ export function renderListDetail(gridElement, movies, openDetailModalFunction) {
   movies.forEach((movie) => {
     const trendingItem = document.createElement("div");
     trendingItem.classList.add("trending-item");
-    trendingItem.innerHTML = `<img src="${
-      movie.poster_path
-        ? TMDB_IMAGE_BASE_URL_W185 + movie.poster_path
-        : "https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok"
-    }" alt="${
-      movie.title
-    }" class="trending-poster" onerror="this.onerror=null;this.src='https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok';"><div class="trending-title">${
-      movie.title
-    }</div>`;
+    trendingItem.innerHTML = `<img src="${movie.poster_path
+      ? TMDB_IMAGE_BASE_URL_W185 + movie.poster_path
+      : "https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok"
+      }" alt="${movie.title
+      }" class="trending-poster" onerror="this.onerror=null;this.src='https://placehold.co/80x120/2A2A2A/AAAAAA?text=Poster+Yok';"><div class="trending-title">${movie.title
+      }</div>`;
     trendingItem.addEventListener("click", () =>
       openDetailModalFunction(movie.id)
     );

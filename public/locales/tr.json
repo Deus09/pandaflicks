@@ -310,4 +310,23 @@
 "settings_close_button": "Kapat"
 ,
 "badge_locked": "Kilitli"
+,
+"list_top_rated_all_time_name": "Tüm Zamanların En İyileri",
+"list_top_rated_all_time_desc": "Sinema tarihinin en yüksek puanlı, unutulmaz başyapıtları.",
+"list_harry_potter_collection_name": "Harry Potter Serisi",
+"list_harry_potter_collection_desc": "Büyücülük dünyasının kapılarını aralayan bu efsanevi serinin tüm filmleri.",
+"list_oscars_2024_winners_name": "2024 Oscar Ödülleri",
+"list_oscars_2024_winners_desc": "Geçtiğimiz yıla damgasını vuran ve Akademi tarafından onurlandırılan filmler.",
+"list_christopher_nolan_films_name": "Christopher Nolan Filmografisi",
+"list_christopher_nolan_films_desc": "Zihin büken senaryoların ve görsel şölenlerin usta yönetmeninin kariyerine bir bakış.",
+"list_ghibli_magic_name": "Ghibli Stüdyosu Büyüsü",
+"list_ghibli_magic_desc": "Hayao Miyazaki ve Isao Takahata'nın eşsiz dünyasından animasyon harikaları.",
+"list_action_packed_adrenaline_name": "Aksiyon Dolu Adrenalin",
+"list_action_packed_adrenaline_desc": "Nefes kesen sahneleriyle akıllarda yer etmiş modern aksiyon filmleri.",
+"list_mcu_phase_one_name": "Marvel: Faz 1",
+"list_mcu_phase_one_desc": "Her şeyin başladığı yer: Marvel Sinematik Evreni'nin ilk süper kahraman filmleri.",
+"list_quentin_tarantino_films_name": "Quentin Tarantino Sineması",
+"list_quentin_tarantino_films_desc": "Diyalogların ve stilin ustası Tarantino'nun filmografisine dalın.",
+"list_lord_of_the_rings_trilogy_name": "Yüzüklerin Efendisi Üçlemesi",
+"list_lord_of_the_rings_trilogy_desc": "Bir nesle damgasını vuran unutulmaz filmler."
 }
