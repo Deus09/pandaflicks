@@ -332,4 +332,8 @@
 ,
 "ai_loading_initial": "Sana özel 4 öneri hazırlanıyor...",
 "ai_loading_retry": "Yeni öneriler hazırlanıyor..."
+,
+"theme_label": "Tema",
+"theme_dark": "Koyu",
+"theme_light": "Açık"
 }

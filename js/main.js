@@ -1,4 +1,5 @@
 // js/main.
+import { initializeTheme } from './theme.js';
 import { initSettingsMenu } from "./settings.js";
 import { initializeI18n } from "./i18n.js";
 import { initAuth, handleAnonymousSignIn } from "./auth.js";
@@ -82,6 +83,7 @@ function showAppUI() {
  * Initializes the application.
  */
 function initializeApp() {
+  initializeTheme(); // Tema sistemini başlat
   initializeI18n(); // DİL SİSTEMİNİ BAŞLAT
   initSettingsMenu(); // AYARLAR MENÜSÜNÜ BAŞLAT
 

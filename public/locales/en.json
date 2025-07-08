@@ -332,4 +332,8 @@
 ,
 "ai_loading_initial": "Preparing 4 special suggestions for you...",
 "ai_loading_retry": "Preparing new suggestions..."
+,
+"theme_label": "Theme",
+"theme_dark": "Dark",
+"theme_light": "Light"
 }

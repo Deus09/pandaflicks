@@ -28,6 +28,32 @@
   --accent-chat-glow: rgba(100, 255, 218, 0.4);
 }
 
+/* Aydınlık Tema */
+body.light-theme {
+  --bg-main: #f0f0f0;         /* Ana arka plan (Çok Açık Gri - Mercedes Açık Gri Tonu) */
+  --bg-secondary: #e0e0e0;    /* İkincil arka plan (Biraz Daha Koyu Açık Gri) */
+  --bg-surface: #ffffff;      /* Kartlar, paneller vb. arka planı (Beyaz) */
+  --text-primary: #333333;     /* Ana metin (Koyu Gri) */
+  --text-secondary: #666666;   /* İkincil metin (Orta Gri) */
+  --accent-color: #f77826;    /* Vurgu rengi (Turuncu - sabit kalabilir) */
+  --accent-hover: #e66a1d;     /* Vurgu rengi hover (Biraz Daha Koyu Turuncu) */
+  --border-color: #d4d4d4;     /* Kenarlık rengi (Açık Gri) */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Gölge rengi (Hafif Siyah) */
+  --link-color: #1976d2;       /* Link rengi (Mavi) */
+  --link-hover: #0d47a1;       /* Link rengi hover (Koyu Mavi) */
+  --input-bg: #ffffff;        /* Input arka planı (Beyaz) */
+  --input-text: #333333;      /* Input metin rengi (Koyu Gri) */
+  --input-border: #d4d4d4;     /* Input kenarlık rengi (Açık Gri) */
+  --button-primary-bg: #007bff; /* Birincil buton arka planı (Mavi - değiştirebilirsiniz) */
+  --button-primary-text: #ffffff; /* Birincil buton metin rengi (Beyaz) */
+  --button-primary-hover: #0056b3; /* Birincil buton hover (Koyu Mavi) */
+  --button-secondary-bg: #6c757d; /* İkincil buton arka planı (Gri - değiştirebilirsiniz) */
+  --button-secondary-text: #ffffff; /* İkincil buton metin rengi (Beyaz) */
+  --button-secondary-hover: #545b62; /* İkincil buton hover (Daha Koyu Gri) */
+  --scrollbar-thumb: #888;      /* Kaydırma çubuğu rengi */
+  --scrollbar-track: #f1f1f1;    /* Kaydırma çubuğu arka planı */
+}
+
 body {
   font-family: "Inter", sans-serif;
   background-color: var(--bg-main);
@@ -3693,4 +3719,77 @@ input:checked+.toggle-switch-slider:before {
 /* Dişli çark ikonunun konumunu sabitlemek için */
 #profile-logged-in-view {
   position: relative;
+}
+
+/* Ayarlar menüsü içindeki her bir ayar bölümü */
+.settings-section {
+    margin-bottom: 1.5rem; /* Ayar grupları arasına boşluk koyar */
+}
+
+/* Tema anahtarını ve yanındaki metni (Açık/Koyu) bir arada tutan kapsayıcı */
+.theme-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Anahtar ve metin arasına boşluk */
+    background-color: var(--bg-main);
+    padding: 0.75rem;
+    border-radius: 12px;
+}
+
+/* Tema anahtarının yanındaki "Açık" veya "Koyu" yazısı */
+#theme-status {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* === AÇMA/KAPAMA ANAHTARI (TOGGLE SWITCH) STİLLERİ === */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 51px;
+    height: 31px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 23px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-secondary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
