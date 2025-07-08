@@ -278,4 +278,8 @@
 "identity_eclectic_taste": "Seçkin Zevkler",
 "identity_diverse_taste": "Çeşitli Zevkler",
 "identity_awaiting_discovery": "Keşfedilmeyi Bekliyor"
+,
+"time_hours": "saat",
+"time_minutes": "dakika",
+"time_zero_minutes": "0 dakika"
 }

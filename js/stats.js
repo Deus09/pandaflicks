@@ -3,12 +3,16 @@ import { awardBadges, ALL_BADGES } from './badges.js';
 import { getTranslation } from './i18n.js';
 
 function formatRuntime(totalMinutes) {
-    if (totalMinutes === 0) return "0 dakika";
+    if (totalMinutes === 0) return getTranslation("time_zero_minutes");
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     let result = "";
-    if (hours > 0) result += `${hours} saat `;
-    if (minutes > 0) result += `${minutes} dakika`;
+    if (hours > 0) {
+        result += `${hours} ${getTranslation("time_hours")} `;
+    }
+    if (minutes > 0) {
+        result += `${minutes} ${getTranslation("time_minutes")}`;
+    }
     return result.trim();
 }
 
