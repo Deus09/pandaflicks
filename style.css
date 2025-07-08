@@ -29,29 +29,127 @@
 }
 
 /* Aydınlık Tema */
+/* =================================================================== */
+/* === AYDINLIK TEMA (LIGHT THEME) - TAM KAPSAMLI DÜZELTME === */
+/* =================================================================== */
+
 body.light-theme {
-  --bg-main: #f0f0f0;         /* Ana arka plan (Çok Açık Gri - Mercedes Açık Gri Tonu) */
-  --bg-secondary: #e0e0e0;    /* İkincil arka plan (Biraz Daha Koyu Açık Gri) */
-  --bg-surface: #ffffff;      /* Kartlar, paneller vb. arka planı (Beyaz) */
-  --text-primary: #333333;     /* Ana metin (Koyu Gri) */
-  --text-secondary: #666666;   /* İkincil metin (Orta Gri) */
-  --accent-color: #f77826;    /* Vurgu rengi (Turuncu - sabit kalabilir) */
-  --accent-hover: #e66a1d;     /* Vurgu rengi hover (Biraz Daha Koyu Turuncu) */
-  --border-color: #d4d4d4;     /* Kenarlık rengi (Açık Gri) */
-  --shadow-color: rgba(0, 0, 0, 0.1); /* Gölge rengi (Hafif Siyah) */
-  --link-color: #1976d2;       /* Link rengi (Mavi) */
-  --link-hover: #0d47a1;       /* Link rengi hover (Koyu Mavi) */
-  --input-bg: #ffffff;        /* Input arka planı (Beyaz) */
-  --input-text: #333333;      /* Input metin rengi (Koyu Gri) */
-  --input-border: #d4d4d4;     /* Input kenarlık rengi (Açık Gri) */
-  --button-primary-bg: #007bff; /* Birincil buton arka planı (Mavi - değiştirebilirsiniz) */
-  --button-primary-text: #ffffff; /* Birincil buton metin rengi (Beyaz) */
-  --button-primary-hover: #0056b3; /* Birincil buton hover (Koyu Mavi) */
-  --button-secondary-bg: #6c757d; /* İkincil buton arka planı (Gri - değiştirebilirsiniz) */
-  --button-secondary-text: #ffffff; /* İkincil buton metin rengi (Beyaz) */
-  --button-secondary-hover: #545b62; /* İkincil buton hover (Daha Koyu Gri) */
-  --scrollbar-thumb: #888;      /* Kaydırma çubuğu rengi */
-  --scrollbar-track: #f1f1f1;    /* Kaydırma çubuğu arka planı */
+  /* --- 1. Ana Renk Paletini Yeniden Tanımlıyoruz --- */
+  --bg-main: #f0f2f5;                  /* Ana arka plan (Açık Gri) */
+  --bg-surface: #ffffff;                /* Kart, modal, menü arka planı (Beyaz) */
+  --border-color: #dcdfe6;              /* Kenarlıklar (Daha belirgin gri) */
+  --text-primary: #1c1e21;             /* Ana metin (Neredeyse siyah) */
+  --text-secondary: #606770;           /* İkincil metin (Orta gri) */
+
+  /* Vurgu renkleri aynı kalabilir, aydınlık temada güzel duruyorlar */
+  --accent-primary: #ff8c00;
+  --accent-primary-hover: #f08000;
+  --accent-secondary: #64ffda;
+  --accent-secondary-hover: #4deab8;
+  --accent-magic: #c778dd;
+  --accent-magic-hover: #b36cd1;
+  --accent-chat: #64ffda;
+  --accent-chat-hover: #4deab8;
+  --accent-chat-glow: rgba(100, 255, 218, 0.5);
+}
+
+/* --- 2. Özel Bileşenlerin Stillerini Aydınlık Tema İçin Ezme (Override) --- */
+
+/* Header: Hafif bir gölge ekleyerek sayfadan ayrışmasını sağlıyoruz */
+.light-theme header {
+  background-color: var(--bg-surface);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-bottom-color: var(--border-color);
+}
+
+/* Header'daki spot ışığı efektini aydınlık temada daha hafif yapalım */
+.light-theme header::before {
+    background: radial-gradient(ellipse 50% 50% at center, rgba(0, 0, 0, 0.05), transparent 70%);
+}
+
+/* Film Kartları, Profil İstatistik Kartları */
+.light-theme .movie-item,
+.light-theme .trending-item,
+.light-theme .overview-card,
+.light-theme .stat-group,
+.light-theme .badge-card {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Puan Dağılımı Çubuklarının Arka Planı */
+.light-theme .rating-bar {
+    background-color: #e9ecef;
+}
+
+/* Açılır Menüler (Sıralama vb.) */
+.light-theme .sort-options-menu {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.light-theme .sort-option:hover {
+  background-color: #f0f2f5;
+}
+.light-theme .sort-option.active {
+    background-color: rgba(247, 120, 38, 0.1); /* Vurgu renginin hafif tonu */
+}
+
+/* Filtrele/Sırala Butonları */
+.light-theme .list-controls,
+.light-theme .control-button {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+}
+.light-theme .control-button:hover {
+    background-color: #f8f9fa;
+}
+
+/* Modallar (Film Ekle, Filtre vb. Pencereler) */
+.light-theme .modal-content {
+  background-color: #f8f9fa; /* Hafif kırık beyaz */
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+.light-theme .modal-header {
+    border-bottom-color: var(--border-color);
+}
+.light-theme .form-group input,
+.light-theme .form-group textarea {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+/* Input alanına tıklandığında oluşan parlama efekti */
+.light-theme .form-group input:focus,
+.light-theme .form-group textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(247, 120, 38, 0.2);
+}
+
+/* "Yorumumu Geliştir" gibi özel butonların metin rengini düzeltme */
+.light-theme .enhance-comment-button,
+.light-theme .chat-character-button {
+    color: #ffffff;
+}
+
+/* Navigasyon Çubuğu */
+.light-theme .nav-bar {
+  background: rgba(255, 255, 255, 0.8);
+  border-top-color: var(--border-color);
+}
+.light-theme .nav-item {
+    color: var(--text-secondary);
+}
+.light-theme .nav-item.active {
+    color: var(--accent-primary);
+}
+
+/* Splash ekranındaki loş metni canlandırma */
+.light-theme .splash-text {
+    color: #444;
+    text-shadow: none;
 }
 
 body {
