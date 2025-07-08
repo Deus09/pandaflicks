@@ -1,5 +1,6 @@
 // js/stats.js
 import { awardBadges, ALL_BADGES } from './badges.js';
+import { getTranslation } from './i18n.js';
 
 function formatRuntime(totalMinutes) {
     if (totalMinutes === 0) return "0 dakika";
@@ -12,24 +13,24 @@ function formatRuntime(totalMinutes) {
 }
 
 function getCinematicIdentity(stats) {
-    if (stats.totalMovies < 5) return "Yeni Başlayan Sinefil";
+    if (stats.totalMovies < 5) return getTranslation('identity_newbie');
     if (stats.topGenres.length > 0) {
         const topGenre = stats.topGenres[0].name;
         switch (topGenre) {
-            case 'Aksiyon': return 'Aksiyon Tutkunu';
-            case 'Bilim-Kurgu': return 'Bilim Kurgu Kaşifi';
-            case 'Komedi': return 'Komedi Meraklısı';
-            case 'Dram': return 'Dramatik Ruh';
-            default: return 'Seçkin Zevkler';
+            case 'Aksiyon': return getTranslation('identity_action_lover');
+            case 'Bilim-Kurgu': return getTranslation('identity_sci_fi_explorer');
+            case 'Komedi': return getTranslation('identity_comedy_fan');
+            case 'Dram': return getTranslation('identity_dramatic_soul');
+            default: return getTranslation('identity_eclectic_taste');
         }
     }
-    return "Çeşitli Zevkler";
+    return getTranslation('identity_diverse_taste');
 }
 
 export function calculateStats(movies) {
     if (!movies || movies.length === 0) {
         return {
-            totalMovies: 0, avgRating: 0, watchedThisYear: 0, topRatedMovie: null, totalWatchTime: "0 dakika", topGenres: [], topDirectors: [], ratingDistribution: {}, cinematicIdentity: "Keşfedilmeyi Bekliyor", timeCapsule: null,
+            totalMovies: 0, avgRating: 0, watchedThisYear: 0, topRatedMovie: null, totalWatchTime: "0 dakika", topGenres: [], topDirectors: [], ratingDistribution: {}, cinematicIdentity: getTranslation('identity_awaiting_discovery'), timeCapsule: null,
             badges: { all: ALL_BADGES, earned: [] }
         };
     }

@@ -1,6 +1,7 @@
 import { fetchMovieDetailsFromApi, TMDB_IMAGE_BASE_URL_W185 } from './api.js';
 import { startChatSession } from './gemini.js';
 import { showNotification } from './utils.js';
+import { getTranslation } from './i18n.js';
 
 // DOM Elementleri - Artık global değil, ilgili fonksiyon içinde bulunacaklar
 let characterSelectionModal, closeCharacterSelectionModalBtn, characterList, characterListLoader;
@@ -47,7 +48,7 @@ function renderCharacterList(characters) {
     if (!characters || characters.length === 0) {
         const noCharacterMsg = document.createElement('p');
         noCharacterMsg.className = 'text-center text-gray-500';
-        noCharacterMsg.textContent = 'Bu film için konuşulacak karakter bulunamadı.';
+        noCharacterMsg.textContent = getTranslation('character_no_character_found');
         characterList.appendChild(noCharacterMsg);
         return;
     }
@@ -107,7 +108,7 @@ async function openCharacterSelectionModal(movie) {
         characterList.replaceChildren();
         const errorEl = document.createElement('p');
         errorEl.className = 'text-red-400 text-center';
-        errorEl.textContent = 'Karakterler yüklenemedi.';
+        errorEl.textContent = getTranslation('character_loading_error');
         characterList.appendChild(errorEl);
         characterList.classList.remove('hidden');
     } finally {
@@ -140,7 +141,7 @@ function openChatInterfaceModal() {
     chatInterfaceModal.classList.remove('hidden');
     setTimeout(() => chatInterfaceModal.classList.add('visible'), 10);
     document.body.classList.add('no-scroll');
-    const welcomeMessage = `Merhaba, ben ${characterName}. Senin için ne yapabilirim?`;
+    const welcomeMessage = getTranslation('chat_welcome').replace('{characterName}', characterName);
     addMessageToUI('model', welcomeMessage);
 }
 
@@ -169,7 +170,7 @@ async function handleSendMessage(e) {
         thinkingBubble.classList.remove('thinking');
         updateChatHistory({ role: 'model', text: aiResponse });
     } catch (error) {
-        thinkingBubble.innerHTML = `Bir hata oluştu: ${error.message}`;
+        thinkingBubble.innerHTML = getTranslation('chat_error_generic').replace('{error}', error.message);
         thinkingBubble.classList.remove('thinking');
     } finally {
         chatSendBtn.disabled = false;

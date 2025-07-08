@@ -1,7 +1,8 @@
 // js/api.js
 console.log('api.js yüklendi.');
+import { getCurrentLang } from './i18n.js';
 
-const TMDB_PROXY_BASE = '/api/tmdb'; 
+const TMDB_PROXY_BASE = '/api/tmdb';
 
 export const TMDB_IMAGE_BASE_URL_W500 = 'https://image.tmdb.org/t/p/w500';
 export const TMDB_IMAGE_BASE_URL_W185 = 'https://image.tmdb.org/t/p/w185';
@@ -16,28 +17,32 @@ export const YOUTUBE_EMBED_URL = 'https://www.youtube-nocookie.com/embed/';
  */
 export async function fetchTrendingMovies() {
     try {
-        const url = `${TMDB_PROXY_BASE}/trending/movie/week?language=tr-TR`;
+        const lang = getCurrentLang();
+        const tmdbLang = lang === 'tr' ? 'tr-TR' : 'en-US';
+        const url = `${TMDB_PROXY_BASE}/trending/movie/week?language=${tmdbLang}`;
         const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error(`Proxy Hatası! Durum: ${response.status}`);
         }
         const data = await response.json();
-        
+
         // Sadece ilk 10 filmin verisini döndür veya sonuç yoksa boş dizi döndür.
         return data.results ? data.results.slice(0, 10) : [];
 
     } catch (error) {
         console.error('Trend filmler yüklenirken hata oluştu:', error);
         // Hatanın üst katmanlarda yakalanabilmesi için tekrar fırlat.
-        throw error; 
+        throw error;
     }
 }
 
 export async function fetchMovieDetailsFromApi(tmdbMovieId) {
     try {
-        const movieDetailsUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}?language=tr-TR`;
-        const movieCreditsUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}/credits?language=tr-TR`;
+        const lang = getCurrentLang();
+        const tmdbLang = lang === 'tr' ? 'tr-TR' : 'en-US';
+        const movieDetailsUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}?language=${tmdbLang}`;
+        const movieCreditsUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}/credits?language=${tmdbLang}`;
         const videosUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}/videos?language=en-US`;
 
         const movieResponse = await fetch(movieDetailsUrl);
@@ -95,7 +100,9 @@ export async function searchTmdbMovies(query, resultsDiv, messageElement, displa
     messageElement.style.display = 'none';
 
     try {
-        const url = `${TMDB_PROXY_BASE}/search/movie?query=${encodeURIComponent(query)}&language=tr-TR`;
+        const lang = getCurrentLang();
+        const tmdbLang = lang === 'tr' ? 'tr-TR' : 'en-US';
+        const url = `${TMDB_PROXY_BASE}/search/movie?query=${encodeURIComponent(query)}&language=${tmdbLang}`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -135,18 +142,20 @@ export async function fetchMoviesFromList(listObject) {
                 else if (type === 'collection') path = `/collection/${tmdbId}`;
                 else if (type === 'director') path = `/person/${tmdbId}/movie_credits`;
                 else path = String(tmdbId);
-                
+
                 const separator = path.includes('?') ? '&' : '?';
-                const url = `${TMDB_PROXY_BASE}${path}${separator}language=tr-TR`;
+                const lang = getCurrentLang();
+                const tmdbLang = lang === 'tr' ? 'tr-TR' : 'en-US';
+                const url = `${TMDB_PROXY_BASE}${path}${separator}language=${tmdbLang}`;
 
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`HTTP Hatası! Durum: ${response.status}`);
                 const data = await response.json();
-                
+
                 if (type === 'director') {
-                     movies = data.crew.filter(movie => movie.job === 'Director').sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+                    movies = data.crew.filter(movie => movie.job === 'Director').sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
                 } else {
-                     movies = data.results || data.parts || data.items || [];
+                    movies = data.results || data.parts || data.items || [];
                 }
                 break;
             }

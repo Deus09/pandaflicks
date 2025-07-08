@@ -1,5 +1,6 @@
 // js/utils.js
 console.log('utils.js yüklendi.'); // Konsol mesajı eklendi
+import { getTranslation, getCurrentLang } from './i18n.js';
 
 export const STAR_SVG_PATH = "M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.921-7.417 3.921 1.481-8.279-6.064-5.828 8.332-1.151z";
 export const HALF_STAR_GRADIENT_ID = "halfStarGradient";
@@ -18,12 +19,17 @@ export function formatDate(dateString) {
     yesterday.setDate(today.getDate() - 1);
 
     if (date.toDateString() === today.toDateString()) {
-        return 'Bugün izlendi';
+        return getTranslation('date_today');
     } else if (date.toDateString() === yesterday.toDateString()) {
-        return 'Dün izlendi';
+        return getTranslation('date_yesterday');
     } else {
+        // Aktif dile göre doğru yerel ayarı seç (tr-TR veya en-US)
+        const langCode = getCurrentLang() === 'tr' ? 'tr-TR' : 'en-US';
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('tr-TR', options) + ' tarihinde izlendi';
+        const formattedDate = date.toLocaleDateString(langCode, options);
+
+        // Sözlükteki yer tutucuyu ({date}) gerçek tarihle değiştir
+        return getTranslation('date_on_date').replace('{date}', formattedDate);
     }
 }
 

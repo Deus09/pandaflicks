@@ -9,6 +9,7 @@ import {
 import { openMovieMode } from "./modals.js";
 import { ALL_BADGES } from "./badges.js";
 import { showBadgeInfo } from "./badge-modal.js";
+import { getTranslation } from "./i18n.js";
 
 export function createStarsForDisplay(rating) {
   let starsHtml = '<span class="flex items-center">';
@@ -148,7 +149,7 @@ export function renderWatchLaterMovies(
             <img src="${movie.poster}" alt="${movie.title} Poster" class="movie-poster" onerror="this.onerror=null;this.src='https://placehold.co/70x100/2A2A2A/AAAAAA?text=Poster+Yok';">
             <div class="movie-details">
                 <div class="movie-title">${movie.title}</div>
-                <p class="short-comment">Daha sonra izlenecek</p>
+                <p class="short-comment">${getTranslation('watch_later_status')}</p>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-gray-400 self-center ml-2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
         `;
@@ -254,7 +255,7 @@ export function displayTmdbSearchResults(results, resultsDiv) {
         }
       } catch (error) {
         console.error("Arama sonucundan detay çekerken hata:", error);
-        tmdbSearchMessage.textContent = `Detaylar yüklenemedi: ${error.message}`;
+        tmdbSearchMessage.textContent = getTranslation('error_loading_details').replace('{error}', error.message);
       }
     });
     resultsDiv.appendChild(movieResultItem);
@@ -281,7 +282,7 @@ export function renderProfilePage(stats) {
   statsPanel.innerHTML = "";
 
   if (stats.totalMovies === 0) {
-    statsPanel.innerHTML = `<p class="text-gray-400 text-center col-span-full p-4">İstatistiklerinizi ve rozetlerinizi görmek için film eklemeye başlayın.</p>`;
+    statsPanel.innerHTML = `<p class="text-gray-400 text-center col-span-full p-4">${getTranslation('profile_empty_message')}</p>`;
     return;
   }
 
@@ -291,17 +292,17 @@ export function renderProfilePage(stats) {
     {
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`,
       value: stats.totalMovies,
-      label: "Toplam Film",
+      label: getTranslation('stat_total_movies'),
     },
     {
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`,
       value: stats.avgRating.toFixed(1),
-      label: "Puan Ortalaması",
+      label: getTranslation('stat_avg_rating'),
     },
     {
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
       value: stats.totalWatchTime,
-      label: "Toplam Süre",
+      label: getTranslation('stat_total_time'),
     },
   ];
   let overviewHTML = `<div class="stat-group" style="--animation-delay: 0ms;"><div class="overview-grid">`;
@@ -316,7 +317,7 @@ export function renderProfilePage(stats) {
     0
   );
   if (totalRated > 0) {
-    let ratingsHTML = `<div class="stat-group" style="--animation-delay: 200ms;"><h3 class="stat-group-title">Puan Dağılımı</h3><ul class="stat-list">`;
+    let ratingsHTML = `<div class="stat-group" style="--animation-delay: 200ms;"><h3 class="stat-group-title">${getTranslation('stat_rating_dist')}</h3><ul class="stat-list">`;
     const sortedRatings = Object.keys(stats.ratingDistribution).sort(
       (a, b) => parseFloat(b) - parseFloat(a)
     );
@@ -334,15 +335,15 @@ export function renderProfilePage(stats) {
   if (stats.badges) {
     const { all: allBadges, earned: earnedBadges } = stats.badges;
     const earnedBadgeIds = new Set(earnedBadges.map((b) => b.id));
-    let badgesHTML = `<div class="stat-group" style="--animation-delay: 300ms;"><div class="badge-group-header"><h3 class="stat-group-title">Rozet Koleksiyonu</h3><span class="badge-count">${earnedBadges.length} / ${allBadges.length}</span></div>`;
+    let badgesHTML = `<div class="stat-group" style="--animation-delay: 300ms;"><div class="badge-group-header"><h3 class="stat-group-title">${getTranslation('stat_badge_collection')}</h3><span class="badge-count">${earnedBadges.length} / ${allBadges.length}</span></div>`;
     if (earnedBadges.length > 0) {
       const latestBadge = earnedBadges[earnedBadges.length - 1];
-      badgesHTML += `<div class="badge-showcase" data-badge-id="${latestBadge.id}"><div class="featured-badge"><div class="featured-badge-icon">${latestBadge.icon}</div><span class="featured-badge-name">${latestBadge.name}</span><span class="featured-badge-label">En Son Kazanılan</span></div><div class="other-badges">`;
+      badgesHTML += `<div class="badge-showcase" data-badge-id="${latestBadge.id}"><div class="featured-badge"><div class="featured-badge-icon">${latestBadge.icon}</div><span class="featured-badge-name">${getTranslation(latestBadge.name)}</span><span class="featured-badge-label">${getTranslation('stat_latest_badge')}</span></div><div class="other-badges">`;
       earnedBadges
         .slice(-5, -1)
         .reverse()
         .forEach((badge) => {
-          badgesHTML += `<div class="badge-icon-preview" title="${badge.name}" data-badge-id="${badge.id}">${badge.icon}</div>`;
+          badgesHTML += `<div class="badge-icon-preview" title="${getTranslation(badge.name)}" data-badge-id="${badge.id}">${badge.icon}</div>`;
         });
       badgesHTML += `</div></div>`;
     }
@@ -353,15 +354,13 @@ export function renderProfilePage(stats) {
         isEarned ? "earned" : "locked"
       }" data-badge-id="${badge.id}"><div class="badge-icon">${
         badge.icon
-      }</div><div class="badge-text"><span class="badge-name">${
-        badge.name
-      }</span>${
+      }</div><div class="badge-text"><span class="badge-name">${getTranslation(badge.name)}</span>${
         !isEarned ? '<span class="badge-locked-text">Kilitli</span>' : ""
       }</div></div>`;
     });
     badgesHTML += `</div>`;
     if (allBadges.length > 0) {
-      badgesHTML += `<button id="toggle-badges-btn" class="toggle-badges-btn">Tüm Koleksiyonu Gör</button>`;
+      badgesHTML += `<button id="toggle-badges-btn" class="toggle-badges-btn">${getTranslation('stat_view_collection')}</button>`;
     }
     badgesHTML += `</div>`;
     finalHTML += badgesHTML;
@@ -389,8 +388,8 @@ export function renderProfilePage(stats) {
     toggleBtn.addEventListener("click", () => {
       badgeGrid.classList.toggle("expanded");
       toggleBtn.textContent = badgeGrid.classList.contains("expanded")
-        ? "Gizle"
-        : "Tüm Koleksiyonu Gör";
+        ? getTranslation('stat_hide_collection')
+        : getTranslation('stat_view_collection');
     });
   }
 
@@ -402,8 +401,7 @@ export function renderProfilePage(stats) {
 }
 
 export function renderSpecialLists(container, lists, onListClick) {
-  container.innerHTML =
-    '<h2 class="text-xl font-bold mb-4 text-gray-200">Özel Listeler</h2>';
+  container.innerHTML = `<h2 class="text-xl font-bold mb-4 text-gray-200">${getTranslation('special_lists_title')}</h2>`;
   const listContainer = document.createElement("div");
   listContainer.className = "special-lists-container";
 
@@ -441,8 +439,7 @@ export function renderSpecialLists(container, lists, onListClick) {
 export function renderListDetail(gridElement, movies, openDetailModalFunction) {
   gridElement.innerHTML = "";
   if (movies.length === 0) {
-    gridElement.innerHTML =
-      '<p class="text-gray-500 text-center col-span-full">Bu listede film bulunamadı veya liste yüklenemedi.</p>';
+    gridElement.innerHTML = `<p class="text-gray-500 text-center col-span-full">${getTranslation('list_empty_message')}</p>`;
     return;
   }
   movies.forEach((movie) => {

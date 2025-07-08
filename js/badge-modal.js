@@ -1,4 +1,5 @@
 // js/badge-modal.js
+import { getTranslation } from './i18n.js';
 
 // DOM Elementleri
 let modalOverlay;
@@ -44,8 +45,8 @@ export function showBadgeInfo(badge) {
     if (!badge || !modalOverlay) return;
 
     badgeIconEl.textContent = badge.icon;
-    badgeNameEl.textContent = badge.name;
-    badgeDescriptionEl.textContent = badge.description;
+    badgeNameEl.textContent = getTranslation(badge.name);
+    badgeDescriptionEl.textContent = getTranslation(badge.description);
 
     modalOverlay.classList.remove('hidden');
     // Animasyon için küçük bir gecikme

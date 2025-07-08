@@ -16,6 +16,7 @@ import { watchedMovies, watchLaterMovies } from "./storage.js";
 import { auth } from "./firebase.js";
 import { initFilterModal, openFilterModal, applyFilters } from "./filters.js";
 import { getCuratedLists } from "./lists.js";
+import { getTranslation } from "./i18n.js";
 
 // --- DOM Elementleri ---
 const myWatchedMoviesSection = document.getElementById(
@@ -125,9 +126,7 @@ export function setupListViewControls() {
       sortOptions.forEach((opt) => opt.classList.remove("active"));
       option.classList.add("active");
       currentSortCriteria = option.dataset.sort;
-      sortButton.querySelector(
-        "span"
-      ).textContent = `Sırala: ${option.textContent}`;
+      sortButton.querySelector("span").textContent = `${getTranslation('sort_button_prefix')} ${option.textContent}`;
       sortOptionsMenu.classList.add("hidden");
       sortButton.classList.remove("open");
       refreshWatchedMoviesList();
@@ -167,7 +166,7 @@ async function showListDetail(list) {
     .querySelectorAll(".content-section")
     .forEach((s) => s.classList.add("hidden"));
   listDetailSection.classList.remove("hidden");
-  listDetailTitle.textContent = "Yükleniyor...";
+  listDetailTitle.textContent = getTranslation('loading');
   showLoadingSpinner("Liste detayları getiriliyor...");
   try {
       const movies = await fetchMoviesFromList(list);
@@ -175,7 +174,7 @@ async function showListDetail(list) {
       renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
   } catch(error) {
       listDetailTitle.textContent = "Hata";
-      listDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">Liste yüklenemedi.</p>`;
+      listDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">${getTranslation('list_load_error')}</p>`;
   } finally {
       hideLoadingSpinner();
   }
@@ -229,13 +228,13 @@ export async function showSection(sectionId) {
     try {
         const [_, movies] = await Promise.all([timerPromise, dataFetchPromise]);
         if (movies.length === 0) {
-            trendingErrorMessage.textContent = 'Popüler film bulunamadı.';
+            trendingErrorMessage.textContent = getTranslation('trending_no_movies_found');
             trendingErrorMessage.style.display = 'block';
         } else {
             renderTrendingMovies(movies, openMovieDetailsModal);
         }
     } catch (error) {
-        trendingErrorMessage.textContent = `Bir hata oluştu: ${error.message}`;
+        trendingErrorMessage.textContent = getTranslation('trending_error').replace('{error}', error.message);
         trendingErrorMessage.style.display = 'block';
     } finally {
         hideLoadingSpinner();

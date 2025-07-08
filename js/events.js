@@ -3,6 +3,7 @@ import {openMovieMode,closeMovieDetailsModal} from "./modals.js";
 import { showSection } from "./sections.js";
 import { showNotification } from "./utils.js";
 import { handleSignIn, handleSignUp, handleSignOut } from "./auth.js";
+import { getTranslation } from "./i18n.js";
 
 export function setupEventListeners() {
   // --- Navigasyon Olayları ---
@@ -75,10 +76,10 @@ export function setupEventListeners() {
         try {
             if (isLogin) {
                 await handleSignIn(email, password);
-                showNotification("Başarıyla giriş yapıldı!", "success");
+                showNotification(getTranslation('notification_login_success'), "success");
             } else {
                 const userCredential = await handleSignUp(email, password);
-                showNotification(`Hoş geldin, ${userCredential.user.email}! Hesabın başarıyla oluşturuldu.`, "success");
+                showNotification(getTranslation('notification_signup_success'), "success");
                 emailAuthForm.reset();
             }
         } catch (error) {
@@ -113,16 +114,16 @@ planOptions.forEach(option => {
 function getFriendlyAuthError(error) {
     switch (error.code) {
         case "auth/invalid-email":
-            return "Lütfen geçerli bir e-posta adresi girin.";
+            return getTranslation('auth_error_invalid_email');
         case "auth/user-not-found":
         case "auth/wrong-password":
         case "auth/invalid-credential":
-            return "E-posta veya parola hatalı. Lütfen kontrol edin.";
+            return getTranslation('auth_error_wrong_password');
         case "auth/email-already-in-use":
-            return "Bu e-posta adresi zaten başka bir hesap tarafından kullanılıyor.";
+            return getTranslation('auth_error_email_in_use');
         case "auth/weak-password":
-            return "Parolanız en az 6 karakter uzunluğunda olmalıdır.";
+            return getTranslation('auth_error_weak_password');
         default:
-            return "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+            return getTranslation('auth_error_default');
     }
 }

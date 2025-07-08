@@ -1,4 +1,5 @@
 // js/modals.js
+import { getTranslation, getCurrentLang } from "./i18n.js";
 import { onModalOpen, onModalClose } from './scroll-lock.js'; // BU SATIRI EKLEYİN
 import {
   TMDB_IMAGE_BASE_URL_W92,
@@ -74,33 +75,33 @@ function initializeMovieModal() {
   modalContent.className = "modal-content";
   // DÜZELTME: Butonların HTML'ine pro-feature sınıfı ve pro-badge span'ı doğru şekilde eklendi.
   modalContent.innerHTML = `
-        <div class="modal-header"><h2 id="modal-title"></h2></div>
-        <form id="movie-form" novalidate>
-            <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
-            <div class="form-group">
-                <label for="movie-title-input">Film Adı:</label>
-                <input type="text" id="movie-title-input" required placeholder="Film adı yazmaya başlayın..." />
-                <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
-                <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
-            </div>
-            <input type="hidden" id="movie-poster-input" />
-            <div class="form-group"><label for="movie-rating-input">Puanınız:</label><div id="movie-rating-input" class="rating-input"></div></div>
-            <label class="toggle-switch-container"><span class="toggle-switch-label">Daha Sonra İzle</span><div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div></label>
-            <div class="form-group" id="watched-date-group"><label for="movie-date-input">İzleme Tarihi:</label><input type="date" id="movie-date-input" value="" required /></div>
-            <div class="form-group">
-                <label for="movie-comment-input">Yorumunuz:</label>
-                <textarea id="movie-comment-input" rows="3" placeholder="Filme dair düşüncelerinizi buraya yazın..."></textarea>
-                <div class="form-buttons-group">
-                    <button type="button" id="enhance-comment-button" class="enhance-comment-button pro-feature"><span class="loading-spinner"></span><span class="button-text">✨ Yorumumu Geliştir<span class="pro-badge">PRO</span></span></button>
-                    <button type="button" id="chat-with-character-button" class="chat-character-button hidden pro-feature"><span class="loading-spinner"></span><span class="button-text">🎭 Karakterle Sohbet Et<span class="pro-badge">PRO</span></span></button>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button type="button" id="cancel-button" class="cancel-button">İptal</button>
-                <button type="submit" id="save-button" class="save-button">Kaydet</button>
-            </div>
-        </form>
-    `;
+      <div class="modal-header"><h2 id="modal-title"></h2></div>
+      <form id="movie-form" novalidate>
+          <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
+          <div class="form-group">
+              <label for="movie-title-input">${getTranslation("modal_movie_title_label")}</label>
+              <input type="text" id="movie-title-input" required placeholder="${getTranslation("placeholder_movie_title")}" />
+              <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
+              <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
+          </div>
+          <input type="hidden" id="movie-poster-input" />
+          <div class="form-group"><label for="movie-rating-input">${getTranslation("modal_rating_label")}</label><div id="movie-rating-input" class="rating-input"></div></div>
+          <label class="toggle-switch-container"><span class="toggle-switch-label">${getTranslation("modal_watch_later_label")}</span><div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div></label>
+          <div class="form-group" id="watched-date-group"><label for="movie-date-input">${getTranslation("modal_watched_date_label")}</label><input type="date" id="movie-date-input" value="" required /></div>
+          <div class="form-group">
+              <label for="movie-comment-input">${getTranslation("modal_comment_label")}</label>
+              <textarea id="movie-comment-input" rows="3" placeholder="${getTranslation("ai_prompt_modal_placeholder")}"></textarea>
+              <div class="form-buttons-group">
+                  <button type="button" id="enhance-comment-button" class="enhance-comment-button pro-feature"><span class="loading-spinner"></span><span class="button-text">${getTranslation("modal_enhance_comment_button")}<span class="pro-badge">PRO</span></span></button>
+                  <button type="button" id="chat-with-character-button" class="chat-character-button hidden pro-feature"><span class="loading-spinner"></span><span class="button-text">${getTranslation("modal_chat_button")}<span class="pro-badge">PRO</span></span></button>
+              </div>
+          </div>
+          <div class="modal-actions">
+              <button type="button" id="cancel-button" class="cancel-button">${getTranslation("modal_cancel_button")}</button>
+              <button type="submit" id="save-button" class="save-button">${getTranslation("modal_save_button")}</button>
+          </div>
+      </form>
+  `;
   overlay.appendChild(modalContent);
 
   // DOM referanslarını atama...
@@ -181,7 +182,7 @@ function initializeMovieModal() {
 
     const currentComment = movieCommentInput.value.trim();
     if (currentComment.length < 10) {
-      showNotification("Lütfen yorumunuzu geliştirmek için en az 10 karakter girin.", "error");
+      showNotification(getTranslation('notification_save_validation_fail'), "error");
       return;
     }
     await enhanceCommentWithGemini(
@@ -236,7 +237,7 @@ export function openMovieMode(movieId = null, prefillData = null, originList = n
     }
 
     if (movieToEdit) {
-      modalTitle.textContent = "Filmi Düzenle";
+      modalTitle.textContent = getTranslation('modal_edit_title');
       movieIdInput.value = movieToEdit.id;
       movieTmdbIdInput.value = movieToEdit.tmdbId || "";
       movieTypeInput.value = originList;
@@ -268,7 +269,7 @@ export function openMovieMode(movieId = null, prefillData = null, originList = n
       }
     }
   } else {
-    modalTitle.textContent = "Film Ekle";
+    modalTitle.textContent = getTranslation('modal_add_title');
     movieIdInput.value = "";
     movieTypeInput.value = "watched";
     movieDateInput.value = today;
@@ -358,7 +359,7 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
   const player = detailLottieLoader.querySelector("dotlottie-player");
   if (player) player.play();
 
-  detailModalTitle.textContent = "Yükleniyor...";
+  detailModalTitle.textContent = getTranslation('loading');
   detailAddToLogButton.disabled = true;
 
   const timerPromise = new Promise((resolve) => setTimeout(resolve, 500));
@@ -368,12 +369,12 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
     const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
     const { movieData, directorName, trailerKey } = movieDetails;
 
-    detailModalTitle.textContent = movieData.title || "Bilgi Yok";
+    detailModalTitle.textContent = movieData.title || getTranslation('details_no_info');
     detailMoviePoster.src = movieData.poster_path ? `${TMDB_IMAGE_BASE_URL_W500}${movieData.poster_path}` : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
-    detailMovieReleaseDate.textContent = movieData.release_date ? `Vizyon Tarihi: ${new Date(movieData.release_date).toLocaleDateString("tr-TR", { year: "numeric", month: "long", day: "numeric" })}` : "Vizyon Tarihi: Bilinmiyor";
-    detailMovieGenres.textContent = movieData.genres?.length > 0 ? `Türler: ${movieData.genres.map((g) => g.name).join(", ")}` : "Türler: Bilinmiyor";
-    detailMovieDirector.textContent = `Yönetmen: ${directorName}`;
-    detailMovieOverview.textContent = movieData.overview || "Bu film için özet bulunmamaktadır.";
+    detailMovieReleaseDate.textContent = `${getTranslation('details_release_date_prefix')}: ${movieData.release_date ? new Date(movieData.release_date).toLocaleDateString(getCurrentLang() === 'tr' ? 'tr-TR' : 'en-US', { year: "numeric", month: "long", day: "numeric" }) : getTranslation('details_no_info')}`;
+    detailMovieGenres.textContent = `${getTranslation('details_genres_prefix')}: ${movieData.genres?.length > 0 ? movieData.genres.map((g) => g.name).join(", ") : getTranslation('details_no_info')}`;
+    detailMovieDirector.textContent = `${getTranslation('details_director_prefix')}: ${directorName}`;
+    detailMovieOverview.textContent = movieData.overview || getTranslation('details_no_overview');
 
     const tmdbRatingEl = document.getElementById('detail-tmdb-rating');
     const imdbLinkEl = document.getElementById('detail-imdb-link');
@@ -427,8 +428,8 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
 
   } catch (error) {
     console.error("Film detayları yüklenirken hata oluştu:", error);
-    detailModalTitle.textContent = "Hata Oluştu";
-    detailMovieOverview.textContent = `Film detayları yüklenirken bir sorun oluştu: ${error.message}`;
+    detailModalTitle.textContent = getTranslation('error_occurred_title');
+    detailMovieOverview.textContent = getTranslation('details_error_loading').replace('{error}', error.message);
   } finally {
     if (player) player.stop();
     detailLottieLoader.style.display = "none";
@@ -465,7 +466,7 @@ export async function handleMovieFormSubmit(e) {
     comment: movieCommentInput.value,
     type: watchLaterCheckbox.checked ? "watch-later" : "watched",
     runtime: parseInt(movieRuntimeInput.value, 10) || 0,
-    director: movieDirectorInput.value || "Bilinmiyor",
+    director: movieDirectorInput.value || getTranslation('unknown'),
     genres: JSON.parse(movieGenresInput.value || "[]"),
     rating: watchLaterCheckbox.checked ? null : currentRating,
     watchedDate: watchLaterCheckbox.checked ? null : movieDateInput.value,
@@ -476,7 +477,7 @@ export async function handleMovieFormSubmit(e) {
     (movieData.rating === 0 || !movieData.watchedDate)
   ) {
     showNotification(
-      "Lütfen puan ve izleme tarihi alanlarını doldurunuz.",
+      getTranslation('notification_save_validation_fail'),
       "error"
     );
     return;
@@ -487,7 +488,7 @@ export async function handleMovieFormSubmit(e) {
   }
 
   await saveMovie(movieData);
-  showNotification(`'${movieData.title}' başarıyla kaydedildi.`, "success");
+  showNotification(getTranslation('notification_movie_saved').replace('{title}', movieData.title), "success");
 }
 
 const loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
@@ -589,74 +590,4 @@ export function hideLoadingSpinner() {
     },
     { once: true }
   );
-}
-
-function renderMovieModalContent() {
-  if (movieModalOverlay.querySelector(".modal-content")) {
-    return;
-  }
-
-  const modalContent = document.createElement("div");
-  modalContent.className = "modal-content";
-
-  modalContent.innerHTML = `
-        <div class="modal-header">
-          <h2 id="modal-title"></h2>
-          <button type="button" class="close-modal-btn">&times;</button>
-        </div>
-        <form id="movie-form">
-          <input type="hidden" id="movie-id" />
-          <input type="hidden" id="movie-tmdb-id" />
-          <input type="hidden" id="movie-type" />
-          <input type="hidden" id="movie-runtime-input" />
-          <input type="hidden" id="movie-genres-input" />
-          <input type="hidden" id="movie-director-input" />
-          <div class="form-group">
-            <label for="movie-title-input">Film Adı:</label>
-            <input type="text" id="movie-title-input" required placeholder="Film adı yazmaya başlayın..." />
-            <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
-            <p id="tmdb-search-message" class="tmdb-search-message" style="display: none"></p>
-          </div>
-          <input type="hidden" id="movie-poster-input" />
-          <div class="form-group">
-            <label for="movie-rating-input">Puanınız:</label>
-            <div id="movie-rating-input" class="rating-input"></div>
-          </div>
-          <label class="toggle-switch-container">
-            <span class="toggle-switch-label">Daha Sonra İzle</span>
-            <div class="toggle-switch-wrapper">
-              <input type="checkbox" id="watch-later-checkbox" />
-              <span class="toggle-switch-slider"></span>
-            </div>
-          </label>
-          <div class="form-group" id="watched-date-group">
-            <label for="movie-date-input">İzleme Tarihi:</label>
-            <input type="date" id="movie-date-input" value="" required />
-          </div>
-          <div class="form-group">
-            <label for="movie-comment-input">Yorumunuz:</label>
-            <textarea id="movie-comment-input" rows="3" placeholder="Filme dair düşüncelerinizi buraya yazın..."></textarea>
-            <div class="form-buttons-group">
-              <button type="button" id="enhance-comment-button" class="enhance-comment-button">
-                <span class="loading-spinner"></span>
-                <span class="button-text">✨ Yorumumu Geliştir</span>
-              </button>
-              <button type="button" id="chat-with-character-button" class="chat-character-button hidden">
-                <span class="loading-spinner"></span>
-                <span class="button-text">🎭 Karakterle Sohbet Et</span>
-              </button>
-            </div>
-          </div>
-          <div class="modal-actions">
-            <button type="button" id="cancel-button" class="cancel-button">İptal</button>
-            <button type="submit" id="save-button" class="save-button">Kaydet</button>
-          </div>
-        </form>
-    `;
-
-  movieModalOverlay.appendChild(modalContent);
-
-  modalContent
-    .querySelector(".close-modal-btn")
-    .addEventListener("click", () => closeMovieMode(movieModalOverlay));
 }
