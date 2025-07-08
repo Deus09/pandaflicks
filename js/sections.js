@@ -98,6 +98,11 @@ export function refreshWatchedMoviesList(newFilters) {
     myMoviesEmptyMessage,
     openMovieMode
   );
+  // Fonksiyonun sonuna ekleyin
+  const activeSortOption = sortOptionsMenu.querySelector('.sort-option.active');
+  if (activeSortOption) {
+    sortButton.querySelector("span").textContent = `${getTranslation('sort_button_prefix')} ${getTranslation(activeSortOption.dataset.i18n)}`;
+  }
 }
 
 export function refreshWatchLaterList() {
@@ -169,14 +174,14 @@ async function showListDetail(list) {
   listDetailTitle.textContent = getTranslation('loading');
   showLoadingSpinner("Liste detayları getiriliyor...");
   try {
-      const movies = await fetchMoviesFromList(list);
-      listDetailTitle.textContent = list.name;
-      renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
-  } catch(error) {
-      listDetailTitle.textContent = "Hata";
-      listDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">${getTranslation('list_load_error')}</p>`;
+    const movies = await fetchMoviesFromList(list);
+    listDetailTitle.textContent = list.name;
+    renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
+  } catch (error) {
+    listDetailTitle.textContent = "Hata";
+    listDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">${getTranslation('list_load_error')}</p>`;
   } finally {
-      hideLoadingSpinner();
+    hideLoadingSpinner();
   }
 }
 
@@ -220,33 +225,33 @@ export async function showSection(sectionId) {
   } else if (sectionId === "trending-movies-section") {
     // GÜNCELLEME: 'Popüler' sekmesi için yeni Lottie animasyonlu yükleme mantığı
     showLoadingSpinner();
-    trendingMoviesGrid.innerHTML = ''; 
+    trendingMoviesGrid.innerHTML = '';
 
     const timerPromise = new Promise((resolve) => setTimeout(resolve, 1300));
     const dataFetchPromise = fetchTrendingMovies();
 
     try {
-        const [_, movies] = await Promise.all([timerPromise, dataFetchPromise]);
-        if (movies.length === 0) {
-            trendingErrorMessage.textContent = getTranslation('trending_no_movies_found');
-            trendingErrorMessage.style.display = 'block';
-        } else {
-            renderTrendingMovies(movies, openMovieDetailsModal);
-        }
-    } catch (error) {
-        trendingErrorMessage.textContent = getTranslation('trending_error').replace('{error}', error.message);
+      const [_, movies] = await Promise.all([timerPromise, dataFetchPromise]);
+      if (movies.length === 0) {
+        trendingErrorMessage.textContent = getTranslation('trending_no_movies_found');
         trendingErrorMessage.style.display = 'block';
+      } else {
+        renderTrendingMovies(movies, openMovieDetailsModal);
+      }
+    } catch (error) {
+      trendingErrorMessage.textContent = getTranslation('trending_error').replace('{error}', error.message);
+      trendingErrorMessage.style.display = 'block';
     } finally {
-        hideLoadingSpinner();
+      hideLoadingSpinner();
     }
 
   } else if (sectionId === "special-lists-section") {
     // --- YENİ KOD ---
     // Genel yükleme animasyonunu metinsiz çağırarak rastgele metin gelmesini sağlıyoruz.
-    showLoadingSpinner(); 
+    showLoadingSpinner();
     specialListsContentContainer.innerHTML = "";
     specialListsContentContainer.classList.add("hidden");
-    
+
     const timerPromise = new Promise((resolve) => setTimeout(resolve, 1300));
     const dataFetchPromise = (async () => {
       const lists = getCuratedLists();
@@ -272,7 +277,7 @@ export async function showSection(sectionId) {
 
     // --- YENİ KOD ---
     // Veri yüklendikten sonra genel yükleme animasyonunu gizliyoruz.
-    hideLoadingSpinner(); 
+    hideLoadingSpinner();
     specialListsContentContainer.classList.remove("hidden");
     renderSpecialLists(
       specialListsContentContainer,

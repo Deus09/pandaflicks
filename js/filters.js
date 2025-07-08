@@ -1,6 +1,17 @@
 // js/filters.js
 import { getTranslation } from './i18n.js';
 
+// TÜR ID'LERİNİ ÇEVİRİ ANAHTARLARINA EŞLEŞTİREN HARİTA
+const GENRE_ID_TO_KEY_MAP = {
+  28: 'genre_Action', 12: 'genre_Adventure', 16: 'genre_Animation',
+  35: 'genre_Comedy', 80: 'genre_Crime', 99: 'genre_Documentary',
+  18: 'genre_Drama', 10751: 'genre_Family', 14: 'genre_Fantasy',
+  36: 'genre_History', 27: 'genre_Horror', 10402: 'genre_Music',
+  9648: 'genre_Mystery', 10749: 'genre_Romance', 878: 'genre_Science_Fiction',
+  10770: 'genre_TV_Movie', 53: 'genre_Thriller', 10752: 'genre_War',
+  37: 'genre_Western'
+};
+
 let filterModalOverlay, applyFilterBtn, clearFilterBtn, closeFilterBtn;
 let yearStartInput, yearEndInput;
 let onApplyCallback;
@@ -80,11 +91,12 @@ function closeFilterModal() {
 }
 
 function populateFilterOptions(allMovies, currentFilters) {
-    const genres = new Set();
+    const genreMap = new Map(); // Yinelenen türleri engellemek için Map kullanıyoruz
     let minYear = new Date().getFullYear(), maxYear = 1900;
 
     allMovies.forEach(movie => {
-        movie.genres?.forEach(genre => genres.add(genre.name));
+        // Her filmin türlerini (ID ve İsim olarak) Map'e ekliyoruz
+        movie.genres?.forEach(genre => genreMap.set(genre.id, genre.name));
         const releaseYear = movie.release_date ? parseInt(movie.release_date.substring(0, 4)) : 0;
         if (releaseYear) {
             if (releaseYear < minYear) minYear = releaseYear;
@@ -94,17 +106,20 @@ function populateFilterOptions(allMovies, currentFilters) {
 
     const genreContainer = document.getElementById('genre-filter-container');
     genreContainer.innerHTML = '';
-    [...genres].sort().forEach(genre => {
-        const isChecked = currentFilters.genres?.includes(genre) ? 'checked' : '';
 
-        // API'den gelen tür adını bizim sözlük anahtarımıza çeviriyoruz.
-        // Örn: Gelen "Science Fiction" metnini "genre_Science_Fiction" anahtarına dönüştürür.
-        const translationKey = `genre_${genre.replace(/[\s-]/g, '_')}`;
+    // Map'teki türleri ID'ye göre sıralayıp ekrana basıyoruz
+    const sortedGenres = [...genreMap.entries()].sort((a, b) => a[0] - b[0]);
+
+    sortedGenres.forEach(([id, name]) => {
+        const isChecked = currentFilters.genres?.includes(name) ? 'checked' : '';
+
+        // TÜR ID'SİNİ KULLANARAK DOĞRU ÇEVİRİ ANAHTARINI BULUYORUZ
+        const translationKey = GENRE_ID_TO_KEY_MAP[id] || `genre_${name.replace(/[\s-]/g, '_')}`;
         const translatedGenre = getTranslation(translationKey);
 
         // Checkbox'ın değeri orijinal (API'den gelen) isim olarak kalmalı,
         // ama kullanıcıya gösterilen metin (<span>) çevrilmiş olmalı.
-        genreContainer.innerHTML += `<label class="genre-filter-label"><input type="checkbox" name="genre" value="${genre}" ${isChecked}><span>${translatedGenre}</span></label>`;
+        genreContainer.innerHTML += `<label class="genre-filter-label"><input type="checkbox" name="genre" value="${name}" ${isChecked}><span>${translatedGenre}</span></label>`;
     });
 
     const minRating = currentFilters.ratingRange ? currentFilters.ratingRange[0] : 1;
@@ -112,7 +127,6 @@ function populateFilterOptions(allMovies, currentFilters) {
     ratingSliderMin.value = minRating;
     ratingSliderMax.value = maxRating;
 
-    // Değerleri ve ilerleme çubuğunu güncelle
     ratingMinValueSpan.textContent = parseFloat(minRating).toFixed(1);
     ratingMaxValueSpan.textContent = parseFloat(maxRating).toFixed(1);
     const minPercent = ((minRating - ratingSliderMin.min) / (ratingSliderMin.max - ratingSliderMin.min)) * 100;
