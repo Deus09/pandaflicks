@@ -548,17 +548,21 @@ export function showLoadingSpinner(text) {
   const loadingSpinnerOverlay = document.getElementById("loadingSpinnerOverlay");
   if (!loadingSpinnerOverlay) return;
 
-  // EKLENECEK: Yükleme ekranı içindeki lottie oynatıcısını buluyoruz.
   const player = loadingSpinnerOverlay.querySelector("dotlottie-player");
 
-  const displayText = text || loadingTexts[Math.floor(Math.random() * loadingTexts.length)];
+  // YENİ: Çevrilmiş yükleme metinlerini sözlükten alıyoruz.
+  const translatedLoadingTexts = getTranslation('loading_texts');
+
+  // YENİ: Eğer bir metin belirtilmemişse, sözlükten aldığımız diziden rastgele bir metin seçiyoruz.
+  // Eğer çeviri dosyası henüz yüklenmediyse, geçici olarak 'Yükleniyor...' metnini kullanıyoruz.
+  const displayText = text || (Array.isArray(translatedLoadingTexts) ? translatedLoadingTexts[Math.floor(Math.random() * translatedLoadingTexts.length)] : getTranslation('loading'));
+
   document.getElementById("splash-text").textContent = displayText;
 
   loadingSpinnerOverlay.classList.remove("hidden");
   setTimeout(() => {
     loadingSpinnerOverlay.classList.add("visible");
     startSplashScreenEffects();
-    // EKLENECEK: Eğer oynatıcı bulunduysa, play() komutuyla animasyonu başlatıyoruz.
     if (player) {
       player.play();
     }
