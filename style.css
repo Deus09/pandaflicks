@@ -3979,5 +3979,6 @@ color: var(--text-primary); /* Ana metin rengini kullan */
 }
 
 .light-theme .splash-logo {
-  background-color: var(--text-primary)
+  background-color: var(--text-primary);
+  color: #f4f5f7;
 }
