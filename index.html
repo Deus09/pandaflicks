@@ -94,9 +94,10 @@
         </div>
 
         <div id="my-movies-list" class=""></div>
-        <p id="my-movies-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden" data-i18n="my_movies_empty_message">
-  Henüz hiç film kaydetmediniz.
-</p>
+        <p id="my-movies-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden"
+          data-i18n="my_movies_empty_message">
+          Henüz hiç film kaydetmediniz.
+        </p>
       </div>
 
       <div id="trending-movies-section" class="content-section hidden">
@@ -128,13 +129,24 @@
 
       <div id="watch-later-movies-section" class="content-section hidden">
         <div id="watch-later-movies-list" class=""></div>
-        <p id="watch-later-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden" data-i18n="watch_later_empty_message">
-  Daha sonra izlenecek filminiz bulunmuyor.
-</p>
+        <p id="watch-later-empty-message" class="text-center text-gray-500 mt-8 p-4 hidden"
+          data-i18n="watch_later_empty_message">
+          Daha sonra izlenecek filminiz bulunmuyor.
+        </p>
       </div>
 
       <div id="profile-section" class="content-section hidden">
         <div id="profile-logged-in-view" class="hidden">
+          <button id="settings-icon-btn"
+            class="absolute top-4 right-4 p-2 rounded-full bg-black/20 hover:bg-black/40 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+              </path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
           <div id="profile-hero">
             <div class="hero-content">
               <img id="profile-avatar" src="logo.png" alt="Profil Simgesi" class="profile-avatar" />
@@ -370,7 +382,8 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button type="button" id="clear-filter-btn" class="cancel-button" data-i18n="filter_clear_button">Temizle</button>
+        <button type="button" id="clear-filter-btn" class="cancel-button"
+          data-i18n="filter_clear_button">Temizle</button>
         <button type="button" id="apply-filter-btn" class="save-button" data-i18n="filter_apply_button">Uygula</button>
       </div>
     </div>
@@ -553,6 +566,34 @@
       </div>
     </div>
   </div>
+
+  <!-- Ayarlar Yapısı -->
+  <div id="settings-overlay" class="settings-bottom-sheet-overlay">
+    <div id="settings-panel" class="settings-bottom-sheet-panel">
+
+      <div class="settings-grip"></div>
+
+      <h3 class="settings-title">Ayarlar</h3>
+
+      <div class="settings-section">
+        <label class="settings-label">Dil</label>
+        <div class="settings-option-group">
+          <button id="lang-tr-btn" class="settings-lang-btn active">
+            <span class="text-xl">🇹🇷</span>
+            <span>Türkçe</span>
+          </button>
+          <button id="lang-en-btn" class="settings-lang-btn">
+            <span class="text-xl">🇺🇸</span>
+            <span>English</span>
+          </button>
+        </div>
+      </div>
+
+      <button id="settings-close-btn" class="settings-close-btn">Kapat</button>
+
+    </div>
+  </div>
+
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 // js/main.
+import { initSettingsMenu } from "./settings.js";
 import { initializeI18n } from "./i18n.js";
 import { initAuth, handleAnonymousSignIn } from "./auth.js";
 import { loadMoviesFromFirestore, clearMovieLists } from "./storage.js";
@@ -85,6 +86,8 @@ function showAppUI() {
  */
 function initializeApp() {
   initializeI18n(); // DİL SİSTEMİNİ BAŞLAT
+  initSettingsMenu(); // AYARLAR MENÜSÜNÜ BAŞLAT
+
 
   console.log("initializeApp: Starting application...");
 
