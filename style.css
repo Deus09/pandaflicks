@@ -3552,7 +3552,7 @@ input:checked+.toggle-switch-slider:before {
 
 /* Profil sayfasındaki Dişli Çark İkonu */
 #settings-icon-btn {
-    position: absolute; /* Profil kartının sağ üst köşesine sabitlemek için */
+    /* position: absolute; Profil kartının sağ üst köşesine sabitlemek için */
     top: 1rem; /* 16px */
     right: 1rem; /* 16px */
     z-index: 5; /* Diğer içeriklerin üstünde kalması için */
