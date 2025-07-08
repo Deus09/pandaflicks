@@ -75,33 +75,33 @@ function initializeMovieModal() {
   modalContent.className = "modal-content";
   // DÜZELTME: Butonların HTML'ine pro-feature sınıfı ve pro-badge span'ı doğru şekilde eklendi.
   modalContent.innerHTML = `
-      <div class="modal-header"><h2 id="modal-title"></h2></div>
-      <form id="movie-form" novalidate>
-          <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
-          <div class="form-group">
-              <label for="movie-title-input">${getTranslation("modal_movie_title_label")}</label>
-              <input type="text" id="movie-title-input" required placeholder="${getTranslation("placeholder_movie_title")}" />
-              <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
-              <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
-          </div>
-          <input type="hidden" id="movie-poster-input" />
-          <div class="form-group"><label for="movie-rating-input">${getTranslation("modal_rating_label")}</label><div id="movie-rating-input" class="rating-input"></div></div>
-          <label class="toggle-switch-container"><span class="toggle-switch-label">${getTranslation("modal_watch_later_label")}</span><div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div></label>
-          <div class="form-group" id="watched-date-group"><label for="movie-date-input">${getTranslation("modal_watched_date_label")}</label><input type="date" id="movie-date-input" value="" required /></div>
-          <div class="form-group">
-              <label for="movie-comment-input">${getTranslation("modal_comment_label")}</label>
-              <textarea id="movie-comment-input" rows="3" placeholder="${getTranslation("ai_prompt_modal_placeholder")}"></textarea>
-              <div class="form-buttons-group">
-                  <button type="button" id="enhance-comment-button" class="enhance-comment-button pro-feature"><span class="loading-spinner"></span><span class="button-text">${getTranslation("modal_enhance_comment_button")}<span class="pro-badge">PRO</span></span></button>
-                  <button type="button" id="chat-with-character-button" class="chat-character-button hidden pro-feature"><span class="loading-spinner"></span><span class="button-text">${getTranslation("modal_chat_button")}<span class="pro-badge">PRO</span></span></button>
-              </div>
-          </div>
-          <div class="modal-actions">
-              <button type="button" id="cancel-button" class="cancel-button">${getTranslation("modal_cancel_button")}</button>
-              <button type="submit" id="save-button" class="save-button">${getTranslation("modal_save_button")}</button>
-          </div>
-      </form>
-  `;
+    <div class="modal-header"><h2 id="modal-title"></h2></div>
+    <form id="movie-form" novalidate>
+        <input type="hidden" id="movie-id" /><input type="hidden" id="movie-tmdb-id" /><input type="hidden" id="movie-type" /><input type="hidden" id="movie-runtime-input" /><input type="hidden" id="movie-genres-input" /><input type="hidden" id="movie-director-input" />
+        <div class="form-group">
+            <label for="movie-title-input" data-i18n="modal_movie_title_label">${getTranslation("modal_movie_title_label")}</label>
+            <input type="text" id="movie-title-input" required placeholder="${getTranslation("placeholder_movie_title")}" />
+            <div id="tmdb-search-results" class="tmdb-search-results hidden"></div>
+            <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
+        </div>
+        <input type="hidden" id="movie-poster-input" />
+        <div class="form-group"><label for="movie-rating-input" data-i18n="modal_rating_label">${getTranslation("modal_rating_label")}</label><div id="movie-rating-input" class="rating-input"></div></div>
+        <label class="toggle-switch-container"><span class="toggle-switch-label" data-i18n="modal_watch_later_label">${getTranslation("modal_watch_later_label")}</span><div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div></label>
+        <div class="form-group" id="watched-date-group"><label for="movie-date-input" data-i18n="modal_watched_date_label">${getTranslation("modal_watched_date_label")}</label><input type="date" id="movie-date-input" value="" required /></div>
+        <div class="form-group">
+            <label for="movie-comment-input" data-i18n="modal_comment_label">${getTranslation("modal_comment_label")}</label>
+            <textarea id="movie-comment-input" rows="3" data-i18n-placeholder="ai_prompt_modal_placeholder" placeholder="${getTranslation("ai_prompt_modal_placeholder")}"></textarea>
+            <div class="form-buttons-group">
+                <button type="button" id="enhance-comment-button" class="enhance-comment-button pro-feature"><span class="loading-spinner"></span><span class="button-text" data-i18n="modal_enhance_comment_button">${getTranslation("modal_enhance_comment_button")}<span class="pro-badge">PRO</span></span></button>
+                <button type="button" id="chat-with-character-button" class="chat-character-button hidden pro-feature"><span class="loading-spinner"></span><span class="button-text" data-i18n="modal_chat_button">${getTranslation("modal_chat_button")}<span class="pro-badge">PRO</span></span></button>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button type="button" id="cancel-button" class="cancel-button" data-i18n="modal_cancel_button">${getTranslation("modal_cancel_button")}</button>
+            <button type="submit" id="save-button" class="save-button" data-i18n="modal_save_button">${getTranslation("modal_save_button")}</button>
+        </div>
+    </form>
+`;
   overlay.appendChild(modalContent);
 
   // DOM referanslarını atama...
@@ -237,6 +237,7 @@ export function openMovieMode(movieId = null, prefillData = null, originList = n
     }
 
     if (movieToEdit) {
+      modalTitle.dataset.i18n = 'modal_edit_title';
       modalTitle.textContent = getTranslation('modal_edit_title');
       movieIdInput.value = movieToEdit.id;
       movieTmdbIdInput.value = movieToEdit.tmdbId || "";
@@ -269,6 +270,7 @@ export function openMovieMode(movieId = null, prefillData = null, originList = n
       }
     }
   } else {
+    modalTitle.dataset.i18n = 'modal_add_title';
     modalTitle.textContent = getTranslation('modal_add_title');
     movieIdInput.value = "";
     movieTypeInput.value = "watched";

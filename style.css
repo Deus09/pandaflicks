@@ -3923,3 +3923,25 @@ body.light-theme {
     color: var(--text-secondary);
     text-shadow: none;
 }
+
+/* =================================================================== */
+/* === AYDINLIK TEMA - SON KONTRAST DÜZELTMELERİ === */
+/* =================================================================== */
+
+/* 1. AI Öneri Textarea'sı Düzeltmesi */
+/* Sorun: Metin kutusunun arkası koyu kalıyordu, yazı da koyu olunca metin görünmüyordu. */
+/* Çözüm: Metin kutusunun arkaplanını açık gri yapıyoruz. */
+.light-theme .prompt-input-wrapper {
+    background: #e9ecef;
+    border-color: var(--border-color);
+}
+
+
+/* 2. Film Ekle Penceresindeki İptal Butonu Düzeltmesi */
+/* Sorun: Butonun arkaplanı koyu, metni de koyu olduğu için yazı görünmüyordu. */
+/* Çözüm: Butonun arkaplanını açık gri, metnini de okunaklı bir gri yapıyoruz. */
+.light-theme .modal-actions .cancel-button {
+    background-color: #e5e7eb; 
+    color: var(--text-secondary);
+    border: 1px solid #d1d5db;
+}
