@@ -355,7 +355,7 @@ export function renderProfilePage(stats) {
       }" data-badge-id="${badge.id}"><div class="badge-icon">${
         badge.icon
       }</div><div class="badge-text"><span class="badge-name">${getTranslation(badge.name)}</span>${
-        !isEarned ? '<span class="badge-locked-text">Kilitli</span>' : ""
+        !isEarned ? `<span class="badge-locked-text">${getTranslation("badge_locked")}</span>` : ""
       }</div></div>`;
     });
     badgesHTML += `</div>`;

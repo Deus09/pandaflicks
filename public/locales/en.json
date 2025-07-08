@@ -302,4 +302,12 @@
 "genre_Thriller": "Thriller",
 "genre_War": "War",
 "genre_Western": "Western"
+,
+"settings_title": "Settings",
+"settings_language_label": "Language",
+"lang_turkish": "Türkçe",
+"lang_english": "English",
+"settings_close_button": "Close"
+,
+"badge_locked": "Locked"
 }

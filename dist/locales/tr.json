@@ -302,4 +302,12 @@
 "genre_Thriller": "Gerilim",
 "genre_War": "Savaş",
 "genre_Western": "Vahşi Batı"
+,
+"settings_title": "Ayarlar",
+"settings_language_label": "Dil",
+"lang_turkish": "Türkçe",
+"lang_english": "English",
+"settings_close_button": "Kapat"
+,
+"badge_locked": "Kilitli"
 }

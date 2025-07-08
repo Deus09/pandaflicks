@@ -3,12 +3,9 @@ import { initSettingsMenu } from "./settings.js";
 import { initializeI18n } from "./i18n.js";
 import { initAuth, handleAnonymousSignIn } from "./auth.js";
 import { loadMoviesFromFirestore, clearMovieLists } from "./storage.js";
-import {
-  showSection,
-  setupListViewControls,
-  updateProfileView,
-} from "./sections.js";
+import { showSection, setupListViewControls, updateProfileView, refreshWatchedMoviesList, refreshWatchLaterList } from "./sections.js";
 import { setupEventListeners } from "./events.js";
+import { auth } from "./firebase.js";
 import { handleMovieFormSubmit } from "./modals.js";
 import { initBadgeInfoModal } from "./badge-modal.js";
 import { initializeChatDOM } from "./chat.js";
@@ -142,6 +139,38 @@ function initializeApp() {
       handleAnonymousSignIn().catch((err) => { /*...*/ });
     }
   });
+
+  // === DİL DEĞİŞİKLİĞİ SİNYALİNİ DİNLE ===
+  document.addEventListener('language-changed', () => {
+    // O anda hangi bölümün aktif (görünür) olduğunu bul
+    const activeSection = document.querySelector('.content-section:not(.hidden)');
+    if (!activeSection) return;
+
+    console.log(`Dil değişti, aktif bölüm yenileniyor: ${activeSection.id}`);
+
+    // Aktif olan bölüme göre doğru yenileme fonksiyonunu çağır
+    switch (activeSection.id) {
+      case 'profile-section':
+        // Profil sayfasını (istatistikler, kimlik vb.) yeniden çiz
+        updateProfileView(auth.currentUser);
+        break;
+      case 'my-watched-movies-section':
+        // İzlediklerim listesini (tarih formatları için) yeniden çiz
+        refreshWatchedMoviesList();
+        break;
+      case 'watch-later-movies-section':
+        // Daha sonra izle listesini yeniden çiz
+        refreshWatchLaterList();
+        break;
+      default:
+        // Diğer bölümler (Popüler, Listeler) zaten sekmeye tıklandığında
+        // yeniden veri çektiği için, dil değişikliğinde şimdilik
+        // özel bir eyleme ihtiyaçları yok.
+        showSection(activeSection.id);
+        break;
+    }
+  });
+  // ======================================
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);

@@ -22,6 +22,12 @@ export async function setLanguage(lang) {
     // Kullanıcının tercihini sonraki ziyaretleri için kaydet
     localStorage.setItem('preferredLanguage', lang);
     console.log(`Dil ${lang} olarak ayarlandı.`);
+
+    // === YENİ EKLENEN SİNYAL ===
+    // Dil başarıyla değiştiğinde, uygulamanın geri kalanına haber ver.
+    document.dispatchEvent(new CustomEvent('language-changed'));
+    // =============================
+
   } catch (error) {
     console.error(`Dil yüklenirken hata oluştu: ${lang}`, error);
     // Hata durumunda varsayılan olarak Türkçe'ye dön
