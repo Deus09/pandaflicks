@@ -505,7 +505,7 @@ header h1 {
   transform: none;
   animation: fadeInUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
   border-radius: 16px;
-  padding: 0.5rem;
+  padding: 2rem;
 }
 
 .suggestion-grid {
@@ -3184,12 +3184,12 @@ input:checked+.toggle-switch-slider:before {
   /* Hedef: Öneri sonuçları modalının kendisi */
   #suggestionResultOverlay .modal-content {
     /* Yan boşlukları daha da azalt */
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.3rem;
+    padding-right: 1.1rem;
 
     /* Dikey boşlukları da daha kompakt hale getir */
     padding-top: 1.3rem;
-    padding-bottom: 1rem;
+    padding-bottom: 1.3rem;
   }
 
   .suggestion-poster-item {
