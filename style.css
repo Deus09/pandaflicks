@@ -3986,5 +3986,6 @@ color: var(--text-primary); /* Ana metin rengini kullan */
   color: #f4f5f7;
   text-shadow: none;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
+  margin-top: 1 rem;
 }
