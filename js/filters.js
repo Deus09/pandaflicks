@@ -1,4 +1,5 @@
 // js/filters.js
+import { getTranslation } from './i18n.js';
 
 let filterModalOverlay, applyFilterBtn, clearFilterBtn, closeFilterBtn;
 let yearStartInput, yearEndInput;
@@ -12,7 +13,7 @@ export function initFilterModal(onApply) {
     applyFilterBtn = document.getElementById('apply-filter-btn');
     clearFilterBtn = document.getElementById('clear-filter-btn');
     closeFilterBtn = document.getElementById('close-filter-modal-button');
-    
+
     ratingSliderMin = document.getElementById('rating-slider-min');
     ratingSliderMax = document.getElementById('rating-slider-max');
     sliderProgress = document.getElementById('slider-progress');
@@ -20,7 +21,7 @@ export function initFilterModal(onApply) {
     ratingMaxValueSpan = document.getElementById('rating-max-value');
 
     if (!filterModalOverlay || !ratingSliderMin) return;
-    
+
     onApplyCallback = onApply;
 
     applyFilterBtn.addEventListener('click', handleApplyFilters);
@@ -95,14 +96,22 @@ function populateFilterOptions(allMovies, currentFilters) {
     genreContainer.innerHTML = '';
     [...genres].sort().forEach(genre => {
         const isChecked = currentFilters.genres?.includes(genre) ? 'checked' : '';
-        genreContainer.innerHTML += `<label class="genre-filter-label"><input type="checkbox" name="genre" value="${genre}" ${isChecked}><span>${genre}</span></label>`;
+
+        // API'den gelen tür adını bizim sözlük anahtarımıza çeviriyoruz.
+        // Örn: Gelen "Science Fiction" metnini "genre_Science_Fiction" anahtarına dönüştürür.
+        const translationKey = `genre_${genre.replace(/[\s-]/g, '_')}`;
+        const translatedGenre = getTranslation(translationKey);
+
+        // Checkbox'ın değeri orijinal (API'den gelen) isim olarak kalmalı,
+        // ama kullanıcıya gösterilen metin (<span>) çevrilmiş olmalı.
+        genreContainer.innerHTML += `<label class="genre-filter-label"><input type="checkbox" name="genre" value="${genre}" ${isChecked}><span>${translatedGenre}</span></label>`;
     });
 
     const minRating = currentFilters.ratingRange ? currentFilters.ratingRange[0] : 1;
     const maxRating = currentFilters.ratingRange ? currentFilters.ratingRange[1] : 5;
     ratingSliderMin.value = minRating;
     ratingSliderMax.value = maxRating;
-    
+
     // Değerleri ve ilerleme çubuğunu güncelle
     ratingMinValueSpan.textContent = parseFloat(minRating).toFixed(1);
     ratingMaxValueSpan.textContent = parseFloat(maxRating).toFixed(1);
@@ -110,7 +119,7 @@ function populateFilterOptions(allMovies, currentFilters) {
     const maxPercent = ((maxRating - ratingSliderMax.min) / (ratingSliderMax.max - ratingSliderMax.min)) * 100;
     sliderProgress.style.left = `${minPercent}%`;
     sliderProgress.style.right = `${100 - maxPercent}%`;
-    
+
     yearStartInput = document.getElementById('year-start-input');
     yearEndInput = document.getElementById('year-end-input');
     yearStartInput.placeholder = minYear;
@@ -128,7 +137,7 @@ function handleApplyFilters() {
     if (selectedGenres.length > 0) activeFilters.genres = selectedGenres;
     if (ratingRange[0] > 1 || ratingRange[1] < 5) activeFilters.ratingRange = ratingRange;
     if (yearRange[0] || yearRange[1]) activeFilters.yearRange = yearRange;
-    
+
     onApplyCallback(activeFilters);
     closeFilterModal();
 }

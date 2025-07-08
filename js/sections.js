@@ -126,7 +126,7 @@ export function setupListViewControls() {
       sortOptions.forEach((opt) => opt.classList.remove("active"));
       option.classList.add("active");
       currentSortCriteria = option.dataset.sort;
-      sortButton.querySelector("span").textContent = `${getTranslation('sort_button_prefix')} ${option.textContent}`;
+      sortButton.querySelector("span").textContent = `${getTranslation('sort_button_prefix')} ${getTranslation(option.dataset.i18n)}`;
       sortOptionsMenu.classList.add("hidden");
       sortButton.classList.remove("open");
       refreshWatchedMoviesList();
