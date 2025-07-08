@@ -402,7 +402,7 @@ export function renderSpecialLists(container, lists, onListClick) {
 
     const posterUrl =
       list.heroImage ||
-      "https://placehold.co/300x450/161b22/8b949e?text=SineLog";
+      "https://placehold.co/300x450/161b22/8b949e?text=PandaFlicks";
 
     listCard.innerHTML = `
             <div class="list-card-image-wrapper">

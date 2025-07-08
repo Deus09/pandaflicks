@@ -1,4 +1,4 @@
-    const CACHE_NAME = 'sinelog-cache-v1'; // Bu ismi değiştirmeden bırakabilirsiniz veya sinelog-cache-v1 yapabilirsiniz
+    const CACHE_NAME = 'pandaflicks-cache-v1'; // Bu ismi değiştirmeden bırakabilirsiniz veya pandaflicks-cache-v1 yapabilirsiniz
     const urlsToCache = [
       '/',
       '/index.html',

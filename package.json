@@ -1,7 +1,7 @@
 {
-  "name": "sinelog-functions",
+  "name": "pandaflicks-functions",
   "version": "1.0.0",
-  "description": "Serverless functions for SineLog app",
+  "description": "Serverless functions for PandaFlicks app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

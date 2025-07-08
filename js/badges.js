@@ -10,7 +10,7 @@ const ALL_BADGES = [
     { id: 'curious_viewer', name: 'badge_curious_viewer_name', icon: '🧐', description: 'badge_curious_viewer_desc', condition: (stats) => stats.totalMovies >= 10 },
     { id: 'cinephile', name: 'badge_cinephile_name', icon: '📚', description: 'badge_cinephile_desc', condition: (stats) => stats.totalMovies >= 50 },
     { id: 'film_gourmet', name: 'badge_film_gourmet_name', icon: '🧑‍🍳', description: 'badge_film_gourmet_desc', condition: (stats) => stats.totalMovies >= 100 },
-    { id: 'sinelog_elite', name: 'badge_sinelog_elite_name', icon: '👑', description: 'badge_sinelog_elite_desc', condition: (stats) => stats.totalMovies >= 250 },
+    { id: 'pandaflicks_elite', name: 'badge_pandaflicks_elite_name', icon: '👑', description: 'badge_pandaflicks_elite_desc', condition: (stats) => stats.totalMovies >= 250 },
     
     // Seviye 2: Süre ve Format Rozetleri
     { id: 'short_film_collector', name: 'badge_short_film_collector_name', icon: '🎬', description: 'badge_short_film_collector_desc', condition: (stats) => stats.shortFilmCount >= 5 },
