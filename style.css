@@ -3989,3 +3989,9 @@ color: var(--text-primary); /* Ana metin rengini kullan */
   font-weight: 800;
   margin-top: 1 rem;
 }
+
+/* Paywall penceresindeki yeni Pro logosu resminin boyutu */
+.paywall-icon-img {
+    width: 44px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
+    height: 44px; /* Yükseklik */
+}
