@@ -33,124 +33,7 @@
 /* === AYDINLIK TEMA (LIGHT THEME) - TAM KAPSAMLI DÜZELTME === */
 /* =================================================================== */
 
-body.light-theme {
-  /* --- 1. Ana Renk Paletini Yeniden Tanımlıyoruz --- */
-  --bg-main: #f0f2f5;                  /* Ana arka plan (Açık Gri) */
-  --bg-surface: #ffffff;                /* Kart, modal, menü arka planı (Beyaz) */
-  --border-color: #dcdfe6;              /* Kenarlıklar (Daha belirgin gri) */
-  --text-primary: #1c1e21;             /* Ana metin (Neredeyse siyah) */
-  --text-secondary: #606770;           /* İkincil metin (Orta gri) */
 
-  /* Vurgu renkleri aynı kalabilir, aydınlık temada güzel duruyorlar */
-  --accent-primary: #ff8c00;
-  --accent-primary-hover: #f08000;
-  --accent-secondary: #64ffda;
-  --accent-secondary-hover: #4deab8;
-  --accent-magic: #c778dd;
-  --accent-magic-hover: #b36cd1;
-  --accent-chat: #64ffda;
-  --accent-chat-hover: #4deab8;
-  --accent-chat-glow: rgba(100, 255, 218, 0.5);
-}
-
-/* --- 2. Özel Bileşenlerin Stillerini Aydınlık Tema İçin Ezme (Override) --- */
-
-/* Header: Hafif bir gölge ekleyerek sayfadan ayrışmasını sağlıyoruz */
-.light-theme header {
-  background-color: var(--bg-surface);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-bottom-color: var(--border-color);
-}
-
-/* Header'daki spot ışığı efektini aydınlık temada daha hafif yapalım */
-.light-theme header::before {
-    background: radial-gradient(ellipse 50% 50% at center, rgba(0, 0, 0, 0.05), transparent 70%);
-}
-
-/* Film Kartları, Profil İstatistik Kartları */
-.light-theme .movie-item,
-.light-theme .trending-item,
-.light-theme .overview-card,
-.light-theme .stat-group,
-.light-theme .badge-card {
-  background-color: var(--bg-surface);
-  border-color: var(--border-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* Puan Dağılımı Çubuklarının Arka Planı */
-.light-theme .rating-bar {
-    background-color: #e9ecef;
-}
-
-/* Açılır Menüler (Sıralama vb.) */
-.light-theme .sort-options-menu {
-  background-color: var(--bg-surface);
-  border-color: var(--border-color);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-.light-theme .sort-option:hover {
-  background-color: #f0f2f5;
-}
-.light-theme .sort-option.active {
-    background-color: rgba(247, 120, 38, 0.1); /* Vurgu renginin hafif tonu */
-}
-
-/* Filtrele/Sırala Butonları */
-.light-theme .list-controls,
-.light-theme .control-button {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
-}
-.light-theme .control-button:hover {
-    background-color: #f8f9fa;
-}
-
-/* Modallar (Film Ekle, Filtre vb. Pencereler) */
-.light-theme .modal-content {
-  background-color: #f8f9fa; /* Hafif kırık beyaz */
-  color: var(--text-primary);
-  border-color: var(--border-color);
-}
-.light-theme .modal-header {
-    border-bottom-color: var(--border-color);
-}
-.light-theme .form-group input,
-.light-theme .form-group textarea {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-/* Input alanına tıklandığında oluşan parlama efekti */
-.light-theme .form-group input:focus,
-.light-theme .form-group textarea:focus {
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(247, 120, 38, 0.2);
-}
-
-/* "Yorumumu Geliştir" gibi özel butonların metin rengini düzeltme */
-.light-theme .enhance-comment-button,
-.light-theme .chat-character-button {
-    color: #ffffff;
-}
-
-/* Navigasyon Çubuğu */
-.light-theme .nav-bar {
-  background: rgba(255, 255, 255, 0.8);
-  border-top-color: var(--border-color);
-}
-.light-theme .nav-item {
-    color: var(--text-secondary);
-}
-.light-theme .nav-item.active {
-    color: var(--accent-primary);
-}
-
-/* Splash ekranındaki loş metni canlandırma */
-.light-theme .splash-text {
-    color: #444;
-    text-shadow: none;
-}
 
 body {
   font-family: "Inter", sans-serif;
@@ -3890,4 +3773,153 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+/* =================================================================== */
+/* === AYDINLIK TEMA (LIGHT THEME) - FİNAL VE KAPSAMLI SÜRÜM === */
+/* =================================================================== */
+
+/* --- 1. Aydınlık Tema İçin Kapsamlı Renk Paleti Tanımlaması --- */
+body.light-theme {
+  --bg-main: #f4f5f7;                  /* Ana Arka Plan: Çok hafif ve yumuşak bir gri */
+  --bg-surface: #ffffff;                /* Kartlar, Modallar, Menüler: Saf ve temiz beyaz */
+  --border-color: #e5e7eb;              /* Kenarlıklar: Çok hafif ve belli belirsiz bir gri */
+  --text-primary: #111827;             /* Ana Metin: Yüksek kontrast için koyu antrasit */
+  --text-secondary: #6b7280;           /* İkincil Metin: Okunaklı, yumuşak bir gri */
+  --text-on-accent: #ffffff;            /* Vurgu Renkli Butonların Üzerindeki Yazı: Beyaz */
+
+  /* Vurgu renkleri (Turuncu, Turkuaz) aydınlık temada da canlı duruyor */
+  --accent-primary: #f97316;             /* Ana Vurgu Rengi: Daha canlı bir turuncu */
+  --accent-primary-hover: #ea580c;      /* Vurgu Rengi Hover: Biraz daha koyu turuncu */
+  --accent-secondary: #10b981;           /* İkincil Vurgu Rengi: Göz yormayan, canlı bir yeşil/turkuaz */
+  --accent-secondary-hover: #059669;    /* İkincil Vurgu Hover */
+
+  /* Diğer Özel Renkler */
+  --accent-magic: #8b5cf6;              /* Mor tonu */
+  --accent-magic-hover: #7c3aed;
+  --accent-chat-glow: rgba(16, 185, 129, 0.4);
+}
+
+/* --- 2. Tüm Bileşenlerin Aydınlık Tema Görünümünü Tanımlama --- */
+
+/* Header ve Alt Navigasyon Çubuğu */
+.light-theme header,
+.light-theme .nav-bar {
+  background-color: rgba(255, 255, 255, 0.85); /* Hafif şeffaf beyaz */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme h1, 
+.light-theme .header-profile-button svg {
+    color: var(--text-primary);
+}
+
+/* Tüm Kartlar, Gruplar ve Paneller */
+.light-theme .movie-item,
+.light-theme .trending-item,
+.light-theme .stat-group,
+.light-theme .list-card-v3,
+.light-theme .badge-card {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Açılır Sıralama Menüsü */
+.light-theme .sort-options-menu {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.light-theme .sort-option:hover {
+  background-color: var(--bg-main);
+}
+.light-theme .sort-option.active {
+    color: var(--accent-primary);
+    background-color: rgba(249, 115, 22, 0.05);
+}
+
+/* Filtrele/Sırala Buton Grubu */
+.light-theme .list-controls,
+.light-theme .control-button {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+}
+.light-theme .control-button:hover {
+    background-color: var(--bg-main);
+}
+
+/* Pencereler (Modals) */
+.light-theme .modal-content {
+  background-color: var(--bg-main);
+}
+.light-theme .modal-header,
+.light-theme .modal-actions {
+    border-color: var(--border-color);
+}
+
+/* Form Elemanları (Input, Textarea) */
+.light-theme .form-group input,
+.light-theme .form-group textarea {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+.light-theme .form-group input::placeholder,
+.light-theme .form-group textarea::placeholder {
+    color: #9ca3af; /* Placeholder metni için daha açık bir gri */
+}
+.light-theme .form-group input:focus,
+.light-theme .form-group textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+/* Puanlama Yıldızları (Boş olanlar için) */
+.light-theme .rating-input .star-svg {
+    fill: #d1d5db; /* Boş yıldız için açık gri */
+}
+
+/* Profil Sayfası Özel Stilleri */
+.light-theme .overview-card,
+.light-theme .capsule-item,
+.light-theme .milestone-item {
+    background-color: #f4f5f7; /* Kartların içindeki kartlar için hafif farklı bir ton */
+}
+/* Profildeki "Dramatik Ruh" gibi renkli rozetler */
+.light-theme .cinematic-identity {
+    background-image: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+    color: white; /* Bu gradyan üzerinde beyaz yazı iyi durur */
+}
+
+/* Ayarlar Menüsü */
+.light-theme .settings-bottom-sheet-panel,
+.light-theme .settings-lang-btn {
+    background-color: var(--bg-main);
+    border-color: var(--border-color);
+}
+.light-theme .settings-lang-btn.active {
+    background-color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    color: var(--text-primary); /* Kontrast için koyu renk */
+}
+.light-theme .settings-close-btn {
+    background-color: #e5e7eb;
+    color: var(--text-secondary);
+}
+.light-theme .theme-switch .slider {
+    background-color: #ccc;
+}
+.light-theme .theme-switch input:checked + .slider {
+    background-color: var(--accent-primary);
+}
+
+/* Yükleme Ekranı Metni */
+.light-theme .splash-text {
+    color: var(--text-secondary);
+    text-shadow: none;
 }
