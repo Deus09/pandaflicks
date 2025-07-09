@@ -1,4 +1,5 @@
-# netlify.toml
+# netlify.toml - GÜNCELLENMİŞ VERSİYON
+
 [build]
   command = "npm run build"
   publish = "dist"
@@ -6,22 +7,31 @@
 [functions]
   directory = "netlify/functions"
 
-# TMDB Proxy için özel yönlendirme kuralı
-# /api/tmdb/ ile başlayan tüm istekleri tmdb-proxy.js fonksiyonuna yönlendirir.
+# API yönlendirmeleri (Proxy Kuralları)
+# Bu kurallar, /api/ ile başlayan istekleri doğru sunucu fonksiyonuna gönderir.
+# status = 200, bunun bir "rewrite" olduğunu, yani URL'nin değişmeden
+# arka planda yönlendirme yapılacağını belirtir.
+
 [[redirects]]
   from = "/api/tmdb/*"
   to = "/.netlify/functions/tmdb-proxy/:splat"
   status = 200
 
-# Gemini Proxy için özel yönlendirme kuralı
-# /api/gemini adresine gelen istekleri gemini-proxy.js fonksiyonuna yönlendirir.
 [[redirects]]
  from = "/api/gemini/*"
   to = "/.netlify/functions/gemini-proxy/:splat"
   status = 200
 
-# Film Öneri Proxy için özel yönlendirme kuralı
 [[redirects]]
   from = "/api/suggest-movie"
   to = "/.netlify/functions/suggest-movie"
+  status = 200
+
+# Tek Sayfa Uygulamaları (SPA) için Geri Dönüş Kuralı
+# Bu kural, yukarıdaki API kurallarıyla eşleşmeyen TÜM diğer istekleri
+# ana index.html sayfanıza yönlendirir. Bu, sayfa yenilendiğinde 404 hatası
+# almamanızı sağlar. Bu kuralın EN SONDA olması çok önemlidir.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
