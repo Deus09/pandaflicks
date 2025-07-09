@@ -369,8 +369,7 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
 
   try {
     const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
-    const { movieData, directorName, trailerKey } = movieDetails;
-
+    const { movieData, directorName, trailerKey, watchProviders } = movieDetails;
     detailModalTitle.textContent = movieData.title || getTranslation('details_no_info');
     detailMoviePoster.src = movieData.poster_path ? `${TMDB_IMAGE_BASE_URL_W500}${movieData.poster_path}` : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
     detailMovieReleaseDate.textContent = `${getTranslation('details_release_date_prefix')}: ${movieData.release_date ? new Date(movieData.release_date).toLocaleDateString(getCurrentLang() === 'tr' ? 'tr-TR' : 'en-US', { year: "numeric", month: "long", day: "numeric" }) : getTranslation('details_no_info')}`;
@@ -404,6 +403,30 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
       detailMovieTrailerIframe.src = '';
       detailMovieTrailerSection.classList.add("hidden");
     }
+    // === YENİ EKLENEN "NEREDEN İZLENİR?" BÖLÜMÜNÜ DOLDURMA KODU ===
+    const providersSection = document.getElementById('detail-watch-providers-section');
+    const providersGrid = document.getElementById('detail-watch-providers-grid');
+
+    // Önceki logoları temizle
+    providersGrid.innerHTML = '';
+
+    // Eğer en az bir platform bulunduysa bölümü göster ve logoları ekle
+    if (watchProviders && watchProviders.length > 0) {
+      providersSection.classList.remove('hidden');
+      watchProviders.forEach(provider => {
+        const logoImg = document.createElement('img');
+        logoImg.className = 'provider-logo-img';
+        logoImg.src = `${TMDB_IMAGE_BASE_URL_W92}${provider.logo_path}`;
+        logoImg.alt = provider.provider_name;
+        logoImg.title = provider.provider_name; // Fareyle üzerine gelince ismini gösterir
+        providersGrid.appendChild(logoImg);
+      });
+    } else {
+      // Eğer hiç platform bulunamadıysa bölümü gizli tut
+      providersSection.classList.add('hidden');
+    }
+    // =================================================================
+
 
     const newButton = detailAddToLogButton.cloneNode(true);
     detailAddToLogButton.parentNode.replaceChild(newButton, detailAddToLogButton);

@@ -4014,3 +4014,19 @@ body:not(.light-theme) .paywall-icon-img {
     filter: drop-shadow(0 0 2px white) drop-shadow(0 0 4px white);
 }
 
+/* "Nereden İzlenir?" bölümündeki logo gridi */
+.watch-providers-grid {
+    display: flex;
+    flex-wrap: wrap; /* Logolar sığmazsa alt satıra geçsin */
+    gap: 0.75rem; /* Logolar arasına boşluk koy (12px) */
+}
+
+/* Her bir platform logosu */
+.provider-logo-img {
+    width: 48px;  /* Logo boyutu */
+    height: 48px;
+    border-radius: 10px; /* Kenarları hafif yuvarlat */
+    object-fit: cover; /* Resmin orantısını koru */
+    border: 1px solid var(--border-color); /* Hafif bir kenarlık */
+}
+

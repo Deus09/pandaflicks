@@ -44,6 +44,7 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
         const movieDetailsUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}?language=${tmdbLang}`;
         const movieCreditsUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}/credits?language=${tmdbLang}`;
         const videosUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}/videos?language=en-US`;
+        const providersUrl = `${TMDB_PROXY_BASE}/movie/${tmdbMovieId}/watch/providers`;
 
         const movieResponse = await fetch(movieDetailsUrl);
         if (!movieResponse.ok) {
@@ -70,6 +71,7 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
 
         const videoResponse = await fetch(videosUrl);
         let trailerKey = null;
+        let watchProviders = [];
         if (videoResponse.ok) {
             const videoData = await videoResponse.json();
             const trailer = videoData.results.find(vid => vid.site === 'YouTube' && vid.type === 'Trailer' && vid.key);
@@ -79,8 +81,17 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
         } else {
             console.warn('Film videoları yüklenemedi. HTTP Hata:', videoResponse.status);
         }
-        return { movieData, directorName, cast, trailerKey };
-
+        const providersResponse = await fetch(providersUrl);
+        if (providersResponse.ok) {
+            const providersData = await providersResponse.json();
+            // Türkiye için 'Abone Olunan' (Netflix, Prime gibi) servisleri alıyoruz
+            if (providersData.results && providersData.results.TR && providersData.results.TR.flatrate) {
+                watchProviders = providersData.results.TR.flatrate;
+            }
+        } else {
+            console.warn('Yayın bilgisi yüklenemedi. HTTP Hata:', providersResponse.status);
+        }
+        return { movieData, directorName, cast, trailerKey, watchProviders };
     } catch (error) {
         console.error("fetchMovieDetailsFromApi Hatası:", error);
         throw error;
