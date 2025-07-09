@@ -175,6 +175,7 @@ async function showListDetail(list) {
   showLoadingSpinner("Liste detayları getiriliyor...");
   try {
     const movies = await fetchMoviesFromList(list);
+    console.log(`'${list.name}' anahtarı için çeviri deneniyor...`);
     listDetailTitle.textContent = getTranslation(list.name);
     renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
   } catch (error) {

@@ -15,6 +15,8 @@ export async function setLanguage(lang) {
       throw new Error('Dil dosyası yüklenemedi.');
     }
     translations = await response.json();
+    console.log("Sözlük başarıyla yüklendi. İçinde 'list_top_rated_all_time_name' anahtarı var mı?", translations.hasOwnProperty('list_top_rated_all_time_name'));
+    console.log("Yüklenen sözlüğün içeriği:", translations);
     currentLang = lang;
 
     applyTranslations();
@@ -71,7 +73,7 @@ function applyTranslations() {
  * @returns {string} Çevrilmiş metin veya anahtarın kendisi.
  */
 export function getTranslation(key) {
-    return translations[key] || key;
+  return translations[key] || key;
 }
 
 /**
@@ -79,7 +81,7 @@ export function getTranslation(key) {
  * @returns {string}
  */
 export function getCurrentLang() {
-    return currentLang;
+  return currentLang;
 }
 
 /**
