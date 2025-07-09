@@ -176,6 +176,8 @@ async function showListDetail(list) {
   try {
     const movies = await fetchMoviesFromList(list);
     console.log(`'${list.name}' anahtarı için çeviri deneniyor...`);
+    // Başlığa hem doğru çeviri anahtarını (data-i18n) hem de o anki çeviriyi ata
+    listDetailTitle.dataset.i18n = list.name;
     listDetailTitle.textContent = getTranslation(list.name);
     renderListDetail(listDetailGrid, movies, openMovieDetailsModal);
   } catch (error) {
