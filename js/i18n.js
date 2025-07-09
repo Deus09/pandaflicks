@@ -86,13 +86,11 @@ export function getCurrentLang() {
  * Uygulama ilk açıldığında çalışacak ana dil fonksiyonu.
  * Kayıtlı tercihe veya tarayıcı diline göre doğru dili seçer.
  */
-export function initializeI18n() {
+export async function initializeI18n() { // Fonksiyonu async yaptık
   const preferredLang = localStorage.getItem('preferredLanguage');
   const browserLang = navigator.language.split('-')[0]; // 'tr-TR' -> 'tr'
 
-  // Eğer kayıtlı bir dil varsa onu kullan, yoksa tarayıcı dilini kontrol et,
-  // o da desteklenmiyorsa varsayılan olarak Türkçe'yi kullan.
   const langToLoad = preferredLang || (['en', 'tr'].includes(browserLang) ? browserLang : 'tr');
 
-  setLanguage(langToLoad);
+  await setLanguage(langToLoad); // Dil yüklemesinin bitmesini bekle
 }

@@ -82,9 +82,9 @@ function showAppUI() {
 /**
  * Initializes the application.
  */
-function initializeApp() {
+async function initializeApp() {
   initializeTheme(); // Tema sistemini başlat
-  initializeI18n(); // DİL SİSTEMİNİ BAŞLAT
+  await initializeI18n(); // DİL SİSTEMİNİ BAŞLAT
   initSettingsMenu(); // AYARLAR MENÜSÜNÜ BAŞLAT
 
 
@@ -175,4 +175,4 @@ function initializeApp() {
   // ======================================
 }
 
-document.addEventListener("DOMContentLoaded", initializeApp);
+document.addEventListener("DOMContentLoaded", () => initializeApp());
