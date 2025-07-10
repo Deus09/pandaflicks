@@ -79,35 +79,21 @@
     <main style="padding-bottom: 80px">
       <div id="my-watched-movies-section" class="content-section hidden">
         <div class="section-header">
-          <div class="list-controls">
-            <button id="filter-button" class="control-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-              </svg>
-              <span data-i18n="filter_button">Filtrele</span>
-            </button>
-            <div class="sort-container">
-              <button id="sort-button" class="control-button">
-                <span>Sırala: En Yeni</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6"></path>
-                </svg>
-              </button>
-              <div id="sort-options-menu" class="sort-options-menu hidden">
-                <a href="#" class="sort-option active" data-sort="date-desc" data-i18n="sort_by_date_desc">İzleme Tarihi
-                  (En Yeni)</a>
-                <a href="#" class="sort-option" data-sort="date-asc" data-i18n="sort_by_date_asc">İzleme Tarihi (En
-                  Eski)</a>
-                <a href="#" class="sort-option" data-sort="rating-desc" data-i18n="sort_by_rating_desc">Puan (Yüksekten
-                  Düşüğe)</a>
-                <a href="#" class="sort-option" data-sort="rating-asc" data-i18n="sort_by_rating_asc">Puan (Düşükten
-                  Yükseğe)</a>
-                <a href="#" class="sort-option" data-sort="title-asc" data-i18n="sort_by_title_asc">Film Adı (A-Z)</a>
-              </div>
-            </div>
-          </div>
+          <button id="list-options-btn" class="list-options-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="2" y1="14" x2="6" y2="14"></line>
+              <line x1="10" y1="8" x2="14" y2="8"></line>
+              <line x1="18" y1="16" x2="22" y2="16"></line>
+            </svg>
+          </button>
+
         </div>
 
         <div id="my-movies-list" class=""></div>
@@ -356,51 +342,7 @@
     </div>
   </div>
 
-  <div id="filter-modal-overlay" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 data-i18n="filter_modal_title">Filtrele</h2>
-        <button id="close-filter-modal-button" class="close-modal-btn">
-          ×
-        </button>
-      </div>
-      <div class="filter-modal-body">
-        <div class="filter-group">
-          <label class="filter-label" data-i18n="filter_genres_label">Türe Göre</label>
-          <div id="genre-filter-container" class="genre-filter-container"></div>
-        </div>
-        <div class="filter-group">
-          <label class="filter-label" data-i18n="filter_rating_label">Puan Aralığı</label>
-          <div class="dual-range-container">
-            <div class="range-values">
-              <span id="rating-min-value">1.0</span>
-              <span>-</span>
-              <span id="rating-max-value">5.0</span>
-            </div>
-            <div class="dual-range-slider">
-              <div class="slider-track"></div>
-              <div id="slider-progress" class="slider-progress"></div>
-              <input type="range" min="1" max="5" value="1" step="0.5" id="rating-slider-min" />
-              <input type="range" min="1" max="5" value="5" step="0.5" id="rating-slider-max" />
-            </div>
-          </div>
-        </div>
-        <div class="filter-group">
-          <label class="filter-label" data-i18n="filter_year_label">Yayın Yılı Aralığı</label>
-          <div class="year-range-container">
-            <input type="number" id="year-start-input" placeholder="örn: 1990" />
-            <span>-</span>
-            <input type="number" id="year-end-input" placeholder="örn: 2024" />
-          </div>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" id="clear-filter-btn" class="cancel-button"
-          data-i18n="filter_clear_button">Temizle</button>
-        <button type="button" id="apply-filter-btn" class="save-button" data-i18n="filter_apply_button">Uygula</button>
-      </div>
-    </div>
-  </div>
+
 
   <div id="character-selection-modal" class="modal-overlay hidden">
     <div class="modal-content">
@@ -616,6 +558,57 @@
       </div>
       <button id="settings-close-btn" class="settings-close-btn" data-i18n="settings_close_button">Kapat</button>
 
+    </div>
+  </div>
+  <div id="tools-overlay" class="tools-bottom-sheet-overlay hidden">
+    <div id="tools-panel" class="tools-bottom-sheet-panel">
+      <div class="settings-grip"></div>
+      <h3 class="settings-title" data-i18n="tools_title">Filtrele & Sırala</h3>
+      <div id="tools-panel-content">
+        <div class="tool-section">
+          <h4 class="tool-section-title" data-i18n="tools_sort_by">Sırala</h4>
+          <div id="tools-sort-options" class="tool-options-container">
+          </div>
+        </div>
+
+        <div class="tool-section">
+          <h4 class="tool-section-title" data-i18n="tools_filter_by">Filtrele</h4>
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="filter_genres_label">Türler</label>
+            <div id="tools-genre-filter-container" class="genre-filter-container"></div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="filter_rating_label">Puan Aralığı</label>
+            <div class="dual-range-container">
+              <div class="range-values">
+                <span id="tools-rating-min-value">1.0</span>
+                <span>-</span>
+                <span id="tools-rating-max-value">5.0</span>
+              </div>
+              <div class="dual-range-slider">
+                <div class="slider-track"></div>
+                <div id="tools-slider-progress" class="slider-progress"></div>
+                <input type="range" min="1" max="5" value="1" step="0.5" id="tools-rating-slider-min" />
+                <input type="range" min="1" max="5" value="5" step="0.5" id="tools-rating-slider-max" />
+              </div>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="filter_year_label">Yayın Yılı Aralığı</label>
+            <div class="year-range-container">
+              <input type="number" id="tools-year-start-input" placeholder="örn: 1990" />
+              <span>-</span>
+              <input type="number" id="tools-year-end-input" placeholder="örn: 2024" />
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-actions">
+          <button type="button" id="tools-clear-btn" class="cancel-button"
+            data-i18n="filter_clear_button">Temizle</button>
+          <button type="button" id="tools-apply-btn" class="save-button" data-i18n="filter_apply_button">Uygula</button>
+        </div>
+      </div>
     </div>
   </div>
 

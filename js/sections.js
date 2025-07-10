@@ -14,7 +14,6 @@ import { fetchTrendingMovies, fetchMoviesFromList } from "./api.js";
 import { openMovieMode, openMovieDetailsModal, showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { watchedMovies, watchLaterMovies } from "./storage.js";
 import { auth } from "./firebase.js";
-import { initFilterModal, openFilterModal, applyFilters } from "./filters.js";
 import { getCuratedLists } from "./lists.js";
 import { getTranslation } from "./i18n.js";
 
@@ -60,27 +59,25 @@ let activeFilters = {};
 
 // --- Fonksiyonlar ---
 
-export function refreshWatchedMoviesList(newFilters) {
+export function refreshWatchedMoviesList(newFilters, newSortCriteria) {
   if (myWatchedMoviesSection.classList.contains("hidden")) {
     return;
   }
-  if (newFilters !== undefined) activeFilters = newFilters;
-  filterButton.classList.toggle(
-    "active",
-    Object.keys(activeFilters).length > 0
-  );
-  const filteredMovies = applyFilters(watchedMovies, activeFilters);
+
+  const filters = newFilters || {};
+  const sortCriteria = newSortCriteria || 'date-desc';
+  const listElement = document.getElementById('my-movies-list');
+  const emptyMessageElement = document.getElementById('my-movies-empty-message');
+
+  const filteredMovies = applyFilters(watchedMovies, filters);
   const moviesToSort = [...filteredMovies];
-  switch (currentSortCriteria) {
+
+  switch (sortCriteria) {
     case "date-desc":
-      moviesToSort.sort(
-        (a, b) => new Date(b.watchedDate) - new Date(a.watchedDate)
-      );
+      moviesToSort.sort((a, b) => new Date(b.watchedDate) - new Date(a.watchedDate));
       break;
     case "date-asc":
-      moviesToSort.sort(
-        (a, b) => new Date(a.watchedDate) - new Date(b.watchedDate)
-      );
+      moviesToSort.sort((a, b) => new Date(a.watchedDate) - new Date(b.watchedDate));
       break;
     case "rating-desc":
       moviesToSort.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -92,17 +89,7 @@ export function refreshWatchedMoviesList(newFilters) {
       moviesToSort.sort((a, b) => a.title.localeCompare(b.title));
       break;
   }
-  renderMyMovies(
-    myMoviesList,
-    moviesToSort,
-    myMoviesEmptyMessage,
-    openMovieMode
-  );
-  // Fonksiyonun sonuna ekleyin
-  const activeSortOption = sortOptionsMenu.querySelector('.sort-option.active');
-  if (activeSortOption) {
-    sortButton.querySelector("span").textContent = `${getTranslation('sort_button_prefix')} ${getTranslation(activeSortOption.dataset.i18n)}`;
-  }
+  renderMyMovies(listElement, moviesToSort, emptyMessageElement, openMovieMode);
 }
 
 export function refreshWatchLaterList() {
@@ -115,40 +102,6 @@ export function refreshWatchLaterList() {
     watchLaterEmptyMessage,
     openMovieMode
   );
-}
-
-export function setupListViewControls() {
-  if (!sortButton || !sortOptionsMenu || !filterButton) return;
-  initFilterModal(refreshWatchedMoviesList);
-  sortButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    sortOptionsMenu.classList.toggle("hidden");
-    sortButton.classList.toggle("open");
-  });
-  sortOptions.forEach((option) => {
-    option.addEventListener("click", (e) => {
-      e.preventDefault();
-      sortOptions.forEach((opt) => opt.classList.remove("active"));
-      option.classList.add("active");
-      currentSortCriteria = option.dataset.sort;
-      sortButton.querySelector("span").textContent = `${getTranslation('sort_button_prefix')} ${getTranslation(option.dataset.i18n)}`;
-      sortOptionsMenu.classList.add("hidden");
-      sortButton.classList.remove("open");
-      refreshWatchedMoviesList();
-    });
-  });
-  filterButton.addEventListener("click", () => {
-    openFilterModal(watchedMovies, activeFilters);
-  });
-  document.addEventListener("click", (e) => {
-    if (
-      !sortButton.contains(e.target) &&
-      !sortOptionsMenu.classList.contains("hidden")
-    ) {
-      sortOptionsMenu.classList.add("hidden");
-      sortButton.classList.remove("open");
-    }
-  });
 }
 
 export function updateProfileView(user) {
@@ -302,3 +255,15 @@ export async function showSection(sectionId) {
 document.getElementById("back-to-lists-btn").addEventListener("click", () => {
   showSection("special-lists-section");
 });
+
+// FİLTRELEME MANTIĞI
+function applyFilters(movies, filters) {
+    return movies.filter(movie => {
+        if (filters.genres && filters.genres.length > 0) {
+            const movieGenres = movie.genres?.map(g => g.name) || [];
+            if (!filters.genres.some(filterGenre => movieGenres.includes(filterGenre))) return false;
+        }
+        // Puan ve Yıl filtreleri de gelecekte buraya eklenebilir
+        return true;
+    });
+}

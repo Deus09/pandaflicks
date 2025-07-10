@@ -4,7 +4,7 @@ import { initSettingsMenu } from "./settings.js";
 import { initializeI18n } from "./i18n.js";
 import { initAuth, handleAnonymousSignIn } from "./auth.js";
 import { loadMoviesFromFirestore, clearMovieLists } from "./storage.js";
-import { showSection, setupListViewControls, updateProfileView, refreshWatchedMoviesList, refreshWatchLaterList } from "./sections.js";
+import { showSection, updateProfileView, refreshWatchedMoviesList, refreshWatchLaterList } from "./sections.js";
 import { setupEventListeners } from "./events.js";
 import { auth } from "./firebase.js";
 import { handleMovieFormSubmit } from "./modals.js";
@@ -14,6 +14,7 @@ import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus } from "./user.js"; // GÜNCELLEME
 import { initPaywall } from './paywall.js'; // YENİ: import ekle
+import { initToolsMenu } from './tools.js';
 
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
@@ -95,7 +96,7 @@ async function initializeApp() {
 
   // Gerekli tüm başlatmaları yap
   setupEventListeners();
-  setupListViewControls();
+  initToolsMenu(refreshWatchedMoviesList); 
   initBadgeInfoModal();
   initializeChatDOM();
   initMovieSuggestion();
