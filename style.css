@@ -829,6 +829,13 @@ header h1 {
   gap: 1rem;
 }
 
+/* 400px ve altı ekranlar için */
+@media (max-width: 400px) {
+  .trending-grid {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  }
+}
+
 .trending-item {
   text-align: center;
   display: flex;
@@ -837,17 +844,17 @@ header h1 {
 
 .trending-poster {
   width: 100%;
-  height: 165px;
+  height: 100%;
   object-fit: cover;
   background-color: #21262d;
   border-bottom: 1px solid var(--border-color);
 }
 
 .trending-title {
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 600;
   color: var(--text-primary);
-  padding: 0.6rem 0.4rem;
+  padding: 0.3rem 0.2rem;
   line-height: 1.3;
 }
 
