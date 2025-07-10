@@ -53,9 +53,12 @@ const specialListsContentContainer = document.getElementById(
   "special-lists-content-container"
 );
 
+
+
 // --- Durum Değişkenleri ---
 let currentSortCriteria = "date-desc";
 let activeFilters = {};
+let lastActiveSectionId = 'trending-movies-section'; // Başlangıçta popüler sekmesinin aktif olduğunu varsayalım
 
 // --- Fonksiyonlar ---
 
@@ -188,6 +191,7 @@ async function showListDetail(list) {
 }
 
 export async function showSection(sectionId) {
+  lastActiveSectionId = sectionId; // Hangi sekmeyi açarsak açalım, ID'sini hafızaya al
   const sections = [
     trendingMoviesSection,
     myWatchedMoviesSection,
@@ -312,50 +316,50 @@ const backToMovieBtn = document.getElementById("back-to-movie-btn");
 let lastOpenedMovieId = null; // Geri dönmek için son filmin ID'sini sakla
 
 export async function showPersonDetail(personId) {
-    // Önce hangi filmden geldiğimizi hatırlayalım
-    const movieDetailsModal = document.getElementById("movie-details-modal-overlay");
-    if (!movieDetailsModal.classList.contains("hidden")) {
-        lastOpenedMovieId = movieDetailsModal.dataset.movieId;
-    }
+  // Önce hangi filmden geldiğimizi hatırlayalım
+  const movieDetailsModal = document.getElementById("movie-details-modal-overlay");
+  if (!movieDetailsModal.classList.contains("hidden")) {
+    lastOpenedMovieId = movieDetailsModal.dataset.movieId;
+  }
 
-    // Tüm diğer bölümleri gizle ve kişi detayını göster
-    document.querySelectorAll(".content-section").forEach(s => s.classList.add("hidden"));
-    personDetailSection.classList.remove("hidden");
+  // Tüm diğer bölümleri gizle ve kişi detayını göster
+  document.querySelectorAll(".content-section").forEach(s => s.classList.add("hidden"));
+  personDetailSection.classList.remove("hidden");
 
-    // Yükleniyor animasyonunu göster
-    personDetailGrid.innerHTML = ''; // Önceki filmleri temizle
-    showLoadingSpinner("Kişi bilgileri ve filmleri yükleniyor...");
+  // Yükleniyor animasyonunu göster
+  personDetailGrid.innerHTML = ''; // Önceki filmleri temizle
+  showLoadingSpinner("Kişi bilgileri ve filmleri yükleniyor...");
 
-    try {
-        const personData = await fetchPersonDetailsAndCredits(personId);
+  try {
+    const personData = await fetchPersonDetailsAndCredits(personId);
 
-        // Kişi bilgilerini ekrana yazdır
-        personDetailName.textContent = personData.details.name;
-        personDetailPhoto.src = personData.details.profile_path
-            ? `${TMDB_IMAGE_BASE_URL_W185}${personData.details.profile_path}`
-            : 'https://placehold.co/48x48/2d333b/8b949e?text=?';
+    // Kişi bilgilerini ekrana yazdır
+    personDetailName.textContent = personData.details.name;
+    personDetailPhoto.src = personData.details.profile_path
+      ? `${TMDB_IMAGE_BASE_URL_W185}${personData.details.profile_path}`
+      : 'https://placehold.co/48x48/2d333b/8b949e?text=?';
 
-        // Filmleri ekrana çiz (render.js'de bu fonksiyonu birazdan oluşturacağız)
-        const sortedMovies = personData.movies.sort((a, b) => {
-            const dateA = a.release_date ? new Date(a.release_date) : new Date(0);
-            const dateB = b.release_date ? new Date(b.release_date) : new Date(0);
-            return dateB - dateA;
-        });
-        renderListDetail(personDetailGrid, sortedMovies, openMovieDetailsModal);
+    // Filmleri ekrana çiz (render.js'de bu fonksiyonu birazdan oluşturacağız)
+    const sortedMovies = personData.movies.sort((a, b) => {
+      const dateA = a.release_date ? new Date(a.release_date) : new Date(0);
+      const dateB = b.release_date ? new Date(b.release_date) : new Date(0);
+      return dateB - dateA;
+    });
+    renderListDetail(personDetailGrid, sortedMovies, openMovieDetailsModal);
 
-    } catch (error) {
-        personDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">Kişi filmleri yüklenirken bir hata oluştu.</p>`;
-    } finally {
-        hideLoadingSpinner();
-    }
+  } catch (error) {
+    personDetailGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">Kişi filmleri yüklenirken bir hata oluştu.</p>`;
+  } finally {
+    hideLoadingSpinner();
+  }
 }
 
 // Geri butonuna tıklama olayını ayarla
 backToMovieBtn.addEventListener("click", () => {
     if (lastOpenedMovieId) {
-        // Mevcut kişi detay sayfasını gizle
-        personDetailSection.classList.add("hidden");
-        // Hafızadaki film detay modalını tekrar aç
+        // Önce hafızadaki son aktif bölümü tekrar göster
+        showSection(lastActiveSectionId);
+        // SONRA, onun üzerine film detay modalını tekrar aç
         openMovieDetailsModal(lastOpenedMovieId);
     }
 });
