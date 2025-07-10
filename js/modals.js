@@ -486,7 +486,7 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
         release_date: movieData.release_date,
         runtime: movieData.runtime,
         genres: movieData.genres,
-        director: directorName,
+        director: director ? director.name : getTranslation('unknown'),
       });
     });
     detailAddToLogButton.disabled = false;
