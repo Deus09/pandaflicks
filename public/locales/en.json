@@ -183,6 +183,7 @@
 "details_release_date_prefix": "Release Date",
 "details_genres_prefix": "Genres",
 "details_director_prefix": "Director",
+"details_cast_prefix": "Starring",
 "details_no_overview": "No summary is available for this movie.",
 "details_error_loading": "An error occurred while loading movie details: {error}"
 ,

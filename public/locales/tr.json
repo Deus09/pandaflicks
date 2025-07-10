@@ -183,6 +183,7 @@
 "details_release_date_prefix": "Vizyon Tarihi",
 "details_genres_prefix": "Türler",
 "details_director_prefix": "Yönetmen",
+"details_cast_prefix": "Oyuncular",
 "details_no_overview": "Bu film için özet bulunmamaktadır.",
 "details_error_loading": "Film detayları yüklenirken bir sorun oluştu: {error}"
 ,

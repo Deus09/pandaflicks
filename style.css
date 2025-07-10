@@ -1475,11 +1475,13 @@ input:checked+.toggle-switch-slider:before {
 #detail-add-to-log-button {
   background-color: var(--accent-secondary);
   color: var(--bg-main);
-  font-weight: 600;
-  padding: 1rem;
+  font-weight: 500;
+  padding: 0.3rem;
   border-radius: 10px;
-  width: 100%;
+  width: 70%;
   transition: background-color 0.2s ease, transform 0.2s ease;
+  margin-left:auto;
+  margin-right: auto;
 }
 
 #detail-add-to-log-button:hover {
@@ -3454,11 +3456,38 @@ input:checked+.toggle-switch-slider:before {
 /* =================================================================== */
 /* === FİLM DETAY MODALI - YENİ VE DENGELİ TASARIM === */
 /* =================================================================== */
+#detail-movie-overview.truncated {
+  position: relative; /* Bu satır, içindeki sahte elementi konumlandırmak için gerekli */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#detail-movie-overview.truncated::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 75%;
+  height: 1.2rem;
+  background: linear-gradient(to right, transparent, var(--bg-main) 90%);
+  text-align: right;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Aydınlık tema için de soluklaşma efektini ayarlayalım */
+.light-theme #detail-movie-overview.truncated::after {
+    background: linear-gradient(to right, transparent, var(--bg-main) 50%);
+}
+
 
 #detail-modal-body {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* Ana bölümler arası boşluk */
+  gap: 1rem; /* Ana bölümler arası boşluk */
 }
 
 .detail-grid-v2 {
@@ -3519,7 +3548,7 @@ input:checked+.toggle-switch-slider:before {
 }
 
 .ratings-container-v2 .rating-value {
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.1rem; /* 24px */
   font-weight: 700;
   color: var(--accent-secondary); /* Parlak Turkuaz */
 }
@@ -3543,9 +3572,9 @@ input:checked+.toggle-switch-slider:before {
   gap: 0.5rem;
   background-color: #f5c518;
   color: #000000;
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   font-weight: 600;
-  padding: 0.6rem;
+  padding: 0.2rem 0.4rem;
   border-radius: 8px;
   text-decoration: none;
   transition: transform 0.1s ease;

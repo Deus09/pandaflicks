@@ -363,19 +363,37 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
 
   detailModalTitle.textContent = getTranslation('loading');
   detailAddToLogButton.disabled = true;
+  const detailMovieCast = document.getElementById("detail-movie-cast");
 
   const timerPromise = new Promise((resolve) => setTimeout(resolve, 500));
   const apiPromise = fetchMovieDetailsFromApi(tmdbMovieId);
 
   try {
     const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
-    const { movieData, directorName, trailerKey, watchProviders } = movieDetails;
+    const { movieData, directorName, cast, trailerKey, watchProviders } = movieDetails;
     detailModalTitle.textContent = movieData.title || getTranslation('details_no_info');
     detailMoviePoster.src = movieData.poster_path ? `${TMDB_IMAGE_BASE_URL_W500}${movieData.poster_path}` : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
     detailMovieReleaseDate.textContent = `${getTranslation('details_release_date_prefix')}: ${movieData.release_date ? new Date(movieData.release_date).toLocaleDateString(getCurrentLang() === 'tr' ? 'tr-TR' : 'en-US', { year: "numeric", month: "long", day: "numeric" }) : getTranslation('details_no_info')}`;
     detailMovieGenres.textContent = `${getTranslation('details_genres_prefix')}: ${movieData.genres?.length > 0 ? movieData.genres.map((g) => g.name).join(", ") : getTranslation('details_no_info')}`;
     detailMovieDirector.textContent = `${getTranslation('details_director_prefix')}: ${directorName}`;
+    // Oyuncuları ekle
+    if (cast && cast.length > 0) {
+      const actorNames = cast.slice(0, 4).map(actor => actor.name).join(', ');
+      detailMovieCast.textContent = `${getTranslation('details_cast_prefix')}: ${actorNames}`;
+      detailMovieCast.style.display = 'block';
+    } else {
+      detailMovieCast.style.display = 'none';
+    }
+    // Film özetini ayarla ve tıklanabilir yap
     detailMovieOverview.textContent = movieData.overview || getTranslation('details_no_overview');
+
+    // Başlangıçta metni her zaman kısaltılmış olarak ayarla
+    detailMovieOverview.classList.add('truncated');
+
+    // Tıklandığında 'truncated' sınıfını aç/kapat
+    detailMovieOverview.onclick = () => {
+      detailMovieOverview.classList.toggle('truncated');
+    };
 
     const tmdbRatingEl = document.getElementById('detail-tmdb-rating');
     const imdbLinkEl = document.getElementById('detail-imdb-link');
