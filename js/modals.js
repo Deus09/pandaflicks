@@ -85,15 +85,32 @@ function initializeMovieModal() {
             <p id="tmdb-search-message" class="tmdb-search-message" style="display: none;"></p>
         </div>
         <input type="hidden" id="movie-poster-input" />
-        <div class="form-group"><label for="movie-rating-input" data-i18n="modal_rating_label">${getTranslation("modal_rating_label")}</label><div id="movie-rating-input" class="rating-input"></div></div>
-        <label class="toggle-switch-container"><span class="toggle-switch-label" data-i18n="modal_watch_later_label">${getTranslation("modal_watch_later_label")}</span><div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div></label>
-        <div class="form-group" id="watched-date-group"><label for="movie-date-input" data-i18n="modal_watched_date_label">${getTranslation("modal_watched_date_label")}</label><input type="date" id="movie-date-input" value="" required /></div>
+<div class="form-group">
+            <label for="movie-rating-input" data-i18n="modal_rating_label">${getTranslation("modal_rating_label")}</label>
+            <div id="movie-rating-input" class="rating-input"></div>
+        </div>
+        <label class="toggle-switch-container">
+            <span class="toggle-switch-label" data-i18n="modal_watch_later_label">${getTranslation("modal_watch_later_label")}</span>
+            <div class="toggle-switch-wrapper"><input type="checkbox" id="watch-later-checkbox" /><span class="toggle-switch-slider"></span></div>
+        </label>
+        <div class="form-group" id="watched-date-group">
+            <label for="movie-date-input" data-i18n="modal_watched_date_label">${getTranslation("modal_watched_date_label")}</label>
+            <input type="date" id="movie-date-input" value="" required />
+        </div>
         <div class="form-group">
             <label for="movie-comment-input" data-i18n="modal_comment_label">${getTranslation("modal_comment_label")}</label>
             <textarea id="movie-comment-input" rows="3" data-i18n-placeholder="ai_prompt_modal_placeholder" placeholder="${getTranslation("ai_prompt_modal_placeholder")}"></textarea>
             <div class="form-buttons-group">
-                <button type="button" id="enhance-comment-button" class="enhance-comment-button pro-feature"><span class="loading-spinner"></span><span class="button-text" data-i18n="modal_enhance_comment_button">${getTranslation("modal_enhance_comment_button")}<span class="pro-badge">PRO</span></span></button>
-                <button type="button" id="chat-with-character-button" class="chat-character-button hidden pro-feature"><span class="loading-spinner"></span><span class="button-text" data-i18n="modal_chat_button">${getTranslation("modal_chat_button")}<span class="pro-badge">PRO</span></span></button>
+                <button type="button" id="enhance-comment-button" class="pro-action-button pro-feature">
+                    <span class="loading-spinner"></span>
+                    <span class="button-text">✨ ${getTranslation("modal_enhance_comment_button")}</span>
+                    <span class="pro-badge">PRO</span>
+                </button>
+                <button type="button" id="chat-with-character-button" class="pro-action-button hidden pro-feature">
+                    <span class="loading-spinner"></span>
+                    <span class="button-text">💬 ${getTranslation("modal_chat_button")}</span>
+                    <span class="pro-badge">PRO</span>
+                </button>
             </div>
         </div>
         <div class="modal-actions">
@@ -348,13 +365,13 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
     detailAddToLogButton = document.getElementById("detail-add-to-log-button");
     // Kişi ismine tıklandığında yeni sayfayı açan olay dinleyici
     detailModalBody.addEventListener('click', (e) => {
-        if (e.target.classList.contains('clickable-person')) {
-            const personId = e.target.dataset.personId;
-            if (personId) {
-                closeMovieDetailsModal();
-                showPersonDetail(personId);
-            }
+      if (e.target.classList.contains('clickable-person')) {
+        const personId = e.target.dataset.personId;
+        if (personId) {
+          closeMovieDetailsModal();
+          showPersonDetail(personId);
         }
+      }
     });
   }
 
@@ -511,8 +528,8 @@ export function closeMovieDetailsModal() {
   // Arka planda bir kişi sayfası açık kalmış mı diye kontrol et
   const personSection = document.getElementById('person-detail-section');
   if (personSection && !personSection.classList.contains('hidden')) {
-      // Eğer açıksa, en son ziyaret edilen ana sekmeye geri dön
-      showSection(lastActiveSectionId);
+    // Eğer açıksa, en son ziyaret edilen ana sekmeye geri dön
+    showSection(lastActiveSectionId);
   }
 
   movieDetailsModalOverlay.addEventListener('transitionend', () => {

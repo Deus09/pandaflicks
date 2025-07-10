@@ -1229,128 +1229,79 @@ input:checked+.toggle-switch-slider:before {
 }
 
 /* --- Form İçi Buton Grubu --- */
+
+/* --- YENİ: Minimalist & Mobil Uyumlu PRO Butonları --- */
 .form-buttons-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
+    display: flex; /* Butonları yan yana getirir */
+    gap: 0.75rem; /* Aralarına boşluk koyar */
+    margin-top: 1rem;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+/* Bütün PRO butonları için ortak iskelet stili */
+.pro-action-button {
+    flex: 1; /* Alanı eşit paylaşmalarını sağlar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background-color: transparent; /* İçi boş (hayalet) stil */
+    border: 1.5px solid; /* Çerçeve rengi alttaki kurallardan gelecek */
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    position: relative; /* PRO rozeti için */
+    transition: background-color 0.1s ease-out; /* Dokunma efekti için hızlı geçiş */
 }
 
-/* YENİ: Animasyonlu gradyan için keyframes */
-@keyframes animated-gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+/* Yorum Geliştirme Butonu - Turuncu */
+#enhance-comment-button {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
 }
 
-/* YENİ: Üzerine gelince oluşan ışıltı efekti için keyframes */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%) skewX(-20deg);
-  }
+/* Karakter Sohbet Butonu - Turkuaz */
+#chat-with-character-button {
+    border-color: var(--accent-secondary);
+    color: var(--accent-secondary);
+}
 
-  100% {
-    transform: translateX(200%) skewX(-20deg);
-  }
+/* DOKUNMA EFEKTİ (:active mobil için :hover'dan daha önemlidir) */
+#enhance-comment-button:active {
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+#chat-with-character-button:active {
+    background-color: var(--accent-secondary);
+    color: var(--bg-main); /* Turkuaz üzerine koyu renk daha iyi okunur */
+}
+
+/* PRO Rozetini butonun köşesine yerleştirelim */
+.pro-action-button .pro-badge {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 6px; /* Butonun köşesine tam oturması için */
+    color: var(--bg-surface);
+}
+
+#enhance-comment-button .pro-badge {
+    background-color: var(--accent-primary);
+}
+
+#chat-with-character-button .pro-badge {
+    background-color: var(--accent-secondary);
 }
 
 
-.enhance-comment-button,
-.chat-character-button {
-  color: #0b192f;
-  width: 100%;
-  padding: 0.6rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: transform 0.1s ease, background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(100, 255, 218, 0.5);
-  /* Hafif bir sınır */
-  background-image: linear-gradient(-99deg, #172a46, var(--accent-chat), #a0ffee, var(--accent-chat));
-  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(204, 214, 246, 0.1);
-  position: relative;
-  min-height: 40px;
-    animation: animated-gradient 4s ease infinite;
-  /* Canlı gradyan animasyonu */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  /* Işıltı efektinin taşmasını engellemek için */
-}
 
-.enhance-comment-button:active,
-.chat-character-button:active {
-  transform: scale(0.97);
-}
-
-.enhance-comment-button {
-  background-color: var(--accent-magic);
-}
-
-.enhance-comment-button:hover {
-  background-color: var(--accent-magic-hover);
-}
-
-/* --- YENİ: "Karakterle Konuş" Butonunun Özel Stili --- */
-.chat-character-button {
-  border: 1px solid rgba(38, 136, 247, 0.5);
-  /* Hafif bir sınır */
-  background-size: 200% 200%;
-  /* Animasyon için gradyan boyutunu artır */
-  background-image: linear-gradient(-45deg,
-      #1a3d6d,
-      var(--accent-chat),
-      #4f9bff,
-      var(--accent-chat));
-  animation: animated-gradient 4s ease infinite;
-  /* Canlı gradyan animasyonu */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 0 15px var(--accent-chat-glow), inset 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-.chat-character-button:hover {
-  transform: scale(1.03);
-  /* Hafifçe büyüt */
-  box-shadow: 0 0 25px var(--accent-chat-glow), inset 0 0 12px rgba(255, 255, 255, 0.15);
-}
-
-/* YENİ: Üzerine gelince oluşan ışıltı efekti */
-.chat-character-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(to right,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.3) 50%,
-      rgba(255, 255, 255, 0) 100%);
-  transform: translateX(-150%) skewX(-20deg);
-  opacity: 0;
-  transition: none;
-  /* Anlık geçiş için */
-}
 
 
 
