@@ -15,7 +15,7 @@ import {
   watchedMovies,
   watchLaterMovies,
 } from "./storage.js";
-import { showSection, showPersonDetail } from "./sections.js";
+import { showSection, lastActiveSectionId, showPersonDetail } from "./sections.js";
 import { showNotification } from "./utils.js";
 import { enhanceCommentWithGemini } from "./gemini.js";
 import { displayTmdbSearchResults } from "./render.js";
@@ -504,9 +504,16 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
 
 export function closeMovieDetailsModal() {
   if (!movieDetailsModalOverlay) return;
-  onModalClose(); // BU SATIRI EKLEYİN
+  onModalClose();
   movieDetailsModalOverlay.classList.remove("visible");
   detailMovieTrailerIframe.src = "";
+
+  // Arka planda bir kişi sayfası açık kalmış mı diye kontrol et
+  const personSection = document.getElementById('person-detail-section');
+  if (personSection && !personSection.classList.contains('hidden')) {
+      // Eğer açıksa, en son ziyaret edilen ana sekmeye geri dön
+      showSection(lastActiveSectionId);
+  }
 
   movieDetailsModalOverlay.addEventListener('transitionend', () => {
     if (!movieDetailsModalOverlay.classList.contains('visible')) {
@@ -514,7 +521,6 @@ export function closeMovieDetailsModal() {
       movieDetailsModalOverlay.classList.remove('is-layered');
     }
   }, { once: true });
-
 }
 
 export async function handleMovieFormSubmit(e) {

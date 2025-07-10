@@ -58,8 +58,7 @@ const specialListsContentContainer = document.getElementById(
 // --- Durum Değişkenleri ---
 let currentSortCriteria = "date-desc";
 let activeFilters = {};
-let lastActiveSectionId = 'trending-movies-section'; // Başlangıçta popüler sekmesinin aktif olduğunu varsayalım
-
+export let lastActiveSectionId = 'trending-movies-section'; // Başlangıçta popüler sekmesinin aktif olduğunu varsayalım
 // --- Fonksiyonlar ---
 
 export function refreshWatchedMoviesList(newFilters) {
@@ -192,13 +191,14 @@ async function showListDetail(list) {
 
 export async function showSection(sectionId) {
   lastActiveSectionId = sectionId; // Hangi sekmeyi açarsak açalım, ID'sini hafızaya al
-  const sections = [
+const sections = [
     trendingMoviesSection,
     myWatchedMoviesSection,
     watchLaterMoviesSection,
     profileSection,
     specialListsSection,
     listDetailSection,
+    personDetailSection, // Bu satırı ekledik!
   ];
   const navItems = document.querySelectorAll(".nav-item");
   sections.forEach((section) => {
