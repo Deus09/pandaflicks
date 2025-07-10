@@ -15,7 +15,7 @@ import {
   watchedMovies,
   watchLaterMovies,
 } from "./storage.js";
-import { showSection } from "./sections.js";
+import { showSection, showPersonDetail } from "./sections.js";
 import { showNotification } from "./utils.js";
 import { enhanceCommentWithGemini } from "./gemini.js";
 import { displayTmdbSearchResults } from "./render.js";
@@ -346,6 +346,16 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
     detailMovieTrailerSection = document.getElementById("detail-movie-trailer-section");
     detailMovieTrailerIframe = document.getElementById("detail-movie-trailer-iframe");
     detailAddToLogButton = document.getElementById("detail-add-to-log-button");
+    // Kişi ismine tıklandığında yeni sayfayı açan olay dinleyici
+    detailModalBody.addEventListener('click', (e) => {
+        if (e.target.classList.contains('clickable-person')) {
+            const personId = e.target.dataset.personId;
+            if (personId) {
+                closeMovieDetailsModal();
+                showPersonDetail(personId);
+            }
+        }
+    });
   }
 
 
@@ -354,6 +364,7 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
   }
 
   movieDetailsModalOverlay.classList.remove("hidden");
+  movieDetailsModalOverlay.dataset.movieId = tmdbMovieId; // Modala hangi filmin açık olduğunu hatırlatıyoruz
   setTimeout(() => movieDetailsModalOverlay.classList.add("visible"), 10);
 
   detailModalBody.style.display = "none";
@@ -370,20 +381,31 @@ export async function openMovieDetailsModal(tmdbMovieId, isLayered = false) {
 
   try {
     const [_, movieDetails] = await Promise.all([timerPromise, apiPromise]);
-    const { movieData, directorName, cast, trailerKey, watchProviders } = movieDetails;
+    const { movieData, director, cast, trailerKey, watchProviders } = movieDetails;
     detailModalTitle.textContent = movieData.title || getTranslation('details_no_info');
     detailMoviePoster.src = movieData.poster_path ? `${TMDB_IMAGE_BASE_URL_W500}${movieData.poster_path}` : "https://placehold.co/112x160/2A2A2A/AAAAAA?text=Poster+Yok";
     detailMovieReleaseDate.textContent = `${getTranslation('details_release_date_prefix')}: ${movieData.release_date ? new Date(movieData.release_date).toLocaleDateString(getCurrentLang() === 'tr' ? 'tr-TR' : 'en-US', { year: "numeric", month: "long", day: "numeric" }) : getTranslation('details_no_info')}`;
     detailMovieGenres.textContent = `${getTranslation('details_genres_prefix')}: ${movieData.genres?.length > 0 ? movieData.genres.map((g) => g.name).join(", ") : getTranslation('details_no_info')}`;
-    detailMovieDirector.textContent = `${getTranslation('details_director_prefix')}: ${directorName}`;
-    // Oyuncuları ekle
-    if (cast && cast.length > 0) {
-      const actorNames = cast.slice(0, 4).map(actor => actor.name).join(', ');
-      detailMovieCast.textContent = `${getTranslation('details_cast_prefix')}: ${actorNames}`;
-      detailMovieCast.style.display = 'block';
+    // Yönetmeni tıklanabilir yap
+    const directorPrefix = getTranslation('details_director_prefix');
+    if (director && director.id) {
+      detailMovieDirector.innerHTML = `${directorPrefix}: <span class="clickable-person" data-person-id="${director.id}">${director.name}</span>`;
     } else {
-      detailMovieCast.style.display = 'none';
+      detailMovieDirector.innerHTML = `${directorPrefix}: ${getTranslation('details_no_info')}`;
+    }    // Oyuncuları ekle
+    // Oyuncuları tıklanabilir yap
+    const castPrefix = getTranslation('details_cast_prefix');
+    if (cast && cast.length > 0) {
+      const actorLinks = cast.slice(0, 4).map(actor =>
+        `<span class="clickable-person" data-person-id="${actor.id}">${actor.name}</span>`
+      ).join(', ');
+      detailMovieCast.innerHTML = `${castPrefix}: ${actorLinks}`;
+    } else {
+      detailMovieCast.innerHTML = `${castPrefix}: ${getTranslation('details_no_info')}`;
     }
+
+
+
     // Film özetini ayarla ve tıklanabilir yap
     detailMovieOverview.textContent = movieData.overview || getTranslation('details_no_overview');
 

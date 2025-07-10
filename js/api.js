@@ -53,14 +53,17 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
         const movieData = await movieResponse.json();
 
         const creditsResponse = await fetch(movieCreditsUrl);
-        let directorName = 'Bilinmiyor';
+        const videoResponse = await fetch(videosUrl);
+        const providersResponse = await fetch(providersUrl);
+
+        let director = null;
         let cast = [];
+        let trailerKey = null;
+        let watchProviders = [];
+
         if (creditsResponse.ok) {
             const creditsData = await creditsResponse.json();
-            const director = creditsData.crew.find(member => member.job === 'Director');
-            if (director) {
-                directorName = director.name;
-            }
+            director = creditsData.crew.find(member => member.job === 'Director') || null;
             cast = creditsData.cast
                 .filter(member => member.known_for_department === 'Acting' && member.profile_path)
                 .sort((a, b) => a.order - b.order)
@@ -69,9 +72,6 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
             console.warn('Yönetmen/oyuncu bilgisi yüklenemedi. HTTP Hata:', creditsResponse.status);
         }
 
-        const videoResponse = await fetch(videosUrl);
-        let trailerKey = null;
-        let watchProviders = [];
         if (videoResponse.ok) {
             const videoData = await videoResponse.json();
             const trailer = videoData.results.find(vid => vid.site === 'YouTube' && vid.type === 'Trailer' && vid.key);
@@ -81,17 +81,18 @@ export async function fetchMovieDetailsFromApi(tmdbMovieId) {
         } else {
             console.warn('Film videoları yüklenemedi. HTTP Hata:', videoResponse.status);
         }
-        const providersResponse = await fetch(providersUrl);
+
         if (providersResponse.ok) {
             const providersData = await providersResponse.json();
-            // Türkiye için 'Abone Olunan' (Netflix, Prime gibi) servisleri alıyoruz
             if (providersData.results && providersData.results.TR && providersData.results.TR.flatrate) {
                 watchProviders = providersData.results.TR.flatrate;
             }
         } else {
             console.warn('Yayın bilgisi yüklenemedi. HTTP Hata:', providersResponse.status);
         }
-        return { movieData, directorName, cast, trailerKey, watchProviders };
+
+        return { movieData, director, cast, trailerKey, watchProviders };
+
     } catch (error) {
         console.error("fetchMovieDetailsFromApi Hatası:", error);
         throw error;
@@ -209,5 +210,40 @@ export async function fetchSuggestedMovie(prompt, isRetry = false) {
     } catch (error) {
         console.error('fetchSuggestedMovie hatası:', error);
         throw error;
+    }
+}
+
+export async function fetchPersonDetailsAndCredits(personId) {
+    const lang = getCurrentLang();
+    const tmdbLang = lang === 'tr' ? 'tr-TR' : 'en-US';
+    const personDetailsUrl = `${TMDB_PROXY_BASE}/person/${personId}?language=${tmdbLang}`;
+    const movieCreditsUrl = `${TMDB_PROXY_BASE}/person/${personId}/movie_credits?language=${tmdbLang}`;
+
+    try {
+        // İki isteği aynı anda gönderelim ki daha hızlı olsun
+        const [detailsResponse, creditsResponse] = await Promise.all([
+            fetch(personDetailsUrl),
+            fetch(movieCreditsUrl)
+        ]);
+
+        if (!detailsResponse.ok) {
+            throw new Error(`Kişi detayları yüklenemedi. HTTP Hata: ${detailsResponse.status}`);
+        }
+        if (!creditsResponse.ok) {
+            throw new Error(`Kişi filmleri yüklenemedi. HTTP Hata: ${creditsResponse.status}`);
+        }
+
+        const personDetails = await detailsResponse.json();
+        const movieCredits = await creditsResponse.json();
+
+        // Gelen verileri tek bir pakette birleştirip geri döndürelim
+        return {
+            details: personDetails,
+            movies: [...movieCredits.cast, ...movieCredits.crew] // Hem oynadığı hem yönettiği filmleri birleştir
+        };
+
+    } catch (error) {
+        console.error(`Kişi bilgileri çekilirken hata oluştu (ID: ${personId}):`, error);
+        throw error; // Hatanın üst katmanlarda yakalanabilmesi için tekrar fırlat
     }
 }

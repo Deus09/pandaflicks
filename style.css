@@ -4066,3 +4066,51 @@ body:not(.light-theme) .paywall-icon-img {
     border: 1px solid var(--border-color); /* Hafif bir kenarlık */
 }
 
+.clickable-person {
+    color: var(--accent-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.clickable-person:hover {
+    color: var(--accent-secondary-hover);
+    text-decoration: underline;
+}
+
+/* Aydınlık tema için de hover rengini ayarlayalım */
+.light-theme .clickable-person {
+    color: var(--accent-primary);
+}
+
+.light-theme .clickable-person:hover {
+    color: var(--accent-primary-hover);
+}
+
+/* --- Kişi Detay Sayfası Header Stilleri --- */
+#person-detail-section .list-detail-header {
+    position: relative; /* İçindeki elementleri buna göre konumlandıracağız */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ortalamak için anahtar kural */
+    height: 60px; /* Başlığa sabit bir yükseklik verelim */
+}
+
+#person-detail-section .back-button {
+    position: absolute; /* Geri butonunu akıştan çıkarıp sola yaslayalım */
+    left: 0;
+}
+
+#person-header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Resim ve isim arası boşluk */
+}
+
+#person-detail-photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
