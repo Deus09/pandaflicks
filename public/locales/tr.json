@@ -356,4 +356,7 @@
 "auth_password_reset_prompt": "Lütfen şifresini sıfırlamak istediğiniz hesabın e-posta adresini girin:",
 "notification_password_reset_sent": "Şifre sıfırlama linki e-posta adresinize gönderildi!",
 "auth_error_user_not_found_for_reset": "Bu e-posta adresine kayıtlı bir kullanıcı bulunamadı."
+,
+"auth_google_button": "Google ile Devam Et",
+"auth_or_separator": "VEYA"
 }
