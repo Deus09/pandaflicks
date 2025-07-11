@@ -338,5 +338,7 @@
 "theme_dark": "Koyu",
 "theme_light": "Açık"
 ,
-"where_to_watch_heading": "Nereden İzlenir?"
+"where_to_watch_heading": "Nereden İzlenir?",
+
+"auth_terms_notice": "Kaydolarak, <a href='#/terms' class='terms-link'>Kullanım Koşullarımızı</a> ve <a href='#/privacy' class='terms-link'>Gizlilik Politikamızı</a> kabul etmiş olursunuz."
 }

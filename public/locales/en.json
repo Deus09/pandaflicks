@@ -339,4 +339,6 @@
 "theme_light": "Light"
 ,
 "where_to_watch_heading": "Where to Watch"
+,
+"auth_terms_notice": "By signing up, you agree to our <a href='#/terms' class='terms-link'>Terms of Service</a> and <a href='#/privacy' class='terms-link'>Privacy Policy</a>."
 }

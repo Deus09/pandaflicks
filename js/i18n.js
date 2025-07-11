@@ -43,22 +43,22 @@ export async function setLanguage(lang) {
  * Yüklenmiş olan çevirileri HTML'e uygular.
  */
 function applyTranslations() {
-  // Metinleri değiştir (Örn: <span>Metin</span>)
+  // Metinleri değiştir
   document.querySelectorAll('[data-i18n]').forEach(element => {
     const key = element.dataset.i18n;
-    if (translations[key]) {
-      // Elementin içindeki diğer elementleri (ikon gibi) korumak için
-      // sadece ilk text node'u güncelliyoruz.
-      const firstChild = element.firstChild;
-      if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
-        firstChild.nodeValue = translations[key];
+    const translation = translations[key];
+    if (translation) {
+      // Eğer çeviri metni içinde '<' ve '>' karakterleri varsa, bunu HTML olarak kabul et.
+      if (translation.includes('<') && translation.includes('>')) {
+        element.innerHTML = translation;
       } else {
-        element.textContent = translations[key];
+        // Yoksa, güvenli olan textContent kullanmaya devam et.
+        element.textContent = translation;
       }
     }
   });
 
-  // Placeholder'ları değiştir (Örn: <textarea placeholder="...">)
+  // Placeholder'ları değiştir
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
     const key = element.dataset.i18nPlaceholder;
     if (translations[key]) {
