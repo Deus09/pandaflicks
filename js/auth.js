@@ -53,7 +53,7 @@ export async function handleSignUp(email, password) {
 
   // Her iki durumda da, işlem başarılı olduktan sonra doğrulama e-postası gönderiyoruz
   if (userCredential.user) {
-    await sendEmailVerification(userCredential.user);
+    sendEmailVerification(userCredential.user);
   }
 
   return userCredential; // Orijinal sonucu geri döndür

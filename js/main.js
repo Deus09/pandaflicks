@@ -106,23 +106,25 @@ async function initializeApp() {
   initAuth(async (user) => {
     if (user) {
       if (user.uid !== currentLoadedUserId) {
-        currentLoadedUserId = user.uid;
-        showLoadingSpinner("Verileriniz yükleniyor...");
-        try {
-          await Promise.all([
-            loadMoviesFromFirestore(user.uid),
-            fetchUserSubscriptionStatus(user.uid)
-          ]);
+    currentLoadedUserId = user.uid;
 
-          // YENİ: Arayüzü kullanıcının durumuna göre güncelle
-          updateUIForSubscriptionStatus();
+    // ÖNCE, kullanıcı arayüzünü ve profil sayfasının iskeletini anında gösteriyoruz
+    updateProfileView(user);
 
-        } catch (error) {
-          console.error("Firestore'dan ilk veri yüklenirken hata oluştu:", error);
-        } finally {
-          hideLoadingSpinner();
-        }
-      }
+    // SONRA, ağır verileri arka planda yüklüyoruz.
+    // Kullanıcı bu sırada profil sayfasını zaten görüyor olacak.
+    Promise.all([
+        loadMoviesFromFirestore(user.uid),
+        fetchUserSubscriptionStatus(user.uid)
+    ]).then(() => {
+        // Arka plandaki yükleme bitince arayüzü tekrar güncelle
+        // (istatistikler ve Pro özellikler için)
+        updateProfileView(user);
+        updateUIForSubscriptionStatus();
+    }).catch(error => {
+        console.error("Kullanıcı verileri arka planda yüklenirken hata:", error);
+    });
+}
       if (!isUiReady) {
         showAppUI();
         isUiReady = true;
