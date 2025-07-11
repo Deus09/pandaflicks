@@ -341,4 +341,12 @@
 "where_to_watch_heading": "Where to Watch"
 ,
 "auth_terms_notice": "By signing up, you agree to our <a href='#/terms' class='terms-link'>Terms of Service</a> and <a href='#/privacy' class='terms-link'>Privacy Policy</a>."
+,
+"notification_verification_sent": "Account created! Please check your email to verify your account."
+,
+"profile_email_not_verified": "Your email is not verified. Please check your inbox.",
+"profile_resend_email_button": "Resend",
+"notification_verification_resent": "Verification email sent again!"
+,
+"auth_error_user_not_found": "Action could not be completed as no active user was found."
 }

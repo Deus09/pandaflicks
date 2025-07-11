@@ -341,4 +341,12 @@
 "where_to_watch_heading": "Nereden İzlenir?",
 
 "auth_terms_notice": "Kaydolarak, <a href='#/terms' class='terms-link'>Kullanım Koşullarımızı</a> ve <a href='#/privacy' class='terms-link'>Gizlilik Politikamızı</a> kabul etmiş olursunuz."
+,
+"notification_verification_sent": "Hesabın oluşturuldu! Lütfen e-postanı kontrol edip hesabını doğrula."
+,
+"profile_email_not_verified": "E-postanız doğrulanmamış. Lütfen gelen kutunuzu kontrol edin.",
+"profile_resend_email_button": "Yeniden Gönder",
+"notification_verification_resent": "Doğrulama e-postası tekrar gönderildi!"
+,
+"auth_error_user_not_found": "Aktif bir kullanıcı bulunamadığı için işlem yapılamadı."
 }

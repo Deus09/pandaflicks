@@ -79,7 +79,7 @@ export function setupEventListeners() {
                 showNotification(getTranslation('notification_login_success'), "success");
             } else {
                 const userCredential = await handleSignUp(email, password);
-                showNotification(getTranslation('notification_signup_success'), "success");
+                showNotification(getTranslation('notification_verification_sent'), "success");
                 emailAuthForm.reset();
             }
         } catch (error) {

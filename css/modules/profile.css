@@ -342,4 +342,38 @@
   text-align: right;
 }
 
+/* --- E-posta Doğrulama Uyarı Bandı --- */
+.verification-banner {
+    background-color: #4a2c0f; /* Koyu, sıcak bir turuncu tonu */
+    color: #ffcc80; /* Açık, okunabilir bir metin rengi */
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* Küçük ekranlarda buton alta geçsin */
+}
+
+.verification-banner.hidden {
+    display: none;
+}
+
+.resend-button {
+    background-color: transparent;
+    border: 1px solid #ffcc80;
+    color: #ffcc80;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resend-button:active {
+    background-color: #ffcc80;
+    color: #4a2c0f;
+    transform: scale(0.97);
+}
 

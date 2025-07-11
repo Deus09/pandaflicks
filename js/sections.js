@@ -16,6 +16,7 @@ import { auth } from "./firebase.js";
 import { initFilterModal, openFilterModal, applyFilters } from "./filters.js";
 import { getCuratedLists } from "./lists.js";
 import { getTranslation } from "./i18n.js";
+import { handleSignOut, handleResendVerificationEmail } from "./auth.js";
 
 // --- DOM Elementleri ---
 const myWatchedMoviesSection = document.getElementById(
@@ -152,15 +153,47 @@ export function setupListViewControls() {
   });
 }
 
-export function updateProfileView(user) {
+export async function updateProfileView(user) { // Fonksiyonu 'async' yaptık
   if (user && !user.isAnonymous) {
+    await user.reload(); // SİHİRLİ SATIR: Kullanıcı verisini sessizce güncelle
+
     profileLoggedOutView.classList.add("hidden");
     profileLoggedInView.classList.remove("hidden");
+
+
     document.getElementById("profile-name").textContent =
-      user.email.split("@")[0];
+      user.displayName || user.email.split("@")[0];
     document.getElementById("profile-email").textContent = user.email;
+    
+    // --- YENİ E-POSTA DOĞRULAMA KONTROLÜ ---
+    const verificationBanner = document.getElementById('email-verification-banner');
+    const verificationText = document.getElementById('verification-text');
+    const resendBtn = document.getElementById('resend-verification-btn');
+
+    if (user.emailVerified) {
+      // Eğer e-posta doğrulanmışsa, uyarıyı gizle
+      verificationBanner.classList.add('hidden');
+    } else {
+      // Eğer doğrulanmamışsa, uyarıyı göster ve ayarla
+      verificationText.textContent = getTranslation('profile_email_not_verified');
+      resendBtn.textContent = getTranslation('profile_resend_email_button');
+      verificationBanner.classList.remove('hidden');
+
+      // Yeniden Gönder butonuna tıklama olayını ayarla
+      resendBtn.onclick = async () => {
+        try {
+          await handleResendVerificationEmail();
+          showNotification(getTranslation('notification_verification_resent'), 'success');
+        } catch (error) {
+          showNotification(error.message, 'error');
+        }
+      };
+    }
+    // --- KONTROL SONU ---
+
     const stats = calculateStats(watchedMovies);
     renderProfilePage(stats);
+
   } else {
     profileLoggedInView.classList.add("hidden");
     profileLoggedOutView.classList.remove("hidden");
