@@ -73,6 +73,7 @@ export function setupEventListeners() {
         authTabLogin.classList.add("active");
         authTabSignup.classList.remove("active");
         authSubmitButton.textContent = getTranslation("auth_submit_login");
+        document.getElementById("forgot-password-link").style.display = "block";
         authErrorMessage.classList.add("hidden");
       });
 
@@ -81,6 +82,7 @@ export function setupEventListeners() {
         authTabSignup.classList.add("active");
         authTabLogin.classList.remove("active");
         authSubmitButton.textContent = getTranslation("auth_submit_signup");
+        document.getElementById("forgot-password-link").style.display = "none";
         authErrorMessage.classList.add("hidden");
       });
 
@@ -142,13 +144,33 @@ export function setupEventListeners() {
     });
   });
 
+  // --- Şifremi Unuttum? Akışı ---
   const forgotPasswordLink = document.getElementById("forgot-password-link");
+  const passwordResetModal = document.getElementById("password-reset-modal");
+  const closeResetModalBtn = document.getElementById("close-reset-modal-btn");
+  const passwordResetForm = document.getElementById("password-reset-form");
+  const resetEmailInput = document.getElementById("reset-email-input");
+
+  // "Şifremi Unuttum?" linkine tıklanınca modalı aç
   if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", async (e) => {
+    forgotPasswordLink.addEventListener("click", (e) => {
       e.preventDefault();
+      passwordResetModal.classList.remove("hidden");
+    });
+  }
 
-      const email = prompt(getTranslation("auth_password_reset_prompt"));
+  // Kapatma butonuna tıklanınca modalı kapat
+  if (closeResetModalBtn) {
+    closeResetModalBtn.addEventListener("click", () => {
+      passwordResetModal.classList.add("hidden");
+    });
+  }
 
+  // Form gönderilince...
+  if (passwordResetForm) {
+    passwordResetForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = resetEmailInput.value;
       if (email) {
         try {
           await handlePasswordReset(email);
@@ -156,6 +178,7 @@ export function setupEventListeners() {
             getTranslation("notification_password_reset_sent"),
             "success"
           );
+          passwordResetModal.classList.add("hidden"); // Başarılı olunca modalı kapat
         } catch (error) {
           if (error.code === "auth/user-not-found") {
             showNotification(

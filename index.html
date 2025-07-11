@@ -432,7 +432,12 @@
                     </svg>
                   </button>
                 </div>
-                <a href="#" id="forgot-password-link" class="forgot-password-link" data-i18n="auth_forgot_password"></a>
+                <a
+                  href="#"
+                  id="forgot-password-link"
+                  class="forgot-password-link"
+                  data-i18n="auth_forgot_password"
+                ></a>
                 <p class="auth-terms" data-i18n="auth_terms_notice"></p>
                 <button
                   type="submit"
@@ -1136,6 +1141,40 @@
         >
           Kapat
         </button>
+      </div>
+    </div>
+
+    <div id="password-reset-modal" class="modal-overlay hidden">
+      <div class="modal-content" style="height: auto">
+        <div class="modal-header">
+          <h2 data-i18n="auth_forgot_password">Şifremi Unuttum?</h2>
+          <button
+            type="button"
+            id="close-reset-modal-btn"
+            class="close-modal-btn"
+          >
+            ×
+          </button>
+        </div>
+        <form id="password-reset-form">
+          <div class="form-group">
+            <label for="reset-email-input" data-i18n="auth_email_label"
+              >E-posta</label
+            >
+            <input
+              type="email"
+              id="reset-email-input"
+              required
+              placeholder="ornek@posta.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="modal-actions" style="margin-top: 1rem">
+            <button type="submit" class="save-button">
+              Sıfırlama Linki Gönder
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </body>
