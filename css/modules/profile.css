@@ -346,14 +346,14 @@
 .verification-banner {
     background-color: #4a2c0f; /* Koyu, sıcak bir turuncu tonu */
     color: #ffcc80; /* Açık, okunabilir bir metin rengi */
-    padding: 1rem;
+    padding: 0.75rem 1rem; /* Dikey ve yatay iç boşlukları azalt */
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.8rem; /* Yazı boyutunu küçült */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap; /* Küçük ekranlarda buton alta geçsin */
+    justify-content: space-between; /* Butonu sağa yasla */
+    align-items: center; /* Dikeyde ortala */
+    /* gap: 1rem; Artık space-between kullandığımız için buna gerek yok */
+    /* flex-wrap: wrap; Şimdilik tek satırda tutalım */
 }
 
 .verification-banner.hidden {
@@ -362,18 +362,21 @@
 
 .resend-button {
     background-color: transparent;
-    border: 1px solid #ffcc80;
+    border: none; /* Kenarlığı kaldır */
     color: #ffcc80;
-    padding: 0.25rem 0.75rem;
-    border-radius: 6px;
-    font-weight: 600;
+    padding: 0; /* İç boşlukları kaldır */
+    border-radius: 0; /* Köşeleri düz yap */
+    font-weight: 500; /* Biraz daha ince yap */
+    font-size: 0.8rem; /* Yazı boyutu uyumlu olsun */
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease; /* Transform ekledik */
+    text-decoration: underline; /* Altını çizerek daha çok link gibi göster */
+    margin-left: 1rem; /* Metinden biraz uzaklaştır */
 }
 
 .resend-button:active {
-    background-color: #ffcc80;
-    color: #4a2c0f;
-    transform: scale(0.97);
+    background-color: transparent; /* Aktifken arka plan olmasın */
+    color: #b3884a; /* Daha koyu bir ton */
+    transform: scale(0.95); /* Hafifçe küçülme efekti */
 }
 
