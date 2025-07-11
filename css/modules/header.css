@@ -1,0 +1,190 @@
+/* --- Başlık --- */
+header {
+  /* Ana Konumlandırma ve Stil */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-main);
+
+  /* YENİ: Efekt için hazırlık */
+  overflow: hidden; /* Işığın taşan kısımlarını gizle */
+  position: relative; /* Sahte elementi konumlandırmak için */
+}
+
+/* YENİ: Spot ışığını oluşturan sahte element */
+header::before {
+  content: '';
+  position: absolute;
+
+  /* Işığın Konumu ve Boyutu */
+  top: -50px; /* Işık kaynağını header'ın yukarısına taşı */
+  left: -45px; /* Panda'nın üzerine gelecek şekilde sola kaydır */
+  width: 300px;  /* Işık hüzmesinin genişliği */
+  height: 150px; /* Işık hüzmesinin uzunluğu */
+
+  /* Işığın Kendisi: Merkezde parlak, kenarlara doğru kaybolan bir gradyan */
+  background: radial-gradient(
+    ellipse 50% 50% at center,
+    rgba(204, 214, 246, 0.2), /* Işığın merkezi, daha parlak */
+    transparent 70%
+  );
+
+  /* Efektin Sihirli Kısmı */
+  filter: blur(15px); /* Işığın kenarlarını yumuşatır */
+
+  /* ŞEKİL: Işığı bir koni (aşağı bakan üçgen) şeklinde kırpar */
+  clip-path: polygon(40% 0%, 10% 100%, 90% 100%);
+
+  /* İnce ayar için yatayda hafifçe döndürme */
+  transform: rotate(-5deg);
+}
+
+/* Header içindeki diğer elementlerin (logo, buton) ışığın üzerinde kalmasını sağla */
+header > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header-logo {
+  width: 45px;
+  height: 45px;
+  margin-right: 5px;
+  margin-left: 5px;
+  flex-shrink: 0;
+  /* Küçülmesini engelle */
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  margin-right: auto;
+  /* Profil butonunu sağa iter */
+  margin-left: 0;
+  /* Varsayılan margin'i sıfırla */
+}
+
+/* YENİ: Header'daki profil butonu (Instagram stili) */
+.header-profile-button {
+  position: relative;
+  /* Sahte elementleri konumlandırmak için */
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: visible;
+  /* Parlamanın dışarı taşması için */
+  /* DOKUNMA EFEKTİ İÇİN ÖNEMLİ: */
+  overflow: hidden;
+  /* Dalga efektinin dışarı taşmasını engeller */
+  transition: transform 0.1s ease-out;
+  /* Basma efektinin hızlı olması için */
+  -webkit-tap-highlight-color: transparent;
+  /* iOS'teki dokunma mavisini kaldırır */
+}
+
+/* Header'daki profil butonu için yeni stiller */
+#nav-profile {
+  background-color: var(--bg-surface);
+  /* Arka planı beyaz yapar */
+  border-radius: 50%;
+  /* Butonu dairesel yapar */
+  border: 1px solid var(--border-color);
+  width: 30px;
+  /* Genişlik, isteğe bağlı olarak değiştirilebilir */
+  height: 30px;
+  /* Yükseklik, isteğe bağlı olarak değiştirilebilir */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  /* İçeriğin tam ortalanması için */
+  opacity: 1;
+}
+
+/* Profil butonu içindeki SVG ikonun rengi ve boyutu */
+
+/* Dalga efektini oluşturacak sahte element */
+.header-profile-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-secondary), transparent 70%);
+  transform-origin: center;
+  transform: scale(0);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Kullanıcı butona bastığı anda... */
+.header-profile-button:active {
+  /* 1. Buton içeri çöker (basma hissi) */
+  transform: scale(0.93);
+}
+
+/* 2. Dalga animasyonu tetiklenir */
+.header-profile-button:active::after {
+  animation: ripple-effect 0.5s ease-out;
+}
+
+
+.header-profile-button .profile-avatar-small {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  /* Resmin yuvarlak olmasını sağla */
+}
+
+/* Header'daki profil butonu için doğru ve geliştirilmiş stil */
+.header-profile-button {
+  padding: 0;
+  width: 35px;
+  /* Buton boyutu */
+  height: 35px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-secondary);
+  /* Hafif bir kenarlık */
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  /* SVG'yi ortalamak için */
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface);
+  /* Arkaplan rengi */
+}
+
+
+/* Profil butonu içindeki SVG'nin rengini ve boyutunu ayarlar */
+.header-profile-button svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--text-secondary);
+  transition: fill 0.3s ease;
+  z-index: 2;
+  /* Diğer her şeyin üzerinde kalması için */
+}
+
+
+
+/* Üzerine gelindiğinde SVG'nin rengini değiştir */
+.header-profile-button:hover svg {
+  fill: var(--text-primary);
+}
+

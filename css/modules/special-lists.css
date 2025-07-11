@@ -1,0 +1,127 @@
+/* =================================================================== */
+/* === ÖZEL LİSTELER KART TASARIMI ŞOVU (PandaFlicks) === */
+/* =================================================================== */
+
+@keyframes fadeInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.special-lists-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.list-card-v3 {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+  animation: fadeInStagger 0.6s ease-out forwards;
+  animation-delay: var(--animation-delay, 0ms);
+}
+
+.list-card-v3:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Görsel Alan --- */
+.list-card-image-wrapper {
+  aspect-ratio: 16 / 10;
+  /* Yüksekliği biraz azalttık, daha sinematik */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Bu, blur efektinin kenarlardan taşmamasını sağlar */
+}
+
+/* 1. Arkaplan Katmanı (Bulanık Poster) */
+.list-card-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(15px) brightness(0.6);
+  /* Bulanıklık ve karartma efekti */
+  transform: scale(1.2);
+  /* Kenarlarda boşluk kalmaması için büyütme */
+  z-index: 1;
+}
+
+/* 2. Ön Plan Katmanı (Net Poster) */
+.list-card-fg-image {
+  position: relative;
+  z-index: 2;
+  height: 90%;
+  /* Dikey posterin sığması için yükseklik ayarı */
+  width: auto;
+  /* Oranı koru */
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  /* Derinlik hissi için gölge */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.list-card-v3:hover .list-card-fg-image {
+  transform: scale(1.05) rotateZ(1deg);
+  /* Üzerine gelince hafifçe dönme ve büyüme */
+}
+
+/* --- Metin Alanı --- */
+.list-card-text-content {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-grow: 1;
+  border-top: 1px solid var(--border-color);
+}
+
+.list-card-v3 .list-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.list-card-v3 .list-card-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+.list-card-chevron {
+  color: var(--text-secondary);
+  align-self: center;
+  margin-left: 1rem;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.list-card-v3:hover .list-card-chevron {
+  opacity: 1;
+  transform: translateX(3px);
+  color: var(--accent-primary);
+}

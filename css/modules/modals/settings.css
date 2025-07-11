@@ -1,0 +1,225 @@
+/* =================================================================== */
+/* === AYARLAR ALT MENÜSÜ (BOTTOM SHEET) STİLLERİ BAŞLANGIÇ === */
+/* =================================================================== */
+
+/* Profil sayfasındaki Dişli Çark İkonu */
+#settings-icon-btn {
+    /* position: absolute; Profil kartının sağ üst köşesine sabitlemek için */
+    top: 1rem; /* 16px */
+    right: 1rem; /* 16px */
+    z-index: 5; /* Diğer içeriklerin üstünde kalması için */
+}
+
+/* Ayarlar menüsü açıldığında ekranı kaplayan yarı şeffaf arka plan */
+.settings-bottom-sheet-overlay {
+    position: fixed; /* Tüm ekranı kaplaması için */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Siyah ve %60 şeffaf */
+    backdrop-filter: blur(5px); /* Arka planı bulanıklaştır */
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 1000; /* Her şeyin en üstünde olması için */
+
+    /* Başlangıçta görünmez ve tıklanamaz olsun */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease; /* Yumuşak bir geçiş efekti */
+
+    /* İçindeki paneli dikeyde en alta yaslamak için */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* JavaScript ile 'visible' sınıfı eklendiğinde... */
+.settings-bottom-sheet-overlay.visible {
+    opacity: 1; /* Görünür yap */
+    pointer-events: auto; /* Tıklanabilir yap */
+}
+
+/* Aşağıdan yukarı kayan beyaz panel */
+.settings-bottom-sheet-panel {
+    background-color: var(--bg-surface); /* Koyu yüzey rengi */
+    width: 100%;
+    max-width: 500px; /* Geniş ekranlarda çok yayılmasın */
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    border-top-left-radius: 20px; /* Üst köşeleri yuvarlat */
+    border-top-right-radius: 20px;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -5px 30px rgba(0,0,0,0.3);
+
+    /* Başlangıçta ekranın altında gizli dursun */
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Yumuşak kayma efekti */
+}
+
+/* Overlay 'visible' olduğunda paneli yukarı kaydırarak görünür yap */
+.settings-bottom-sheet-overlay.visible .settings-bottom-sheet-panel {
+    transform: translateY(0);
+}
+
+/* Panelin üstündeki küçük tutma çubuğu */
+.settings-grip {
+    width: 40px;
+    height: 5px;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    margin: 0 auto 1rem auto; /* Ortala ve alttan boşluk bırak */
+}
+
+/* "Ayarlar" başlığı */
+.settings-title {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem; /* 24px */
+    text-align: center;
+}
+
+/* Ayar gruplarını (Dil, Tema vs.) saran bölüm */
+.settings-section {
+    margin-bottom: 1.5rem;
+}
+
+/* "Dil", "Tema" gibi etiketler */
+.settings-label {
+    display: block;
+    font-size: 0.9rem; /* 14px */
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem; /* 12px */
+}
+
+/* Dil butonları gibi seçenek grupları */
+.settings-option-group {
+    display: flex;
+    gap: 0.75rem; /* Butonlar arası boşluk */
+}
+
+/* Dil seçim butonu */
+.settings-lang-btn {
+    flex: 1; /* Alana eşit yayılsınlar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* İkon ve yazı arası boşluk */
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Tıklanabilirliği artırmak için hafif büyütme efekti */
+.settings-lang-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-secondary);
+}
+
+/* Aktif olan dil butonunun stili */
+.settings-lang-btn.active {
+    background-color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    color: var(--bg-main); /* Yazı rengini koyu yap */
+    box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+}
+
+/* Kapatma butonu */
+.settings-close-btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background-color: var(--border-color);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Dişli çark ikonunun konumunu sabitlemek için */
+#profile-logged-in-view {
+  position: relative;
+}
+
+/* Ayarlar menüsü içindeki her bir ayar bölümü */
+.settings-section {
+    margin-bottom: 1.5rem; /* Ayar grupları arasına boşluk koyar */
+}
+
+/* Tema anahtarını ve yanındaki metni (Açık/Koyu) bir arada tutan kapsayıcı */
+.theme-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Anahtar ve metin arasına boşluk */
+    background-color: var(--bg-main);
+    padding: 0.75rem;
+    border-radius: 12px;
+}
+
+/* Tema anahtarının yanındaki "Açık" veya "Koyu" yazısı */
+#theme-status {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* === AÇMA/KAPAMA ANAHTARI (TOGGLE SWITCH) STİLLERİ === */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 51px;
+    height: 31px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 23px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-secondary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* =================================================================== */
+/* === AYARLAR ALT MENÜSÜ (BOTTOM SHEET) STİLLERİ  BİTİŞ === */
+/* =================================================================== */

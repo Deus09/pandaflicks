@@ -1,0 +1,134 @@
+/* --- Giriş Yap Ekranı (Profil içi) --- */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.auth-container.hidden {
+  display: none;
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 380px;
+  background-color: var(--bg-surface);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.8rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.auth-tab:hover {
+  color: var(--text-primary);
+}
+
+.auth-tab.active {
+  color: var(--accent-secondary);
+  border-bottom-color: var(--accent-secondary);
+}
+
+#email-auth-form input {
+  background-color: var(--bg-main);
+}
+
+#email-auth-form .form-group.invalid input {
+  border-color: var(--status-error);
+  box-shadow: 0 0 0 3px rgba(218, 54, 51, 0.2);
+}
+
+.email-error-message {
+  color: var(--status-error);
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  text-align: left;
+}
+
+.email-error-message:not(.hidden) {
+  display: block;
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 10px;
+  transform: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+#auth-submit-button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.auth-error {
+  color: var(--status-error);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.auth-error:not(.hidden) {
+  display: block;
+}
+
+/* --- Genel Buton Stili --- */
+.auth-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.auth-button:active {
+  transform: scale(0.97);
+}
+
+.auth-button.primary {
+  background-color: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+.auth-button.primary:hover {
+  background-color: var(--accent-primary-hover);
+}

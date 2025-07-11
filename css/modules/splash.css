@@ -1,0 +1,145 @@
+
+/* --- Splash Screen --- */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+  /* UPDATED FOR PREMIUM SPLASH */
+  position: relative;
+  /* For z-index stacking context */
+  overflow: hidden;
+  /* To hide the part of the grid that scrolls out */
+}
+
+#splash-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-logo {
+  text-align: center;
+  animation: pulse-splash 2s infinite ease-in-out;
+  /* UPDATED FOR PREMIUM SPLASH */
+  position: relative;
+  /* To apply z-index */
+  z-index: 10;
+  background: rgba(13, 17, 23, 0.5);
+  padding: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes pulse-splash {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.splash-logo img {
+  width: 100px;
+  height: 100px;
+  filter: drop-shadow(0 0 15px rgba(247, 120, 38, 0.3));
+}
+
+.splash-logo h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 1rem;
+}
+
+/* NEW STYLES FOR PREMIUM SPLASH SCREEN */
+@keyframes scroll-bg {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+#splash-background-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 200vh;
+  /* Twice the viewport height for seamless looping */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 8 rows to fill 200vh. Each row is 25vh. */
+  grid-template-rows: repeat(8, 25vh);
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  animation: scroll-bg 40s linear infinite;
+  z-index: 1;
+  /* Apply blur and dimming to the container for performance */
+  filter: blur(4px) brightness(0.6);
+  /* To counter the padding from scrolling */
+  left: -1rem;
+  top: -1rem;
+  width: calc(100vw + 2rem);
+}
+
+.splash-poster {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+}
+
+/* Splash Screen Hata Mesajı Stili */
+.splash-error-overlay {
+  position: absolute;
+  inset: 0;
+  /* top, right, bottom, left: 0 */
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  color: var(--text-primary);
+  z-index: 10;
+  /* Diğer splash screen içeriğinin üzerinde olmalı */
+}
+
+.splash-error-overlay h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f87171;
+  /* Hata rengi */
+  margin-bottom: 0.5rem;
+}
+
+.splash-error-overlay p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}

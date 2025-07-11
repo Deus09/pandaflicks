@@ -1,0 +1,149 @@
+/* =================================================================== */
+/* === FİLTRE & SIRALA KONTROL PANELİ STİLİ === */
+/* =================================================================== */
+
+/* Kontrol butonlarını bir arada tutan kapsayıcı */
+.list-controls {
+  display: inline-flex;
+  /* İçerik kadar yer kapla */
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Tüm kontrol butonları için ortak stil */
+.control-button {
+  background-color: transparent;
+  /* Arkaplan artık kapsayıcıda */
+  color: var(--text-secondary);
+  border: none;
+  /* Kenarlık artık kapsayıcıda */
+  padding: 0.6rem 1rem;
+  /* Buton içi boşluk */
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Butonları ayıran dikey çizgi */
+.control-button:not(:first-child) {
+  border-left: 1px solid var(--border-color);
+}
+
+/* Aktif Filtre Butonu Stili */
+#filter-button.active {
+  color: var(--accent-primary);
+  background-color: rgba(247, 120, 38, 0.1);
+}
+
+#filter-button.active svg {
+  stroke: var(--accent-primary);
+}
+
+/* Sıralama menüsü için pozisyonlama (değişiklik yok) */
+.sort-container {
+  position: relative;
+}
+
+/* Sıralama butonu içindeki ok'un dönüşü (değişiklik yok) */
+#sort-button.open svg {
+  transform: rotate(180deg);
+}
+
+
+.sort-button {
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.sort-button svg {
+  transition: transform 0.2s ease;
+}
+
+.sort-button.open svg {
+  transform: rotate(180deg);
+}
+
+.sort-options-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  background-color: #21262d;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+  width: 200px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.sort-options-menu:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sort-option {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+
+.sort-option.active {
+  color: var(--accent-secondary);
+  font-weight: 600;
+  background-color: rgba(227, 179, 65, 0.1);
+}
+
+/* Filtreleme Butonu ve Modalı Stilleri */
+
+.filter-button,
+.sort-button {
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-button.active {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 10px rgba(247, 120, 38, 0.3);
+}
+
+.filter-button.active svg {
+  stroke: var(--accent-primary);
+}
+
+
+

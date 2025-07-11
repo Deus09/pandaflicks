@@ -1,0 +1,118 @@
+/* Genel Stil Ayarları (Mobil Odaklı, Premium, Sinematik) */
+
+:root {
+  --bg-main: #0b192f;
+  /* Ana arka plan (Derin Okyanus Mavisi) */
+  --bg-surface: #172a46;
+  /* Kartlar ve yüzeyler (Gece Mavisi) */
+  --border-color: #3a506b;
+  /* Kenarlıklar (Mavi-Gri) */
+  --text-primary: #ccd6f6;
+  /* Ana metin (Çok Açık Mavi) */
+  --text-secondary: #8892b0;
+  /* İkincil metin (Soluk Mavi-Gri) */
+
+  /* Vurgu Renkleri (Klasik Teal & Orange) */
+  --accent-primary: #ff8c00;
+  /* Vurgu 1 (Canlı Ateş Turuncusu) */
+  --accent-primary-hover: #ffa500;
+  --accent-secondary: #64ffda;
+  /* Vurgu 2 (Parlak Turkuaz/Nane Yeşili) */
+  --accent-secondary-hover: #a0ffee;
+  --accent-magic: #c778dd;
+  /* Büyü Rengi (Orkide Moru) */
+  --accent-magic-hover: #e099f5;
+  --accent-chat: #64ffda;
+  /* Sohbet Rengi (Yine Turkuaz) */
+  --accent-chat-hover: #a0ffee;
+  --accent-chat-glow: rgba(100, 255, 218, 0.4);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+
+  html,
+  body {
+    overscroll-behavior-y: contain;
+  }
+
+  /* 2. Herhangi bir modal (.modal-overlay.visible) göründüğünde,
+      body'nin kendi kaydırma çubuğunu gizle. */
+  body:has(.modal-overlay.visible) {
+    overflow: hidden;
+  }
+
+  /* 3. Modal içeriğinin kendisi, scroll olayının dışarıya "sızmasını" engellesin.
+      BU, VİDEODAKİ SORUNUN DOĞRUDAN ÇÖZÜMÜDÜR. */
+  .modal-content {
+    overscroll-behavior-y: contain;
+  }
+
+  /* Scrollbar Gizleme */
+
+  /* Scrollbar Gizleme */
+
+  /* Scrollbar Gizleme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    /* DÜZELTME: Rozetler için scrollbar genişliği */
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    /* Firefox için */
+    scrollbar-color: var(--border-color) var(--bg-surface);
+    /* Firefox için */
+  }
+
+  /* Özel Scrollbar Stili */
+  .badge-collection-grid.expanded::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .badge-collection-grid.expanded::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+    border-radius: 10px;
+  }
+
+  .badge-collection-grid.expanded::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
+  }
+
+  .badge-collection-grid.expanded::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-secondary);
+  }
+}
+
+
+body.light-theme {
+  --bg-main: #f4f5f7;                  /* Ana Arka Plan: Çok hafif ve yumuşak bir gri */
+  --bg-surface: #ffffff;                /* Kartlar, Modallar, Menüler: Saf ve temiz beyaz */
+  --border-color: #e5e7eb;              /* Kenarlıklar: Çok hafif ve belli belirsiz bir gri */
+  --text-primary: #111827;             /* Ana Metin: Yüksek kontrast için koyu antrasit */
+  --text-secondary: #6b7280;           /* İkincil Metin: Okunaklı, yumuşak bir gri */
+  --text-on-accent: #ffffff;            /* Vurgu Renkli Butonların Üzerindeki Yazı: Beyaz */
+
+  /* Vurgu renkleri (Turuncu, Turkuaz) aydınlık temada da canlı duruyor */
+  --accent-primary: #f97316;             /* Ana Vurgu Rengi: Daha canlı bir turuncu */
+  --accent-primary-hover: #ea580c;      /* Vurgu Rengi Hover: Biraz daha koyu turuncu */
+  --accent-secondary: #10b981;           /* İkincil Vurgu Rengi: Göz yormayan, canlı bir yeşil/turkuaz */
+  --accent-secondary-hover: #059669;    /* İkincil Vurgu Hover */
+
+  /* Diğer Özel Renkler */
+  --accent-magic: #8b5cf6;              /* Mor tonu */
+  --accent-magic-hover: #7c3aed;
+  --accent-chat-glow: rgba(16, 185, 129, 0.4);
+}

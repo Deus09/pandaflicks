@@ -1,0 +1,157 @@
+
+.filter-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.genre-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.genre-filter-label {
+  display: block;
+  cursor: pointer;
+}
+
+.genre-filter-label input {
+  display: none;
+}
+
+.genre-filter-label span {
+  display: block;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.genre-filter-label input:checked+span {
+  background-color: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  color: var(--bg-main);
+  font-weight: 600;
+}
+
+/* Yeni Çift Başlıklı Slider Stilleri */
+.dual-range-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.range-values span:first-child,
+.range-values span:last-child {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dual-range-slider {
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.slider-track {
+  position: absolute;
+  height: 5px;
+  width: 100%;
+  background-color: var(--border-color);
+  border-radius: 3px;
+  z-index: 1;
+}
+
+.slider-progress {
+  position: absolute;
+  height: 5px;
+  background-color: var(--accent-primary);
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.dual-range-slider input[type="range"] {
+  -webkit-appearance: none;
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  pointer-events: none;
+  /* Kapsayıcıya olayları devret */
+  z-index: 3;
+}
+
+.dual-range-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  /* Sadece başlıklar tıklanabilir olsun */
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--bg-surface);
+  background: var(--accent-primary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.dual-range-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--bg-surface);
+  background: var(--accent-primary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.year-range-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.year-range-container span {
+  color: var(--text-secondary);
+}
+
+.year-range-container input {
+  width: 100%;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.year-range-container input::-webkit-outer-spin-button,
+.year-range-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.year-range-container input[type="number"] {
+  -moz-appearance: textfield;
+}

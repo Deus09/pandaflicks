@@ -1,0 +1,188 @@
+/* =================================================================== */
+/* === FİLM DETAY MODALI - YENİ VE DENGELİ TASARIM === */
+/* =================================================================== */
+#detail-movie-overview.truncated {
+  position: relative; /* Bu satır, içindeki sahte elementi konumlandırmak için gerekli */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#detail-movie-overview.truncated::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 75%;
+  height: 1.2rem;
+  background: linear-gradient(to right, transparent, var(--bg-main) 90%);
+  text-align: right;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Aydınlık tema için de soluklaşma efektini ayarlayalım */
+.light-theme #detail-movie-overview.truncated::after {
+    background: linear-gradient(to right, transparent, var(--bg-main) 50%);
+}
+
+
+#detail-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Ana bölümler arası boşluk */
+}
+
+.detail-grid-v2 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.25rem; /* Poster ve bilgiler arası boşluk */
+}
+
+.detail-poster-column {
+  flex-shrink: 0;
+  width: 115px; /* Poster genişliği */
+}
+
+#detail-movie-poster {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.detail-info-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.detail-meta-info {
+  font-size: 0.9rem; /* 14px */
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.detail-meta-info strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.ratings-container-v2 {
+  display: flex;
+  align-items: center; /* Dikeyde mükemmel hizalama */
+  gap: 1rem;
+  margin: 0.25rem 0 1rem 0; /* Dikey boşlukları ayarla */
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.75rem; /* İç boşlukları ayarla
+}
+
+.ratings-container-v2 .rating-item {
+  display: flex;
+  align-items: baseline; /* Puan ve metni taban çizgisine göre hizala */
+  gap: 0.4rem; /* Puan ve metin arası boşluk */
+  line-height: 1;
+}
+
+.ratings-container-v2 .rating-value {
+  font-size: 1.1rem; /* 24px */
+  font-weight: 700;
+  color: var(--accent-secondary); /* Parlak Turkuaz */
+}
+
+.ratings-container-v2 .rating-value::before {
+  content: '★';
+  font-size: 1.2rem; /* Yıldız boyutunu ayarla */
+  margin-right: 0.1rem;
+}
+
+.ratings-container-v2 .rating-label {
+  font-size: 0.8rem; /* 13px */
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding-bottom: 2px; /* Dikey hizalama için ince ayar */
+}
+
+.ratings-container-v2 .imdb-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f5c518;
+  color: #000000;
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.1s ease;
+  margin-left: auto; /* Sağa yaslamak için */
+}
+.ratings-container-v2 .imdb-button svg { width: 24px; }
+.ratings-container-v2 .imdb-button:active { transform: scale(0.96); }
+
+.detail-overview {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* --- Film Detay Modalı --- */
+#detail-modal-body {
+  gap: 1.2rem;
+}
+
+#detail-movie-poster {
+  width: 100px;
+  height: 150px;
+  border-radius: 8px;
+}
+
+#detail-movie-overview {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.lottie-loader {
+  display: none;
+  width: 100%;
+  margin: auto
+}
+
+.lottie-loader.visible {
+  display: flex;
+  justify-content: center;
+  /* İçindeki elemanı (animasyonu) yatayda ortala */
+  align-items: center;
+  /* İçindeki elemanı (animasyonu) dikeyde ortala */
+}
+
+#detail-modal-body.hidden {
+  display: none;
+}
+
+.modal-body {
+  display: flex;
+}
+
+#detail-add-to-log-button {
+  background-color: var(--accent-secondary);
+  color: var(--bg-main);
+  font-weight: 500;
+  padding: 0.3rem;
+  border-radius: 10px;
+  width: 70%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  margin-left:auto;
+  margin-right: auto;
+}
+#detail-add-to-log-button:active {
+  transform: scale(0.97);
+}

@@ -1,0 +1,182 @@
+/* === PAYWALL EKRANI STİLLERİ BAŞLANGIÇ === */
+.paywall-content {
+  max-width: 410px;
+  padding: 2rem;
+  width: 90%;
+  height: 90%;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  /* Giriş animasyonu için ayarlar */
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
+}
+
+.modal-overlay.visible .paywall-content {
+  transform: scale(1.01);
+}
+
+.paywall-content .modal-header {
+  border-bottom: none;
+  margin-bottom: 0.5rem;
+}
+
+/* Paywall penceresindeki yeni Pro logosu resminin boyutu */
+.paywall-icon {
+
+    padding-top: 2rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Paywall penceresindeki yeni Pro logosu resminin boyutu */
+.paywall-icon-img {
+    width: 70px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
+    height: 70px; /* Yükseklik */
+
+}
+
+/* JavaScript ile eklenecek olan 'selected' sınıfının stili */
+.plan-option.selected {
+  border-color: var(--accent-primary);
+  /* Ana vurgu rengimiz olan turuncu */
+  transform: scale(1.05);
+  /* Hafifçe büyütür */
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+  /* Turuncu bir parlama efekti ekler */
+}
+
+.paywall-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  color: var(--text-primary);
+}
+
+.paywall-icon {
+  display: block;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.paywall-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  /* Elementler arası boşluk */
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.paywall-subtitle {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.plan-selector {
+  display: flex;
+  gap: 1rem;
+}
+
+.plan-option {
+  flex: 1;
+  padding: 0.8rem;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-main);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+body:not(.light-theme) .paywall-icon-img {
+    /* Logonun etrafına 2px kalınlığında, hafif şeffaf bir beyaz çizgi ekle */
+    filter: drop-shadow(0 0 2px white) drop-shadow(0 0 4px white);
+}
+
+.plan-title {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9 rem;
+}
+
+.plan-price {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0.25rem 0;
+  color: var(--text-primary);
+}
+
+.plan-desc {
+  display: block;
+  font-size: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.plan-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  background-color: var(--accent-secondary);
+  color: var(--bg-main);
+  padding: 3px 8px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  border-radius: 0 10px 0 10px;
+}
+
+#upgrade-to-pro-btn {
+  margin-top: 0.5rem;
+}
+
+.paywall-footer {
+  font-size: 0.3rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.paywall-close-modal-btn {
+  position: absolute;
+  /* Referans noktasına göre konumlandır */
+  top: 1rem;
+  /* Üst kenardan 16px boşluk */
+  right: 1rem;
+  /* Sağ kenardan 16px boşluk */
+  /* Butonun daha iyi görünmesi için ek stiller */
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+}

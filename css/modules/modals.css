@@ -1,0 +1,236 @@
+@import "modals/paywall.css";
+@import "modals/paywall.css";
+@import "modals/chat.css";
+@import "modals/settings.css";
+@import "modals/movie-suggestion.css";
+@import "modals/filter-sort.css";
+@import "modals/_base-modal.css";
+@import "modals/detail-modal.css";
+@import "modals/prompt-modal.css";
+
+/* =================================================================== */
+/* === KATMANLI (LAYERED) MODAL STİLLERİ (YENİ) === */
+/* =================================================================== */
+
+/* Katmanlı modal, diğerinin üzerinde görünmesi için daha yüksek z-index alır */
+.modal-overlay.is-layered {
+  z-index: 30;
+  /* Normal modal z-index'i 25'ti */
+
+  /* Arkadaki modalı görebilmek için arka planı ve bulanıklığı kaldır */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Hafif karartma yeterli */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Üstteki modalın içeriğinin daha belirgin olmasını sağla */
+.modal-overlay.is-layered .modal-content {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  /* Yüksekliğini tüm ekranı kaplamayacak şekilde ayarla */
+  height: 90%;
+  max-height: 700px;
+  border-radius: 16px;
+  /* Köşeleri yuvarlat */
+}
+
+/* =================================================================== */
+/* === KÜÇÜK EKRAN İÇİN ÖNERİ MODALI UYARLAMALARI (YENİ VE GELİŞTİRİLMİŞ) === */
+/* =================================================================== */
+
+@media (max-width: 400px) {
+
+  /* Hedef: Öneri sonuçları modalının kendisi */
+  #suggestionResultOverlay .modal-content {
+    /* Yan boşlukları daha da azalt */
+    padding-left: 1.3rem;
+    padding-right: 1.1rem;
+
+    /* Dikey boşlukları da daha kompakt hale getir */
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+  }
+
+  .suggestion-poster-item {
+    height: 80%;
+    width: 80%;
+  }
+
+  /* Hedef: Film posterlerinin bulunduğu grid */
+  .suggestion-grid {
+    /* Posterler arasındaki boşluğu daha da küçült */
+    gap: 0.5rem;
+    /* Önceki 1rem'den daha küçük */
+  }
+
+  /* Hedef: Modal başlığı (h2) */
+  #suggestionResultOverlay .modal-header h2 {
+    font-size: 1.1rem;
+    /* Başlık yazısını biraz küçült */
+  }
+
+  /* Hedef: "Yeniden Dene" butonu */
+  #tryAgainBtn {
+    padding: 0.75rem;
+    /* Butonun iç boşluğunu azalt */
+    font-size: 0.9rem;
+    /* Buton yazısını küçült */
+  }
+}
+
+#splash-text {
+  /* 1. Yazıyı ortalamak için */
+  text-align: center;
+
+  /* 2. Font boyutunu daha makul bir seviyeye indirmek için (değeri kendinize göre ayarlayabilirsiniz) */
+  font-size: 1.2rem; /* veya 22px gibi sabit bir değer de kullanabilirsiniz */
+
+  /* 3. Yazının çok geniş bir alana yayılmasını önlemek için */
+  max-width: 85%;   /* Kendi kapsayıcısının en fazla %85'i kadar geniş olsun */
+
+  /* 4. Elementin kendisini (metin kutusunu) yatayda ortalamak için */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Okunabilirliği artırmak için satır yüksekliği ayarı (isteğe bağlı) */
+  line-height: 1.4; 
+}
+
+@media (max-width: 400px) {
+.suggestion-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  }
+  .suggestion-poster-item {
+  border-radius: 8px;
+  }
+  .suggestion-poster-item img {
+  object-fit: cover; 
+
+}
+}
+/* =================================================================== */
+/* === FULL SCREEN SPLASH ŞOVU (PandaFlicks) === */
+/* =================================================================== */
+
+/* Animasyon Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes text-flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes particle-flow {
+  from {
+    transform: translateY(120vh) scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(-20vh) scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- Ana Splash Ekranı Katmanı --- */
+#loadingSpinnerOverlay {
+  animation: fadeIn 0.5s ease forwards;
+  display: flex;
+  /* .visible sınıfına gerek kalmadan flex yap */
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Arkaplan Efektleri --- */
+.splash-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #1a1f27 0%, #0d1117 70%);
+  z-index: 1;
+}
+
+/* Gürültü (noise) efekti için */
+.splash-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrE+eYIqCqNEo2QIBxwWkBZ7GTsanagCC/lqpjFbTflbJAFG4gaIb+gJ0UjhhZiMkc4sZGYAN2A9LEBRtrmvcAZGHoMAbR9BpZ6T6kr5dTT9paSdAKIPAgQEkEMmZi45bItdxMyPU3OMyLzsCwA4PJmTLmJ3x0o0b3FBdpUHNUgBKP1sPAnQKGIgUeEcM78SBl4MoZd7ApWRWNxRRUdk0EXYttiCa0hroPE0iQCZJEiOy5pUjSCwFLEdCFASgCKM89OYo4S3dpSCEgh+v5pKnS5QL9ns/oL1s5Sms+FR4FHoLyAEsGA0Db2K2rolGAG/5inQAAUb2QGTL/BBY/X+CqCM5YUg5CfZ2PKFSrL0KGDsulAEgrGvCsGv9sq0bb72sMILv2oLajK2SyZmD5G3Lx9wH25e1A5T927M/d87/3D/4m4D/b29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L29v2B/H29f2D/L2veAAAAAElFTkSuQmCC');
+  opacity: 0.05;
+  z-index: 2;
+}
+
+/* --- Parçacık Animasyonu --- */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.particle {
+  position: absolute;
+  bottom: -50px;
+  /* Ekranın altından başla */
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  animation-name: particle-flow;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* --- Ana İçerik ve Lottie --- */
+.splash-content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-lottie-wrapper {
+  filter: drop-shadow(0 0 25px rgba(130, 86, 208, 0.5));
+}
+
+/* --- Yükleme Metni --- */
+.splash-text-container {
+  margin-top: 1rem;
+  min-height: 2rem;
+  /* Metin değişirken zıplamayı engelle */
+}
+
+.splash-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  animation: text-flicker 3s infinite;
+}
+

@@ -1,0 +1,221 @@
+@import "modules/base.css";
+@import "modules/modals.css";
+@import "modules/nav.css";
+@import "modules/header.css";
+@import "modules/splash.css";
+@import "modules/profile.css";
+@import "modules/forms.css";
+@import "modules/movie-card.css";
+@import "modules/grid.css";
+@import "modules/special-lists.css";
+@import "modules/controls.css";
+@import "modules/auth.css";
+@import "modules/badge.css";
+@import "modules/person-detail.css";
+@import "modules/layout.css";
+
+
+
+
+/* =================================================================== */
+/* === AYDINLIK TEMA (LIGHT THEME) - FİNAL VE KAPSAMLI SÜRÜM === */
+/* =================================================================== */
+
+/* --- 1. Aydınlık Tema İçin Kapsamlı Renk Paleti Tanımlaması --- */
+
+
+/* --- 2. Tüm Bileşenlerin Aydınlık Tema Görünümünü Tanımlama --- */
+
+/* Header ve Alt Navigasyon Çubuğu */
+.light-theme header,
+.light-theme .nav-bar {
+  background-color: rgba(255, 255, 255, 0.85); /* Hafif şeffaf beyaz */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme h1, 
+.light-theme .header-profile-button svg {
+    color: var(--text-primary);
+}
+
+/* Tüm Kartlar, Gruplar ve Paneller */
+.light-theme .movie-item,
+.light-theme .trending-item,
+.light-theme .stat-group,
+.light-theme .list-card-v3,
+.light-theme .badge-card {
+  background-color: var(--bg-surface);
+  border-color: var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Açılır Sıralama Menüsü */
+.light-theme .sort-options-menu {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.light-theme .sort-option:hover {
+  background-color: var(--bg-main);
+}
+.light-theme .sort-option.active {
+    color: var(--accent-primary);
+    background-color: rgba(249, 115, 22, 0.05);
+}
+
+/* Filtrele/Sırala Buton Grubu */
+.light-theme .list-controls,
+.light-theme .control-button {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+}
+.light-theme .control-button:hover {
+    background-color: var(--bg-main);
+}
+
+/* Pencereler (Modals) */
+.light-theme .modal-content {
+  background-color: var(--bg-main);
+}
+.light-theme .modal-header,
+.light-theme .modal-actions {
+    border-color: var(--border-color);
+}
+
+/* Form Elemanları (Input, Textarea) */
+.light-theme .form-group input,
+.light-theme .form-group textarea {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+.light-theme .form-group input::placeholder,
+.light-theme .form-group textarea::placeholder {
+    color: #9ca3af; /* Placeholder metni için daha açık bir gri */
+}
+.light-theme .form-group input:focus,
+.light-theme .form-group textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+/* Puanlama Yıldızları (Boş olanlar için) */
+.light-theme .rating-input .star-svg {
+    fill: #d1d5db; /* Boş yıldız için açık gri */
+}
+
+/* Profil Sayfası Özel Stilleri */
+.light-theme .overview-card,
+.light-theme .capsule-item,
+.light-theme .milestone-item {
+    background-color: #f4f5f7; /* Kartların içindeki kartlar için hafif farklı bir ton */
+}
+/* Profildeki "Dramatik Ruh" gibi renkli rozetler */
+.light-theme .cinematic-identity {
+    background-image: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+    color: white; /* Bu gradyan üzerinde beyaz yazı iyi durur */
+}
+
+/* Ayarlar Menüsü */
+.light-theme .settings-bottom-sheet-panel,
+.light-theme .settings-lang-btn {
+    background-color: var(--bg-main);
+    border-color: var(--border-color);
+}
+.light-theme .settings-lang-btn.active {
+    background-color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    color: var(--text-primary); /* Kontrast için koyu renk */
+}
+.light-theme .settings-close-btn {
+    background-color: #e5e7eb;
+    color: var(--text-secondary);
+}
+.light-theme .theme-switch .slider {
+    background-color: #ccc;
+}
+.light-theme .theme-switch input:checked + .slider {
+    background-color: var(--accent-primary);
+}
+
+/* Yükleme Ekranı Metni */
+.light-theme .splash-text {
+    color: #f4f5f7;
+    text-shadow: none;
+}
+
+/* =================================================================== */
+/* === AYDINLIK TEMA - SON KONTRAST DÜZELTMELERİ === */
+/* =================================================================== */
+
+/* 1. AI Öneri Textarea'sı Düzeltmesi */
+/* Sorun: Metin kutusunun arkası koyu kalıyordu, yazı da koyu olunca metin görünmüyordu. */
+/* Çözüm: Metin kutusunun arkaplanını açık gri yapıyoruz. */
+.light-theme .prompt-input-wrapper {
+    background: #e9ecef;
+    border-color: var(--border-color);
+}
+
+
+/* 2. Film Ekle Penceresindeki İptal Butonu Düzeltmesi */
+/* Sorun: Butonun arkaplanı koyu, metni de koyu olduğu için yazı görünmüyordu. */
+/* Çözüm: Butonun arkaplanını açık gri, metnini de okunaklı bir gri yapıyoruz. */
+.light-theme .modal-actions .cancel-button {
+    background-color: #e5e7eb; 
+    color: var(--text-secondary);
+    border: 1px solid #d1d5db;
+}
+
+.light-theme #profile-username {
+color: var(--text-primary); /* Ana metin rengini kullan */
+}
+
+.light-theme #profile-hero .profile-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f4f5f7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.light-theme .modal-content {
+  color: #f4f5f7;
+}
+
+.light-theme .toggle-switch-label {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: none;
+  background-color: white;
+}
+
+.light-theme .control-button {
+  border-radius: 12px;
+}
+
+.light-theme .modal-header h2 {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: none;
+}
+
+.light-theme .splash-logo {
+  background-color: var(--text-primary);
+}
+
+.light-theme .splash-logo h1 {
+  color: #f4f5f7;
+  text-shadow: none;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-top: 1 rem;
+}
+
+
+
+
+
+

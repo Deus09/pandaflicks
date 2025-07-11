@@ -1,0 +1,27 @@
+/* --- Kişi Detay Sayfası Header Stilleri --- */
+#person-detail-section .list-detail-header {
+    position: relative; /* İçindeki elementleri buna göre konumlandıracağız */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ortalamak için anahtar kural */
+    height: 60px; /* Başlığa sabit bir yükseklik verelim */
+}
+
+#person-detail-section .back-button {
+    position: absolute; /* Geri butonunu akıştan çıkarıp sola yaslayalım */
+    left: 0;
+}
+
+#person-header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Resim ve isim arası boşluk */
+}
+
+#person-detail-photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}

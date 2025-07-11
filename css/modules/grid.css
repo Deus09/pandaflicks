@@ -1,0 +1,79 @@
+/* --- Popüler Filmler Grid --- */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1rem;
+}
+
+.trending-item {
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+  box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 400px ve altı ekranlar için */
+@media (max-width: 400px) {
+  .trending-grid {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  }
+}
+
+.trending-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #21262d;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.trending-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0.3rem 0.2rem;
+  line-height: 1.3;
+}
+
+/* --- İskelet Yükleyiciler --- */
+@keyframes pulse-bg {
+  0% {
+    background-color: #21262d;
+  }
+
+  50% {
+    background-color: #30363d;
+  }
+
+  100% {
+    background-color: #21262d;
+  }
+}
+
+.skeleton-item {
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.skeleton-poster {
+  width: 100%;
+  height: 165px;
+  animation: pulse-bg 1.8s infinite ease-in-out;
+}
+
+.skeleton-title {
+  width: 80%;
+  height: 1rem;
+  border-radius: 6px;
+  margin: 0.6rem auto;
+  animation: pulse-bg 1.8s infinite ease-in-out;
+}

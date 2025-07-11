@@ -1,0 +1,106 @@
+/* =================================================================== */
+/* === FİLM ÖNERİ SONUÇ MODALI (BAŞLANGIÇ) === */
+/* =================================================================== */
+
+#suggestionResultOverlay .modal-content {
+  max-width: 520px;
+  width: 95%;
+  height: auto;
+  transform: none;
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.suggestion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0.5rem 0.25rem;
+  min-height: 200px;
+}
+
+.suggestion-poster-item {
+  position: relative;
+  cursor: pointer;
+  border-radius: 12px; /* Köşeleri daha belirgin yuvarlat */
+  overflow: hidden; /* Taşmaları engelle */
+  aspect-ratio: 2 / 3; /* Posterlerin standart dikey oranı */
+  background-color: var(--bg-main);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Derinlik için gölge */
+}
+
+.suggestion-poster-item img {
+  width: 100%;  /* %90 yerine %100 yapıldı */
+  height: 100%; /* %90 yerine %100 yapıldı */
+  object-fit: cover; /* Resmi, oranını bozmadan alanı kaplayacak şekilde sığdır */
+  transition: transform 0.4s ease;
+}
+
+/* Dokunma anı için anlık geri bildirim efekti */
+.suggestion-poster-item:active {
+  transform: scale(0.97); /* Hafifçe içeri çökme hissi */
+  transition: transform 0.1s ease-out; /* Tepkinin hızlı olmasını sağla */
+}
+
+/* "Beğenmedim, yeniden dene" Butonu için YENİ ve BELİRGİN Stil */
+#tryAgainBtn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+
+  /* YENİ STİL */
+  background-color: transparent;
+  border: 2px solid var(--accent-secondary); /* Turkuaz kenarlık */
+  color: var(--accent-secondary); /* Turkuaz metin */
+  transition: all 0.2s ease;
+}
+
+/* Dokunma anında butonun rengi anlık olarak değişir */
+#tryAgainBtn:active {
+  background-color: var(--accent-secondary);
+  color: var(--bg-main);
+  transform: scale(0.98); /* Hafif basma efekti */
+}
+
+/* Dokunma anında SVG dönmeye başlar (bu kalabilir, güzel bir detay) */
+#tryAgainBtn:active svg {
+    transform: rotate(-180deg);
+    transition: transform 0.4s ease; /* Dönüşün yumuşak olmasını sağlar */
+}
+
+/* Buton içindeki ikonun rengi ve animasyonu */
+#tryAgainBtn svg {
+  transition: transform 0.4s ease;
+}
+
+
+
+/* Yükleme durumundayken... */
+.prompt-submit-button.loading {
+  cursor: wait;
+  /* Fare imlecini bekleme olarak değiştir */
+}
+
+/* Normal içeriği (ikon ve metni) görünmez yap */
+.prompt-submit-button.loading .button-content {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Spinner'ı görünür yap */
+.prompt-submit-button.loading .loading-spinner {
+  display: block;
+}
+
+/* =================================================================== */
+/* === FİLM ÖNERİ SONUÇ MODALI (BİTİŞ) === */
+/* =================================================================== */
