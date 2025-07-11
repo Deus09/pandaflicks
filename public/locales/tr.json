@@ -351,4 +351,9 @@
 "auth_error_user_not_found": "Aktif bir kullanıcı bulunamadığı için işlem yapılamadı."
 ,
 "notification_verify_to_purchase": "Satın almayı tamamlamak için lütfen önce e-postanızı doğrulayın. Profilinizden yeni bir link isteyebilirsiniz."
+,
+"auth_forgot_password": "Şifremi Unuttum?",
+"auth_password_reset_prompt": "Lütfen şifresini sıfırlamak istediğiniz hesabın e-posta adresini girin:",
+"notification_password_reset_sent": "Şifre sıfırlama linki e-posta adresinize gönderildi!",
+"auth_error_user_not_found_for_reset": "Bu e-posta adresine kayıtlı bir kullanıcı bulunamadı."
 }

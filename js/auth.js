@@ -8,6 +8,8 @@ import {
   linkWithCredential,
   EmailAuthProvider,
   sendEmailVerification, // YENİ EKLENDİ
+  sendPasswordResetEmail // YENİ EKLENDİ
+
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { auth } from "./firebase.js";
 import { getTranslation } from "./i18n.js";
@@ -85,4 +87,11 @@ export function handleResendVerificationEmail() {
     return sendEmailVerification(auth.currentUser);
   }
   return Promise.reject(new Error(getTranslation("auth_error_user_not_found")));
+}
+
+/**
+ * Verilen e-posta adresine şifre sıfırlama linki gönderir.
+ */
+export function handlePasswordReset(email) {
+  return sendPasswordResetEmail(auth, email);
 }

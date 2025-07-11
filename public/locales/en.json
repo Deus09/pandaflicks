@@ -351,4 +351,9 @@
 "auth_error_user_not_found": "Action could not be completed as no active user was found."
 ,
 "notification_verify_to_purchase": "To complete the purchase, please verify your email first. You can request a new link from your profile."
+,
+"auth_forgot_password": "Forgot Password?",
+"auth_password_reset_prompt": "Please enter the email address for the account you want to reset the password:",
+"notification_password_reset_sent": "A password reset link has been sent to your email address!",
+"auth_error_user_not_found_for_reset": "No user was found registered with this email address."
 }
