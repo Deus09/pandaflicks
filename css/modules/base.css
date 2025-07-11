@@ -31,9 +31,6 @@
   --status-error: #f87171;   /* Hata için Kırmızı */
 }
 
-
-}
-
 body {
   font-family: "Inter", sans-serif;
   background-color: var(--bg-main);
