@@ -349,4 +349,6 @@
 "notification_verification_resent": "Doğrulama e-postası tekrar gönderildi!"
 ,
 "auth_error_user_not_found": "Aktif bir kullanıcı bulunamadığı için işlem yapılamadı."
+,
+"notification_verify_to_purchase": "Satın almayı tamamlamak için lütfen önce e-postanızı doğrulayın. Profilinizden yeni bir link isteyebilirsiniz."
 }

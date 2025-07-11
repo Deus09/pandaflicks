@@ -1,4 +1,7 @@
 // js/paywall.js
+import { auth } from './firebase.js';
+import { showNotification } from './utils.js';
+import { getTranslation } from './i18n.js';
 
 let paywallOverlay;
 let closePaywallBtn;
@@ -39,11 +42,27 @@ export function initPaywall() {
     });
 
     upgradeToProBtn.addEventListener('click', () => {
-        // BU BÖLÜM BİR SONRAKİ ADIMDA GERÇEK ÖDEME KODLARIYLA DEĞİŞECEK
-        console.log(`Satın alma işlemi başlatıldı: ${selectedPlan}`);
-        alert(`"${selectedPlan}" planı için satın alma işlemi başlatılıyor... (Bu henüz gerçek bir ödeme değil)`);
+        const user = auth.currentUser;
+
+        // Kullanıcı var mı ve e-postası doğrulanmış mı diye kontrol et
+        if (user && user.emailVerified) {
+            // --- E-POSTA DOĞRULANMIŞSA (Her şey yolunda) ---
+            console.log(`Ödeme işlemi başlatılıyor: ${selectedPlan}`);
+            alert(`"${selectedPlan}" planı için ödeme sayfasına yönlendiriliyorsunuz...`);
+            // initiatePurchase(selectedPlan); // Gerçek ödeme kodu gelecekte buraya gelecek
         
-        // Örn: initiatePurchase(selectedPlan);
+        } else if (user && !user.emailVerified) {
+            // --- E-POSTA DOĞRULANMAMIŞSA (Ödemeyi durdur ve uyar) ---
+            showNotification(getTranslation('notification_verify_to_purchase'), 'error');
+            // Kullanıcıyı bilgilendirdikten sonra ödeme ekranını kapatıyoruz ki
+            // profil sayfasına gidip e-postasını doğrulayabilsin.
+            hidePaywall();
+
+        } else {
+            // Hiç kullanıcı yoksa (bu pek olası değil ama bir güvenlik önlemi)
+            showNotification('Lütfen önce giriş yapın.', 'error');
+            hidePaywall();
+        }
     });
 }
 

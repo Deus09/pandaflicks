@@ -349,4 +349,6 @@
 "notification_verification_resent": "Verification email sent again!"
 ,
 "auth_error_user_not_found": "Action could not be completed as no active user was found."
+,
+"notification_verify_to_purchase": "To complete the purchase, please verify your email first. You can request a new link from your profile."
 }
