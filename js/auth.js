@@ -8,8 +8,9 @@ import {
   linkWithCredential,
   EmailAuthProvider,
   sendEmailVerification, // YENİ EKLENDİ
-  sendPasswordResetEmail // YENİ EKLENDİ
-
+  sendPasswordResetEmail, // YENİ EKLENDİ
+  GoogleAuthProvider, // YENİ EKLENDİ
+  signInWithPopup     // YENİ EKLENDİ
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { auth } from "./firebase.js";
 import { getTranslation } from "./i18n.js";
@@ -94,4 +95,12 @@ export function handleResendVerificationEmail() {
  */
 export function handlePasswordReset(email) {
   return sendPasswordResetEmail(auth, email);
+}
+
+/**
+ * Google giriş penceresini açar ve giriş işlemini yönetir.
+ */
+export function handleGoogleSignIn() {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
 }

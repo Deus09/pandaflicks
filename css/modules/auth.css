@@ -164,3 +164,34 @@
     text-decoration: underline;
     transition: color 0.2s ease;
 }
+
+/* --- Google Giriş Butonu ve Ayırıcı --- */
+.google-signin-button {
+    width: 100%;
+    background-color: white;
+    color: #333;
+    border-color: #DDD;
+    margin-bottom: 1rem;
+}
+.google-signin-button:hover {
+    background-color: #f7f7f7;
+}
+
+.auth-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.auth-separator::before,
+.auth-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+.auth-separator span {
+    padding: 0 1rem;
+}

@@ -7,6 +7,7 @@ import {
   handleSignUp,
   handleSignOut,
   handlePasswordReset,
+  handleGoogleSignIn,
 } from "./auth.js";
 import { getTranslation } from "./i18n.js";
 
@@ -203,6 +204,25 @@ export function setupEventListeners() {
             showNotification(error.message, "error");
           }
         }
+      }
+    });
+  }
+
+  const googleSignInBtn = document.getElementById("google-signin-btn");
+  if (googleSignInBtn) {
+    googleSignInBtn.addEventListener("click", async () => {
+      try {
+        await handleGoogleSignIn();
+        // Başarılı giriş sonrası onAuthStateChanged zaten devreye girecek.
+        // Bu yüzden burada ek bir şey yapmamıza gerek yok.
+        // İsteğe bağlı olarak bir başarı bildirimi gösterebiliriz.
+        showNotification("Google ile başarıyla giriş yapıldı!", "success");
+      } catch (error) {
+        console.error("Google ile giriş hatası:", error);
+        showNotification(
+          "Google ile giriş yapılamadı. Lütfen tekrar deneyin.",
+          "error"
+        );
       }
     });
   }
