@@ -101,3 +101,16 @@ export async function isUsernameTaken(username) {
     const docSnap = await getDoc(usernameDocRef);
     return docSnap.exists();
 }
+
+/**
+ * Bir kullanıcının profilinin oluşturulup oluşturulmadığını kontrol eder.
+ * @param {string} uid - Kontrol edilecek kullanıcının UID'si.
+ * @returns {Promise<boolean>} - Profil tamamlanmışsa true, değilse false döner.
+ */
+export async function isUserProfileComplete(uid) {
+  if (!uid) return false;
+  const userDocRef = doc(db, "users", uid);
+  const docSnap = await getDoc(userDocRef);
+  // Belge var mı VE içinde 'username' alanı var mı?
+  return docSnap.exists() && docSnap.data().username;
+}

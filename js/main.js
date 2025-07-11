@@ -12,9 +12,9 @@ import { initBadgeInfoModal } from "./badge-modal.js";
 import { initializeChatDOM } from "./chat.js";
 import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
-import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus } from "./user.js"; // GÜNCELLEME
+import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus, isUserProfileComplete } from "./user.js"; // GÜNCELLEME
 import { initPaywall } from './paywall.js'; // YENİ: import ekle
-
+import { initProfileSetup, showProfileSetupModal } from './profile-setup.js';
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -105,42 +105,44 @@ async function initializeApp() {
 
   initAuth(async (user) => {
     if (user) {
-      if (user.uid !== currentLoadedUserId) {
-    currentLoadedUserId = user.uid;
+      // KULLANICI GİRİŞ YAPMIŞ VEYA YENİ KAYDOLMUŞ
 
-    // ÖNCE, kullanıcı arayüzünü ve profil sayfasının iskeletini anında gösteriyoruz
-    updateProfileView(user);
+      if (user.uid === currentLoadedUserId && isUiReady) {
+        // Eğer zaten giriş yapmış ve arayüz hazırsa tekrar işlem yapma
+        return;
+      }
 
-    // SONRA, ağır verileri arka planda yüklüyoruz.
-    // Kullanıcı bu sırada profil sayfasını zaten görüyor olacak.
-    Promise.all([
-        loadMoviesFromFirestore(user.uid),
-        fetchUserSubscriptionStatus(user.uid)
-    ]).then(() => {
-        // Arka plandaki yükleme bitince arayüzü tekrar güncelle
-        // (istatistikler ve Pro özellikler için)
-        updateProfileView(user);
-        updateUIForSubscriptionStatus();
-    }).catch(error => {
-        console.error("Kullanıcı verileri arka planda yüklenirken hata:", error);
-    });
-}
+      // Yeni giren kullanıcının en güncel durumunu çekelim (e-posta doğrulama için)
+      await user.reload();
+
+      // Kullanıcının profili tamamlanmış mı diye veritabanından kontrol et
+      const isProfileComplete = await isUserProfileComplete(user.uid);
+
+      if (!isProfileComplete && !user.isAnonymous) {
+        // Profili tamamlanmamış ve anonim değilse, kurulum ekranını göster
+        showProfileSetupModal();
+      }
+
+      // Her durumda, ana arayüzü göster ve verileri yükle
+      currentLoadedUserId = user.uid;
       if (!isUiReady) {
         showAppUI();
         isUiReady = true;
       }
       updateProfileView(user);
+      loadMoviesFromFirestore(user.uid);
+      fetchUserSubscriptionStatus(user.uid).then(() => {
+        updateUIForSubscriptionStatus();
+      });
+
     } else {
-      console.log("Auth state changed. No user found. Signing in anonymously...");
-      clearMovieLists();
-      await fetchUserSubscriptionStatus(null);
-
-      // YENİ: Arayüzü kullanıcının durumuna göre güncelle
-      updateUIForSubscriptionStatus();
-
-      updateProfileView(null);
+      // KULLANICI ÇIKIŞ YAPMIŞ
       currentLoadedUserId = null;
-      handleAnonymousSignIn().catch((err) => { /*...*/ });
+      isUiReady = false; // Arayüzün yeniden yüklenmesi için sıfırla
+      clearMovieLists();
+      updateProfileView(null);
+      updateUIForSubscriptionStatus();
+      handleAnonymousSignIn().catch(err => console.error("Anonim giriş hatası:", err));
     }
   });
 
