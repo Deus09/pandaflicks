@@ -1,5 +1,5 @@
 // js/user.js
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "./firebase.js";
 
 // YENİ: Admin olarak tanımlamak istediğiniz kullanıcıların UID'lerini bu listeye ekleyin.
@@ -89,4 +89,15 @@ export function updateUIForSubscriptionStatus() {
             featureElement.classList.add('feature-locked');
         }
     });
+}
+
+/**
+ * Verilen bir kullanıcı adının "usernames" koleksiyonunda olup olmadığını kontrol eder.
+ * @param {string} username - Kontrol edilecek kullanıcı adı.
+ * @returns {Promise<boolean>} - Kullanıcı adı alınmışsa true, değilse false döner.
+ */
+export async function isUsernameTaken(username) {
+    const usernameDocRef = doc(db, "usernames", username);
+    const docSnap = await getDoc(usernameDocRef);
+    return docSnap.exists();
 }

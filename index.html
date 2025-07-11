@@ -1184,5 +1184,41 @@
         </form>
       </div>
     </div>
+
+    <div id="profile-setup-modal" class="modal-overlay hidden">
+      <div class="modal-content" style="height: auto; max-width: 420px;">
+        <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+          <h2 class="text-xl font-bold">PandaFlicks'e Hoş Geldin!</h2>
+        </div>
+        <form id="profile-setup-form" style="padding: 1rem;">
+          <p class="text-gray-400 text-center mb-6">Başlamak için profilini oluşturalım.</p>
+
+          <div class="avatar-upload-container">
+            <div id="avatar-preview-wrapper" class="avatar-preview-wrapper">
+              <img id="avatar-preview" src="https://placehold.co/100x100/172a46/8892b0?text=+" alt="Avatar">
+            </div>
+            <label>Profil Fotoğrafı Seç</label>
+          </div>
+          
+          <div class="form-group">
+            <label for="setup-username-input">Kullanıcı Adı</label>
+            <div class="input-with-icon">
+              <span>@</span>
+              <input type="text" id="setup-username-input" required autocomplete="off" placeholder="benzersiz_kullanici_adiniz">
+            </div>
+            <p id="username-availability-status" class="input-status-text"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="setup-displayname-input">Görünen İsim (İsteğe Bağlı)</label>
+            <input type="text" id="setup-displayname-input" placeholder="Adınız Soyadınız">
+          </div>
+
+          <div class="modal-actions" style="margin-top: 2rem;">
+            <button type="submit" id="complete-profile-btn" class="save-button" disabled>Profili Tamamla ve Başla</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

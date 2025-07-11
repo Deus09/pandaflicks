@@ -26,6 +26,12 @@
   /* Sohbet Rengi (Yine Turkuaz) */
   --accent-chat-hover: #a0ffee;
   --accent-chat-glow: rgba(100, 255, 218, 0.4);
+  /* ... diğer renk değişkenleri ... */
+  --status-success: #31c48d; /* Başarı için Yeşil */
+  --status-error: #f87171;   /* Hata için Kırmızı */
+}
+
+
 }
 
 body {
