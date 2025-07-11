@@ -156,13 +156,27 @@ export function setupEventListeners() {
     forgotPasswordLink.addEventListener("click", (e) => {
       e.preventDefault();
       passwordResetModal.classList.remove("hidden");
+      // Animasyonun düzgün çalışması için küçük bir gecikme ekliyoruz
+      setTimeout(() => {
+        passwordResetModal.classList.add("visible");
+      }, 10);
     });
   }
 
   // Kapatma butonuna tıklanınca modalı kapat
   if (closeResetModalBtn) {
     closeResetModalBtn.addEventListener("click", () => {
-      passwordResetModal.classList.add("hidden");
+      passwordResetModal.classList.remove("visible");
+      // Animasyon bittiğinde display:none yapmak için
+      passwordResetModal.addEventListener(
+        "transitionend",
+        () => {
+          if (!passwordResetModal.classList.contains("visible")) {
+            passwordResetModal.classList.add("hidden");
+          }
+        },
+        { once: true }
+      );
     });
   }
 
@@ -178,7 +192,7 @@ export function setupEventListeners() {
             getTranslation("notification_password_reset_sent"),
             "success"
           );
-          passwordResetModal.classList.add("hidden"); // Başarılı olunca modalı kapat
+          closeResetModalBtn.click(); // Başarılı olunca kapatma butonunu tetikle
         } catch (error) {
           if (error.code === "auth/user-not-found") {
             showNotification(
