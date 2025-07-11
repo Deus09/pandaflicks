@@ -1,0 +1,13 @@
+{
+  "name": "PandaFlicks Codespace",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:0-20",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "forwardPorts": [5173],
+  "postCreateCommand": "npm install"
+}
