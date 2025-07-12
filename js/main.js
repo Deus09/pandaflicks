@@ -13,8 +13,7 @@ import { initializeChatDOM } from "./chat.js";
 import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus, isUserProfileComplete } from "./user.js"; // GÜNCELLEME
-import { initPaywall } from './paywall.js'; // YENİ: import ekle
-import { initProfileSetup, showProfileSetupModal } from './profile-setup.js';
+
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -83,100 +82,78 @@ function showAppUI() {
  * Initializes the application.
  */
 async function initializeApp() {
-  initializeTheme(); // Tema sistemini başlat
-  await initializeI18n(); // DİL SİSTEMİNİ BAŞLAT
-  initSettingsMenu(); // AYARLAR MENÜSÜNÜ BAŞLAT
-
-
-  console.log("initializeApp: Starting application...");
-
-  // Create the premium splash screen background
+  // --- UYGULAMA BAŞLATMA ADIMLARI ---
+  initializeTheme();
+  await initializeI18n();
+  initSettingsMenu();
   createSplashBackground();
-
-  // Gerekli tüm başlatmaları yap
   setupEventListeners();
   setupListViewControls();
   initBadgeInfoModal();
-  initializeChatDOM();
-  initMovieSuggestion();
   initPaywall();
+  initProfileSetup();
 
+  // --- Durum Değişkenleri ---
   let isUiReady = false;
+  let currentLoadedUserId = null;
 
+  // --- KULLANICI GİRİŞ/ÇIKIŞ KONTROL MERKEZİ ---
   initAuth(async (user) => {
     if (user) {
-      // KULLANICI GİRİŞ YAPMIŞ VEYA YENİ KAYDOLMUŞ
+      // --- KULLANICI GİRİŞ YAPMIŞ ---
+      if (user.uid === currentLoadedUserId) return; // Zaten işlenmişse tekrar yapma
 
-      if (user.uid === currentLoadedUserId && isUiReady) {
-        // Eğer zaten giriş yapmış ve arayüz hazırsa tekrar işlem yapma
-        return;
-      }
-
-      // Yeni giren kullanıcının en güncel durumunu çekelim (e-posta doğrulama için)
-      await user.reload();
-
-      // Kullanıcının profili tamamlanmış mı diye veritabanından kontrol et
-      const isProfileComplete = await isUserProfileComplete(user.uid);
-
-      if (!isProfileComplete && !user.isAnonymous) {
-        // Profili tamamlanmamış ve anonim değilse, kurulum ekranını göster
-        showProfileSetupModal();
-      }
-
-      // Her durumda, ana arayüzü göster ve verileri yükle
       currentLoadedUserId = user.uid;
+
+      // Ana arayüzü göster
       if (!isUiReady) {
         showAppUI();
         isUiReady = true;
       }
+      
+      // Profil sayfasını ve verileri yükle
       updateProfileView(user);
       loadMoviesFromFirestore(user.uid);
       fetchUserSubscriptionStatus(user.uid).then(() => {
-        updateUIForSubscriptionStatus();
+          updateUIForSubscriptionStatus();
       });
 
     } else {
-      // KULLANICI ÇIKIŞ YAPMIŞ
+      // --- KULLANICI ÇIKIŞ YAPMIŞ / İLK GİRİŞ (ANONİM) ---
       currentLoadedUserId = null;
-      isUiReady = false; // Arayüzün yeniden yüklenmesi için sıfırla
       clearMovieLists();
       updateProfileView(null);
       updateUIForSubscriptionStatus();
       handleAnonymousSignIn().catch(err => console.error("Anonim giriş hatası:", err));
+      if (!isUiReady) {
+        showAppUI();
+        isUiReady = true;
+      }
     }
   });
 
   // === DİL DEĞİŞİKLİĞİ SİNYALİNİ DİNLE ===
   document.addEventListener('language-changed', () => {
-    // O anda hangi bölümün aktif (görünür) olduğunu bul
     const activeSection = document.querySelector('.content-section:not(.hidden)');
     if (!activeSection) return;
 
     console.log(`Dil değişti, aktif bölüm yenileniyor: ${activeSection.id}`);
 
-    // Aktif olan bölüme göre doğru yenileme fonksiyonunu çağır
     switch (activeSection.id) {
       case 'profile-section':
-        // Profil sayfasını (istatistikler, kimlik vb.) yeniden çiz
         updateProfileView(auth.currentUser);
         break;
       case 'my-watched-movies-section':
-        // İzlediklerim listesini (tarih formatları için) yeniden çiz
         refreshWatchedMoviesList();
         break;
       case 'watch-later-movies-section':
-        // Daha sonra izle listesini yeniden çiz
         refreshWatchLaterList();
         break;
       default:
-        // Diğer bölümler (Popüler, Listeler) zaten sekmeye tıklandığında
-        // yeniden veri çektiği için, dil değişikliğinde şimdilik
-        // özel bir eyleme ihtiyaçları yok.
         showSection(activeSection.id);
         break;
     }
   });
-  // ======================================
 }
 
 document.addEventListener("DOMContentLoaded", () => initializeApp());

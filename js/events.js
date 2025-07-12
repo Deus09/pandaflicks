@@ -10,6 +10,7 @@ import {
   handleGoogleSignIn,
 } from "./auth.js";
 import { getTranslation } from "./i18n.js";
+import { showProfileSetupModal } from './profile-setup.js';
 
 export function setupEventListeners() {
   // --- Navigasyon Olayları ---
@@ -112,13 +113,11 @@ export function setupEventListeners() {
             "success"
           );
         } else {
-          const userCredential = await handleSignUp(email, password);
-          showNotification(
-            getTranslation("notification_verification_sent"),
-            "success"
-          );
-          emailAuthForm.reset();
-        }
+              await handleSignUp(email, password);
+              showNotification(getTranslation('notification_verification_sent'), "success");
+              emailAuthForm.reset();
+              showProfileSetupModal(); // İŞTE TETİK BURADA!
+          }
       } catch (error) {
         console.error("Authentication Error:", error);
         authErrorMessage.textContent = getFriendlyAuthError(error);
