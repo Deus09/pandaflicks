@@ -80,6 +80,7 @@ function showAppUI() {
   }
 }
 
+
 /**
  * Initializes the application.
  */
