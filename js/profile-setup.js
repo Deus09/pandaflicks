@@ -27,7 +27,7 @@ let debounceTimer;
  */
 const debounce = (func, delay) => {
   return (...args) => {
-    usernameStatusText.textContent = 'Kontrol ediliyor...'; // Kullanıcıya geri bildirim ver
+usernameStatusText.textContent = getTranslation('username_status_checking');
     usernameStatusText.className = 'input-status-text';
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
@@ -41,7 +41,8 @@ const debounce = (func, delay) => {
  */
 const checkUsernameAvailability = async () => {
   const username = usernameInput.value.trim().toLowerCase();
-  
+
+  // Kural 1: Uzunluk kontrolü
   if (username.length < 3) {
     usernameStatusText.textContent = getTranslation('username_status_too_short');
     usernameStatusText.className = 'input-status-text taken';
@@ -49,7 +50,8 @@ const checkUsernameAvailability = async () => {
     completeProfileBtn.disabled = true;
     return;
   }
-  
+
+  // Kural 2: Geçerli karakter kontrolü
   if (!/^[a-z0-9_.]+$/.test(username)) {
     usernameStatusText.textContent = getTranslation('username_status_invalid_chars');
     usernameStatusText.className = 'input-status-text taken';
@@ -57,19 +59,27 @@ const checkUsernameAvailability = async () => {
     completeProfileBtn.disabled = true;
     return;
   }
-  
-  const isTaken = await isUsernameTaken(username);
 
-  if (isTaken) {
-    usernameStatusText.textContent = getTranslation('username_status_taken');
+  // Kural 3: Veritabanından kontrol
+  try {
+    const isTaken = await isUsernameTaken(username);
+    if (isTaken) {
+      usernameStatusText.textContent = getTranslation('username_status_taken');
+      usernameStatusText.className = 'input-status-text taken';
+      isUsernameValid = false;
+    } else {
+      usernameStatusText.textContent = getTranslation('username_status_available');
+      usernameStatusText.className = 'input-status-text available';
+      isUsernameValid = true;
+    }
+  } catch (error) {
+    console.error("Kullanıcı adı kontrol hatası:", error);
+    usernameStatusText.textContent = getTranslation('username_status_error');
     usernameStatusText.className = 'input-status-text taken';
     isUsernameValid = false;
-  } else {
-    usernameStatusText.textContent = getTranslation('username_status_available');
-    usernameStatusText.className = 'input-status-text available';
-    isUsernameValid = true;
+  } finally {
+    completeProfileBtn.disabled = !isUsernameValid;
   }
-  completeProfileBtn.disabled = !isUsernameValid;
 };
 
 /**

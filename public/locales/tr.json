@@ -359,4 +359,11 @@
 ,
 "auth_google_button": "Google ile Devam Et",
 "auth_or_separator": "VEYA"
+,
+"username_status_error": "Kontrol sırasında bir hata oluştu.",
+"username_status_available": "✅ Harika, bu kullanıcı adı uygun!",
+"username_status_taken": "❌ Bu kullanıcı adı daha önce alınmış.",
+"username_status_too_short": "Kullanıcı adı en az 3 karakter olmalı.",
+"username_status_invalid_chars": "Sadece küçük harf, rakam ve '_' kullanabilirsin.",
+"username_status_checking": "Kontrol ediliyor..."
 }

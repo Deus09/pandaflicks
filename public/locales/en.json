@@ -359,4 +359,11 @@
 ,
 "auth_google_button": "Continue with Google",
 "auth_or_separator": "OR"
+,
+"username_status_available": "✅ Great, this username is available!",
+"username_status_taken": "❌ This username is already taken.",
+"username_status_too_short": "Username must be at least 3 characters.",
+"username_status_invalid_chars": "You can only use lowercase letters, numbers, and '_'.",
+"username_status_checking": "Checking...",
+"username_status_error": "An error occurred during the check."
 }
