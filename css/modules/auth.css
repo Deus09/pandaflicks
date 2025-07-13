@@ -1,11 +1,15 @@
 /* --- Giriş Yap Ekranı (Profil içi) --- */
 .auth-container {
-  display: flex;
-  flex-direction: column;
+  /* Bu ana kapsayıcı, tüm ekranı kaplayarak içindeki formun
+     kendini buna göre konumlandırmasını sağlar. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex; /* İçindeki formu ortalamak için */
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 1rem;
 }
 
 .auth-container.hidden {
@@ -13,12 +17,15 @@
 }
 
 .auth-form-container {
-  width: 100%;
-  max-width: 380px;
+  width: 90%; /* Ekranın %90'ını kaplasın */
+  max-width: 380px; /* Ama en fazla 380px genişliğinde olsun */
   background-color: var(--bg-surface);
   padding: 2rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
+  /* Dikeyde çok uzamasını engellemek için */
+  max-height: 90vh; 
+  overflow-y: auto; /* Eğer sığmazsa kendi içinde kaysın */
 }
 
 .auth-tabs {
@@ -40,9 +47,6 @@
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.auth-tab:hover {
-  color: var(--text-primary);
-}
 
 .auth-tab.active {
   color: var(--accent-secondary);
@@ -52,6 +56,10 @@
 #email-auth-form input {
   background-color: var(--bg-main);
 }
+
+
+
+
 
 #email-auth-form .form-group.invalid input {
   border-color: var(--status-error);
@@ -65,28 +73,45 @@
   text-align: left;
 }
 
+.auth-button.google {
+    display:flex;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: transparent;
+    color: var(--text-primary); /* Yazı rengini biraz daha okunaklı yapalım */
+    border-color: #DDD;
+    margin-bottom: 1rem;
+}
+
 .email-error-message:not(.hidden) {
   display: block;
 }
 
+/* --- Parola Giriş Alanı ve Göz İkonu --- */
 .password-input-wrapper {
-  position: relative;
+  position: relative; /* Bu, içindeki ikonu konumlandırmak için referans noktası olacak */
 }
 
 .password-toggle-btn {
-  position: absolute;
-  bottom: 12px;
-  right: 10px;
-  transform: none;
+  position: absolute; /* Kendisini referans noktasına göre konumlandıracak */
+  top: 50%; /* Referansın ortasına git */
+  right: 0.5rem; /* Sağdan biraz boşluk bırak */
+  transform: translateY(-50%); /* Kendi yüksekliğinin yarısı kadar yukarı çık (Dikey ortalama) */
+
+  /* Diğer stiller */
   background: none;
   border: none;
   color: var(--text-secondary);
   cursor: pointer;
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
-.password-toggle-btn:hover {
-  color: var(--text-primary);
+/* Parola kutusunun, sağdaki ikona yer açmasını sağla */
+#auth-password {
+    padding-right: 3rem !important; /* !important, diğer stilleri ezip bunun uygulanmasını garantiler */
 }
 
 #auth-submit-button {
@@ -110,12 +135,13 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  padding: 0.8rem 1rem;
+  padding: 0.65rem 1rem;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.75rem;
   border: 1px solid var(--border-color);
   cursor: pointer;
+  margin-bottom: 20px;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
@@ -129,13 +155,10 @@
   border-color: var(--accent-primary);
 }
 
-.auth-button.primary:hover {
-  background-color: var(--accent-primary-hover);
-}
 
 /* --- Gizlilik Politikası ve Kullanım Koşulları Linkleri --- */
 .auth-terms {
-    font-size: 0.75rem; /* 12px */
+    font-size: 0.6rem; /* 12px */
     color: var(--text-secondary);
     margin-top: 1rem;
     margin-bottom: 1.5rem;
@@ -157,11 +180,10 @@
 .forgot-password-link {
     display: block;
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     color: var(--text-secondary);
-    margin-top: -0.75rem; /* Parola kutusuna yaklaştır */
+    margin-top: -0.5rem; /* Parola kutusuna yaklaştır */
     margin-bottom: 1.5rem;
-    text-decoration: underline;
     transition: color 0.2s ease;
 }
 

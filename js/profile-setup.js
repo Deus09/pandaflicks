@@ -6,6 +6,7 @@ import { getTranslation } from './i18n.js';
 import { showNotification } from './utils.js';
 import { isUsernameTaken } from './user.js';
 import { updateProfileView } from './sections.js'; // EKSİK OLAN IMPORT EKLENDİ
+import { onModalOpen, onModalClose } from './scroll-lock.js';
 
 // --- DOM Elementleri ---
 const profileSetupModal = document.getElementById('profile-setup-modal');
@@ -117,13 +118,7 @@ const handleProfileSubmit = async (e) => {
         // Profil sayfasındaki ismi anında güncelle
         updateProfileView(auth.currentUser);
 
-        // Pencereyi kapat
-        profileSetupModal.classList.remove('visible');
-        profileSetupModal.addEventListener('transitionend', () => {
-            if (!profileSetupModal.classList.contains('visible')) {
-                profileSetupModal.classList.add('hidden');
-            }
-        }, { once: true });
+        hideProfileSetupModal(); // Yeni ve doğru kapatma fonksiyonunu çağır
 
     } catch (error) {
         console.error("Profil kaydedilirken hata:", error);
@@ -142,8 +137,23 @@ export function initProfileSetup() {
 
 export function showProfileSetupModal() {
     if (!profileSetupModal) return;
+    onModalOpen(); // SCROLL KİLİDİNİ ÇALIŞTIR
     profileSetupModal.classList.remove('hidden');
     setTimeout(() => {
         profileSetupModal.classList.add('visible');
     }, 10);
+}
+
+/**
+ * Profil oluşturma penceresini gizler ve scroll kilidini açar.
+ */
+function hideProfileSetupModal() {
+  if (!profileSetupModal) return;
+  onModalClose(); // SCROLL KİLİDİNİ AÇ
+  profileSetupModal.classList.remove('visible');
+  profileSetupModal.addEventListener('transitionend', () => {
+    if (!profileSetupModal.classList.contains('visible')) {
+      profileSetupModal.classList.add('hidden');
+    }
+  }, { once: true });
 }

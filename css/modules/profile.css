@@ -463,3 +463,19 @@
     box-shadow: none;
     transform: none;
 }
+
+/* Profil Kurulum Modalının Boyutunu ve Duyarlılığını Ayarla */
+#profile-setup-modal .modal-content {
+  height: auto;
+  max-width: 400px;
+}
+
+@media (max-width: 400px) {
+  #profile-setup-modal .modal-content {
+    padding: 1.2rem 0.9rem; /* Küçük ekranlarda iç boşluğu azalt */
+  }
+  .avatar-preview-wrapper {
+    width: 100px; /* Avatarı biraz küçült */
+    height: 100px;
+  }
+}
