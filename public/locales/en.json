@@ -366,4 +366,7 @@
 "username_status_invalid_chars": "You can only use lowercase letters, numbers, and '_'.",
 "username_status_checking": "Checking...",
 "username_status_error": "An error occurred during the check."
+,
+"profile_setup_complete_button": "Create Profile"
+
 }

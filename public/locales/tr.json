@@ -366,4 +366,8 @@
 "username_status_too_short": "Kullanıcı adı en az 3 karakter olmalı.",
 "username_status_invalid_chars": "Sadece küçük harf, rakam ve '_' kullanabilirsin.",
 "username_status_checking": "Kontrol ediliyor..."
+,
+"profile_setup_complete_button": "Profili Oluştur"
+
+
 }
