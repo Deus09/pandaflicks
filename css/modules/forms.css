@@ -73,10 +73,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--bg-main);
-  padding: 0.8rem 1rem;
+  background-color: white;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   margin: 1rem 0;
+  margin-top: 20px;
   cursor: pointer;
 }
 
