@@ -367,7 +367,14 @@
 "username_status_invalid_chars": "Sadece küçük harf, rakam ve '_' kullanabilirsin.",
 "username_status_checking": "Kontrol ediliyor..."
 ,
-"profile_setup_complete_button": "Profili Oluştur"
+"profile_setup_complete_button": "Profili Oluştur",
+"profile_setup_title": "PandaFlicks'e Hoş Geldin!",
+"profile_setup_subtitle": "Başlamak için profilini oluşturalım.",
+"profile_setup_avatar_label": "Profil Fotoğrafı Seç",
+"profile_setup_username_label": "Kullanıcı Adı",
+"profile_setup_username_placeholder": "benzersiz_kullanici_adiniz",
+"profile_setup_displayname_label": "Görünen İsim (İsteğe Bağlı)",
+"profile_setup_displayname_placeholder": "Adınız Soyadınız"
 
 
 }

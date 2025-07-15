@@ -97,3 +97,14 @@
     height: 100px;
   }
 }
+
+#profile-setup-modal .modal-header h2 { /* EKLEME BAŞLANGICI */
+    margin-left: auto;
+    margin-right: auto;
+} /* EKLEME BİTİŞİ */
+
+#profile-setup-modal .modal-content {
+  height: auto;
+  max-height: 90vh; /* Ekranın %90'ından uzun olmasın */
+  max-width: 420px;
+}

@@ -367,6 +367,13 @@
 "username_status_checking": "Checking...",
 "username_status_error": "An error occurred during the check."
 ,
-"profile_setup_complete_button": "Create Profile"
+"profile_setup_complete_button": "Create Profile",
 
+"profile_setup_title": "Welcome to PandaFlicks!",
+"profile_setup_subtitle": "Let's create your profile to get started.",
+"profile_setup_avatar_label": "Select Profile Picture",
+"profile_setup_username_label": "Username",
+"profile_setup_username_placeholder": "your_unique_username",
+"profile_setup_displayname_label": "Display Name (Optional)",
+"profile_setup_displayname_placeholder": "Your Name"
 }
