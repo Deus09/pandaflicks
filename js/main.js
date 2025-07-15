@@ -13,7 +13,6 @@ import { initializeChatDOM } from "./chat.js";
 import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { initPaywall } from './paywall.js';
-import { initProfileSetup } from './profile-setup.js';
 import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus, isUserProfileComplete } from "./user.js"; // GÜNCELLEME
 
 
@@ -94,7 +93,7 @@ async function initializeApp() {
   setupListViewControls();
   initBadgeInfoModal();
   initPaywall();
-  initProfileSetup();
+  initMovieSuggestion(); // EKLENDİ
 
   // --- Durum Değişkenleri ---
   let isUiReady = false;
