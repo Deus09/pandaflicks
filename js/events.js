@@ -12,6 +12,7 @@ import {
 import { getTranslation } from "./i18n.js";
 import { showProfileSetupModal } from './profile-setup.js';
 
+
 export function setupEventListeners() {
   // --- Navigasyon Olayları ---
   document
@@ -113,8 +114,13 @@ export function setupEventListeners() {
             "success"
           );
         } else {
-              await handleSignUp(email, password);
-              showNotification(getTranslation('notification_verification_sent'), "success");
+              const userCredential = await handleSignUp(email, password);
+          showNotification(getTranslation('notification_verification_sent'), 'success');
+          
+          // YENİ EKLENDİ: Kayıt başarılıysa, profil oluşturma penceresini göster.
+          if (userCredential.user) {
+              showProfileSetupModal(); 
+          }
               emailAuthForm.reset();
               showProfileSetupModal(); // İŞTE TETİK BURADA!
           }

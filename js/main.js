@@ -13,8 +13,8 @@ import { initializeChatDOM } from "./chat.js";
 import { initMovieSuggestion } from "./movie-suggestion.js";
 import { showLoadingSpinner, hideLoadingSpinner } from "./modals.js";
 import { initPaywall } from './paywall.js';
+import { initProfileSetup, showProfileSetupModal } from './profile-setup.js';
 import { fetchUserSubscriptionStatus, updateUIForSubscriptionStatus, isUserProfileComplete } from "./user.js"; // GÜNCELLEME
-
 
 // YENİ: Verileri yüklenen mevcut kullanıcı ID'sini takip etmek için.
 let currentLoadedUserId = null;
@@ -94,6 +94,8 @@ async function initializeApp() {
   initBadgeInfoModal();
   initPaywall();
   initMovieSuggestion(); // EKLENDİ
+  initProfileSetup(); // YENİ EKLENDİ
+
 
   // --- Durum Değişkenleri ---
   let isUiReady = false;
@@ -113,11 +115,13 @@ async function initializeApp() {
         isUiReady = true;
       }
       
+
+
       // Profil sayfasını ve verileri yükle
       updateProfileView(user);
       loadMoviesFromFirestore(user.uid);
       fetchUserSubscriptionStatus(user.uid).then(() => {
-          updateUIForSubscriptionStatus();
+      updateUIForSubscriptionStatus();
       });
 
     } else {

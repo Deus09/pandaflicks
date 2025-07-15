@@ -1,14 +1,13 @@
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { db, auth } from './firebase.js';
 import { doc, getDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getTranslation } from './i18n.js';
 import { showNotification } from './utils.js';
 import { isUsernameTaken } from './user.js';
-import { updateProfileView } from './sections.js'; // EKSİK OLAN IMPORT EKLENDİ
+import { updateProfileView } from './sections.js';
 import { onModalOpen, onModalClose } from './scroll-lock.js';
 
-// --- DOM Elementleri ---
+// --- HTML Elementlerini Seçelim ---
 const profileSetupModal = document.getElementById('profile-setup-modal');
 const avatarPreviewWrapper = document.getElementById('avatar-preview-wrapper');
 const avatarPreview = document.getElementById('avatar-preview');
@@ -18,16 +17,22 @@ const displayNameInput = document.getElementById('setup-displayname-input');
 const usernameStatusText = document.getElementById('username-availability-status');
 const completeProfileBtn = document.getElementById('complete-profile-btn');
 
-let selectedImageData = null;
+// --- Değişkenler ---
 let isUsernameValid = false;
 let debounceTimer;
 
 // --- Fonksiyonlar ---
 
+/**
+ * Kullanıcı yazmayı bıraktığında fonksiyonu çalıştırmak için bir yardımcı.
+ * Veritabanını sürekli sorgulamamak için kullanılır.
+ */
 const debounce = (func, delay) => {
   return (...args) => {
     usernameStatusText.textContent = getTranslation('username_status_checking');
-    usernameStatusText.className = 'input-status-text';
+    usernameStatusText.className = 'input-status-text'; // Rengi sıfırla
+    isUsernameValid = false; // Kontrol başlarken butonu kilitle
+    completeProfileBtn.disabled = true;
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       func.apply(this, args);
@@ -35,6 +40,9 @@ const debounce = (func, delay) => {
   };
 };
 
+/**
+ * Girilen kullanıcı adının kurallara uygun ve benzersiz olup olmadığını kontrol eder.
+ */
 const checkUsernameAvailability = async () => {
   const username = usernameInput.value.trim().toLowerCase();
   
@@ -46,7 +54,8 @@ const checkUsernameAvailability = async () => {
     return;
   }
   
-  if (!/^[a-z0-9_.]+$/.test(username)) {
+  // Sadece küçük harf, rakam ve alt çizgiye izin ver
+  if (!/^[a-z0-9_]+$/.test(username)) {
     usernameStatusText.textContent = getTranslation('username_status_invalid_chars');
     usernameStatusText.className = 'input-status-text taken';
     isUsernameValid = false;
@@ -71,12 +80,9 @@ const checkUsernameAvailability = async () => {
     usernameStatusText.className = 'input-status-text taken';
     isUsernameValid = false;
   } finally {
+    // Sadece kullanıcı adı geçerliyse butonu aktif et
     completeProfileBtn.disabled = !isUsernameValid;
   }
-};
-
-const selectAvatar = async () => {
-  // Bu fonksiyon mobil için hazır, şimdilik boş bırakıyoruz.
 };
 
 /**
@@ -96,48 +102,61 @@ const handleProfileSubmit = async (e) => {
     const displayName = displayNameInput.value.trim() || username;
 
     completeProfileBtn.disabled = true;
-    completeProfileBtn.innerHTML = `<span class="loading-spinner" style="display: block;"></span>`;
+    completeProfileBtn.textContent = '...';
 
     try {
         const batch = writeBatch(db);
+        
+        // 1. Kullanıcının ana belgesini güncelle
         const userDocRef = doc(db, "users", user.uid);
         batch.set(userDocRef, { 
             username: username, 
             displayName: displayName,
-            createdAt: new Date()
+            isProfileComplete: true // En önemlisi: Profili tamamlandı olarak işaretle!
         }, { merge: true });
 
+        // 2. Kullanıcı adını rezerve et
         const usernameDocRef = doc(db, "usernames", username);
         batch.set(usernameDocRef, { uid: user.uid });
         
-        await updateProfile(user, { displayName: displayName });
+        // Bu iki işlemi aynı anda yap
         await batch.commit();
+
+        // Firebase Auth profilini de güncelle (görünen isim için)
+        await updateProfile(user, { displayName: displayName });
 
         showNotification('Profilin başarıyla oluşturuldu!', 'success');
         
-        // Profil sayfasındaki ismi anında güncelle
-        updateProfileView(auth.currentUser);
-
-        hideProfileSetupModal(); // Yeni ve doğru kapatma fonksiyonunu çağır
+        updateProfileView(auth.currentUser); // Profil sayfasını anında güncelle
+        hideProfileSetupModal(); // Pencereyi kapat
 
     } catch (error) {
         console.error("Profil kaydedilirken hata:", error);
         showNotification('Profil oluşturulurken bir hata oluştu.', 'error');
+    } finally {
         completeProfileBtn.disabled = false;
-        completeProfileBtn.innerHTML = getTranslation("profile_setup_complete_button");
+        completeProfileBtn.textContent = getTranslation("profile_setup_complete_button");
     }
 };
 
+
+/**
+ * Bu modülün olay dinleyicilerini başlatan ana fonksiyon.
+ */
 export function initProfileSetup() {
   if (!profileSetupForm) return;
-  avatarPreviewWrapper.addEventListener('click', selectAvatar);
+  // Avatar seçimine şimdilik bir fonksiyon atamıyoruz, gelecekte eklenecek.
+  // avatarPreviewWrapper.addEventListener('click', selectAvatar);
   usernameInput.addEventListener('input', debounce(checkUsernameAvailability, 500));
   profileSetupForm.addEventListener('submit', handleProfileSubmit);
 }
 
+/**
+ * Profil oluşturma penceresini gösterir.
+ */
 export function showProfileSetupModal() {
     if (!profileSetupModal) return;
-    onModalOpen(); // SCROLL KİLİDİNİ ÇALIŞTIR
+    onModalOpen(); // Scroll kilidini devreye sok
     profileSetupModal.classList.remove('hidden');
     setTimeout(() => {
         profileSetupModal.classList.add('visible');
@@ -145,11 +164,11 @@ export function showProfileSetupModal() {
 }
 
 /**
- * Profil oluşturma penceresini gizler ve scroll kilidini açar.
+ * Profil oluşturma penceresini gizler.
  */
 function hideProfileSetupModal() {
   if (!profileSetupModal) return;
-  onModalClose(); // SCROLL KİLİDİNİ AÇ
+  onModalClose(); // Scroll kilidini aç
   profileSetupModal.classList.remove('visible');
   profileSetupModal.addEventListener('transitionend', () => {
     if (!profileSetupModal.classList.contains('visible')) {

@@ -1151,37 +1151,38 @@
     <div id="profile-setup-modal" class="modal-overlay hidden">
       <div class="modal-content">
         <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
-          <h2 class="text-xl font-bold">PandaFlicks'e Hoş Geldin!</h2>
+          <h2 class="text-xl font-bold" data-i18n="profile_setup_title">PandaFlicks'e Hoş Geldin!</h2>
         </div>
         <form id="profile-setup-form" style="padding: 1rem;">
-          <p class="text-gray-400 text-center mb-6">Başlamak için profilini oluşturalım.</p>
+          <p class="text-gray-400 text-center mb-6" data-i18n="profile_setup_subtitle">Başlamak için profilini oluşturalım.</p>
 
           <div class="avatar-upload-container">
             <div id="avatar-preview-wrapper" class="avatar-preview-wrapper">
               <img id="avatar-preview" src="https://placehold.co/120x120/172a46/8892b0?text=👤" alt="Avatar">
             </div>
-            <label>Profil Fotoğrafı Seç</label>
+            <label data-i18n="profile_setup_avatar_label">Profil Fotoğrafı Seç</label>
           </div>
           
           <div class="form-group">
-            <label for="setup-username-input">Kullanıcı Adı</label>
+            <label for="setup-username-input" data-i18n="profile_setup_username_label">Kullanıcı Adı</label>
             <div class="input-with-icon">
               <span>@</span>
-              <input type="text" id="setup-username-input" required autocomplete="off" placeholder="benzersiz_kullanici_adiniz">
+              <input type="text" id="setup-username-input" required autocomplete="off" placeholder="benzersiz_kullanici_adiniz" data-i18n-placeholder="profile_setup_username_placeholder">
             </div>
             <p id="username-availability-status" class="input-status-text"></p>
           </div>
 
           <div class="form-group">
-            <label for="setup-displayname-input">Görünen İsim (İsteğe Bağlı)</label>
-            <input type="text" id="setup-displayname-input" placeholder="Adınız Soyadınız">
+            <label for="setup-displayname-input" data-i18n="profile_setup_displayname_label">Görünen İsim (İsteğe Bağlı)</label>
+            <input type="text" id="setup-displayname-input" placeholder="Adınız Soyadınız" data-i18n-placeholder="profile_setup_displayname_placeholder">
           </div>
 
           <div class="modal-actions" style="margin-top: 2rem;">
-            <button type="submit" id="complete-profile-btn" class="save-button" disabled>Profili Tamamla ve Başla</button>
+            <button type="submit" id="complete-profile-btn" class="save-button" disabled data-i18n="profile_setup_complete_button">Profili Oluştur</button>
           </div>
         </form>
       </div>
     </div>
+
   </body>
 </html>
