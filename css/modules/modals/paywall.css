@@ -35,6 +35,8 @@
 .paywall-icon-img {
     width: 70px;  /* Genişlik - istediğiniz gibi değiştirebilirsiniz */
     height: 70px; /* Yükseklik */
+    margin-left: auto;
+    margin-right: auto;
 
 }
 
